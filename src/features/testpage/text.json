@@ -1,0 +1,183 @@
+{
+  "_createdAt": "2023-05-16T08:26:39Z",
+  "_id": "3516db68-2bef-4546-b28f-ec66b179d73d",
+  "_rev": "nWPy2hQK9yVs9pkgXpkLZR",
+  "_type": "text_test",
+  "textblock1": [
+    {
+      "_key": "44dad43627d7",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "eaf8a2f7e84b0",
+          "_type": "span",
+          "marks": [],
+          "text": "Light microscopes"
+        }
+      ],
+      "markDefs": [],
+      "style": "h2"
+    },
+    {
+      "_key": "22ff7c142921",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "08bb056ff80c0",
+          "_type": "span",
+          "marks": [],
+          "text": "Cells range in size:"
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "becfe01d31ab",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "7b050f8be8850",
+          "_type": "span",
+          "marks": [],
+          "text": "animal cells are between 0.01 mm – 0.05 mm"
+        }
+      ],
+      "level": 1,
+      "listItem": "bullet",
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "62b128c3c763",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "f2b76585e32c0",
+          "_type": "span",
+          "marks": [],
+          "text": "plant cells are between 0.01 mm – 0.10 mm"
+        }
+      ],
+      "level": 1,
+      "listItem": "bullet",
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "38fc4e3c1fe9",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "c869a6bc69530",
+          "_type": "span",
+          "marks": [],
+          "text": "The human eye can see objects as small as around 0.05 mm. A microscope is required to see cells in any detail."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "9319973669b4",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "29332a7e76920",
+          "_type": "span",
+          "marks": [],
+          "text": "Microscopes magnify the image of a biological specimen so that it appears larger. The type of microscope used in a school laboratory is a compound microscope."
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "869a1fce97f2",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "c474f8877611",
+          "_type": "span",
+          "marks": [],
+          "text": ""
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "01a3b3ed9582",
+      "_type": "image",
+      "asset": {
+        "_ref": "image-deeed7287e92a2f88c53601e391aa0321aa907cc-624x349-png",
+        "_type": "reference"
+      }
+    },
+    {
+      "_key": "d23a0737e3f9",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "04f90f9fc7ec",
+          "_type": "span",
+          "marks": [],
+          "text": "hdsjkfnkdsfsdjkhfkdh"
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "0d106274df87",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "1367d0bd57f1",
+          "_type": "span",
+          "marks": [],
+          "text": ""
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "845eccd42e34",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "7c0315d89a56",
+          "_type": "span",
+          "marks": [],
+          "text": ""
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    },
+    {
+      "_key": "8b13f55a8f63",
+      "_type": "image",
+      "asset": {
+        "_ref": "image-e4ff9b1c0e064f112fb7c0fc1cccb7cdca62b6e0-600x400-jpg",
+        "_type": "reference"
+      }
+    },
+    {
+      "_key": "00a22d28b39e",
+      "_type": "block",
+      "children": [
+        {
+          "_key": "f9f15cce5b22",
+          "_type": "span",
+          "marks": [],
+          "text": ""
+        }
+      ],
+      "markDefs": [],
+      "style": "normal"
+    }
+  ],
+  "_updatedAt": "2023-05-19T08:15:56.205Z"
+}
