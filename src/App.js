@@ -6,9 +6,27 @@ import TestText from "./features/testpage/TestText";
 import TestSanity from "./features/testpage/TestSanity";
 import TextandImage from "./features/testpage/TextandImage";
 import Biology from "./features/testpage/Biology";
+import StudentInput from "./components/SingleStudentInput/StudentInputForm";
+import Test2 from "./components/Test2";
+import GetData from "./components/SingleStudentInput/GetData";
+
+import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
 
 function App() {
+  // const theme = createTheme({
+  //   palette: {
+  //     primary: {
+  //       main: "#3630c4",
+  //     },
+  //   },
+  //   typography: {
+  //     fontFamily: "Didact Gothic",
+  //   },
+  // });
+
   return (
+    // <ThemeProvider theme={theme}>
+
     <div>
       {/* <Testingapi />
       <SubjectsList /> */}
@@ -20,7 +38,10 @@ function App() {
       {/* <TestText /> */}
       {/* <TextandImage /> */}
       <Biology />
+
+      {/* <StudentInput /> */}
     </div>
+    // </ThemeProvider>
   );
 }
 
