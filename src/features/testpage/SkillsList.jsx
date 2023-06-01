@@ -1,39 +1,39 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import test_api from "../../services/test_api";
+// import React from "react";
+// import { useState, useEffect } from "react";
 
-function SkillsList() {
-  const [data, setData] = useState();
 
-  let content_from_api = "skills";
+// function SkillsList() {
+//   const [data, setData] = useState();
 
-  useEffect(() => {
-    getdata();
-  }, []);
+//   let content_from_api = "skills";
 
-  const getdata = async () => {
-    const url = `https://bkqykpjz.api.sanity.io/v2021-10-21/data/query/production?query=*%20%5B_type%20%3D%3D%20'${content_from_api}'%20%5D%20%0A`;
+//   useEffect(() => {
+//     getdata();
+//   }, []);
 
-    const response = await test_api(url);
+//   const getdata = async () => {
+//     const url = `https://bkqykpjz.api.sanity.io/v2021-10-21/data/query/production?query=*%20%5B_type%20%3D%3D%20'${content_from_api}'%20%5D%20%0A`;
 
-    setData(response);
-  };
+//     const response = await test_api(url);
 
-  console.log("skill data", data);
+//     setData(response);
+//   };
 
-  return (
-    <div>
-      <h1>Skills</h1>
-      {data?.map((item) => {
-        return (
-          <div key={item.skill_name}>
-            <h2>{item.skill_name}</h2>
-            <p>{item.skill_description}</p>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
+//   console.log("skill data", data);
 
-export default SkillsList;
+//   return (
+//     <div>
+//       <h1>Skills</h1>
+//       {data?.map((item) => {
+//         return (
+//           <div key={item.skill_name}>
+//             <h2>{item.skill_name}</h2>
+//             <p>{item.skill_description}</p>
+//           </div>
+//         );
+//       })}
+//     </div>
+//   );
+// }
+
+// export default SkillsList;

@@ -1,3 +1,12 @@
-.APP {
+body {
   font-family: Montserrat;
+  color: red;
+}
+
+.strike {
+  color: red;
+}
+
+.test {
+  color: green;
 }

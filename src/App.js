@@ -1,4 +1,6 @@
-import Testingapi from "./features/testapi/Testingapi";
+import { useState } from "react";
+
+import "./App.css";
 import SubjectsList from "./features/testpage/SubjectsList";
 import SkillsList from "./features/testpage/SkillsList";
 import Block from "./features/testpage/Block";
@@ -6,13 +8,18 @@ import TestText from "./features/testpage/TestText";
 import TestSanity from "./features/testpage/TestSanity";
 import TextandImage from "./features/testpage/TextandImage";
 import Biology from "./features/testpage/Biology";
-import StudentInput from "./components/SingleStudentInput/StudentInputForm";
-import Test2 from "./components/Test2";
-import GetData from "./components/SingleStudentInput/GetData";
+
+import { SliderSelectionIsCorrectContext } from "./components/SliderSelection/SliderTextbox";
+
+import ClickIncorrectWord from "./components/ClickIncorrectWord/ClickIncorrectWord";
 
 import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
 
 function App() {
+  
+  const [sliderquestioncorrectnumber, setSliderQuestionCorrectNumber] =
+    useState(0);
+
   // const theme = createTheme({
   //   palette: {
   //     primary: {
@@ -25,8 +32,6 @@ function App() {
   // });
 
   return (
-    // <ThemeProvider theme={theme}>
-
     <div>
       {/* <Testingapi />
       <SubjectsList /> */}
@@ -37,11 +42,17 @@ function App() {
 
       {/* <TestText /> */}
       {/* <TextandImage /> */}
-      <Biology />
+
+      <SliderSelectionIsCorrectContext.Provider
+        value={{ sliderquestioncorrectnumber, setSliderQuestionCorrectNumber }}
+      >
+        <Biology />
+      </SliderSelectionIsCorrectContext.Provider>
 
       {/* <StudentInput /> */}
+
+      {/* <ClickIncorrectWord /> */}
     </div>
-    // </ThemeProvider>
   );
 }
 

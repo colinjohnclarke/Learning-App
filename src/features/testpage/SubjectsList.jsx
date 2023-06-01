@@ -1,35 +1,35 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import test_api from "../../services/test_api";
+// import React from "react";
+// import { useState, useEffect } from "react";
 
-function SubjectsList() {
-  const [data, setData] = useState();
 
-  let content_from_api = "subjects";
+// function SubjectsList() {
+//   const [data, setData] = useState();
 
-  useEffect(() => {
-    getdata();
-  }, []);
+//   let content_from_api = "subjects";
 
-  const getdata = async () => {
-    const url = `https://bkqykpjz.api.sanity.io/v2021-10-21/data/query/production?query=*%20%5B_type%20%3D%3D%20'${content_from_api}'%20%5D%20%0A`;
+//   useEffect(() => {
+//     getdata();
+//   }, []);
 
-    const response = await test_api(url);
+//   const getdata = async () => {
+//     const url = `https://bkqykpjz.api.sanity.io/v2021-10-21/data/query/production?query=*%20%5B_type%20%3D%3D%20'${content_from_api}'%20%5D%20%0A`;
 
-    setData(response);
-  };
+//     const response = await test_api(url);
 
-  return (
-    <div>
-      {data?.map((item) => {
-        return (
-          <div key={item._id}>
-            <h2>{item.name}</h2>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
+//     setData(response);
+//   };
 
-export default SubjectsList;
+//   return (
+//     <div>
+//       {data?.map((item) => {
+//         return (
+//           <div key={item._id}>
+//             <h2>{item.name}</h2>
+//           </div>
+//         );
+//       })}
+//     </div>
+//   );
+// }
+
+// export default SubjectsList;

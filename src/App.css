@@ -1,0 +1,48 @@
+/* *,
+em {
+  color: pink;
+} */
+
+/* p,
+em {
+  color: green;
+} */
+
+* {
+  font-size: 1.2rem;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+/* body {
+  color: red;
+} */
+
+/* .wrong_button {
+  background-color: green;
+  border: 1px solid;
+  height: 30px;
+  width: 40px;
+} */
+
+/* del {
+  color: green;
+  text-decoration: none;
+} */
+
+.testing {
+  color: yellow;
+  text-decoration: none;
+}
+/* blockquote {
+  color: red;
+  font-size: 1.2rem;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+} */
+
+.imagetest {
+  border: 5px solid red;
+}
+
+.test {
+  color: red;
+}

@@ -25,9 +25,10 @@ const MCQAnswerButtons = (props) => {
     <Wrapper>
       <Button
         variant="outlined"
+        color="secondary"
         sx={{
           width: 300,
-          color: "black",
+          // color: "black",
         }}
         size="large"
         style={buttonstyle}

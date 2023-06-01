@@ -1,16 +1,17 @@
+import "../../App.css";
 import React, { useState, useEffect } from "react";
 import { PortableText } from "@portabletext/react";
 import imageUrlBuilder from "@sanity/image-url";
 import sanityClient from "../../createclient";
 import styled from "styled-components";
 import MCQ from "../../components/MCQ/MCQ";
-import GetData from "../../components/SingleStudentInput/GetData";
+import StudentInputForm from "../../components/SingleStudentInput/StudentInputForm";
+import ClickIncorrectWord from "../../components/ClickIncorrectWord/ClickIncorrectWord";
+import SliderSelection from "../../components/SliderSelection/SliderSelection";
+import SliderSelectionRandomise from "../../components/SliderSelection/SliderSelectionRandomise";
 
 function Biology() {
   const [data, setData] = useState({});
-
-  let content_from_api = "physics_blocks";
-  let content_name = "energy";
 
   const builder = imageUrlBuilder(sanityClient);
 
@@ -35,13 +36,17 @@ function Biology() {
     },
   };
 
+  let content_from_api = "biology_blocks";
+  let content_name = "photosynthesis_required_practical";
+
   useEffect(() => {
     sanityClient
       .fetch(
-        `*[_type == '${content_from_api}' && name == '${content_name}'] {
-          subject_skills[]->, 
-            name, tags, textblock1, textblock2, example_problem, MCQ
-            }`
+        `*[_type == "biology_blocks" && name == "photosynthesis_required_practical" ] 
+        { subject_skills[]->, slider, 
+          click_incorrect_words_main_text_body,incorrect_words_from_text,
+                    name, tags, textblock1, textblock2, hint, problem_keywords[]->,  example_problem, MCQ_INPUTS, student_input_test_question, teacher_feedback_comment, acceptable_answers
+                    }`
       )
       .then((result) => setData(result[0]))
       .catch(console.error);
@@ -49,25 +54,20 @@ function Biology() {
 
   const block1 = data.textblock1;
   const block2 = data.textblock2;
-  const block3 = data.textblock3;
   const skills = data.subject_skills;
+  const problem_keywords = data.problem_keywords;
   const tags = data.tags;
-  const mcq1 = data.MCQ;
+  const mcq1 = data.MCQ_INPUTS;
+  const slider = data.slider;
 
-  const example_problem = data.example_problem;
-
-  const textstyle = {
-    height: "auto",
-    width: "80%",
-    border: "1px solid",
-  };
+  const click_incorrect_words_text_body =
+    data.click_incorrect_words_main_text_body;
+  const click_incorrect_words_text = data.incorrect_words_from_text;
 
   return (
     <Wrapper>
-      <h1>Biology</h1>
-
-      <PortableText
-        style={textstyle}
+      <h1>Biology</h1>{" "}
+      {/* <PortableText
         value={block1}
         components={myPortableTextComponents}
       ></PortableText>
@@ -75,44 +75,37 @@ function Biology() {
         value={block2}
         components={myPortableTextComponents}
       ></PortableText>
-      <PortableText
-        value={block3}
-        components={myPortableTextComponents}
-      ></PortableText>
-      <PortableText
-        value={example_problem}
-        components={myPortableTextComponents}
-      ></PortableText>
       <div>
-        <h1>Tags: </h1>
+        <h1>Keywords: </h1>
         <ol>
-          {tags?.map((element) => {
-            return <li> {element}</li>;
+          {problem_keywords?.map((keyword) => {
+            return <li> {keyword.keyword}</li>;
           })}
         </ol>
       </div>
-
-      <div>
-        <PortableText
-          value={tags}
-          components={myPortableTextComponents}
-        ></PortableText>
-      </div>
+      <PortableText
+        value={tags}
+        components={myPortableTextComponents}
+      ></PortableText>
       <h1>Skills: </h1>
       <div>
         {skills?.map((skill) => {
           return (
             <div>
               <p>{skill.skill_name}</p>
-              <p>{skill.skill_description}</p>
             </div>
           );
         })}
         ;
-      </div>
+      </div>{" "}
       <MCQ data={mcq1}></MCQ>
-
-      <GetData />
+      <StudentInputForm data={data} />
+      <ClickIncorrectWord
+        click_incorrect_words_text={click_incorrect_words_text}
+        click_incorrect_words_text_body={click_incorrect_words_text_body}
+      /> */}
+      <SliderSelection slider={slider} />
+      {/* <SliderSelectionRandomise slider={slider} /> */}
     </Wrapper>
   );
 }
@@ -122,12 +115,6 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-
-  h1,
-  h1,
-  h2,
-  h3,
-  p {
-    color: black;
-  }
+  align-items: center;
+  border: 1px solid;
 `;
