@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { PortableText } from "@portabletext/react";
 import imageUrlBuilder from "@sanity/image-url";
-import sanityClient from "../../createclient";
+import sanityClient from "../createclient";
 import styled from "styled-components";
 
 //   types: {
@@ -11,7 +11,7 @@ import styled from "styled-components";
 
 function TextandImage() {
   const [data, setData] = useState({});
-  
+
   let content_from_api = "text_test";
   let content_name = "light_microscopes";
 

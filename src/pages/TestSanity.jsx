@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import sanityClient from "../../createclient";
+import sanityClient from "../createclient";
 import { PortableText } from "@portabletext/react";
 import imageUrlBuilder from "@sanity/image-url";
 

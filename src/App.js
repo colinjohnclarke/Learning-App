@@ -1,22 +1,19 @@
 import { useState } from "react";
 
 import "./App.css";
-import SubjectsList from "./features/testpage/SubjectsList";
-import SkillsList from "./features/testpage/SkillsList";
-import Block from "./features/testpage/Block";
-import TestText from "./features/testpage/TestText";
-import TestSanity from "./features/testpage/TestSanity";
-import TextandImage from "./features/testpage/TextandImage";
-import Biology from "./features/testpage/Biology";
-
-import { SliderSelectionIsCorrectContext } from "./components/SliderSelection/SliderTextbox";
+import SubjectsList from "./pages/SubjectsList";
+import SkillsList from "./pages/SkillsList";
+import Block from "./pages/Block";
+import TestText from "./pages/TestText";
+import TestSanity from "./pages/TestSanity";
+import TextandImage from "./pages/TextandImage";
+import Biology from "./pages/Biology";
 
 import ClickIncorrectWord from "./components/ClickIncorrectWord/ClickIncorrectWord";
 
 import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
 
 function App() {
-  
   const [sliderquestioncorrectnumber, setSliderQuestionCorrectNumber] =
     useState(0);
 
@@ -43,11 +40,7 @@ function App() {
       {/* <TestText /> */}
       {/* <TextandImage /> */}
 
-      <SliderSelectionIsCorrectContext.Provider
-        value={{ sliderquestioncorrectnumber, setSliderQuestionCorrectNumber }}
-      >
-        <Biology />
-      </SliderSelectionIsCorrectContext.Provider>
+      <Biology />
 
       {/* <StudentInput /> */}
 

@@ -1,9 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import SliderTextbox from "./SliderTextbox";
+import { memo } from "react";
+import { device } from "../../styles/breakpoints";
+import { useDispatch } from "react-redux";
+import { settozeroindex0 } from "../../features/slider/sliderquestiondataSliceIndex0";
+import { settozeroindex1 } from "../../features/slider/sliderquestiondataSliceIndex1";
+import ContinueBtn from "../MCQ/Buttons/ContinueBtn";
 
-function SliderSelectionRandomise(props) {
+const SliderSelectionRandomise = memo(function SliderSelectionRandomise(props) {
+  const [reset, setReset] = useState(true);
+
+  const dispatch = useDispatch();
+
   const slider_data = props.data;
+
+  const index = props.index;
 
   const num1a = Math.random();
   const num1b = Math.random();
@@ -30,16 +42,27 @@ function SliderSelectionRandomise(props) {
 
   const slider4rightisCorrect = num4a < num4b ? true : false;
 
-  useEffect(() => {
-    console.log("num1a", num1a);
-    console.log("num1b", num1b);
-  }, []);
+  const handlereset = () => {
+    if (index === 0) {
+      setReset(!reset);
+      dispatch(settozeroindex0());
+    } else if (index === 1) {
+      setReset(!reset);
+      dispatch(settozeroindex1());
+    }
+  };
 
   return (
     <Wrapper>
-      <h3>{slider_data.question}</h3>
+      <p>{slider_data.question}</p>
       <Slider>
+        <Number>
+          <p>1</p>
+        </Number>
+
         <SliderTextbox
+          index={index}
+          reset={reset}
           isCorrect={slider1leftIsCorrect}
           text={
             slider1leftIsCorrect
@@ -47,7 +70,10 @@ function SliderSelectionRandomise(props) {
               : slider_data.Statement_1_incorrect_option
           }
         ></SliderTextbox>
+        <Vs>vs</Vs>
         <SliderTextbox
+          index={index}
+          reset={reset}
           isCorrect={slider1rightIsCorrect}
           text={
             slider1rightIsCorrect
@@ -57,7 +83,12 @@ function SliderSelectionRandomise(props) {
         ></SliderTextbox>
       </Slider>
       <Slider>
+        <Number>
+          <p>2</p>
+        </Number>
         <SliderTextbox
+          index={index}
+          reset={reset}
           isCorrect={slider2leftIsCorrect}
           text={
             slider2leftIsCorrect
@@ -65,7 +96,10 @@ function SliderSelectionRandomise(props) {
               : slider_data.Statement_2_incorrect_option
           }
         ></SliderTextbox>
+        <Vs>vs</Vs>
         <SliderTextbox
+          index={index}
+          reset={reset}
           isCorrect={slider2rightIsCorrect}
           text={
             slider2rightIsCorrect
@@ -75,7 +109,12 @@ function SliderSelectionRandomise(props) {
         ></SliderTextbox>
       </Slider>
       <Slider>
+        <Number>
+          <p>3</p>
+        </Number>
         <SliderTextbox
+          index={index}
+          reset={reset}
           isCorrect={slider3leftIsCorrect}
           text={
             slider3leftIsCorrect
@@ -83,8 +122,10 @@ function SliderSelectionRandomise(props) {
               : slider_data.Statement_3_incorrect_option
           }
         ></SliderTextbox>
-
+        <Vs>vs</Vs>
         <SliderTextbox
+          index={index}
+          reset={reset}
           isCorrect={slider3rightIsCorrect}
           text={
             slider3rightIsCorrect
@@ -94,7 +135,12 @@ function SliderSelectionRandomise(props) {
         ></SliderTextbox>
       </Slider>
       <Slider>
+        <Number>
+          <p>4</p>
+        </Number>
         <SliderTextbox
+          index={index}
+          reset={reset}
           isCorrect={slider4leftIsCorrect}
           text={
             slider4leftIsCorrect
@@ -102,8 +148,10 @@ function SliderSelectionRandomise(props) {
               : slider_data.Statement_4_incorrect_option
           }
         ></SliderTextbox>
-
+        <Vs>vs</Vs>
         <SliderTextbox
+          index={index}
+          reset={reset}
           isCorrect={slider4rightisCorrect}
           text={
             slider4rightisCorrect
@@ -112,30 +160,100 @@ function SliderSelectionRandomise(props) {
           }
         ></SliderTextbox>
       </Slider>
+      <Btn
+        onClick={() => {
+          handlereset();
+        }}
+      >
+        <p>Reset</p>
+      </Btn>
+      <Btn
+        onClick={() => {
+          console.log("CONTNUE");
+        }}
+      >
+        Continue
+      </Btn>
     </Wrapper>
   );
-}
-
+});
 export default SliderSelectionRandomise;
 
 const Wrapper = styled.div`
+  border: 1px solid;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  width: 95%;
+  justify-content: space-around;
+  width: 100%;
   text-align: center;
-  transition: 0.3s;
+
+  p {
+    font-size: 17px;
+  }
 `;
 
 const Slider = styled.div`
+  max-width: 700px;
+  width: 98%;
+  display: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: 3px;
+  border-radius: 20px;
+  padding: 10px;
+
+  @media ${(device.mobileS, device.mobileM)} {
+    box-shadow: rgba(0, 200, 200, 0.39) 0px 2px 4px,
+      rgba(39, 106, 245, 0.3) 0px 7px 10px -3px,
+      rgba(39, 106, 245, 0.1) 0px -3px 0px inset;
+    width: 90%;
+  }
+`;
+
+const Number = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  // justify-content: space-around;
+  height: 50px;
+  width: 50px;
+  position: relative;
+`;
+
+const Vs = styled.p`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
-  height: 90%;
-  width: 95%;
-  margin: 3px;
+  height: 30px;
+  width: 30px;
+`;
 
-  border-radius: 30px;
+const Btn = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70px;
+  height: 50px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.39) 0px 2px 4px,
+    rgba(39, 106, 245, 0.3) 0px 7px 10px -3px,
+    rgba(39, 106, 245, 0.1) 0px -3px 0px inset;
+  border: none;
+  transition: 0.1s;
+  margin: 20px;
+
+  &:hover {
+    background-color: rgba(39, 106, 245, 0.3);
+    transform: translateY(-3px);
+  }
+
+  &:active {
+    background-color: rgba(39, 106, 245, 0.3);
+    transform: translateY(3px);
+    transition: 0.1s;
+  }
 `;

@@ -1,14 +1,15 @@
-import "../../App.css";
+import "../App.css";
 import React, { useState, useEffect } from "react";
 import { PortableText } from "@portabletext/react";
 import imageUrlBuilder from "@sanity/image-url";
-import sanityClient from "../../createclient";
+import sanityClient from "../createclient";
 import styled from "styled-components";
-import MCQ from "../../components/MCQ/MCQ";
-import StudentInputForm from "../../components/SingleStudentInput/StudentInputForm";
-import ClickIncorrectWord from "../../components/ClickIncorrectWord/ClickIncorrectWord";
-import SliderSelection from "../../components/SliderSelection/SliderSelection";
-import SliderSelectionRandomise from "../../components/SliderSelection/SliderSelectionRandomise";
+import MCQ from "../components/MCQ/MCQ";
+import StudentInputForm from "../components/SingleStudentInput/StudentInputForm";
+import ClickIncorrectWord from "../components/ClickIncorrectWord/ClickIncorrectWord";
+import SliderSelection from "../components/SliderSelection/SliderSelection";
+import SliderSelectionRandomise from "../components/SliderSelection/SliderSelectionRandomise";
+import DragandDropWrapper from "../components/Drag&Drop/DragandDropWrapper";
 
 function Biology() {
   const [data, setData] = useState({});
@@ -44,7 +45,7 @@ function Biology() {
       .fetch(
         `*[_type == "biology_blocks" && name == "photosynthesis_required_practical" ] 
         { subject_skills[]->, slider, 
-          click_incorrect_words_main_text_body,incorrect_words_from_text,
+          click_incorrect_words_main_text_body,incorrect_words_from_text, order_items_drag_drop, 
                     name, tags, textblock1, textblock2, hint, problem_keywords[]->,  example_problem, MCQ_INPUTS, student_input_test_question, teacher_feedback_comment, acceptable_answers
                     }`
       )
@@ -58,15 +59,17 @@ function Biology() {
   const problem_keywords = data.problem_keywords;
   const tags = data.tags;
   const mcq1 = data.MCQ_INPUTS;
+  const order_items_drag_drop = data.order_items_drag_drop;
   const slider = data.slider;
 
   const click_incorrect_words_text_body =
     data.click_incorrect_words_main_text_body;
+
   const click_incorrect_words_text = data.incorrect_words_from_text;
 
   return (
     <Wrapper>
-      <h1>Biology</h1>{" "}
+      <h1>Biology</h1>
       {/* <PortableText
         value={block1}
         components={myPortableTextComponents}
@@ -96,25 +99,27 @@ function Biology() {
             </div>
           );
         })}
-        ;
-      </div>{" "}
+      </div>
       <MCQ data={mcq1}></MCQ>
-      <StudentInputForm data={data} />
+      <StudentInputForm data={data} /> */}
       <ClickIncorrectWord
         click_incorrect_words_text={click_incorrect_words_text}
         click_incorrect_words_text_body={click_incorrect_words_text_body}
-      /> */}
+      />
       <SliderSelection slider={slider} />
-      {/* <SliderSelectionRandomise slider={slider} /> */}
+      <DragandDropWrapper
+        order_items_drag_drop={order_items_drag_drop}
+      ></DragandDropWrapper>
     </Wrapper>
   );
 }
 export default Biology;
 
 const Wrapper = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  border: 1px solid;
+  background-color: rgb(245, 250, 255);
+  color: rgb(40, 40, 40);
 `;
