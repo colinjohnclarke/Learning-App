@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const nobtnselected = { left: false, right: false };
 
-
 const initialState = {
   // set initial state for number of correct questions scored in a row
   value: 0,
@@ -73,5 +72,5 @@ export const {
 
 export default sliderquestiondataSliceIndex0.reducer;
 
-
+const test = () => {};
 // CHANGE d
