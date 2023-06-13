@@ -71,3 +71,5 @@ export const {
 } = sliderquestiondataSliceIndex0.actions;
 
 export default sliderquestiondataSliceIndex0.reducer;
+
+// on main test 
