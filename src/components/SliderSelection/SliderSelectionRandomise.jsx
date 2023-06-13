@@ -3,13 +3,19 @@ import styled from "styled-components";
 import SliderTextbox from "./SliderTextbox";
 import { memo } from "react";
 import { device } from "../../styles/breakpoints";
-import { useDispatch } from "react-redux";
-import { settozeroindex0 } from "../../features/slider/sliderquestiondataSliceIndex0";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  settozeroindex0,
+  // index0position0selected,
+  // index0position1selected,
+  // index0position2selected,
+  // index0position3selected,
+} from "../../features/slider/sliderquestiondataSliceIndex0";
 import { settozeroindex1 } from "../../features/slider/sliderquestiondataSliceIndex1";
 import ContinueBtn from "../MCQ/Buttons/ContinueBtn";
 
 const SliderSelectionRandomise = memo(function SliderSelectionRandomise(props) {
-  const [reset, setReset] = useState(true);
+  const [reset, setReset] = useState("");
 
   const dispatch = useDispatch();
 
@@ -42,13 +48,45 @@ const SliderSelectionRandomise = memo(function SliderSelectionRandomise(props) {
 
   const slider4rightisCorrect = num4a < num4b ? true : false;
 
+  // let getposition0selectedstate = useSelector(
+  //   (state) =>
+  //     state.sliderquestiondataSliceIndex0reducer.index0position0selected
+  // );
+
+  // let getposition1selectedstate = useSelector(
+  //   (state) =>
+  //     state.sliderquestiondataSliceIndex0reducer.index0position1selected
+  // );
+
+
+  // let getposition2selectedstate = useSelector(
+  //   (state) =>
+  //     state.sliderquestiondataSliceIndex0reducer.index0position2selected
+  // );
+
+  // let getposition3selectedstate = useSelector(
+  //   (state) =>
+  //     state.sliderquestiondataSliceIndex0reducer.index0position3selected
+  // );
+
   const handlereset = () => {
     if (index === 0) {
-      setReset(!reset);
-      dispatch(settozeroindex0());
+      setReset("resetindex0");
+
+      setTimeout(() => {
+        setReset("");
+        // console.log("index0timer");
+      }, 0);
+
+      // dispatch(settozeroindex0());
     } else if (index === 1) {
-      setReset(!reset);
-      dispatch(settozeroindex1());
+      setReset("resetindex1");
+      // dispatch(settozeroindex1());
+
+      setTimeout(() => {
+        setReset("");
+        // console.log("index1timer");
+      }, 0);
     }
   };
 
@@ -61,6 +99,9 @@ const SliderSelectionRandomise = memo(function SliderSelectionRandomise(props) {
         </Number>
 
         <SliderTextbox
+          left={true}
+          right={false}
+          position={0}
           index={index}
           reset={reset}
           isCorrect={slider1leftIsCorrect}
@@ -72,6 +113,9 @@ const SliderSelectionRandomise = memo(function SliderSelectionRandomise(props) {
         ></SliderTextbox>
         <Vs>vs</Vs>
         <SliderTextbox
+          left={false}
+          right={true}
+          position={0}
           index={index}
           reset={reset}
           isCorrect={slider1rightIsCorrect}
@@ -87,6 +131,9 @@ const SliderSelectionRandomise = memo(function SliderSelectionRandomise(props) {
           <p>2</p>
         </Number>
         <SliderTextbox
+          left={true}
+          right={false}
+          position={1}
           index={index}
           reset={reset}
           isCorrect={slider2leftIsCorrect}
@@ -98,6 +145,9 @@ const SliderSelectionRandomise = memo(function SliderSelectionRandomise(props) {
         ></SliderTextbox>
         <Vs>vs</Vs>
         <SliderTextbox
+          left={false}
+          right={true}
+          position={1}
           index={index}
           reset={reset}
           isCorrect={slider2rightIsCorrect}
@@ -113,6 +163,9 @@ const SliderSelectionRandomise = memo(function SliderSelectionRandomise(props) {
           <p>3</p>
         </Number>
         <SliderTextbox
+          left={true}
+          right={false}
+          position={2}
           index={index}
           reset={reset}
           isCorrect={slider3leftIsCorrect}
@@ -124,6 +177,9 @@ const SliderSelectionRandomise = memo(function SliderSelectionRandomise(props) {
         ></SliderTextbox>
         <Vs>vs</Vs>
         <SliderTextbox
+          left={false}
+          right={true}
+          position={2}
           index={index}
           reset={reset}
           isCorrect={slider3rightIsCorrect}
@@ -139,6 +195,9 @@ const SliderSelectionRandomise = memo(function SliderSelectionRandomise(props) {
           <p>4</p>
         </Number>
         <SliderTextbox
+          left={true}
+          right={false}
+          position={3}
           index={index}
           reset={reset}
           isCorrect={slider4leftIsCorrect}
@@ -150,6 +209,9 @@ const SliderSelectionRandomise = memo(function SliderSelectionRandomise(props) {
         ></SliderTextbox>
         <Vs>vs</Vs>
         <SliderTextbox
+          left={false}
+          right={true}
+          position={3}
           index={index}
           reset={reset}
           isCorrect={slider4rightisCorrect}
