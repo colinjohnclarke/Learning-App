@@ -69,8 +69,9 @@ function Biology() {
 
   return (
     <Wrapper>
+      {/*       
       <h1>Biology</h1>
-      {/* <PortableText
+      <PortableText
         value={block1}
         components={myPortableTextComponents}
       ></PortableText>
@@ -100,16 +101,16 @@ function Biology() {
           );
         })}
       </div>
-      <MCQ data={mcq1}></MCQ>
-      <StudentInputForm data={data} /> */}
-      <ClickIncorrectWord
+     <MCQ data={mcq1}></MCQ>
+      <StudentInputForm data={data} />
+       <ClickIncorrectWord
         click_incorrect_words_text={click_incorrect_words_text}
         click_incorrect_words_text_body={click_incorrect_words_text_body}
-      />
+       />  */}
       <SliderSelection slider={slider} />
-      <DragandDropWrapper
+      {/* <DragandDropWrapper
         order_items_drag_drop={order_items_drag_drop}
-      ></DragandDropWrapper>
+      ></DragandDropWrapper> */}
     </Wrapper>
   );
 }
@@ -121,5 +122,4 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   background-color: rgb(245, 250, 255);
-  color: rgb(40, 40, 40);
 `;

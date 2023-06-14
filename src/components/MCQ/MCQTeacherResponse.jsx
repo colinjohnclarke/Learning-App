@@ -4,8 +4,6 @@ import styled from "styled-components";
 function MCQTeacherResponse(props) {
   const [response, setResponse] = useState("hsjdj");
 
-  // console.log("PROPSRESPONSE", props);
-
   return (
     <div>
       <p> {response}</p>
