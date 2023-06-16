@@ -36,7 +36,7 @@ function SliderTextbox(props) {
   );
 
   let index1currentSliderQuestionScore = useSelector(
-    (state) => state.sliderquestiondataSliceIndex0reducer.value
+    (state) => state.sliderquestiondataSliceIndex1reducer.value
   );
 
   // slider index 0
@@ -76,6 +76,7 @@ function SliderTextbox(props) {
   }
 
   let styleindex1;
+
   // slider index 1
   useEffect(() => {
     if (index === 1 && isSelected && isCorrect) {
@@ -100,7 +101,7 @@ function SliderTextbox(props) {
     content = <TiTickOutline style={{ height: "10px", color: "green" }} />;
   } else if (
     index === 1 &&
-    index0currentSliderQuestionScore.length === 4 &&
+    index1currentSliderQuestionScore.length === 4 &&
     !isCorrect
   ) {
     styleindex1 = incorrectstyle;
@@ -109,23 +110,10 @@ function SliderTextbox(props) {
     content = <></>;
   }
 
-  // const hoverStyleFn = () => {
-  //   style = normalboxstyleHover;
-  //   console.log("   mouse over style = normalboxstyleHover;");
-  // };
-
-  // const stophoverFn = () => {
-  //   style = normalboxstyle;
-  //   console.log("   mouse LEAVE style = normalboxstyleHover;");
-  // };
-
   return (
-    <TextBox
-      // onMouseOver={hoverStyleFn}
-      // onMouseLeave={stophoverFn}
-      style={index === 0 ? style : styleindex1}
-    >
+    <TextBox style={index === 0 ? style : styleindex1}>
       <Text>{text}</Text>
+
       <div>{content}</div>
     </TextBox>
   );
@@ -134,13 +122,33 @@ function SliderTextbox(props) {
 export default SliderTextbox;
 
 const TextBox = styled.div`
-  height: 100%;
+  transition: 0.3s;
+  text-align: center;
+  box-shadow: rgba(0, 200, 200, 0.39) 0px 2px 4px inset,
+    0 0 0 2px rgba(0, 200, 200, 0.39) inset, 0 8px 0 0 rgba(39, 106, 245, 0.3),
+    0 8px 0 1px rgba(39, 106, 245, 0.3), 0 8px 8px 1px rgba(39, 106, 245, 0.3),
+    rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset,
+    rgba(0, 0, 0, 0.2) 0px 5px 10px;
+
+  margin-bottom: 10px;
+  height: 80px;
   width: 100%;
+  // margin: 2%;
+  max-width: 700px;
+  border-radius: 20px;
+  background-color: white;
+  padding: 2px;
+
+  &:hover {
+    transform: translateY(-2px);
+    background-color: rgba(0, 200, 200, 0.29);
+  }
 `;
 
 const Text = styled.p`
-  font-size: 13px;
-  padding: 5px;
+  font-size: 15px;
+  padding: 5px 10px 0px 5px;
 `;
 
 //   @media ${(device.mobileS, device.mobileM, device.mobileL)} {

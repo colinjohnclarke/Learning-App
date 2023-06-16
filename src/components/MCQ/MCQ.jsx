@@ -6,11 +6,11 @@ import MCQTeacherResponse from "./MCQTeacherResponse";
 function MCQ({ data }) {
   return (
     <ExampleQuiz>
-      <h1>Example quiz</h1>
+      <h2>Example quiz</h2>
       {data?.map((item, index) => {
         return (
           <div key={item._key}>
-            <h1>{item.question}</h1>
+            <p>{item.question}</p>
             <MCQblock item={item} index={index} />
             <MCQTeacherResponse item={item} />
           </div>
@@ -26,7 +26,6 @@ const ExampleQuiz = styled.div`
   text-align: center;
   display: flex;
   flex-direction: column;
-  border: 0.5px solid;
   // justify-content: center;
   // align-items: center;
   // margin: 5px;

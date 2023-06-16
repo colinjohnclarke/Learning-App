@@ -1,49 +1,10 @@
-/* *,
-em {
-  color: pink;
-} */
-
-/* p,
-em {
-  color: green;
-} */
-
 * {
-  font-size: 1.2rem;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-family: Montserrat;
 }
 
-/* body {
-  color: red;
-} */
-
-/* .wrong_button {
-  background-color: green;
-  border: 1px solid;
-  height: 30px;
-  width: 40px;
-} */
-
-/* del {
-  color: green;
-  text-decoration: none;
-} */
-
-.testing {
-  color: yellow;
-  text-decoration: none;
+body {
+  height: 100%;
+  width: 100%;
+  /* margin: 5px; */
+  background-color: rgb(247, 250, 255);
 }
-/* blockquote {
-  color: red;
-  font-size: 1.2rem;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-} */
-
-.imagetest {
-  border: 5px solid red;
-}
-
-.test {
-  color: red;
-}
-

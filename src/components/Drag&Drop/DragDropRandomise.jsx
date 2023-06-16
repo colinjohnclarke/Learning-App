@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import ResetBtn from "../Buttons/ResetBtn";
 
 import DragandDropMain from "./DragandDropMain";
 
@@ -57,7 +58,7 @@ function DragDropRandomise(props) {
         reset={reset}
         randomisedorderitemsarr={sorted}
       ></DragandDropMain>
-      <Btn
+      <ResetBtn
         onClick={() => {
           setReset(!reset);
         }}
@@ -65,7 +66,7 @@ function DragDropRandomise(props) {
         <p>Reset</p>
 
         <h1>{count}</h1>
-      </Btn>
+      </ResetBtn>
     </Main>
   );
 }

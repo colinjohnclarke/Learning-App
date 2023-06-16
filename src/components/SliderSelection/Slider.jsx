@@ -81,25 +81,25 @@ function Slider(props) {
 export default Slider;
 
 const LeftBox = styled.div`
-  width: 45%;
+  width: 48%;
   border-radius: 20px;
 `;
 
 const RightBox = styled.div`
-  width: 45%;
+  width: 48%;
   border-radius: 20px;
 `;
 
 const Wrapper = styled.div`
   max-width: 700px;
   width: 100%; 
-  height: 150px; 
+  height: 110px; 
   display: none;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
-  border-radius: 20px;
+
  
 
 //   @media ${(device.mobileS, device.mobileM)} {

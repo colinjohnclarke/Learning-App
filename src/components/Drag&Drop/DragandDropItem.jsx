@@ -2,6 +2,11 @@ import React, { useRef } from "react";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { device } from "../../styles/breakpoints";
+import {
+  correctstyle,
+  incorrectstyle,
+  normalboxstyledragItem,
+} from "../../styles/colors";
 
 function DragandDropItem(props) {
   let statements = props.statements;
@@ -15,23 +20,13 @@ function DragandDropItem(props) {
   const incorrect_answer_input_color = "rgba(240, 137, 137, 0.34)";
   const normal_input_color = "white";
 
-  let itemstyle = { backgroundColor: normal_input_color, transition: "0.7s" };
+  let itemstyle = { normalboxstyledragItem };
 
   if (iscorrect && helpneeded) {
     console.log(iscorrect);
-    itemstyle = {
-      backgroundColor: correct_answer_input_color,
-      color: "green",
-      boxShadow:
-        "0 0 0 1px #6698cb inset, 0 0 0 2px rgba(255,255,255,0.15) inset, 0 8px 0 0 rgba(137, 240, 158, 0.34), 0 8px 0 1px rgba(0,0,0,.4),0 8px 8px 1px rgba(0,0,0,0.5)",
-    };
+    itemstyle = correctstyle;
   } else if (!iscorrect && helpneeded) {
-    itemstyle = {
-      backgroundColor: incorrect_answer_input_color,
-      color: "red",
-      boxShadow:
-        "0 0 0 1px #6698cb inset, 0 0 0 2px rgba(255,255,255,0.15) inset, 0 8px 0 0 rgba(240, 137, 137, 0.34), 0 8px 0 1px rgba(220, 137, 137, 0.56),0 8px 8px 1px rgba(0,0,0,0.5)",
-    };
+    itemstyle = incorrectstyle;
   }
 
   if (allcorrect) {
@@ -51,54 +46,43 @@ function DragandDropItem(props) {
 export default DragandDropItem;
 
 const Item = styled.div`
+  transition: 0.3s;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   text-align: center;
   box-shadow: rgba(0, 200, 200, 0.39) 0px 2px 4px inset,
     0 0 0 2px rgba(0, 200, 200, 0.39) inset, 0 8px 0 0 rgba(39, 106, 245, 0.3),
-    0 8px 0 1px rgba(39, 106, 245, 0.3), 0 8px 8px 1px rgba(39, 106, 245, 0.3);
+    0 8px 0 1px rgba(39, 106, 245, 0.3), 0 8px 8px 1px rgba(39, 106, 245, 0.3),
+    rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset,
+    rgba(0, 0, 0, 0.2) 0px 5px 10px;
 
-  margin-bottom: 20px;
-  height: 90px;
-  width: 85vw;
+  margin-bottom: 10px;
+  height: 80px;
+  margin: 5%;
   max-width: 700px;
   border-radius: 20px;
   background-color: white;
 
   &:hover {
-    background-color: rgba(39, 106, 245, 0.05);
-    // transform: translateY(-3px);
-    transition: 0.1s;
+    transform: translateY(-2px);
+    background-color: rgba(0, 200, 200, 0.29);
   }
 
   &:active {
-    background-color: rgba(39, 106, 245, 0.3);
+    transform: translateY(-2px);
+    background-color: rgba(0, 200, 200, 0.29);
   }
 `;
 
 const Text = styled.div`
-  height: 100%;
-  width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
-  max-width: 700px;
+  height: 100%;
+
   border-radius: 20px;
-
-  &:hover {
-    background-color: rgba(39, 106, 245, 0.5);
-    height: 100%;
-    width: 100%;
-    color: white;
-    transition: 0.1s;
-  }
-
-  &:active {
-    background-color: rgba(39, 106, 245, 0.5);
-    height: 100%;
-    width: 100%;
-  }
+  padding: 5px 10px 0px 5px;
 
   p {
     font-size: 15px;

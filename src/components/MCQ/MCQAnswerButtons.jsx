@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Button from "@mui/material/Button";
 import { colors } from "../../styles/colors";
+import MCQbtn from "../Buttons/MainActionBtn";
+import { TiTickOutline } from "react-icons/ti";
+import { RxCross2 } from "react-icons/rx";
 
 const MCQAnswerButtons = (props) => {
   const [buttonstyle, setButtonStyle] = useState({});
@@ -13,34 +16,54 @@ const MCQAnswerButtons = (props) => {
         ? colors.correctColor
         : colors.incorrectColor,
     });
-    setClickResponseText(props.iscorrect ? "Well done! Correct" : "Incorrect!");
+    setClickResponseText(props.iscorrect ? <TiTickOutline /> : <RxCross2 />);
   };
 
   return (
     <Wrapper>
-      <Button
-        variant="outlined"
-        color="secondary"
-        sx={{
-          width: 300,
-          // color: "black",
-        }}
-        size="large"
+      <MCQbtn
         style={buttonstyle}
         onClick={(props) => {
           onPressed();
-          console.log(` question index : ${props.index}, "clicked" `);
         }}
       >
-        {props.text}
-      </Button>
-      <ClickResponseText>{clickResponseText}</ClickResponseText>
+        <Text>
+          <Answer>{props.text} </Answer>
+          <ClickResponseText>{clickResponseText}</ClickResponseText>
+        </Text>
+      </MCQbtn>
     </Wrapper>
   );
 };
 
 export default MCQAnswerButtons;
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`;
 
-const ClickResponseText = styled.p``;
+const ClickResponseText = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  // position: relative;
+  // left: 10px;
+`;
+
+const Answer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+`;
+const Text = styled.div`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
