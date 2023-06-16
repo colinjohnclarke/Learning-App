@@ -1,45 +1,37 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Button from "@mui/material/Button";
-import Stack from "@mui/material/Stack";
-import Divider from "@mui/material/Divider";
+import { colors } from "../../styles/colors";
+import MCQbtn from "../Buttons/MainActionBtn";
+import { TiTickOutline } from "react-icons/ti";
+import { RxCross2 } from "react-icons/rx";
 
 const MCQAnswerButtons = (props) => {
   const [buttonstyle, setButtonStyle] = useState({});
   const [clickResponseText, setClickResponseText] = useState();
 
-  const correct_answer_input_color = "rgba(137, 240, 158, 0.34)";
-  const incorrect_answer_input_color = "rgba(240, 137, 137, 0.34)";
-  const normal_input_color = "white";
-
   const onPressed = () => {
     setButtonStyle({
       backgroundColor: props.iscorrect
-        ? correct_answer_input_color
-        : incorrect_answer_input_color,
+        ? colors.correctColor
+        : colors.incorrectColor,
     });
-    setClickResponseText(props.iscorrect ? "Well done! Correct" : "Incorrect!");
+    setClickResponseText(props.iscorrect ? <TiTickOutline /> : <RxCross2 />);
   };
 
   return (
     <Wrapper>
-      <Button
-        variant="outlined"
-        color="secondary"
-        sx={{
-          width: 300,
-          // color: "black",
-        }}
-        size="large"
+      <MCQbtn
         style={buttonstyle}
         onClick={(props) => {
           onPressed();
-          console.log(` question index : ${props.index}, "clicked" `);
         }}
       >
-        {props.text}
-      </Button>
-      <ClickResponseText>{clickResponseText}</ClickResponseText>
+        <Text>
+          <Answer>{props.text} </Answer>
+          <ClickResponseText>{clickResponseText}</ClickResponseText>
+        </Text>
+      </MCQbtn>
     </Wrapper>
   );
 };
@@ -47,12 +39,31 @@ const MCQAnswerButtons = (props) => {
 export default MCQAnswerButtons;
 
 const Wrapper = styled.div`
-  // text-align: center;
-  // display: flex;
-  // flex-direction: column;
-  // justify-content: center;
-  // align-items: center;
-  // margin: 5px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 `;
 
-const ClickResponseText = styled.p``;
+const ClickResponseText = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  // position: relative;
+  // left: 10px;
+`;
+
+const Answer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+`;
+const Text = styled.div`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;

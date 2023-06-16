@@ -1,26 +1,29 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  value: 0,
+  value: [],
 };
 
 export const sliderquestiondataSliceIndex1 = createSlice({
   name: "sliderquestiondataSliceIndex0reducer",
   initialState,
   reducers: {
-    incrementindex1: (state) => {
-      state.value += 1;
+    correctAnswerSelectedIndex1: (state) => {
+      state.value.push(true);
     },
-    decrementindex1: (state) => {
-      state.value -= 1;
+    correctAnswerUNSelectedIndex1: (state) => {
+      state.value.pop(true);
     },
-    settozeroindex1: (state) => {
-      state.value = 0;
+    resetSliderSelectionIndex1: (state) => {
+      state.value = [];
     },
   },
 });
 
-export const { incrementindex1, decrementindex1, settozeroindex1 } =
-  sliderquestiondataSliceIndex1.actions;
+export const {
+  correctAnswerSelectedIndex1,
+  correctAnswerUNSelectedIndex1,
+  resetSliderSelectionIndex1,
+} = sliderquestiondataSliceIndex1.actions;
 
 export default sliderquestiondataSliceIndex1.reducer;

@@ -3,6 +3,7 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import styled from "styled-components";
 import Slide from "@mui/material/Slide";
+import { colors } from "../../styles/colors";
 
 // sanity imports
 import sanityClient from "../../createclient";
@@ -12,15 +13,11 @@ import imageUrlBuilder from "@sanity/image-url";
 function StudentInputForm(props) {
   //constants
 
-  const correct_answer_input_color = "rgba(137, 240, 158, 0.34)";
-  const incorrect_answer_input_color = "rgba(240, 137, 137, 0.34)";
-  const normal_input_color = "white";
-
   // user input state
 
   const [input, setInput] = useState("");
-  const inputlength = input.length;
 
+  const inputlength = input.length;
   const [isCorrect, setIsCorrect] = useState("");
   const [selectedinputcolor, setSelectedInputColor] = useState("");
   const [textfieldlabel, setTextFieldLabel] = useState("What's your answer?");
@@ -29,11 +26,11 @@ function StudentInputForm(props) {
   // gather data from passed from from API fetched via get data component
 
   const getprops = props.data;
-  const acceptable_answers = getprops.acceptable_answers;
+  const acceptableAnswers = getprops.acceptable_answers;
 
   // pass in acceptable answers from props and check to see if user input matches
 
-  const handleSubmit = (e, acceptable_answers) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     // validation that user has provided an answer
@@ -44,7 +41,7 @@ function StudentInputForm(props) {
 
       // pass in acceptable answers from props and check to see if user input matches and update state
     } else {
-      const check_answer = getprops.acceptable_answers.find(
+      const check_answer = getprops?.acceptable_answers.find(
         (element) => element === input
       );
 
@@ -53,13 +50,13 @@ function StudentInputForm(props) {
       if (check_answer === undefined) {
         setIsCorrect(false);
         console.log("false");
-        setSelectedInputColor(incorrect_answer_input_color);
+        setSelectedInputColor(colors.incorrectColor);
         setTextFieldLabel("Not right keep trying!");
         setIsShowingFeedback(true);
       } else {
         setIsCorrect(true);
         console.log(true);
-        setSelectedInputColor(correct_answer_input_color);
+        setSelectedInputColor(colors.correctColor);
         setTextFieldLabel("Correct! Great work :) ");
         setIsShowingFeedback(true);
       }
@@ -74,7 +71,7 @@ function StudentInputForm(props) {
   };
 
   useEffect(() => {
-    setSelectedInputColor(normal_input_color);
+    setSelectedInputColor(colors.normalInputColor);
     setTextFieldLabel("Whats your answer?");
   }, [input]);
 
@@ -92,16 +89,14 @@ function StudentInputForm(props) {
       image: (props) => (
         <div>
           {" "}
-          <img src={imgurlFor(props.value.asset).width(400)} alt="hjshdjs" />
+          <img src={imgurlFor(props.value.asset).width(400)} alt="" />
         </div>
       ),
     },
   };
 
-  const getstudent_input_test_question_block =
+  const getStudentInputTestQuestionBlock =
     getprops.student_input_test_question_block;
-
-  console.log("BLOCK TEXT: ", getstudent_input_test_question_block);
 
   return (
     <Wrapper>
@@ -128,7 +123,7 @@ function StudentInputForm(props) {
       </Slide>
 
       <PortableText
-        value={getstudent_input_test_question_block}
+        value={getStudentInputTestQuestionBlock}
         components={myPortableTextComponents}
       ></PortableText>
     </Wrapper>

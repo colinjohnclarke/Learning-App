@@ -9,6 +9,7 @@ import { combineReducers } from "@reduxjs/toolkit";
 import "animate.css";
 import DragandDropItem from "./DragandDropItem";
 import { device } from "../../styles/breakpoints";
+import HelpBtn from "../Buttons/HelpBtn";
 
 function DragandDropMain(props) {
   const [introduction, setIntroduction] = useState([]);
@@ -108,9 +109,7 @@ function DragandDropMain(props) {
           )}
         </Droppable>
       </DragDropContext>
-      <Btn onClick={handleHelpneededBtnClicked}>
-        <p>Help Me!?</p>
-      </Btn>
+      <HelpBtn onClick={handleHelpneededBtnClicked}>Help </HelpBtn>
     </Wrapper>
   );
 }
@@ -135,20 +134,16 @@ const Btn = styled.button`
   width: 70px;
   height: 50px;
   background-color: white;
-  box-shadow: rgba(0, 0, 0, 0.39) 0px 2px 4px,
-    rgba(39, 106, 245, 0.3) 0px 7px 10px -3px,
-    rgba(39, 106, 245, 0.1) 0px -3px 0px inset;
-  border: none;
-  transition: 0.3s;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
 
   &:hover {
-    background-color: rgba(39, 106, 245, 0.3);
-    transform: translateY(-3px);
+    transform: translateY(-2px);
+    background-color: rgba(0, 200, 200, 0.29);
   }
 
   &:active {
-    background-color: rgba(39, 106, 245, 0.3);
-    transform: translateY(3px);
+    transform: translateY(-2px);
+    background-color: rgba(0, 200, 200, 0.29);
   }
 `;
 

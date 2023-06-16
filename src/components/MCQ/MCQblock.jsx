@@ -10,7 +10,6 @@ function MCQblock(props) {
   const [objkey3, setObjkey3] = useState({});
 
   const getprops = props.item;
-  const getindex = props.index;
 
   const randomise = (getprops) => {
     const nu1 = Math.random();
