@@ -4,6 +4,7 @@ import TextField from "@mui/material/TextField";
 import styled from "styled-components";
 import Slide from "@mui/material/Slide";
 import { colors } from "../../styles/colors";
+import MainActionBtn from "../Buttons/MainActionBtn";
 
 // sanity imports
 import sanityClient from "../../createclient";
@@ -100,23 +101,17 @@ function StudentInputForm(props) {
 
   return (
     <Wrapper>
-      <h2>{getprops.student_input_test_question}</h2>
+      <p>{getprops.student_input_test_question}</p>
       <form onSubmit={handleSubmit}>
         <TextField
-          color="secondary"
+          // color="secondary"
+          style={{}}
           sx={{ backgroundColor: selectedinputcolor }}
           onChange={handleChange}
           type="text"
           label={textfieldlabel}
         ></TextField>
-        <Button
-          color="secondary"
-          type="submit"
-          sx={{ p: 1, m: 2 }}
-          variant="contained"
-        >
-          Check
-        </Button>
+        <MainActionBtn type="submit"> Check</MainActionBtn>
       </form>
       <Slide direction="left" in={isShowingFeedback} mountOnEnter unmountOnExit>
         <h3>{textfieldlabel}</h3>

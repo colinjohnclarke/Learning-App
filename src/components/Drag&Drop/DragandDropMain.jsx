@@ -109,6 +109,7 @@ function DragandDropMain(props) {
           )}
         </Droppable>
       </DragDropContext>
+
       <HelpBtn onClick={handleHelpneededBtnClicked}>Help </HelpBtn>
     </Wrapper>
   );

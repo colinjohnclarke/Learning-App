@@ -131,14 +131,15 @@ const TextBox = styled.div`
     rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset,
     rgba(0, 0, 0, 0.2) 0px 5px 10px;
 
-  margin-bottom: 10px;
   height: 80px;
   width: 100%;
-  // margin: 2%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   max-width: 700px;
   border-radius: 20px;
   background-color: white;
-  padding: 2px;
 
   &:hover {
     transform: translateY(-2px);

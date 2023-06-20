@@ -11,6 +11,8 @@ import SliderSelection from "../components/SliderSelection/SliderSelection";
 import SliderSelectionRandomise from "../components/SliderSelection/SliderSelectionRandomise";
 import DragandDropWrapper from "../components/Drag&Drop/DragandDropWrapper";
 import ContinueBtn from "../components/Buttons/ContinueBtn";
+import GapFill from "../components/GapFill/GapFill";
+import IncorrectWordWrapper from "../components/IncorrectWordIdentifier/IncorrectWordWrapper";
 
 function Biology() {
   const [data, setData] = useState({});
@@ -24,9 +26,14 @@ function Biology() {
   const myPortableTextComponents = {
     types: {
       image: (props) => (
-        <div>
-          {" "}
-          <img src={imgurlFor(props.value.asset).width(400)} alt="hjshdjs" />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <img src={imgurlFor(props.value.asset).width(300)} alt="hjshdjs" />
         </div>
       ),
       marks: {
@@ -44,10 +51,10 @@ function Biology() {
   useEffect(() => {
     sanityClient
       .fetch(
-        `*[_type == "biology_blocks" && name == "photosynthesis_required_practical" ] 
+        `*[_type == "${content_from_api}" && name == "${content_name}" ] 
         { subject_skills[]->, slider, 
           click_incorrect_words_main_text_body,incorrect_words_from_text, order_items_drag_drop, 
-                    name, tags, textblock1, textblock2, hint, problem_keywords[]->,  example_problem, MCQ_INPUTS, student_input_test_question, teacher_feedback_comment, acceptable_answers
+                    name, tags, textblock1, textblock2, hint, problem_keywords[]->,  example_problem, MCQ_INPUTS, student_input_test_question, teacher_feedback_comment, acceptable_answers, gap_fill, incorrect_words_from_text
                     }`
       )
       .then((result) => setData(result[0]))
@@ -62,11 +69,9 @@ function Biology() {
   const mcq1 = data.MCQ_INPUTS;
   const order_items_drag_drop = data.order_items_drag_drop;
   const slider = data.slider;
+  const gap_fill = data.gap_fill;
 
-  const click_incorrect_words_text_body =
-    data.click_incorrect_words_main_text_body;
-
-  const click_incorrect_words_text = data.incorrect_words_from_text;
+  const incorrect_words_from_text = data.incorrect_words_from_text;
 
   const [item0displayed, setitemOdisplayed] = useState(true);
   const [item1displayed, setitem1displayed] = useState(false);
@@ -74,12 +79,16 @@ function Biology() {
   const [item3displayed, setitem3displayed] = useState(false);
   const [item4displayed, setitem4displayed] = useState(false);
   const [item5displayed, setitem5displayed] = useState(false);
+  const [item6displayed, setitem6displayed] = useState(false);
+  const [item7displayed, setitem7displayed] = useState(false);
 
   const item1listRef = useRef(null);
   const item2listRef = useRef(null);
   const item3listRef = useRef(null);
   const item4listRef = useRef(null);
   const item5listRef = useRef(null);
+  const item6listRef = useRef(null);
+  const item7listRef = useRef(null);
 
   // obj where each value represents a value of displayed of not
 
@@ -99,68 +108,112 @@ function Biology() {
   };
 
   const item0 = (
-    <Item0>
-      <PortableText
-        value={block1}
-        components={myPortableTextComponents}
-      ></PortableText>
-      <ContinueBtn
-        onClick={() => {
-          setitem1displayed(true);
-          handleContinueBtnClicked(item1listRef);
-        }}
-      />
-    </Item0>
+    <Item>
+      <Container>
+        <PortableText
+          value={block1}
+          components={myPortableTextComponents}
+        ></PortableText>
+        <ContinueBtn
+          onClick={() => {
+            setitem1displayed(true);
+            handleContinueBtnClicked(item1listRef);
+          }}
+        />
+      </Container>
+    </Item>
   );
 
   const item1 = (
-    <Item1 ref={item1listRef}>
-      <MCQ data={mcq1}></MCQ>
-      <ContinueBtn
-        onClick={() => {
-          setitem2displayed(true);
-          handleContinueBtnClicked(item2listRef);
-        }}
-      />
-    </Item1>
+    <Item ref={item1listRef}>
+      <Container>
+        <MCQ data={mcq1}></MCQ>
+        <ContinueBtn
+          onClick={() => {
+            setitem2displayed(true);
+            handleContinueBtnClicked(item2listRef);
+          }}
+        />
+      </Container>
+    </Item>
   );
 
   const item2 = (
-    <Item2 ref={item2listRef}>
-      <StudentInputForm data={data} />
-      <ContinueBtn
-        onClick={() => {
-          setitem3displayed(true);
-          handleContinueBtnClicked(item3listRef);
-        }}
-      />
-    </Item2>
+    <Item ref={item2listRef}>
+      <Container>
+        <StudentInputForm data={data} />
+        <ContinueBtn
+          onClick={() => {
+            setitem3displayed(true);
+            handleContinueBtnClicked(item3listRef);
+          }}
+        />
+      </Container>
+    </Item>
   );
 
   const item3 = (
-    <Item3 ref={item3listRef}>
-      <SliderSelection slider={slider} />
-      <ContinueBtn
-        onClick={() => {
-          setitem4displayed(true);
-          handleContinueBtnClicked(item4listRef);
-        }}
-      />
-    </Item3>
+    <Item ref={item3listRef}>
+      <Container>
+        <SliderSelection slider={slider} />
+        <ContinueBtn
+          onClick={() => {
+            setitem4displayed(true);
+            handleContinueBtnClicked(item4listRef);
+          }}
+        />
+      </Container>
+    </Item>
   );
 
   const item4 = (
-    <Item4 ref={item4listRef}>
-      <DragandDropWrapper
-        order_items_drag_drop={order_items_drag_drop}
-      ></DragandDropWrapper>
-      <ContinueBtn
-        onClick={() => {
-          setitem5displayed(true);
-          handleContinueBtnClicked(item5listRef);
-        }}
-      />
-    </Item4>
+    <Item ref={item4listRef}>
+      <Container>
+        <DragandDropWrapper
+          order_items_drag_drop={order_items_drag_drop}
+        ></DragandDropWrapper>
+        <ContinueBtn
+          onClick={() => {
+            setitem5displayed(true);
+            handleContinueBtnClicked(item5listRef);
+          }}
+        />
+      </Container>
+    </Item>
+  );
+
+  const item5 = (
+    <Item ref={item5listRef}>
+      <Container>
+        <GapFill data={gap_fill}></GapFill>
+
+        <ContinueBtn
+          onClick={() => {
+            setitem6displayed(true);
+            handleContinueBtnClicked(item6listRef);
+            console.log("ITEM 5 CLICKED");
+          }}
+        />
+      </Container>
+    </Item>
+  );
+
+  const item6 = (
+    <Item ref={item6listRef}>
+      <Container>
+        <IncorrectWordWrapper
+          data={incorrect_words_from_text}
+        ></IncorrectWordWrapper>
+
+        <ContinueBtn
+          onClick={() => {
+            setitem6displayed(true);
+            handleContinueBtnClicked(item7listRef);
+            console.log("ITEM 6 CLICKED");
+          }}
+        />
+      </Container>
+    </Item>
   );
 
   if (item0displayed) {
@@ -178,6 +231,12 @@ function Biology() {
   if (item4displayed) {
     content.push(item4);
   }
+  if (item5displayed) {
+    content.push(item5);
+  }
+  if (item6displayed) {
+    content.push(item6);
+  }
 
   return (
     <Wrapper>
@@ -188,27 +247,22 @@ function Biology() {
 }
 export default Biology;
 
-const Item0 = styled.div`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
+  border-radius: 4px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
+  margin: 5px;
+  padding: 15px;
+  max-width: 700px;
+  min-width: 300px;
+  // width: 100%;
 `;
-const Item1 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-const Item2 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-const Item3 = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-const Item4 = styled.div`
+
+const Item = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;

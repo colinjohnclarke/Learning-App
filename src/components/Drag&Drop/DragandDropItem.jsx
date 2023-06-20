@@ -58,21 +58,20 @@ const Item = styled.div`
     rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset,
     rgba(0, 0, 0, 0.2) 0px 5px 10px;
 
-  margin-bottom: 10px;
   height: 80px;
-  margin: 5%;
+  margin: 4%;
   max-width: 700px;
   border-radius: 20px;
   background-color: white;
 
   &:hover {
     transform: translateY(-2px);
-    background-color: rgba(0, 200, 200, 0.29);
+    background-color: rgba(0, 200, 200, 0.3);
   }
 
   &:active {
     transform: translateY(-2px);
-    background-color: rgba(0, 200, 200, 0.29);
+    background-color: rgba(0, 200, 200, 0.5);
   }
 `;
 
@@ -82,9 +81,8 @@ const Text = styled.div`
   height: 100%;
 
   border-radius: 20px;
-  padding: 5px 10px 0px 5px;
 
   p {
-    font-size: 15px;
+    font-size: 14px;
   }
 `;

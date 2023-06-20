@@ -17,7 +17,7 @@ const Btn = styled.button`
   justify-content: center;
   align-items: center;
   border: none;
-  margin: 10px;
+  margin: 60px;
   height: 40px;
   width: 250px;
   border-radius: 4px;
