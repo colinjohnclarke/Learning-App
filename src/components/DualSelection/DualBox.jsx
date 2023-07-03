@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { device } from "../../styles/breakpoints";
 import { useDispatch, useSelector } from "react-redux";
-import SliderTextbox from "./SliderTextbox";
-import { resetSliderSelectionIndex0 } from "../../features/slider/sliderquestiondataSliceIndex0";
-import { resetSliderSelectionIndex1 } from "../../features/slider/sliderquestiondataSliceIndex1";
+import SliderTextbox from "./Textbox";
+import { resetSliderSelectionIndex0 } from "../../features/DualSelection/dualselectionquestiondataSliceIndex0";
+import { resetSliderSelectionIndex1 } from "../../features/DualSelection/dualselectionquestiondataSliceIndex1";
 
 function Slider(props) {
   const [leftselected, setLeftSelected] = useState(false);

@@ -2,11 +2,13 @@ import React from "react";
 import styled from "styled-components";
 import MCQblock from "./MCQblock";
 import MCQTeacherResponse from "./MCQTeacherResponse";
+import Score from "../scores/Score";
 
 function MCQ({ data }) {
   return (
-    <ExampleQuiz>
-      <h2>Example quiz</h2>
+    <Wrapper>
+      <Score></Score>
+
       {data?.map((item, index) => {
         return (
           <div key={item._key}>
@@ -16,17 +18,14 @@ function MCQ({ data }) {
           </div>
         );
       })}
-    </ExampleQuiz>
+    </Wrapper>
   );
 }
 
 export default MCQ;
 
-const ExampleQuiz = styled.div`
+const Wrapper = styled.div`
   text-align: center;
   display: flex;
   flex-direction: column;
-  // justify-content: center;
-  // align-items: center;
-  // margin: 5px;
 `;

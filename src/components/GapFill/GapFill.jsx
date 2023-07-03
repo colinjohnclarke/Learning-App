@@ -4,7 +4,6 @@ import styled from "styled-components";
 
 function GapFill(props) {
   const data = props.data;
-  console.log("GAP PROPS", data);
 
   return (
     <GapFillMain>

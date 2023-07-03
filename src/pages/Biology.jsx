@@ -7,12 +7,17 @@ import styled from "styled-components";
 import MCQ from "../components/MCQ/MCQ";
 import StudentInputForm from "../components/SingleStudentInput/StudentInputForm";
 import ClickIncorrectWord from "../components/ClickIncorrectWord/ClickIncorrectWord";
-import SliderSelection from "../components/SliderSelection/SliderSelection";
-import SliderSelectionRandomise from "../components/SliderSelection/SliderSelectionRandomise";
+import SliderSelection from "../components/DualSelection/DualBoxSelection";
+import SliderSelectionRandomise from "../components/DualSelection/DualBoxSelectionRandomise";
 import DragandDropWrapper from "../components/Drag&Drop/DragandDropWrapper";
 import ContinueBtn from "../components/Buttons/ContinueBtn";
 import GapFill from "../components/GapFill/GapFill";
 import IncorrectWordWrapper from "../components/IncorrectWordIdentifier/IncorrectWordWrapper";
+import FillMissingValuesTable from "../components/Tables/FillMissingValues";
+import LineChart from "../components/Charts/Line/LineChart";
+import LargeTable from "../components/Tables/TableFromLineData";
+import Scatter from "../components/Charts/Scatter/Scatter";
+import MovingSliderWrapper from "../components/MovingSlider/MovingSliderWrapper";
 
 function Biology() {
   const [data, setData] = useState({});
@@ -33,7 +38,7 @@ function Biology() {
             alignItems: "center",
           }}
         >
-          <img src={imgurlFor(props.value.asset).width(300)} alt="hjshdjs" />
+          <img src={imgurlFor(props.value.asset).width(300)} alt="" />
         </div>
       ),
       marks: {
@@ -54,7 +59,8 @@ function Biology() {
         `*[_type == "${content_from_api}" && name == "${content_name}" ] 
         { subject_skills[]->, slider, 
           click_incorrect_words_main_text_body,incorrect_words_from_text, order_items_drag_drop, 
-                    name, tags, textblock1, textblock2, hint, problem_keywords[]->,  example_problem, MCQ_INPUTS, student_input_test_question, teacher_feedback_comment, acceptable_answers, gap_fill, incorrect_words_from_text
+                    name, tags, textblock1, textblock2, hint, problem_keywords[]->,  example_problem, MCQ_INPUTS, student_input_test_question, teacher_feedback_comment, acceptable_answers, gap_fill, incorrect_words_from_text, table, line_graph_data, 
+                    standard_tables,standard_table_variable_names 
                     }`
       )
       .then((result) => setData(result[0]))
@@ -70,8 +76,13 @@ function Biology() {
   const order_items_drag_drop = data.order_items_drag_drop;
   const slider = data.slider;
   const gap_fill = data.gap_fill;
-
   const incorrect_words_from_text = data.incorrect_words_from_text;
+  const standard_table_variable_names = data.standard_table_variable_names;
+  const standard_tables = data.standard_tables;
+
+  const table = data.table;
+
+  const line_graph_data = data.line_graph_data;
 
   const [item0displayed, setitemOdisplayed] = useState(true);
   const [item1displayed, setitem1displayed] = useState(false);
@@ -81,6 +92,27 @@ function Biology() {
   const [item5displayed, setitem5displayed] = useState(false);
   const [item6displayed, setitem6displayed] = useState(false);
   const [item7displayed, setitem7displayed] = useState(false);
+  const [item8displayed, setitem8displayed] = useState(false);
+  const [item9displayed, setitem9displayed] = useState(false);
+  const [item10displayed, setitem10displayed] = useState(false);
+  const [item11displayed, setitem11displayed] = useState(false);
+  const [item12displayed, setitem12displayed] = useState(false);
+
+  const displayedArr = [
+    item0displayed,
+    item1displayed,
+    item2displayed,
+    item3displayed,
+    item4displayed,
+    item5displayed,
+    item6displayed,
+    item7displayed,
+    item8displayed,
+    item9displayed,
+    item10displayed,
+    item11displayed,
+    item12displayed,
+  ];
 
   const item1listRef = useRef(null);
   const item2listRef = useRef(null);
@@ -89,6 +121,11 @@ function Biology() {
   const item5listRef = useRef(null);
   const item6listRef = useRef(null);
   const item7listRef = useRef(null);
+  const item8listRef = useRef(null);
+  const item9listRef = useRef(null);
+  const item10listRef = useRef(null);
+  const item11listRef = useRef(null);
+  const item12listRef = useRef(null);
 
   // obj where each value represents a value of displayed of not
 
@@ -128,6 +165,7 @@ function Biology() {
     <Item ref={item1listRef}>
       <Container>
         <MCQ data={mcq1}></MCQ>
+
         <ContinueBtn
           onClick={() => {
             setitem2displayed(true);
@@ -186,12 +224,10 @@ function Biology() {
     <Item ref={item5listRef}>
       <Container>
         <GapFill data={gap_fill}></GapFill>
-
         <ContinueBtn
           onClick={() => {
             setitem6displayed(true);
             handleContinueBtnClicked(item6listRef);
-            console.log("ITEM 5 CLICKED");
           }}
         />
       </Container>
@@ -207,36 +243,112 @@ function Biology() {
 
         <ContinueBtn
           onClick={() => {
-            setitem6displayed(true);
+            setitem7displayed(true);
             handleContinueBtnClicked(item7listRef);
-            console.log("ITEM 6 CLICKED");
           }}
         />
       </Container>
     </Item>
   );
 
-  if (item0displayed) {
-    content.push(item0);
-  }
-  if (item1displayed) {
-    content.push(item1);
-  }
-  if (item2displayed) {
-    content.push(item2);
-  }
-  if (item3displayed) {
-    content.push(item3);
-  }
-  if (item4displayed) {
-    content.push(item4);
-  }
-  if (item5displayed) {
-    content.push(item5);
-  }
-  if (item6displayed) {
-    content.push(item6);
-  }
+  const item7 = (
+    <Item ref={item7listRef}>
+      <Container>
+        <FillMissingValuesTable data={table}></FillMissingValuesTable>
+        <ContinueBtn
+          onClick={() => {
+            setitem8displayed(true);
+            handleContinueBtnClicked(item8listRef);
+          }}
+        />
+      </Container>
+    </Item>
+  );
+  const item8 = (
+    <Item ref={item8listRef}>
+      <Container>
+        <LineChart data={line_graph_data}></LineChart>
+        <ContinueBtn
+          onClick={() => {
+            setitem9displayed(true);
+            handleContinueBtnClicked(item9listRef);
+            console.log("ITEM 8 CLICKED");
+          }}
+        />
+      </Container>
+    </Item>
+  );
+
+  const item9 = (
+    <Item ref={item9listRef}>
+      <Container>
+        <LargeTable
+          standard_tables={standard_tables}
+          standard_table_variable_names={standard_table_variable_names}
+        ></LargeTable>
+        <Scatter
+          standard_tables={standard_tables}
+          standard_table_variable_names={standard_table_variable_names}
+        ></Scatter>
+        <ContinueBtn
+          onClick={() => {
+            setitem10displayed(true);
+            handleContinueBtnClicked(item10listRef);
+          }}
+        />
+      </Container>
+    </Item>
+  );
+
+  const item10 = (
+    <Item ref={item10listRef}>
+      <Container>
+        <MovingSliderWrapper data={slider} />
+        <ContinueBtn
+          onClick={() => {
+            setitem11displayed(true);
+            handleContinueBtnClicked(item11listRef);
+            console.log("ITEM 10 CLICKED");
+          }}
+        />
+      </Container>
+    </Item>
+  );
+
+  const item11 = (
+    <Item ref={item11listRef}>
+      <Container>
+        <ContinueBtn
+          onClick={() => {
+            setitem12displayed(true);
+            handleContinueBtnClicked(item12listRef);
+            console.log("ITEM 11 CLICKED");
+          }}
+        />
+      </Container>
+    </Item>
+  );
+
+  const itemlist = [
+    item0,
+    item1,
+    item2,
+    item3,
+    item4,
+    item5,
+    item6,
+    item7,
+    item8,
+    item9,
+    item10,
+    item11,
+  ];
+
+  displayedArr.forEach((item, i) => {
+    if (item) {
+      content.push(itemlist[i]);
+    }
+  });
 
   return (
     <Wrapper>
@@ -255,11 +367,12 @@ const Container = styled.div`
   border-radius: 4px;
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
-  margin: 5px;
-  padding: 15px;
-  max-width: 700px;
+  max-width: 900px;
+  width: 100%;
   min-width: 300px;
-  // width: 100%;
+  margin: 20px;
+  padding: 5px;
+  position: relative;
 `;
 
 const Item = styled.div`
@@ -299,3 +412,25 @@ const Wrapper = styled.div`
         ></PortableText>
         <ContinueBtn />
       </Item> */
+
+// [
+//   {
+//     "_key": "6d650934aeed",
+//     "_type": "tag",
+//     "chart_title": "Line and Scatter Plot",
+//     "trace_1_label": "10 deg C",
+//     "trace_1_x_values": "5, 10, 15, 20",
+//     "trace_1_y_values": "1.3, 1.5, 1.7, 1.9",
+//     "trace_2_label": "15 deg C",
+//     "trace_2_x_values": "5, 10, 15, 20",
+//     "trace_2_y_values": "1.5, 1.8, 2.4, 2.5",
+//     "trace_3_label": "20 deg C",
+//     "trace_3_x_values": "5, 10, 15, 20",
+//     "trace_3_y_values": "1.9, 2.2, 2.9, 3.1",
+//     "trace_4_label": "25 deg C",
+//     "trace_4_x_values": "5, 10, 15, 20",
+//     "trace_4_y_values": "1.9, 2.4, 3.1, 3.1",
+//     "x_axis_name": "concentration(mol/dm3)",
+//     "y_axis_name": "rate of reaction g/sec"
+//   }
+// ]

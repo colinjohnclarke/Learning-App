@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { memo } from "react";
 import { device } from "../../styles/breakpoints";
-import Slider from "./Slider";
+import Slider from "./DualBox";
 import { useSelector } from "react-redux";
 import ResetBtn from "../Buttons/ResetBtn";
 
@@ -36,7 +36,6 @@ const SliderSelectionRandomise = memo(function SliderSelectionRandomise(props) {
 
   const handleResetBtnSelected = () => {
     setResetSelected(!resetselected);
-    console.log("handleResetBtnSelected");
   };
 
   return (

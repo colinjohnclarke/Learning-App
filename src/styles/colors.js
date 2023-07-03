@@ -38,7 +38,7 @@ export const normalboxstyleHover = {
   transform: "translateY(-3px)",
   color: "black",
   // backgroundColor: "rgba(39, 106, 245, 0.5)",
-  backgroundColor: "red)",
+  backgroundColor: "red",
 };
 
 export const selectedbuttonstyle = {

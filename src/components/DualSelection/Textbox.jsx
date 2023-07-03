@@ -6,12 +6,12 @@ import { device } from "../../styles/breakpoints";
 import {
   correctAnswerSelectedIndex0,
   correctAnswerUNSelectedIndex0,
-} from "../../features/slider/sliderquestiondataSliceIndex0";
+} from "../../features/DualSelection/dualselectionquestiondataSliceIndex0";
 
 import {
   correctAnswerSelectedIndex1,
   correctAnswerUNSelectedIndex1,
-} from "../../features/slider/sliderquestiondataSliceIndex1";
+} from "../../features/DualSelection/dualselectionquestiondataSliceIndex1";
 
 import { useDispatch, useSelector } from "react-redux";
 

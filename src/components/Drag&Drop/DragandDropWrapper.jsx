@@ -5,9 +5,10 @@ function DragandDropWrapper(props) {
   const data = props.order_items_drag_drop;
 
   return data?.map((item, index) => (
-    <div>
-      <DragDropRandomise order_items_drag_drop={item}></DragDropRandomise>
-    </div>
+    <DragDropRandomise
+      key={item._key}
+      order_items_drag_drop={item}
+    ></DragDropRandomise>
   ));
 }
 

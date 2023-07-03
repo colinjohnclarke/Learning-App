@@ -50,8 +50,7 @@ const ClickResponseText = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  // position: relative;
-  // left: 10px;
+
 `;
 
 const Answer = styled.div`

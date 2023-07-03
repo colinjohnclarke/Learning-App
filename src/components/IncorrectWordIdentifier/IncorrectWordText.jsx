@@ -1,14 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import MCQAnswerButtons from "../MCQ/MCQAnswerButtons";
-
 import { PortableText } from "@portabletext/react";
 import imageUrlBuilder from "@sanity/image-url";
 import sanityClient from "../../createclient";
-
 import "animate.css";
-import HelpBtn from "../Buttons/HelpBtn";
-import { fontWeight } from "@mui/system";
 
 function IncorrectWordText(props) {
   const [obj1key0, setObj1key0] = useState({});
@@ -26,11 +22,10 @@ function IncorrectWordText(props) {
   const [word1selected, setWord1Selected] = useState();
   const [word2selected, setWord2Selected] = useState();
 
+  const mcqCheckWord1Ref = useRef(false);
+  const mcqCheckWord2Ref = useRef(false);
+
   const data = props.data;
-  console.log(
-    "🚀 ~ file: IncorrectWordText.jsx:22 ~ IncorrectWordText ~ data:",
-    data
-  );
 
   // word 1
   const MCQ_option_for_replacement_word1 =
@@ -162,8 +157,23 @@ function IncorrectWordText(props) {
     },
   };
 
+  // styles of MCQ
+
+  // before words correctly clicked set to hidden
   let word1mcqstyle = { display: "none" };
   let word2mcqstyle = { display: "none" };
+
+  // words correctly clicked display
+  const displaymcqStyle = {
+    display: "block",
+    transition: "2.5s",
+    backgroundColor: "rgba(0, 200, 200, 0.3)",
+    boxShadow: "rgba(0, 0, 0, 0.15) 0px 3px 3px 0px",
+    padding: "10px",
+    margin: "10px",
+    width: "60%",
+    textAlign: "center",
+  };
 
   let normalTextStyle = { backgroundColor: "white" };
   let correctBtnSelected = {
@@ -173,37 +183,49 @@ function IncorrectWordText(props) {
     textDecoration: "underline",
   };
 
-  const incorrectAnswer1Clicked = () => {
-    setWord1Selected(!word1selected);
+  // scroll function pass in element ref
+  const scrolltoFn = (elementRef) => {
+    elementRef.current?.scrollIntoView({
+      alignToTop: true,
+      behavior: "smooth",
+    });
+  };
 
+  // click handler first word
+  const incorrectAnswer1Clicked = (elementRef) => {
+    setWord1Selected(!word1selected);
     console.log("WORD 1 CLICKED");
+
+    setTimeout(() => {
+      scrolltoFn(elementRef);
+    }, 100);
+    // scrolltoFn(mcqCheckWord1Ref);
   };
 
   if (word1selected) {
-    word1mcqstyle = { display: "block", transition: "2.5s" };
+    word1mcqstyle = displaymcqStyle;
   }
 
-  const incorrectAnswer2Clicked = () => {
+  // click handler second word
+  const incorrectAnswer2Clicked = (elementRef) => {
     setWord2Selected(!word2selected);
-
     console.log("WORD 2 CLICKED");
+    setTimeout(() => {
+      scrolltoFn(elementRef);
+    }, 100);
+    //   scrolltoFn(mcqCheckWord1Ref);
   };
 
   if (word2selected) {
-    word2mcqstyle = {
-      display: "block",
-      transition: "2.5s",
-    };
+    word2mcqstyle = displaymcqStyle;
   }
 
   const mcq1 = (
-    <Mcq style={word1mcqstyle}>
+    <Mcq ref={mcqCheckWord1Ref} style={word1mcqstyle}>
       <p>
         Good! Now which word best fits in place of the word you have selected
         instead of{" "}
-        <strong
-          style={{ color: "green", fontWeight: "bold", textSize: "17px" }}
-        >
+        <strong style={{ color: "red", fontWeight: "bold", textSize: "17px" }}>
           {" "}
           {data.incorrect_word_1}
         </strong>
@@ -229,12 +251,10 @@ function IncorrectWordText(props) {
   );
 
   const mcq2 = (
-    <Mcq style={word2mcqstyle}>
+    <Mcq ref={mcqCheckWord2Ref} style={word2mcqstyle}>
       <p>
         Great, whats the word from these below that should replace{" "}
-        <strong
-          style={{ color: "green", fontWeight: "bold", textSize: "17px" }}
-        >
+        <strong style={{ color: "red", fontWeight: "bold", textSize: "17px" }}>
           {data.incorrect_word_2}?
         </strong>
       </p>
@@ -270,7 +290,7 @@ function IncorrectWordText(props) {
         {data.initial_leading_scentence_word1}
         <IncorrectWord
           style={word1selected ? correctBtnSelected : normalTextStyle}
-          onClick={incorrectAnswer1Clicked}
+          onClick={() => incorrectAnswer1Clicked(mcqCheckWord1Ref)}
         >
           {data.incorrect_word_1}
         </IncorrectWord>{" "}
@@ -278,16 +298,15 @@ function IncorrectWordText(props) {
         {data.initial_leading_scentence_word2}
         <IncorrectWord
           style={word2selected ? correctBtnSelected : normalTextStyle}
-          onClick={incorrectAnswer2Clicked}
+          onClick={() => incorrectAnswer2Clicked(mcqCheckWord2Ref)}
         >
           {" "}
           {data.incorrect_word_2}{" "}
         </IncorrectWord>
         {data.remainder_sentence_word_2}
       </Text>
-
-      <Mcq>{mcq1}</Mcq>
-      <Mcq>{mcq2}</Mcq>
+      {mcq1}
+      {mcq2}
     </Wrapper>
   );
 }
@@ -295,6 +314,7 @@ function IncorrectWordText(props) {
 export default IncorrectWordText;
 
 const Wrapper = styled.div`
+  padding: 5%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -304,8 +324,8 @@ const Wrapper = styled.div`
 const Text = styled.div`
   line-height: 20px;
   text-align: justify;
-  font-size: 15px;
   display: inline;
+  padding: 10px;
 `;
 
 const IncorrectWord = styled.div`
@@ -321,3 +341,25 @@ const Main = styled.div`
 `;
 
 const Mcq = styled.div``;
+
+const Input = styled.input`
+  transition: 0.5s;
+  border-radius: none;
+  text-align: center;
+  border-radius: 0px;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid;
+  margin-left: 3px;
+  margin-right: 3px;
+  height: 20px;
+  min-width: 40px;
+  max-width: 80px;
+  background-color: none;
+
+  &:focus {
+    outline: none;
+    border-bottom: 1px solid;
+  }
+`;
