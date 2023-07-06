@@ -1,5 +1,6 @@
 import React from "react";
 import Plot from "react-plotly.js";
+import { styled } from "styled-components";
 
 // component to generate Line Graph from schema using plotly
 
@@ -71,7 +72,10 @@ function Line(props) {
     yaxis: {
       title: `${linedata.y_axis_name}`,
     },
-    width: "50%",
+    autosize: true,
+    showlegend: true,
+    // height: 400,
+    width: 400,
     font: {
       family: "Montserrat",
       size: 10,
@@ -80,13 +84,19 @@ function Line(props) {
   };
 
   return (
-    <div>
+    <Wrapper>
       <Plot data={linedataarr} layout={layout}></Plot>
-    </div>
+    </Wrapper>
   );
 }
 
 export default Line;
+
+const Wrapper = styled.div`
+  background-color: white;
+
+  width: 100%;
+`;
 
 // defineField({
 //   name: 'line_graph_data',

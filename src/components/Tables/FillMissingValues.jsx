@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import parse from "html-react-parser";
 import { colors } from "../../styles/colors";
+import Score from "../scores/Score";
 
 function FillMissingValuesTable(props) {
   const [data, setData] = useState({});
@@ -64,10 +65,13 @@ function FillMissingValuesTable(props) {
 
   return (
     <Wrapper>
+      <Score></Score>
       {grapharr?.map((item, index) => {
         return (
           <Main key={item._key}>
-            <p>{item.question}</p>
+            <p style={{ padding: "10px", textAlign: "center" }}>
+              {item.question}
+            </p>
 
             {parse(item.html_string, {
               replace: (domNode) => {
@@ -126,11 +130,13 @@ function FillMissingValuesTable(props) {
 export default FillMissingValuesTable;
 
 const Wrapper = styled.div`
+  padding-top: 50px;
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
 `;
 
 const Input = styled.input`

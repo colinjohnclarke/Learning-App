@@ -51,14 +51,13 @@ const Item = styled.div`
   justify-content: center;
   text-align: center;
   box-shadow: rgba(0, 200, 200, 0.39) 0px 2px 4px inset,
-    0 0 0 2px rgba(0, 200, 200, 0.39) inset, 0 8px 0 0 rgba(39, 106, 245, 0.3),
-    0 8px 0 1px rgba(39, 106, 245, 0.3), 0 8px 8px 1px rgba(39, 106, 245, 0.3);
+    0 0 0 2px rgba(0, 200, 200, 0.39) inset;
 
   height: 80px;
   margin: 4%;
   max-width: 700px;
   border-radius: 20px;
-  background-color: white;
+  // background-color: white;
 
   &:hover {
     transform: translateY(-2px);
@@ -79,6 +78,8 @@ const Text = styled.div`
   border-radius: 20px;
 
   p {
-    font-size: 14px;
+    font-size: 15px;
+    padding-left: 4px;
+    padding-right: 4px;
   }
 `;

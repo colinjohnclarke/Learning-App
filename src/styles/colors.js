@@ -1,19 +1,30 @@
 export const colors = {
-  correctColor: "rgba(137, 240, 158, 0.34)",
-  incorrectColor: "rgba(240, 137, 137, 0.34)",
+  correctColor: "rgba(137, 240, 158, 0.9)",
+  incorrectColor: "rgba(240, 137, 137, 0.9)",
   normalInputColor: "white",
 };
 
 export const correctstyle = {
+  display: "flex",
+  flexDirection: "row",
+  position: "relative",
+  justifyContent: "space-between",
+
   paddingBottom: "0",
   transition: "0.3s",
-  color: "green",
+  color: "white",
   boxShadow:
     "0 0 0 1px #6698cb inset, 0 0 0 2px rgba(255,255,255,0.15) inset, 0 8px 0 0 rgba(137, 240, 158, 0.34), 0 8px 0 1px rgba(0,0,0,.4),0 8px 8px 1px rgba(0,0,0,0.5)",
 
   backgroundColor: "rgba(137, 240, 158, 0.34)",
+  border: "1px solid green",
 };
 export const incorrectstyle = {
+  display: "flex",
+  flexDirection: "row",
+  position: "relative",
+  justifyContent: "space-between",
+
   paddingBottom: "0",
   color: "red",
   boxShadow:

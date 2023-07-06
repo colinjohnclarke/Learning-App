@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { device } from "../../styles/breakpoints";
 import { useDispatch, useSelector } from "react-redux";
-import SliderTextbox from "./Textbox";
+import Textbox from "./Textbox";
 import { resetSliderSelectionIndex0 } from "../../features/DualSelection/dualselectionquestiondataSliceIndex0";
 import { resetSliderSelectionIndex1 } from "../../features/DualSelection/dualselectionquestiondataSliceIndex1";
 
-function Slider(props) {
+function DualBox(props) {
   const [leftselected, setLeftSelected] = useState(false);
   const [rightselected, setRightSelected] = useState(false);
 
@@ -54,12 +54,12 @@ function Slider(props) {
           setLeftSelected(!leftselected);
         }}
       >
-        <SliderTextbox
+        <Textbox
           index={index}
           isSelected={leftselected}
           isCorrect={sliderLeftIsCorrect}
           text={textleft}
-        ></SliderTextbox>
+        ></Textbox>
       </LeftBox>
       {/* right */}
       <RightBox
@@ -67,26 +67,28 @@ function Slider(props) {
           setRightSelected(!rightselected);
         }}
       >
-        <SliderTextbox
+        <Textbox
           index={index}
           isSelected={rightselected}
           isCorrect={sliderRightIsCorrect}
           text={textright}
-        ></SliderTextbox>
+        ></Textbox>
       </RightBox>
     </Wrapper>
   );
 }
 
-export default Slider;
+export default DualBox;
 
 const LeftBox = styled.div`
-  width: 48%;
+  padding-left: 5px;
+  width: 46%;
   border-radius: 20px;
 `;
 
 const RightBox = styled.div`
-  width: 48%;
+  padding-right: 5px;
+  width: 46%;
   border-radius: 20px;
 `;
 

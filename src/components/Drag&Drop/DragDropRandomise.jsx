@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ResetBtn from "../Buttons/ResetBtn";
+import Score from "../scores/Score";
 
 import DragandDropMain from "./DragandDropMain";
 
@@ -53,7 +54,8 @@ function DragDropRandomise(props) {
   //  place in a use effect to allow re- render on reset
 
   return (
-    <Main>
+    <Wrapper>
+      <Score></Score>
       <DragandDropMain
         reset={reset}
         randomisedorderitemsarr={sorted}
@@ -67,17 +69,19 @@ function DragDropRandomise(props) {
 
         <h1>{count}</h1>
       </ResetBtn>
-    </Main>
+    </Wrapper>
   );
 }
 
 export default DragDropRandomise;
 
-const Main = styled.div`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
+  padding-top: 40px;
 `;
 
 const Btn = styled.button`

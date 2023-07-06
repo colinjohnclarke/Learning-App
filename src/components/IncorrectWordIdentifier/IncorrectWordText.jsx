@@ -5,6 +5,7 @@ import { PortableText } from "@portabletext/react";
 import imageUrlBuilder from "@sanity/image-url";
 import sanityClient from "../../createclient";
 import "animate.css";
+import Score from "../scores/Score";
 
 function IncorrectWordText(props) {
   const [obj1key0, setObj1key0] = useState({});
@@ -134,11 +135,13 @@ function IncorrectWordText(props) {
   const myPortableTextComponents = {
     types: {
       image: (props) => (
-        <div>
+        <Image>
           <img
             style={{
               maxWidth: "400px",
-              width: "100%",
+              width: "70%",
+              // padding: "10px",
+              // margin: "10px",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -146,7 +149,7 @@ function IncorrectWordText(props) {
             src={imgurlFor(props.value.asset)}
             alt={data.pic_alt}
           />
-        </div>
+        </Image>
       ),
       marks: {
         // Ex. 1: custom renderer for the em / italics decorator
@@ -279,7 +282,11 @@ function IncorrectWordText(props) {
 
   return (
     <Wrapper>
-      {/* { `There are ${} incorrect words in the text below, find them and click!`} */}
+      <Score></Score>
+      <p style={{ textAlign: "center" }}>
+        {`There are incorrect words in the text below, find them and
+        click!`}
+      </p>
       <Main>
         <PortableText
           value={data.picture}
@@ -314,11 +321,12 @@ function IncorrectWordText(props) {
 export default IncorrectWordText;
 
 const Wrapper = styled.div`
-  padding: 5%;
+  padding-top: 50px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
 `;
 
 const Text = styled.div`
@@ -326,6 +334,13 @@ const Text = styled.div`
   text-align: justify;
   display: inline;
   padding: 10px;
+`;
+
+const Image = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const IncorrectWord = styled.div`

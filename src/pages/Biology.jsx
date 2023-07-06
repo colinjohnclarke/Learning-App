@@ -5,19 +5,19 @@ import imageUrlBuilder from "@sanity/image-url";
 import sanityClient from "../createclient";
 import styled from "styled-components";
 import MCQ from "../components/MCQ/MCQ";
-import StudentInputForm from "../components/SingleStudentInput/StudentInputForm";
-import ClickIncorrectWord from "../components/ClickIncorrectWord/ClickIncorrectWord";
+import StudentTextInputWrapper from "../components/SingleStudentInput/StudentTextInputWrapper";
 import SliderSelection from "../components/DualSelection/DualBoxSelection";
-import SliderSelectionRandomise from "../components/DualSelection/DualBoxSelectionRandomise";
+import DualBoxSelectionWrapper from "../components/DualSelection/DualBoxSelectionWrapper";
 import DragandDropWrapper from "../components/Drag&Drop/DragandDropWrapper";
 import ContinueBtn from "../components/Buttons/ContinueBtn";
-import GapFill from "../components/GapFill/GapFill";
+import GapFillWrapper from "../components/GapFill/GapFillWrapper";
 import IncorrectWordWrapper from "../components/IncorrectWordIdentifier/IncorrectWordWrapper";
 import FillMissingValuesTable from "../components/Tables/FillMissingValues";
 import LineChart from "../components/Charts/Line/LineChart";
 import LargeTable from "../components/Tables/TableFromLineData";
 import Scatter from "../components/Charts/Scatter/Scatter";
 import MovingSliderWrapper from "../components/MovingSlider/MovingSliderWrapper";
+import Test from "../components/TestingContext/Test";
 
 function Biology() {
   const [data, setData] = useState({});
@@ -57,9 +57,8 @@ function Biology() {
     sanityClient
       .fetch(
         `*[_type == "${content_from_api}" && name == "${content_name}" ] 
-        { subject_skills[]->, slider, 
-          click_incorrect_words_main_text_body,incorrect_words_from_text, order_items_drag_drop, 
-                    name, tags, textblock1, textblock2, hint, problem_keywords[]->,  example_problem, MCQ_INPUTS, student_input_test_question, teacher_feedback_comment, acceptable_answers, gap_fill, incorrect_words_from_text, table, line_graph_data, 
+        { subject_skills[]->, slider, incorrect_words_from_text, order_items_drag_drop, 
+                    name, tags, textblock1, textblock2, hint, problem_keywords[]->,  example_problem, MCQ_INPUTS, student_text_input, gap_fill, incorrect_words_from_text, table, line_graph_data, 
                     standard_tables,standard_table_variable_names 
                     }`
       )
@@ -80,23 +79,25 @@ function Biology() {
   const standard_table_variable_names = data.standard_table_variable_names;
   const standard_tables = data.standard_tables;
 
+  const student_text_input = data.student_text_input;
+
   const table = data.table;
 
   const line_graph_data = data.line_graph_data;
 
   const [item0displayed, setitemOdisplayed] = useState(true);
-  const [item1displayed, setitem1displayed] = useState(false);
-  const [item2displayed, setitem2displayed] = useState(false);
-  const [item3displayed, setitem3displayed] = useState(false);
-  const [item4displayed, setitem4displayed] = useState(false);
-  const [item5displayed, setitem5displayed] = useState(false);
-  const [item6displayed, setitem6displayed] = useState(false);
-  const [item7displayed, setitem7displayed] = useState(false);
-  const [item8displayed, setitem8displayed] = useState(false);
-  const [item9displayed, setitem9displayed] = useState(false);
-  const [item10displayed, setitem10displayed] = useState(false);
-  const [item11displayed, setitem11displayed] = useState(false);
-  const [item12displayed, setitem12displayed] = useState(false);
+  const [item1displayed, setitem1displayed] = useState(true);
+  const [item2displayed, setitem2displayed] = useState(true);
+  const [item3displayed, setitem3displayed] = useState(true);
+  const [item4displayed, setitem4displayed] = useState(true);
+  const [item5displayed, setitem5displayed] = useState(true);
+  const [item6displayed, setitem6displayed] = useState(true);
+  const [item7displayed, setitem7displayed] = useState(true);
+  const [item8displayed, setitem8displayed] = useState(true);
+  const [item9displayed, setitem9displayed] = useState(true);
+  const [item10displayed, setitem10displayed] = useState(true);
+  const [item11displayed, setitem11displayed] = useState(true);
+  const [item12displayed, setitem12displayed] = useState(true);
 
   const displayedArr = [
     item0displayed,
@@ -147,10 +148,12 @@ function Biology() {
   const item0 = (
     <Item>
       <Container>
-        <PortableText
-          value={block1}
-          components={myPortableTextComponents}
-        ></PortableText>
+        <PortableTextWrapper>
+          <PortableText
+            value={block1}
+            components={myPortableTextComponents}
+          ></PortableText>
+        </PortableTextWrapper>
         <ContinueBtn
           onClick={() => {
             setitem1displayed(true);
@@ -179,7 +182,7 @@ function Biology() {
   const item2 = (
     <Item ref={item2listRef}>
       <Container>
-        <StudentInputForm data={data} />
+        <StudentTextInputWrapper data={student_text_input} />
         <ContinueBtn
           onClick={() => {
             setitem3displayed(true);
@@ -193,7 +196,7 @@ function Biology() {
   const item3 = (
     <Item ref={item3listRef}>
       <Container>
-        <SliderSelection slider={slider} />
+        <DualBoxSelectionWrapper slider={slider} />
         <ContinueBtn
           onClick={() => {
             setitem4displayed(true);
@@ -223,7 +226,7 @@ function Biology() {
   const item5 = (
     <Item ref={item5listRef}>
       <Container>
-        <GapFill data={gap_fill}></GapFill>
+        <GapFillWrapper data={gap_fill}></GapFillWrapper>
         <ContinueBtn
           onClick={() => {
             setitem6displayed(true);
@@ -282,20 +285,22 @@ function Biology() {
   const item9 = (
     <Item ref={item9listRef}>
       <Container>
-        <LargeTable
-          standard_tables={standard_tables}
-          standard_table_variable_names={standard_table_variable_names}
-        ></LargeTable>
-        <Scatter
-          standard_tables={standard_tables}
-          standard_table_variable_names={standard_table_variable_names}
-        ></Scatter>
-        <ContinueBtn
-          onClick={() => {
-            setitem10displayed(true);
-            handleContinueBtnClicked(item10listRef);
-          }}
-        />
+        {/* <div style={{}}>
+          <LargeTable
+            standard_tables={standard_tables}
+            standard_table_variable_names={standard_table_variable_names}
+          ></LargeTable>
+          <Scatter
+            standard_tables={standard_tables}
+            standard_table_variable_names={standard_table_variable_names}
+          ></Scatter>
+          <ContinueBtn
+            onClick={() => {
+              setitem10displayed(true);
+              handleContinueBtnClicked(item10listRef);
+            }}
+          />
+        </div> */}
       </Container>
     </Item>
   );
@@ -330,18 +335,18 @@ function Biology() {
   );
 
   const itemlist = [
-    item0,
+    // item0,
     item1,
-    item2,
-    item3,
-    item4,
-    item5,
-    item6,
-    item7,
-    item8,
-    item9,
-    item10,
-    item11,
+    // item2,
+    // item3,
+    // item4,
+    // item5,
+    // item6,
+    // item7,
+    // item8,
+    // item9,
+    // item10,
+    // item11,
   ];
 
   displayedArr.forEach((item, i) => {
@@ -365,13 +370,11 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 4px;
-  background-color: white;
+  background-color: rgb(255, 255, 255);
   box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
-  max-width: 900px;
-  width: 100%;
+
+  // width: 100%;
   min-width: 300px;
-  margin: 20px;
-  padding: 5px;
   position: relative;
 `;
 
@@ -379,14 +382,24 @@ const Item = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+    rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+
+  margin-top: 5px;
+  margin-bottom: 5px;
+  // border-radius: 4px;
 `;
 
 const Wrapper = styled.div`
-  width: 100%;
-  height: 100%;
+  padding: 7px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  // position: absolute;
+`;
+
+const PortableTextWrapper = styled.div`
+  margin: 5px;
 `;
 
 /* <ClickIncorrectWord

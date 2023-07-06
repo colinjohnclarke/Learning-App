@@ -1,12 +1,24 @@
 import { fontWeight } from "@mui/system";
-import React from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
+import {
+  CurrentMCQScoreContext,
+  ItemClickedisCorrect,
+} from "../MCQ/CurrentMCQScoreContext";
+import "animate.css";
 
 function Score(props) {
+  // const { currentScore } = useContext(CurrentMCQScoreContext);
+
+  // const { selectionisCorrect } = useContext(ItemClickedisCorrect);
+
+  const maxscore = 1;
+
   return (
     <Wrapper>
       <p style={{ fontSize: "16px", fontWeight: "bold" }}>
-        <sup>2</sup> &#8260; <sub>3</sub>
+        <sup>{}</sup> &#8260; <sub>{maxscore}</sub>
+        {/* <p>{selectionisCorrect}</p> */}
       </p>
     </Wrapper>
   );

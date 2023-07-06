@@ -8,8 +8,7 @@ import TestSanity from "./pages/TestSanity";
 import TextandImage from "./pages/TextandImage";
 import Biology from "./pages/Biology";
 import Maths from "./pages/Maths";
-
-import ClickIncorrectWord from "./components/ClickIncorrectWord/ClickIncorrectWord";
+import Test from "./components/TestingContext/Test";
 
 // import BarChart from "./components/Charts/BarChart";
 

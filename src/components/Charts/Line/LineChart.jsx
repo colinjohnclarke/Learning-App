@@ -8,20 +8,12 @@ import styled from "styled-components";
 function LineChart(props) {
   const data = props.data;
 
-  return (
-    <Wrapper>
-      {data?.map((item, index) => {
-        return <Line key={item._key} index={index} data={item}></Line>;
-      })}
-    </Wrapper>
-  );
+  return data?.map((item, index) => {
+    return <Line key={item._key} index={index} data={item}></Line>;
+  });
 }
 
 export default LineChart;
-
-const Wrapper = styled.div`
-  width: 100%;
-`;
 
 // defineField({
 //   name: 'line_graph_data',

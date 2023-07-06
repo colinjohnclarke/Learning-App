@@ -10,6 +10,7 @@ import "animate.css";
 import DragandDropItem from "./DragandDropItem";
 import { device } from "../../styles/breakpoints";
 import HelpBtn from "../Buttons/HelpBtn";
+import Score from "../scores/Score";
 
 function DragandDropMain(props) {
   const [introduction, setIntroduction] = useState([]);
@@ -161,13 +162,9 @@ const Wrapper = styled.div`
     font-size: 15px;
   }
 
-
-  @media ${device.mobileS} {
-    width: 100%;
-    p {
-      font-size: 16px;
-    }
-
-
-
+  // @media ${device.mobileS} {
+  //   width: 100%;
+  //   p {
+  //     font-size: 16px;
+  //   }
 `;

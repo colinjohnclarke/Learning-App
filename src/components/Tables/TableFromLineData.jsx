@@ -58,7 +58,7 @@ function LargeTable(props) {
   return (
     <div>
       {/* On div wrapping Grid a) specify theme CSS Class Class and b) sets Grid size */}
-      <div className="ag-theme-alpine" style={{ width: 400, height: 400 }}>
+      <div className="ag-theme-alpine" style={{ height: 400 }}>
         <AgGridReact
           rowData={tableDatatoRender} // Row Data for Rows
           columnDefs={columnDefs} // Column Defs for Columns

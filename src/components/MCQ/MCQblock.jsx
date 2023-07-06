@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import MCQAnswerButtons from "./MCQAnswerButtons";
 
 function MCQblock(props) {
@@ -10,6 +10,7 @@ function MCQblock(props) {
   const [objkey3, setObjkey3] = useState({});
 
   const getprops = props.item;
+  const index = props.index;
 
   const randomise = (getprops) => {
     const nu1 = Math.random();
@@ -39,26 +40,32 @@ function MCQblock(props) {
     setObjkey3(sorted[3]);
   };
 
-  useEffect(() => {
-    randomise(getprops);
-  }, [props]);
+  // useEffect(() => {
+  //   randomise(getprops);
+  // }, []);
+
+  const randomisefun = useMemo(() => randomise(getprops), [getprops]);
 
   return (
     <div>
       <MCQAnswerButtons
-        iscorrect={objkey0.isCorrect}
+        index={index}
+        isCorrect={objkey0.isCorrect}
         text={objkey0.value}
       ></MCQAnswerButtons>
       <MCQAnswerButtons
-        iscorrect={objkey1.isCorrect}
+        index={index}
+        isCorrect={objkey1.isCorrect}
         text={objkey1.value}
       ></MCQAnswerButtons>
       <MCQAnswerButtons
-        iscorrect={objkey2.isCorrect}
+        index={index}
+        isCorrect={objkey2.isCorrect}
         text={objkey2.value}
       ></MCQAnswerButtons>
       <MCQAnswerButtons
-        iscorrect={objkey3.isCorrect}
+        index={index}
+        isCorrect={objkey3.isCorrect}
         text={objkey3.value}
       ></MCQAnswerButtons>
     </div>

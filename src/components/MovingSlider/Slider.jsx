@@ -185,9 +185,7 @@ function Slider(props) {
               <p style={{ fontSize: "12px" }}>
                 ISSELECTED: {JSON.stringify(rightisselected)}
               </p> */}
-              <p style={{ fontSize: "12px" }}>
-                {textright} {JSON.stringify(correctanswerArr)}
-              </p>
+              <p style={{ fontSize: "12px" }}>{textright}</p>
             </Text>
           </Box>
 
@@ -217,24 +215,24 @@ const Wrapper = styled.div`
 
 const Outer = styled.div`
   background-color: white;
-  height: 100px;
-  max-width: 600px;
-  width: 100%;
-  margin: 10px;
+  height: 70px;
+  width: 90vw;
+  max-width: 500px;
   border-radius: 40px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  margin: 8px;
   position: relative;
   box-shadow: rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
-    rgba(0, 0, 0, 0.2) 0px -3px 0px inset, rgba(0, 0, 0, 0.2) 0px 5px 10px;
+    rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 `;
 
 const Box = styled.div`
   max-width: 500px;
-  height: 100px;
-  width: 300px;
+  height: 70px;
+  width: 50%;
   border-radius: 40px;
   display: flex;
   flex-direction: row;
@@ -243,7 +241,7 @@ const Box = styled.div`
 `;
 
 const Text = styled.p`
-  padding: 10px;
+  padding: 6px;
   position: relative;
   z-index: 20;
   font-size: 15px;
@@ -251,4 +249,5 @@ const Text = styled.p`
 
 const MovingBox = styled.div`
   opacity: 0.8;
+  height: 70px;
 `;

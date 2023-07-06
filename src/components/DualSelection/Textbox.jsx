@@ -23,7 +23,7 @@ import {
   normalboxstyleHover,
 } from "../../styles/colors";
 
-function SliderTextbox(props) {
+function Textbox(props) {
   const text = props.text;
   const isCorrect = props.isCorrect;
   let isSelected = props.isSelected;
@@ -110,18 +110,26 @@ function SliderTextbox(props) {
     content = <></>;
   }
 
+  const whiteText = {
+    color: "white",
+  };
+
+  const normalText = {
+    color: "",
+  };
+
   return (
-    <TextBox style={index === 0 ? style : styleindex1}>
-      <Text>{text}</Text>
+    <Box style={index === 0 ? style : styleindex1}>
+      <Text style={isSelected ? whiteText : normalText}>{text}</Text>
 
       <div>{content}</div>
-    </TextBox>
+    </Box>
   );
 }
 
-export default SliderTextbox;
+export default Textbox;
 
-const TextBox = styled.div`
+const Box = styled.div`
   transition: 0.3s;
   text-align: center;
   box-shadow: rgba(0, 200, 200, 0.39) 0px 2px 4px inset,
@@ -139,7 +147,6 @@ const TextBox = styled.div`
   flex-direction: column;
   max-width: 700px;
   border-radius: 20px;
-  background-color: white;
 
   &:hover {
     transform: translateY(-2px);
