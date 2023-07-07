@@ -2,8 +2,8 @@ import React, { useContext, useMemo, useState } from "react";
 import styled from "styled-components";
 import MCQblock from "./MCQblock";
 import MCQTeacherResponse from "./MCQTeacherResponse";
-import Score from "../scores/Score";
-import { MCQcontext } from "./CurrentMCQScoreContext";
+import ScoreMCQ from "../scores/ScoreMCQ";
+import { MCQcontext } from "./MCQContext";
 
 function MCQ({ data }) {
   // const length = data?.length;
@@ -12,12 +12,29 @@ function MCQ({ data }) {
   // const CurrentMCQScoreContext = useContext(CurrentMCQScoreContext);
   // const [currentScore, setCurrentScore] = useState(0);
   // const [selectionisCorrect, setSelectionIsCorrect] = useState(false);
+
+  const [index0ItemClickedisCorrect, setindex0ItemClickedIsCorrect] =
+    useState(false);
+
+  const [index1ItemClickedisCorrect, setindex1ItemClickedIsCorrect] =
+    useState(false);
+
   const [index0ItemClickedisInCorrect, setIndex0ItemSelectionIsInCorrect] =
     useState(false);
 
   const [index1ItemClickedisInCorrect, setIndex1ItemSelectionIsInCorrect] =
     useState(false);
 
+  const contextObj = {
+    index0ItemClickedisCorrect,
+    setindex0ItemClickedIsCorrect,
+    index1ItemClickedisCorrect,
+    setindex1ItemClickedIsCorrect,
+    index0ItemClickedisInCorrect,
+    setIndex0ItemSelectionIsInCorrect,
+    index1ItemClickedisInCorrect,
+    setIndex1ItemSelectionIsInCorrect,
+  };
   // const providerValue = useMemo(
   //   () => ({ currentScore, setCurrentScore }),
   //   [currentScore, setCurrentScore]
@@ -28,16 +45,9 @@ function MCQ({ data }) {
       {data?.map((item, index) => {
         return (
           <Main key={item._key}>
-            <Score />
             <Question>{item.question}</Question>
-            <MCQcontext.Provider
-              value={{
-                index0ItemClickedisInCorrect,
-                setIndex0ItemSelectionIsInCorrect,
-                index1ItemClickedisInCorrect,
-                setIndex1ItemSelectionIsInCorrect,
-              }}
-            >
+            <MCQcontext.Provider value={contextObj}>
+              <ScoreMCQ index={index} />
               <MCQblock item={item} index={index} />
             </MCQcontext.Provider>
 
@@ -62,5 +72,5 @@ const Main = styled.div`
 `;
 
 const Question = styled.div`
-  padding-top: 50px;
+  padding-top: 40px;
 `;

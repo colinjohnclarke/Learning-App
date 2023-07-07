@@ -6,7 +6,6 @@ import sanityClient from "../../createclient";
 import { correctstyle } from "../../styles/colors";
 import "animate.css";
 import HelpBtn from "../Buttons/HelpBtn";
-import Score from "../scores/Score";
 
 import { BiHelpCircle } from "react-icons/bi";
 
@@ -109,8 +108,6 @@ function GapFill(props) {
 
   return (
     <Wrapper>
-      <Score></Score>
-
       <Image>
         <PortableText
           value={item.picture}

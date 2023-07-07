@@ -5,7 +5,6 @@ import { PortableText } from "@portabletext/react";
 import imageUrlBuilder from "@sanity/image-url";
 import sanityClient from "../../createclient";
 import "animate.css";
-import Score from "../scores/Score";
 
 function IncorrectWordText(props) {
   const [obj1key0, setObj1key0] = useState({});
@@ -282,7 +281,6 @@ function IncorrectWordText(props) {
 
   return (
     <Wrapper>
-      <Score></Score>
       <p style={{ textAlign: "center" }}>
         {`There are incorrect words in the text below, find them and
         click!`}

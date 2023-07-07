@@ -2,7 +2,9 @@ import React from "react";
 import styled from "styled-components";
 
 function MCQbtn({ children, ...atributes }) {
-  return <Btn></Btn>;
+  console.log("children", children);
+
+  return <Btn disabled="true"></Btn>;
 }
 
 export default MCQbtn;

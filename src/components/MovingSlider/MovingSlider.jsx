@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Slider from "./Slider";
 import styled from "styled-components";
-import Score from "../scores/Score";
 
 function MovingSlider(props) {
   const [resetselected, setResetSelected] = useState(false);
@@ -40,7 +39,6 @@ function MovingSlider(props) {
 
   return (
     <Wrapper>
-      <Score></Score>
       <p>{sliderData.question}</p>
       <Slider
         resetselected={resetselected}

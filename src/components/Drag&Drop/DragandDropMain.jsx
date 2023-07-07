@@ -10,7 +10,6 @@ import "animate.css";
 import DragandDropItem from "./DragandDropItem";
 import { device } from "../../styles/breakpoints";
 import HelpBtn from "../Buttons/HelpBtn";
-import Score from "../scores/Score";
 
 function DragandDropMain(props) {
   const [introduction, setIntroduction] = useState([]);

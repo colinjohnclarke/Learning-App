@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import parse from "html-react-parser";
 import { colors } from "../../styles/colors";
-import Score from "../scores/Score";
 
 function FillMissingValuesTable(props) {
   const [data, setData] = useState({});
@@ -65,7 +64,6 @@ function FillMissingValuesTable(props) {
 
   return (
     <Wrapper>
-      <Score></Score>
       {grapharr?.map((item, index) => {
         return (
           <Main key={item._key}>

@@ -6,7 +6,7 @@ import MCQbtn from "../Buttons/MainActionBtn";
 import { TiTickOutline } from "react-icons/ti";
 import { RxCross2 } from "react-icons/rx";
 import "animate.css";
-import { MCQcontext } from "./CurrentMCQScoreContext";
+import { MCQcontext } from "./MCQContext";
 
 const MCQAnswerButtons = (props) => {
   const [buttonstyle, setButtonStyle] = useState({});
@@ -15,20 +15,21 @@ const MCQAnswerButtons = (props) => {
   const [animateIndex1, setAnimateIncorrectAnswerIndex1] = useState(false);
   const [animateclass, setAnimateClass] = useState("");
   const [textstyle, setTextStyle] = useState({});
+  const [correctbuttondisabled, setCorrectButtonDisabled] = useState(false);
 
   const [buttonClicked, setButtonClicked] = useState(false);
   // const [correctanswerSelected, setCorrectAnswerSelcted] = useState(false);
 
-  const { currentScore, setCurrentScore } = useContext(MCQcontext);
-  // const { selectionisCorrect, setSelectionIsCorrect } = useContext(
-  //   Index0ItemClickedisCorrect
-  // );
-
-  const { index0ItemClickedisInCorrect, setIndex0ItemSelectionIsInCorrect } =
-    useContext(MCQcontext);
-
-  const { index1ItemClickedisInCorrect, setIndex1ItemSelectionIsInCorrect } =
-    useContext(MCQcontext);
+  const {
+    index0ItemClickedisCorrect,
+    setindex0ItemClickedIsCorrect,
+    index1ItemClickedisCorrect,
+    setindex1ItemClickedIsCorrect,
+    index0ItemClickedisInCorrect,
+    setIndex0ItemSelectionIsInCorrect,
+    index1ItemClickedisInCorrect,
+    setIndex1ItemSelectionIsInCorrect,
+  } = useContext(MCQcontext);
 
   // get props
   const index = props.index;
@@ -36,8 +37,10 @@ const MCQAnswerButtons = (props) => {
 
   const onPressed = () => {
     setButtonClicked((val) => !val);
-    if (itemisCorrect) {
-      // setSelectionIsCorrect((prev) => true);
+    if (itemisCorrect && index === 0) {
+      setindex0ItemClickedIsCorrect((val) => true);
+    } else if (itemisCorrect && index === 1) {
+      setindex1ItemClickedIsCorrect((val) => true);
     } else if (!itemisCorrect && index === 0) {
       setIndex0ItemSelectionIsInCorrect((prevVal) => true);
       console.log("index 0 clicked");
@@ -93,14 +96,14 @@ const MCQAnswerButtons = (props) => {
       setClickResponseText(itemisCorrect ? <TiTickOutline /> : "");
       setTextStyle((val) => correctfontstyle);
     }
-  }, [index0ItemClickedisInCorrect]);
+  }, [index0correctansweselected]);
 
   // if incorrect answer clicked for index 0 and animate incorrect
   useEffect(() => {
     if (!itemisCorrect && buttonClicked && index === 0) {
       setAnimateIncorrectAnswerIndex0((val) => true);
     }
-  }, [index0ItemClickedisInCorrect]);
+  }, [index0correctansweselected]);
 
   useEffect(() => {
     if (!itemisCorrect && index0ItemClickedisInCorrect && index === 0) {
@@ -145,10 +148,26 @@ const MCQAnswerButtons = (props) => {
     }
   }, [buttonClicked]);
 
+  // disable correct buttons when selection is made
+  useEffect(() => {
+    if (index === 0) setCorrectButtonDisabled((val) => !val);
+  }, [index0ItemClickedisInCorrect, index0ItemClickedisInCorrect]);
+
+  // disable correct buttons when selection is made
+  useEffect(() => {
+    if (index === 1) setCorrectButtonDisabled((val) => !val);
+  }, [index1ItemClickedisInCorrect, index1ItemClickedisInCorrect]);
+
   return (
     <Wrapper>
-      <MCQbtn className={animateclass} style={buttonstyle} onClick={onPressed}>
+      <MCQbtn
+        disabled={correctbuttondisabled}
+        className={animateclass}
+        style={buttonstyle}
+        onClick={onPressed}
+      >
         <Box></Box>
+
         <Answer style={textstyle}>{props.text}</Answer>
         <ClickResponseText>{clickResponseText}</ClickResponseText>
       </MCQbtn>
@@ -159,7 +178,6 @@ const MCQAnswerButtons = (props) => {
 export default MCQAnswerButtons;
 
 const Wrapper = styled.div`
-
   display: flex;
   flex-direction: column;
   justify-content: center;

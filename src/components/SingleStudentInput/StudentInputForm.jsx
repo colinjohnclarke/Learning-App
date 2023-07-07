@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import styled from "styled-components";
@@ -6,7 +6,8 @@ import Slide from "@mui/material/Slide";
 import { colors } from "../../styles/colors";
 import MainActionBtn from "../Buttons/MainActionBtn";
 import { BiHelpCircle } from "react-icons/bi";
-import Score from "../scores/Score";
+import ScoreTextInput from "../scores/ScoreTextInput";
+import { TextInputContext } from "./TextInputContext";
 
 // sanity imports
 import sanityClient from "../../createclient";
@@ -21,13 +22,30 @@ function StudentInputForm(props) {
 
   const data = props.data;
 
+  const index = props.index;
+
   //constants
+
+  // context varibles
+
+  const {
+    index0AnswerisCorrect,
+    setIndex0AnswerisCorrect,
+
+    index0AnswerisInCorrect,
+    setIndex0AnswerisInCorrect,
+
+    index1AnswerisCorrect,
+    setIndex1AnswerisCorrect,
+
+    index1AnswerisInCorrect,
+    setIndex1AnswerisInCorrect,
+  } = useContext(TextInputContext);
 
   // user input state
 
   const [input, setInput] = useState("");
   const inputlength = input.length;
-  const [isCorrect, setIsCorrect] = useState("");
   const [selectedinputcolor, setSelectedInputColor] = useState("");
   const [textfieldlabel, setTextFieldLabel] = useState("What's your answer?");
   const [isShowingFeedback, setIsShowingFeedback] = useState(false);
@@ -62,18 +80,42 @@ function StudentInputForm(props) {
 
       // update text field responses as state depending on correct answer being provided, text response provided and colors of box highlight correct or not
 
-      if (check_answer === undefined) {
-        setIsCorrect(false);
-        console.log("false");
+      if (check_answer === undefined && index === 0) {
+        // set new context value for Score to update if incorrect
+        setIndex0AnswerisInCorrect((val) => true);
+
+        //
+
         setSelectedInputColor(colors.incorrectColor);
-        setTextFieldLabel("Not right keep trying!");
-        setIsShowingFeedback(true);
-      } else {
-        setIsCorrect(true);
-        console.log(true);
+        setTextFieldLabel((val) => "Not right keep trying!");
+        setIsShowingFeedback((val) => true);
+      } else if (check_answer && index === 0) {
+        // set new context value for Score to update if Correct
+        setIndex0AnswerisCorrect((val) => true);
+
+        //
+
         setSelectedInputColor(colors.correctColor);
         setTextFieldLabel("Correct! Great work :) ");
-        setIsShowingFeedback(true);
+        setIsShowingFeedback((val) => true);
+      } else if (check_answer === undefined && index === 1) {
+        // set new context value for Score to update if incorrect
+        setIndex1AnswerisInCorrect((val) => true);
+
+        //
+
+        setSelectedInputColor((val) => colors.incorrectColor);
+        setTextFieldLabel((val) => "Not right keep trying!");
+        setIsShowingFeedback((val) => true);
+      } else if (check_answer && index === 1) {
+        // set new context value for Score to update if Correct
+        setIndex1AnswerisCorrect((val) => true);
+
+        //
+
+        setSelectedInputColor(colors.correctColor);
+        setTextFieldLabel("Correct! Great work :) ");
+        setIsShowingFeedback((val) => true);
       }
     }
   };
@@ -124,8 +166,9 @@ function StudentInputForm(props) {
   };
   return (
     <Wrapper>
-      <Score></Score>
+      <ScoreTextInput index={index}></ScoreTextInput>
       <Question>{question}</Question>
+
       <PortableText
         value={image}
         components={myPortableTextComponents}
@@ -137,10 +180,10 @@ function StudentInputForm(props) {
         <BiHelpCircle style={{ width: "70px" }} />
         {hint}
       </Hint>
-      <form onSubmit={handleSubmit}>
+      <form style={{ fontFamily: "Montserrat" }} onSubmit={handleSubmit}>
         <TextField
           // color="secondary"
-          style={{}}
+          style={{ fontFamily: "Montserrat" }}
           sx={{ backgroundColor: selectedinputcolor }}
           onChange={handleChange}
           type="text"
@@ -148,9 +191,9 @@ function StudentInputForm(props) {
         ></TextField>{" "}
         <MainActionBtn type="submit"> Check</MainActionBtn>
       </form>
-      <Slide direction="left" in={isShowingFeedback} mountOnEnter unmountOnExit>
+      {/* <Slide direction="left" in={isShowingFeedback} mountOnEnter unmountOnExit>
         <h3>{textfieldlabel}</h3>
-      </Slide>
+      </Slide> */}
     </Wrapper>
   );
 }
@@ -190,7 +233,7 @@ const Hint = styled.div`
 `;
 
 const Question = styled.p`
-  padding: 20px;
-  margin: 40px;
+  padding-top: 40px;
+  margin: 20px;
   text-align: center;
 `;

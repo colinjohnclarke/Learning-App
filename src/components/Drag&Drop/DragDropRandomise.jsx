@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ResetBtn from "../Buttons/ResetBtn";
-import Score from "../scores/Score";
 
 import DragandDropMain from "./DragandDropMain";
 
@@ -55,7 +54,6 @@ function DragDropRandomise(props) {
 
   return (
     <Wrapper>
-      <Score></Score>
       <DragandDropMain
         reset={reset}
         randomisedorderitemsarr={sorted}

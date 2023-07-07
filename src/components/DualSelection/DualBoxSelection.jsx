@@ -5,7 +5,6 @@ import { device } from "../../styles/breakpoints";
 import DualBox from "./DualBox";
 import { useSelector } from "react-redux";
 import ResetBtn from "../Buttons/ResetBtn";
-import Score from "../scores/Score";
 
 function DualBoxSelection(props) {
   const [resetselected, setResetSelected] = useState(false);
@@ -41,7 +40,6 @@ function DualBoxSelection(props) {
 
   return (
     <Wrapper>
-      <Score></Score>
       {/* <p>{sliderData.question}</p> */}
       {/* <p>{index0currentSliderQuestionScore}</p> */}
       <DualBox
