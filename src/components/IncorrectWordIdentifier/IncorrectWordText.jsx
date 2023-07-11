@@ -1,10 +1,14 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
+import { IncorrectWordContext } from "./IncorrectWordContext";
 import styled from "styled-components";
-import MCQAnswerButtons from "../MCQ/MCQAnswerButtons";
+import IncorrectWordMCQ from "./IncorrectWordMCQ";
 import { PortableText } from "@portabletext/react";
 import imageUrlBuilder from "@sanity/image-url";
 import sanityClient from "../../createclient";
 import "animate.css";
+import ScoreInCorrectWord from "../scores/ScoreIncorrectWord";
+
+import { correctstyle, incorrectstyle } from "../../styles/colors";
 
 function IncorrectWordText(props) {
   const [obj1key0, setObj1key0] = useState({});
@@ -13,6 +17,21 @@ function IncorrectWordText(props) {
   const [obj1key3, setObj1key3] = useState({});
   const [sortedquestionarrword1, setSortedQuestionArrword1] = useState();
   const [sortedquestionarrword2, setSortedQuestionArrword2] = useState();
+
+  const {
+    index0word1selectioncorrect,
+    setindex0Word1SelectionCorrect,
+    index0mcq1selectioncorrect,
+    setindex0MCQ1SelectionCorrect,
+    index0mcq1selectionIncorrect,
+    index0setMCQ1SelectionInCorrect,
+    index0word2selectioncorrect,
+    setindex0Word2SelectionCorrect,
+    index0mcq2selectioncorrect,
+    setindex0MCQ2SelectionCorrect,
+    index0mcq2selectionIncorrect,
+    setindex0MCQ2SelectionInCorrect,
+  } = useContext(IncorrectWordContext);
 
   const [obj2key0, setObj2key0] = useState({});
   const [obj2key1, setObj2key1] = useState({});
@@ -26,6 +45,8 @@ function IncorrectWordText(props) {
   const mcqCheckWord2Ref = useRef(false);
 
   const data = props.data;
+
+  const index = props.index;
 
   // word 1
   const MCQ_option_for_replacement_word1 =
@@ -44,6 +65,7 @@ function IncorrectWordText(props) {
 
   // word 1 randomise
 
+  // function to randomise the possible answers for the MCQ
   useEffect(() => {
     const nu1 = Math.random();
     const nu2 = Math.random();
@@ -77,6 +99,7 @@ function IncorrectWordText(props) {
         : 0
     );
 
+    console.log(sorted);
     setSortedQuestionArrword1(sorted);
     setObj1key0(sorted[0]);
     setObj1key1(sorted[1]);
@@ -178,6 +201,7 @@ function IncorrectWordText(props) {
   };
 
   let normalTextStyle = { backgroundColor: "white" };
+
   let correctBtnSelected = {
     backgroundColor: "rgba(137, 240, 158, 0.34)",
     color: "green",
@@ -196,11 +220,12 @@ function IncorrectWordText(props) {
   // click handler first word
   const incorrectAnswer1Clicked = (elementRef) => {
     setWord1Selected(!word1selected);
-    console.log("WORD 1 CLICKED");
+
+    setindex0Word1SelectionCorrect((val) => true);
 
     setTimeout(() => {
       scrolltoFn(elementRef);
-    }, 100);
+    }, 300);
     // scrolltoFn(mcqCheckWord1Ref);
   };
 
@@ -211,10 +236,11 @@ function IncorrectWordText(props) {
   // click handler second word
   const incorrectAnswer2Clicked = (elementRef) => {
     setWord2Selected(!word2selected);
-    console.log("WORD 2 CLICKED");
+    setindex0Word2SelectionCorrect((val) => true);
+
     setTimeout(() => {
       scrolltoFn(elementRef);
-    }, 100);
+    }, 300);
     //   scrolltoFn(mcqCheckWord1Ref);
   };
 
@@ -233,22 +259,30 @@ function IncorrectWordText(props) {
         </strong>
         ?
       </p>
-      <MCQAnswerButtons
-        iscorrect={obj1key0.isCorrect}
+      <IncorrectWordMCQ
+        mcq={"mcq1"}
+        index={index}
+        isCorrect={obj1key0.isCorrect}
         text={obj1key0.value}
-      ></MCQAnswerButtons>
-      <MCQAnswerButtons
-        iscorrect={obj1key1.isCorrect}
+      ></IncorrectWordMCQ>
+      <IncorrectWordMCQ
+        mcq={"mcq1"}
+        index={index}
+        isCorrect={obj1key1.isCorrect}
         text={obj1key1.value}
-      ></MCQAnswerButtons>
-      <MCQAnswerButtons
-        iscorrect={obj1key2.isCorrect}
+      ></IncorrectWordMCQ>
+      <IncorrectWordMCQ
+        mcq={"mcq1"}
+        index={index}
+        isCorrect={obj1key2.isCorrect}
         text={obj1key2.value}
-      ></MCQAnswerButtons>
-      <MCQAnswerButtons
-        iscorrect={obj1key3.isCorrect}
+      ></IncorrectWordMCQ>
+      <IncorrectWordMCQ
+        mcq={"mcq1"}
+        index={index}
+        isCorrect={obj1key3.isCorrect}
         text={obj1key3.value}
-      ></MCQAnswerButtons>
+      ></IncorrectWordMCQ>
     </Mcq>
   );
 
@@ -260,27 +294,36 @@ function IncorrectWordText(props) {
           {data.incorrect_word_2}?
         </strong>
       </p>
-      <MCQAnswerButtons
-        iscorrect={obj2key0.isCorrect}
+      <IncorrectWordMCQ
+        mcq={"mcq2"}
+        index={index}
+        isCorrect={obj2key0.isCorrect}
         text={obj2key0.value}
-      ></MCQAnswerButtons>
-      <MCQAnswerButtons
-        iscorrect={obj2key1.isCorrect}
+      ></IncorrectWordMCQ>
+      <IncorrectWordMCQ
+        mcq={"mcq2"}
+        index={index}
+        isCorrect={obj2key1.isCorrect}
         text={obj2key1.value}
-      ></MCQAnswerButtons>
-      <MCQAnswerButtons
-        iscorrect={obj2key2.isCorrect}
+      ></IncorrectWordMCQ>
+      <IncorrectWordMCQ
+        mcq={"mcq2"}
+        index={index}
+        isCorrect={obj2key2.isCorrect}
         text={obj2key2.value}
-      ></MCQAnswerButtons>
-      <MCQAnswerButtons
-        iscorrect={obj2key3.isCorrect}
+      ></IncorrectWordMCQ>
+      <IncorrectWordMCQ
+        mcq={"mcq2"}
+        index={index}
+        isCorrect={obj2key3.isCorrect}
         text={obj2key3.value}
-      ></MCQAnswerButtons>
+      ></IncorrectWordMCQ>
     </Mcq>
   );
 
   return (
     <Wrapper>
+      <ScoreInCorrectWord index={index}></ScoreInCorrectWord>
       <p style={{ textAlign: "center" }}>
         {`There are incorrect words in the text below, find them and
         click!`}
@@ -294,15 +337,16 @@ function IncorrectWordText(props) {
       <Text>
         {data.initial_leading_scentence_word1}
         <IncorrectWord
-          style={word1selected ? correctBtnSelected : normalTextStyle}
+          style={word1selected ? correctstyle : normalTextStyle}
           onClick={() => incorrectAnswer1Clicked(mcqCheckWord1Ref)}
         >
-          {data.incorrect_word_1}
-        </IncorrectWord>{" "}
+          {" "}
+          {data.incorrect_word_1}{" "}
+        </IncorrectWord>
         {data.remainder_sentence_word_1}
         {data.initial_leading_scentence_word2}
         <IncorrectWord
-          style={word2selected ? correctBtnSelected : normalTextStyle}
+          style={word2selected ? correctstyle : normalTextStyle}
           onClick={() => incorrectAnswer2Clicked(mcqCheckWord2Ref)}
         >
           {" "}

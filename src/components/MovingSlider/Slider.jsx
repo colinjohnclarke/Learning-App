@@ -1,8 +1,10 @@
-import React, { Children, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { keyframes } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import { colors } from "../../styles/colors";
+import { colors, correctstyle } from "../../styles/colors";
+import { SliderContext } from "./SliderContext";
+import ScoreSlider from "../scores/ScoreSlider";
 
 import {
   index0correctanswerselected,
@@ -10,11 +12,17 @@ import {
   index0EmptyArr,
   initialRenderCompleted,
 } from "../../features/Slider/sliderindex0slice";
-import SliderText from "./SliderText";
 
 function Slider(props) {
   const resetselected = props.resetselected;
   const [repositionFocusBox, setRepositionFocusBox] = useState();
+
+  const {
+    index0AnswerisCorrect,
+    setIndex0AnswerIsCorrect,
+    index0AnswerisInCorrect,
+    setIndex0AnswerIsInCorrect,
+  } = useContext(SliderContext);
 
   const setNum = Math.random();
   let setbool;
@@ -36,7 +44,7 @@ function Slider(props) {
 
   let correct = {
     transition: "0.3s",
-    position: "absolute",
+    // position: "absolute",
     transpose: "translateY(4px)",
     backgroundColor: colors.correctColor,
     opacity: "1",
@@ -59,7 +67,7 @@ function Slider(props) {
   );
 
   const correctanswerArr = useSelector(
-    (state) => state.sliderreducerindex0.value
+    (state) => state.sliderreducerindex0.value.length
   );
 
   useEffect(() => {
@@ -71,9 +79,18 @@ function Slider(props) {
         dispatch(index0correctanswerselected());
       }
     }
+
     // return () => {
-    //   dispatch(index0correctanswerUNselected());
-    //   console.log("  dispatch(index0correctanswerUNselected()) RETURN  ;");
+    //   if (isinitialRenderCompleted) {
+    //     if (
+    //       (leftisselected && sliderLeftIsCorrect) ||
+    //       (rightisselected && sliderRightIsCorrect)
+    //     ) {
+    //       dispatch(index0correctanswerUNselected());
+
+    //       console.log("  return dispatch(index0correctanswerUNselected");
+    //     }
+    //   }
     // };
   }, [leftisselected, rightisselected]);
 
@@ -84,10 +101,23 @@ function Slider(props) {
       }
     }
     // return () => {
-    //   dispatch(index0correctanswerselected());
-    //   console.log(" dispatch(index0correctanswerselected()) RETURN;");
+    //   if (isinitialRenderCompleted) {
+    //     if (leftisselected !== sliderLeftIsCorrect) {
+    //       dispatch(index0correctanswerselected());
+    //       console.log("  return dispatch(index0correctanswerselected");
+    //     }
+    //   }
     // };
   }, [leftisselected, rightisselected]);
+
+  useEffect(() => {
+    if (correctanswerArr === 4) {
+      console.log("allcorrect");
+
+      // update context for score
+      setIndex0AnswerIsCorrect((val) => true);
+    }
+  }, [leftisselected, rightisselected, correctanswerArr]);
 
   // useEffect(() => {
   //   // console.log(isSelected, isCorrect);
@@ -139,17 +169,20 @@ function Slider(props) {
       (rightisselected && sliderRightIsCorrect)
     ) {
       dispatch(index0correctanswerselected());
+      console.log("  dispatch(index0correctanswerselected());");
     }
     dispatch(initialRenderCompleted());
+    console.log("  initialRenderCompleted();");
 
-    return () => {
-      if (
-        (leftisselected && sliderLeftIsCorrect) ||
-        (rightisselected && sliderRightIsCorrect)
-      ) {
-        dispatch(index0EmptyArr());
-      }
-    };
+    // return () => {
+    //   if (
+    //     (leftisselected && sliderLeftIsCorrect) ||
+    //     (rightisselected && sliderRightIsCorrect)
+    //   ) {
+    //     dispatch(index0correctanswerUNselected());
+    //     console.log("  return dispatch(index0correctanswerUNselected());");
+    //   }
+    // };
   }, []);
 
   const clickHandler = () => {
@@ -163,34 +196,18 @@ function Slider(props) {
         <Outer onClick={clickHandler}>
           <Box>
             <Text>
-              {/* <p> STORE{JSON.stringify(correctanswerArr)}</p>
-              <p style={{ fontSize: "12px" }}>
-                CORRECT: {JSON.stringify(sliderLeftIsCorrect)}
-              </p>
-
-              <p style={{ fontSize: "12px" }}>
-                ISSELECTED: {JSON.stringify(leftisselected)}
-              </p> */}
               <p style={{ fontSize: "12px" }}>{textleft}</p>
             </Text>
           </Box>
 
           <Box>
             <Text>
-              {/* <p> STORE{JSON.stringify(correctanswerArr)}</p>
-              <p style={{ fontSize: "12px" }}>
-                CORRECT: {JSON.stringify(sliderRightIsCorrect)}
-              </p>
-
-              <p style={{ fontSize: "12px" }}>
-                ISSELECTED: {JSON.stringify(rightisselected)}
-              </p> */}
               <p style={{ fontSize: "12px" }}>{textright}</p>
             </Text>
           </Box>
 
           <MovingBox
-            style={correctanswerArr.length === 4 ? correct : generalStyle}
+            style={correctanswerArr === 4 ? correctstyle : generalStyle}
             className={
               rightisselected
                 ? "moving_box_right_position"
@@ -217,7 +234,7 @@ const Outer = styled.div`
   background-color: white;
   height: 70px;
   width: 90vw;
-  max-width: 500px;
+  max-width: 700px;
   border-radius: 40px;
   display: flex;
   flex-direction: row;
@@ -230,7 +247,7 @@ const Outer = styled.div`
 `;
 
 const Box = styled.div`
-  max-width: 500px;
+  max-width: 700px;
   height: 70px;
   width: 50%;
   border-radius: 40px;

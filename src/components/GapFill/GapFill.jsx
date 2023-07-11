@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { GapFillContext } from "./GapFillContext";
 import styled from "styled-components";
 import { PortableText } from "@portabletext/react";
 import imageUrlBuilder from "@sanity/image-url";
 import sanityClient from "../../createclient";
 import { correctstyle } from "../../styles/colors";
-import "animate.css";
+
 import HelpBtn from "../Buttons/HelpBtn";
+import ScoreGapFill from "../scores/ScoreGapFill";
+import "animate.css";
 
 import { BiHelpCircle } from "react-icons/bi";
 
@@ -15,7 +18,7 @@ function GapFill(props) {
   const acceptable_missing_words = props.item.acceptable_missing_words;
   const helphints = props.item.hint;
 
-  const [inputfieldgapfill1, setInputFieldGapFill1] = useState("");
+  const [inputfieldgapfill, setInputFieldGapFill1] = useState("");
   const [iscorrect, setIsCorrect] = useState(false);
   const [helpneeded, setHelpNeeded] = useState(false);
 
@@ -24,6 +27,13 @@ function GapFill(props) {
   function imgurlFor(source) {
     return builder.image(source);
   }
+
+  const {
+    index0answeriscorrect,
+    setindex0AnswerisCorrect,
+    index1AnswerisCorrect,
+    setindex1AnswerisCorrect,
+  } = useContext(GapFillContext);
 
   const myPortableTextComponents = {
     types: {
@@ -59,15 +69,39 @@ function GapFill(props) {
     let compareAnswer;
 
     compareAnswer = acceptable_missing_words_Arr.find(
-      (answer) => answer === inputfieldgapfill1
+      (answer) => answer === inputfieldgapfill
     );
 
-    if (compareAnswer === undefined) {
+    if (compareAnswer === undefined && index === 0) {
       setIsCorrect(false);
-    } else {
+    } else if (compareAnswer !== undefined && index === 0) {
       setIsCorrect(true);
+      setindex0AnswerisCorrect((val) => true);
     }
-  }, [inputfieldgapfill1]);
+  }, [inputfieldgapfill]);
+
+  useEffect(() => {
+    const acceptable_missing_words_Arr = acceptable_missing_words.split(", ");
+
+    let compareAnswer;
+
+    compareAnswer = acceptable_missing_words_Arr.find(
+      (answer) => answer === inputfieldgapfill
+    );
+
+    if (compareAnswer === undefined && index === 1) {
+      setIsCorrect(false);
+    } else if (compareAnswer !== undefined && index === 1) {
+      setIsCorrect(true);
+      setindex1AnswerisCorrect((val) => true);
+    }
+  }, [inputfieldgapfill]);
+
+  // else if (compareAnswer === undefined && index === 1) {
+  //   setIsCorrect(false);
+  // } else if (compareAnswer !== undefined && index === 1) {
+  //   setIsCorrect(true);
+  //   setindex1AnswerisCorrect((val) => true
 
   const submithandler = (e) => {
     e.preventDefault();
@@ -83,7 +117,7 @@ function GapFill(props) {
     };
   }
 
-  //   if (inputfieldgapfill1 == )
+  //   if (inputfieldgapfill == )
 
   let hintstyle = {};
 
@@ -95,7 +129,6 @@ function GapFill(props) {
   const test = {
     boxShadow:
       "0 0 0 1px #6698cb inset, 0 0 0 2px rgba(255,255,255,0.15) inset, 0 8px 0 0 rgba(240, 137, 137, 0.34), 0 8px 0 1px rgba(220, 137, 137, 0.56),0 8px 8px 1px rgba(0,0,0,0.5)",
-
     backgroundColor: "rgba(240, 137, 137, 0.34)",
     display: "flex",
   };
@@ -108,6 +141,8 @@ function GapFill(props) {
 
   return (
     <Wrapper>
+      <p>{inputfieldgapfill}</p>
+      <ScoreGapFill index={index}></ScoreGapFill>
       <Image>
         <PortableText
           value={item.picture}
@@ -118,7 +153,7 @@ function GapFill(props) {
         {item.initial_scentence}
         <Input
           style={style}
-          className={iscorrect ? "animate__bounce" : ""}
+          className={iscorrect ? "animate__animated animate__bounce" : ""}
           type="text"
           onChange={submithandler}
         ></Input>

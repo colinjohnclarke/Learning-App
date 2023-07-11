@@ -11,6 +11,8 @@ function DragDropRandomise(props) {
 
   const data = props.order_items_drag_drop;
 
+  const index = props.index;
+
   // create random nums
 
   useEffect(() => {
@@ -55,6 +57,7 @@ function DragDropRandomise(props) {
   return (
     <Wrapper>
       <DragandDropMain
+        index={index}
         reset={reset}
         randomisedorderitemsarr={sorted}
       ></DragandDropMain>

@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import Slider from "./Slider";
 import styled from "styled-components";
+import ScoreSlider from "../scores/ScoreSlider";
 
 function MovingSlider(props) {
   const [resetselected, setResetSelected] = useState(false);
 
+  const [val, setVal] = useState(0);
+
   // save props as const
   const sliderData = props.data;
+
   const index = props.index;
 
   // generate random vales to random ordering of the slider items on each refresh, in pairs, one pair for each slider, use these values to set which side recives the correct value and which incorrect  ( changes each time)
@@ -39,6 +43,9 @@ function MovingSlider(props) {
 
   return (
     <Wrapper>
+      {/* <h1>{val}</h1> */}
+
+      <ScoreSlider index={index}></ScoreSlider>
       <p>{sliderData.question}</p>
       <Slider
         resetselected={resetselected}

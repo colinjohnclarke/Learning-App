@@ -63,7 +63,6 @@ function TextandImage() {
   return (
     <div>
       <Box>
-        {" "}
         <PortableText
           components={myPortableTextComponents}
           value={block1}

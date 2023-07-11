@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import { DragDropContext, Draggable } from "react-beautiful-dnd";
 import { StrictModeDroppable as Droppable } from "./StrictModeDroppable";
-import { Button } from "@mui/material";
-import { useSelector, useDispatch } from "react-redux";
-import { increment } from "../../features/draganddropdataSlice";
-import { combineReducers } from "@reduxjs/toolkit";
 import "animate.css";
 import DragandDropItem from "./DragandDropItem";
 import { device } from "../../styles/breakpoints";
 import HelpBtn from "../Buttons/HelpBtn";
+import ScoreDragandDrop from "../scores/ScoreDragandDrop";
+import { DragandDropContext } from "./DragandDropContext";
 
 function DragandDropMain(props) {
   const [introduction, setIntroduction] = useState([]);
@@ -18,9 +16,11 @@ function DragandDropMain(props) {
   const [itemdragged, setItemDragged] = useState();
   const [helpneeded, setHelpNeeded] = useState(false);
 
-  // const animateclass = "animate__animated animate__tada ";
+  const { setindex0AnswerisCorrect, setindex1AnswerisCorrect } =
+    useContext(DragandDropContext);
 
   const data = props.randomisedorderitemsarr;
+  const index = props.index;
 
   useEffect(() => {
     const getintro = data.filter((item) => item.id === "10");
@@ -73,12 +73,35 @@ function DragandDropMain(props) {
     allcorrect = true;
   }
 
+  useEffect(() => {
+    //set context state for score component to update for index 0
+    if (allcorrect && index === 0) {
+      setindex0AnswerisCorrect((val) => true);
+    }
+
+    return () => {
+      setindex0AnswerisCorrect((val) => false);
+    };
+  }, [allcorrect]);
+
+  useEffect(() => {
+    //set context state for score component to update for index 1
+    if (allcorrect && index === 1) {
+      setindex1AnswerisCorrect((val) => true);
+    }
+
+    return () => {
+      setindex1AnswerisCorrect((val) => false);
+    };
+  }, [allcorrect]);
+
   const handleHelpneededBtnClicked = () => {
     setHelpNeeded(!helpneeded);
   };
 
   return (
     <Wrapper>
+      <ScoreDragandDrop index={index}></ScoreDragandDrop>
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <p> {introduction[0]?.value}</p>
 
@@ -116,37 +139,6 @@ function DragandDropMain(props) {
 }
 
 export default DragandDropMain;
-
-const Box = styled.p`
-  // display: flex;
-  // flex-direction: row;
-  // align-items: center;
-  // // height: 40px;
-  // // width: 40x;
-  // box-shadow: rgba(0, 0, 0, 0.39) 0px 2px 4px,
-  //   rgba(39, 106, 245, 0.3) 0px 7px 10px -3px,
-  //   rgba(39, 106, 245, 0.1) 0px -3px 0px inset;
-`;
-
-const Btn = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 70px;
-  height: 50px;
-  background-color: white;
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
-
-  &:hover {
-    transform: translateY(-2px);
-    background-color: rgba(0, 200, 200, 0.29);
-  }
-
-  &:active {
-    transform: translateY(-2px);
-    background-color: rgba(0, 200, 200, 0.29);
-  }
-`;
 
 const Wrapper = styled.div`
   display: flex;

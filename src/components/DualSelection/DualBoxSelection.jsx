@@ -1,18 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { memo } from "react";
 import { device } from "../../styles/breakpoints";
 import DualBox from "./DualBox";
 import { useSelector } from "react-redux";
 import ResetBtn from "../Buttons/ResetBtn";
+import ScoreDualSelection from "../scores/ScoreDualSelection";
 
 function DualBoxSelection(props) {
   const [resetselected, setResetSelected] = useState(false);
 
   const sliderData = props.data;
-
   const index = props.index;
-
   const num1a = Math.random();
   const num1b = Math.random();
   const num2a = Math.random();
@@ -40,8 +39,10 @@ function DualBoxSelection(props) {
 
   return (
     <Wrapper>
-      {/* <p>{sliderData.question}</p> */}
-      {/* <p>{index0currentSliderQuestionScore}</p> */}
+      <p>{sliderData.question}</p>
+
+      <ScoreDualSelection index={index}></ScoreDualSelection>
+
       <DualBox
         resetselected={resetselected}
         index={index}

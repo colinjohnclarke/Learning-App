@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import { TiTickOutline } from "react-icons/ti";
 import { RxCross2 } from "react-icons/rx";
@@ -14,6 +14,7 @@ import {
 } from "../../features/DualSelection/dualselectionquestiondataSliceIndex1";
 
 import { useDispatch, useSelector } from "react-redux";
+import { DualSelectionContext } from "./DualSelectionContext";
 
 import {
   selectedbuttonstyle,
@@ -39,13 +40,37 @@ function Textbox(props) {
     (state) => state.sliderquestiondataSliceIndex1reducer.value
   );
 
+  // context value functions to update score component
+  const {
+    index0answerisCorrect,
+    setIndex0AnswerisCorrect,
+    setIndex1AnswerisCorrect,
+  } = useContext(DualSelectionContext);
+
   // slider index 0
   useEffect(() => {
     if (index === 0 && isSelected && isCorrect) {
       dispatch(correctAnswerSelectedIndex0());
+      console.log("  dispatch(correctAnswerSelectedIndex0());");
     } else if (index === 0 && !isSelected && isCorrect) {
       dispatch(correctAnswerUNSelectedIndex0());
     }
+  }, [isSelected]);
+
+  useEffect(() => {
+    console.log(
+      "index0currentSliderQuestionScore.length",
+      index0currentSliderQuestionScore.length
+    );
+    if (index0currentSliderQuestionScore.length === 4) {
+      // set context value to true to update score component, this needs to be in use Effect or we get a set state error
+      setIndex0AnswerisCorrect((val) => true);
+      console.log(" setIndex0AnswerisCorrect((val) => true);");
+    }
+
+    return () => {
+      setIndex0AnswerisCorrect((val) => false);
+    };
   }, [isSelected]);
 
   let style;
@@ -55,6 +80,7 @@ function Textbox(props) {
   } else if (index === 0 && !isSelected) {
     style = normalboxstyle;
   }
+
   let content;
 
   if (
@@ -63,6 +89,7 @@ function Textbox(props) {
     isCorrect
   ) {
     style = correctstyle;
+
     content = <TiTickOutline style={{ height: "10px", color: "green" }} />;
   } else if (
     index === 0 &&
@@ -70,45 +97,58 @@ function Textbox(props) {
     !isCorrect
   ) {
     style = incorrectstyle;
+
     content = <RxCross2 style={{ height: "10px", color: "red" }} />;
   } else if (index === 0 && index0currentSliderQuestionScore.length !== 4) {
     content = <></>;
   }
 
-  let styleindex1;
+  let styleindex1 = {
+    color: "",
+  };
 
-  // slider index 1
-  useEffect(() => {
-    if (index === 1 && isSelected && isCorrect) {
-      dispatch(correctAnswerSelectedIndex1());
-    } else if (index === 1 && !isSelected && isCorrect) {
-      dispatch(correctAnswerUNSelectedIndex1());
-    }
-  }, [isSelected]);
+  // useEffect(() => {
+  //   if (index1currentSliderQuestionScore.length === 4)
+  //     // set context value to true to update score component, this needs to be in use Effect or we get a set state error
+  //     setIndex1AnswerisCorrect((val) => true);
 
-  if (index === 1 && isSelected) {
-    styleindex1 = selectedbuttonstyle;
-  } else if (index === 1 && !isSelected) {
-    styleindex1 = normalboxstyle;
-  }
+  //   return () => {
+  //     setIndex1AnswerisCorrect((val) => false);
+  //   };
+  // }, [isSelected]);
 
-  if (
-    index === 1 &&
-    index1currentSliderQuestionScore.length === 4 &&
-    isCorrect
-  ) {
-    styleindex1 = correctstyle;
-    content = <TiTickOutline style={{ height: "10px", color: "green" }} />;
-  } else if (
-    index === 1 &&
-    index1currentSliderQuestionScore.length === 4 &&
-    !isCorrect
-  ) {
-    styleindex1 = incorrectstyle;
-    content = <RxCross2 style={{ height: "10px", color: "red" }} />;
-  } else if (index === 1 && index1currentSliderQuestionScore.length !== 4) {
-    content = <></>;
-  }
+  // // slider index 1
+  // useEffect(() => {
+  //   if (index === 1 && isSelected && isCorrect) {
+  //     dispatch(correctAnswerSelectedIndex1());
+  //   } else if (index === 1 && !isSelected && isCorrect) {
+  //     dispatch(correctAnswerUNSelectedIndex1());
+  //   }
+  // }, [isSelected]);
+
+  // if (index === 1 && isSelected) {
+  //   styleindex1 = selectedbuttonstyle;
+  // } else if (index === 1 && !isSelected) {
+  //   styleindex1 = normalboxstyle;
+  // }
+
+  // if (
+  //   index === 1 &&
+  //   index1currentSliderQuestionScore.length === 4 &&
+  //   isCorrect
+  // ) {
+  //   styleindex1 = correctstyle;
+  //   content = <TiTickOutline style={{ height: "10px", color: "green" }} />;
+  // } else if (
+  //   index === 1 &&
+  //   index1currentSliderQuestionScore.length === 4 &&
+  //   !isCorrect
+  // ) {
+  //   styleindex1 = incorrectstyle;
+  //   content = <RxCross2 style={{ height: "10px", color: "red" }} />;
+  // } else if (index === 1 && index1currentSliderQuestionScore.length !== 4) {
+  //   content = <></>;
+  // }
 
   const whiteText = {
     color: "white",
@@ -119,8 +159,16 @@ function Textbox(props) {
   };
 
   return (
-    <Box style={index === 0 ? style : styleindex1}>
-      <Text style={isSelected ? whiteText : normalText}>{text}</Text>
+    <Box style={style}>
+      <Text
+        style={
+          index0currentSliderQuestionScore.length === 4 || isSelected
+            ? whiteText
+            : normalText
+        }
+      >
+        {text}
+      </Text>
 
       <div>{content}</div>
     </Box>

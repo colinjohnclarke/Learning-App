@@ -12,7 +12,7 @@ import DragandDropWrapper from "../components/Drag&Drop/DragandDropWrapper";
 import ContinueBtn from "../components/Buttons/ContinueBtn";
 import GapFillWrapper from "../components/GapFill/GapFillWrapper";
 import IncorrectWordWrapper from "../components/IncorrectWordIdentifier/IncorrectWordWrapper";
-import FillMissingValuesTable from "../components/Tables/FillMissingValues";
+import FillMissingValuesTable from "../components/Tables/MissingData/FillMissingValues";
 import LineChart from "../components/Charts/Line/LineChart";
 import LargeTable from "../components/Tables/TableFromLineData";
 import Scatter from "../components/Charts/Scatter/Scatter";
@@ -285,7 +285,7 @@ function Biology() {
   const item9 = (
     <Item ref={item9listRef}>
       <Container>
-        {/* <div style={{}}>
+        <div style={{}}>
           <LargeTable
             standard_tables={standard_tables}
             standard_table_variable_names={standard_table_variable_names}
@@ -300,7 +300,7 @@ function Biology() {
               handleContinueBtnClicked(item10listRef);
             }}
           />
-        </div> */}
+        </div>
       </Container>
     </Item>
   );
@@ -335,18 +335,17 @@ function Biology() {
   );
 
   const itemlist = [
-    // item0,
+    item0,
     item1,
     item2,
-
-    // item3,
-    // item4,
-    // item5,
-    // item6,
-    // item7,
-    // item8,
-    // item9,
-    // item10,
+    item3,
+    item4,
+    item5,
+    item6,
+    item7,
+    item8,
+    item9,
+    item10,
     // item11,
   ];
 

@@ -227,7 +227,7 @@ const Hint = styled.div`
   box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
   color: black;
   width: 80%;
-  max-width: 500px;
+  max-width: 700px;
   background-color: rgba(0, 200, 200, 0.29);
   padding: 10px;
 `;
