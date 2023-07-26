@@ -4,7 +4,7 @@ import styled from "styled-components";
 function MCQbtn({ children, ...atributes }) {
   console.log("children", children);
 
-  return <Btn disabled="true"></Btn>;
+  return <Btn></Btn>;
 }
 
 export default MCQbtn;

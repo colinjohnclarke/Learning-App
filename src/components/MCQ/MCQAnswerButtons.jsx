@@ -33,14 +33,27 @@ const MCQAnswerButtons = (props) => {
 
   // get props
   const index = props.index;
+  // console.log(
+  //   "🚀 ~ file: MCQAnswerButtons.jsx:36 ~ MCQAnswerButtons ~ index:",
+  //   index
+  // );
+
   const itemisCorrect = props.isCorrect;
+  // console.log(
+  //   "🚀 ~ file: MCQAnswerButtons.jsx:39 ~ MCQAnswerButtons ~ itemisCorrect:",
+  //   itemisCorrect
+  // );
 
   const onPressed = () => {
+    console.log("pressed");
+    console.log(index, itemisCorrect);
     setButtonClicked((val) => !val);
     if (itemisCorrect && index === 0) {
       setindex0ItemClickedIsCorrect((val) => true);
+      console.log("  setindex0ItemClickedIsCorrect((val) => true);");
     } else if (itemisCorrect && index === 1) {
       setindex1ItemClickedIsCorrect((val) => true);
+      console.log(" setindex1ItemClickedIsCorrect((val) => true)");
     } else if (!itemisCorrect && index === 0) {
       setIndex0ItemSelectionIsInCorrect((prevVal) => true);
       console.log("index 0 clicked");
@@ -65,6 +78,10 @@ const MCQAnswerButtons = (props) => {
         <RxCross2 />
       )
     );
+  };
+
+  const handleClick = () => {
+    console.log("pressed");
   };
 
   let showcorrectAns = {
@@ -150,12 +167,12 @@ const MCQAnswerButtons = (props) => {
 
   // disable correct buttons when selection is made
   useEffect(() => {
-    if (index === 0) setCorrectButtonDisabled((val) => !val);
+    if (index === 0 && itemisCorrect) setCorrectButtonDisabled((val) => true);
   }, [index0ItemClickedisInCorrect, index0ItemClickedisInCorrect]);
 
   // disable correct buttons when selection is made
   useEffect(() => {
-    if (index === 1) setCorrectButtonDisabled((val) => !val);
+    if (index === 1 && itemisCorrect) setCorrectButtonDisabled((val) => true);
   }, [index1ItemClickedisInCorrect, index1ItemClickedisInCorrect]);
 
   return (
@@ -166,7 +183,7 @@ const MCQAnswerButtons = (props) => {
         style={buttonstyle}
         onClick={onPressed}
       >
-        <Box></Box>
+        <Box> </Box>
 
         <Answer style={textstyle}>{props.text}</Answer>
         <ClickResponseText>{clickResponseText}</ClickResponseText>

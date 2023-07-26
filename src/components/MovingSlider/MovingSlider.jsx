@@ -48,6 +48,7 @@ function MovingSlider(props) {
       <ScoreSlider index={index}></ScoreSlider>
       <p>{sliderData.question}</p>
       <Slider
+        position={0}
         resetselected={resetselected}
         index={index}
         sliderLeftIsCorrect={slider0leftIsCorrect}
@@ -65,6 +66,7 @@ function MovingSlider(props) {
       ></Slider>
 
       <Slider
+        position={1}
         resetselected={resetselected}
         index={index}
         sliderLeftIsCorrect={slider1leftIsCorrect}
@@ -81,6 +83,7 @@ function MovingSlider(props) {
         }
       ></Slider>
       <Slider
+        position={2}
         resetselected={resetselected}
         index={index}
         sliderLeftIsCorrect={slider2leftIsCorrect}
@@ -97,6 +100,7 @@ function MovingSlider(props) {
         }
       ></Slider>
       <Slider
+        position={3}
         resetselected={resetselected}
         index={index}
         sliderLeftIsCorrect={slider3leftIsCorrect}

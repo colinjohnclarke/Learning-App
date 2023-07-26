@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { TiTickOutline } from "react-icons/ti";
 import { RxCross2 } from "react-icons/rx";
 import { device } from "../../styles/breakpoints";
+import "animate.css";
 import {
   correctAnswerSelectedIndex0,
   correctAnswerUNSelectedIndex0,
@@ -41,6 +42,7 @@ function Textbox(props) {
   );
 
   // context value functions to update score component
+
   const {
     index0answerisCorrect,
     setIndex0AnswerisCorrect,
@@ -58,10 +60,6 @@ function Textbox(props) {
   }, [isSelected]);
 
   useEffect(() => {
-    console.log(
-      "index0currentSliderQuestionScore.length",
-      index0currentSliderQuestionScore.length
-    );
     if (index0currentSliderQuestionScore.length === 4) {
       // set context value to true to update score component, this needs to be in use Effect or we get a set state error
       setIndex0AnswerisCorrect((val) => true);
@@ -71,7 +69,7 @@ function Textbox(props) {
     return () => {
       setIndex0AnswerisCorrect((val) => false);
     };
-  }, [isSelected]);
+  }, [index0currentSliderQuestionScore.length]);
 
   let style;
 
@@ -152,6 +150,8 @@ function Textbox(props) {
 
   const whiteText = {
     color: "white",
+
+    margin: "0px",
   };
 
   const normalText = {
@@ -159,8 +159,20 @@ function Textbox(props) {
   };
 
   return (
-    <Box style={style}>
+    <Box
+      className={
+        index0currentSliderQuestionScore.length === 4 && !isCorrect
+          ? "animate__animated animate__hinge"
+          : "animate__animated"
+      }
+      style={style}
+    >
       <Text
+        className={
+          index0currentSliderQuestionScore.length === 4 && isCorrect
+            ? "animate__animated animate__tada"
+            : "animate__animated"
+        }
         style={
           index0currentSliderQuestionScore.length === 4 || isSelected
             ? whiteText
@@ -197,7 +209,6 @@ const Box = styled.div`
   border-radius: 20px;
 
   &:hover {
-    transform: translateY(-2px);
     background-color: rgba(0, 200, 200, 0.29);
   }
 `;

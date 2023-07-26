@@ -9,8 +9,6 @@ import {
   normalboxstyledragItem,
 } from "../../styles/colors";
 
-
-
 function DragandDropItem(props) {
   let statements = props.statements;
 
@@ -32,8 +30,6 @@ function DragandDropItem(props) {
   if (allcorrect) {
     // console.log(allcorrect);
     itemstyle = correctstyle;
-
-
   }
 
   return (
@@ -74,12 +70,11 @@ const Text = styled.div`
   display: flex;
   justify-content: center;
   height: 100%;
-
   border-radius: 20px;
 
   p {
     font-size: 15px;
-    padding-left: 4px;
-    padding-right: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
   }
 `;

@@ -5,6 +5,8 @@ import sliderquestiondataSliceIndex1reducer from "../features/DualSelection/dual
 
 import draganddropreducer from "../features/draganddropdataSlice";
 import sliderreducerindex0 from "../features/Slider/sliderindex0slice";
+import progressbarreducer from "../features/ProgressBar/ProgressBar";
+import drawerSlice from "../features/Drawer/DrawerSlice";
 
 export const store = configureStore({
   reducer: {
@@ -12,5 +14,7 @@ export const store = configureStore({
     sliderquestiondataSliceIndex1reducer,
     draganddropreducer,
     sliderreducerindex0,
+    progressbarreducer,
+    drawerSlice,
   },
 });

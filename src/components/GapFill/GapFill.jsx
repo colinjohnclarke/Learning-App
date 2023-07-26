@@ -123,6 +123,7 @@ function GapFill(props) {
 
   const helpBtnClickHandler = () => {
     setHelpNeeded(!helpneeded);
+
     return false;
   };
 
@@ -133,10 +134,12 @@ function GapFill(props) {
     display: "flex",
   };
 
+  let hintAnimateClass = "";
+
+  hintstyle = { display: "none" };
   if (helpneeded) {
     hintstyle = { test };
-  } else {
-    hintstyle = { display: "none" };
+    hintAnimateClass = "animate__animated animate__bounceInLeft";
   }
 
   return (
@@ -153,13 +156,15 @@ function GapFill(props) {
         {item.initial_scentence}
         <Input
           style={style}
-          className={iscorrect ? "animate__animated animate__bounce" : ""}
+          className={
+            iscorrect ? "animate__animated animate__bounce animate__faster" : ""
+          }
           type="text"
           onChange={submithandler}
         ></Input>
         {item.remainder}
       </Text>
-      <Hint style={hintstyle}>
+      <Hint className={hintAnimateClass} style={hintstyle}>
         <BiHelpCircle style={{ width: "70px" }} />
         {helphints}
       </Hint>

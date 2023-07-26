@@ -1,13 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import ResetBtn from "../Buttons/ResetBtn";
 
 import DragandDropMain from "./DragandDropMain";
+import { DragandDropContext } from "./DragandDropContext";
 
 function DragDropRandomise(props) {
   const [reset, setReset] = useState(false);
-  const [count, setCount] = useState(0);
+
   const [sorted, setSorted] = useState([]);
+
+  const {
+    setindex0AnswerisCorrect,
+    setindex1AnswerisCorrect,
+    rerunRandomiseRequired,
+  } = useContext(DragandDropContext);
 
   const data = props.order_items_drag_drop;
 
@@ -37,8 +44,8 @@ function DragDropRandomise(props) {
       { number: num7, value: data.position_6, id: "06" },
       { number: num8, value: data.position_7, id: "07" },
       { number: num9, value: data.position_8, id: "09" },
-      { number: num10, value: data.position_9, id: "9" },
-      { value: data.introduction, id: "10" },
+      { number: num10, value: data.position_9, id: "10" },
+      { value: data.introduction, id: "11" },
     ];
 
     const removeblanks = obj?.filter((item) => item.value !== undefined);
@@ -48,9 +55,7 @@ function DragDropRandomise(props) {
     );
 
     setSorted(sortedarr);
-
-    setCount(count + 1);
-  }, [reset, data]);
+  }, [reset, data, rerunRandomiseRequired]);
 
   //  place in a use effect to allow re- render on reset
 
@@ -65,11 +70,7 @@ function DragDropRandomise(props) {
         onClick={() => {
           setReset(!reset);
         }}
-      >
-        <p>Reset</p>
-
-        <h1>{count}</h1>
-      </ResetBtn>
+      ></ResetBtn>
     </Wrapper>
   );
 }

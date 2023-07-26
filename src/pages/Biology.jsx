@@ -1,12 +1,11 @@
 import "../App.css";
-import React, { useState, useEffect, useRef, forwardRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { PortableText } from "@portabletext/react";
 import imageUrlBuilder from "@sanity/image-url";
 import sanityClient from "../createclient";
 import styled from "styled-components";
 import MCQ from "../components/MCQ/MCQ";
 import StudentTextInputWrapper from "../components/SingleStudentInput/StudentTextInputWrapper";
-import SliderSelection from "../components/DualSelection/DualBoxSelection";
 import DualBoxSelectionWrapper from "../components/DualSelection/DualBoxSelectionWrapper";
 import DragandDropWrapper from "../components/Drag&Drop/DragandDropWrapper";
 import ContinueBtn from "../components/Buttons/ContinueBtn";
@@ -17,12 +16,15 @@ import LineChart from "../components/Charts/Line/LineChart";
 import LargeTable from "../components/Tables/TableFromLineData";
 import Scatter from "../components/Charts/Scatter/Scatter";
 import MovingSliderWrapper from "../components/MovingSlider/MovingSliderWrapper";
-import Test from "../components/TestingContext/Test";
+import { useSelector, useDispatch } from "react-redux";
+import { updateProgressPercentage } from "../features/ProgressBar/ProgressBar";
 
 function Biology() {
   const [data, setData] = useState({});
 
   const builder = imageUrlBuilder(sanityClient);
+
+  const dispatch = useDispatch();
 
   function imgurlFor(source) {
     return builder.image(source);
@@ -335,18 +337,18 @@ function Biology() {
   );
 
   const itemlist = [
-    item0,
-    item1,
-    item2,
-    item3,
-    item4,
-    item5,
-    item6,
-    item7,
-    item8,
-    item9,
+    // item0,
+    // item1,
+    // item2,
+    // item3,
+    // item4,
+    // item5,
+    // item6,
+    // item7,
+    // item8,
+    // item9,
     item10,
-    // item11,
+    item11,
   ];
 
   displayedArr.forEach((item, i) => {
@@ -354,6 +356,15 @@ function Biology() {
       content.push(itemlist[i]);
     }
   });
+
+  // calculating length of component list and pass to context for access to the progress bar
+  const totalLengthofCourse = itemlist.length;
+  let currenPositioninCourse = content.length;
+  useEffect(() => {
+    let calculateProgress =
+      (currenPositioninCourse / totalLengthofCourse) * 100;
+    dispatch(updateProgressPercentage({ payload: { calculateProgress } }));
+  }, [currenPositioninCourse, totalLengthofCourse]);
 
   return (
     <Wrapper>
@@ -379,6 +390,8 @@ const Container = styled.div`
 `;
 
 const Item = styled.div`
+  // scroll-padding: 100px;
+  scroll-margin: 57px;
   display: flex;
   flex-direction: column;
   align-items: center;

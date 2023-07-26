@@ -9,11 +9,15 @@ function DragandDropWrapper(props) {
 
   const [index1AnswerisCorrect, setindex1AnswerisCorrect] = useState(false);
 
+  const [rerunRandomiseRequired, setrerunRandomiseRequired] = useState(false);
+
   const contextObj = {
     index0AnswerisCorrect,
     setindex0AnswerisCorrect,
     index1AnswerisCorrect,
     setindex1AnswerisCorrect,
+    rerunRandomiseRequired,
+    setrerunRandomiseRequired,
   };
 
   return data?.map((item, index) => (

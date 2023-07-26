@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   value: [],
+  correct: [],
   renderCompleted: false,
 };
 
@@ -9,8 +10,9 @@ export const sliderindex0Slice = createSlice({
   name: "sliderSliceIndex0reducer",
   initialState,
   reducers: {
-    index0correctanswerselected: (state) => {
+    index0correctanswerselected: (state, action) => {
       state.value.push(true);
+      // state.correct.push(action.payload);
     },
     index0correctanswerUNselected: (state) => {
       state.value.pop(true);

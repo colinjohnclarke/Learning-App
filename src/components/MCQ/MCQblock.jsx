@@ -40,11 +40,11 @@ function MCQblock(props) {
     setObjkey3(sorted[3]);
   };
 
-  // useEffect(() => {
-  //   randomise(getprops);
-  // }, []);
+  useEffect(() => {
+    randomise(getprops);
+  }, []);
 
-  const randomisefun = useMemo(() => randomise(getprops), [getprops]);
+  // const randomisefun = useMemo(() => randomise(getprops), [getprops]);
 
   return (
     <div>

@@ -39,7 +39,7 @@ function DualBoxSelection(props) {
 
   return (
     <Wrapper>
-      <p>{sliderData.question}</p>
+      <Question>{sliderData.question}</Question>
 
       <ScoreDualSelection index={index}></ScoreDualSelection>
 
@@ -125,4 +125,8 @@ const Wrapper = styled.div`
   text-align: center;
   position: relative;
   padding-top: 40px;
+`;
+
+const Question = styled.p`
+  padding: 10px;
 `;

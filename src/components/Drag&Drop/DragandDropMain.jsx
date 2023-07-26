@@ -15,18 +15,29 @@ function DragandDropMain(props) {
   const [destinationindex, setDestinationIndex] = useState();
   const [itemdragged, setItemDragged] = useState();
   const [helpneeded, setHelpNeeded] = useState(false);
+  const [itemsarerandom, setItemsAreRandom] = useState(false);
 
-  const { setindex0AnswerisCorrect, setindex1AnswerisCorrect } =
-    useContext(DragandDropContext);
+  const [randomisedlist, setRandomisedList] = useState([]);
+
+  const [allcorrect, setAllCorrect] = useState(false);
+
+  const {
+    index0AnswerisCorrect,
+    setindex0AnswerisCorrect,
+    setindex1AnswerisCorrect,
+    setrerunRandomiseRequired,
+  } = useContext(DragandDropContext);
 
   const data = props.randomisedorderitemsarr;
+
   const index = props.index;
 
   useEffect(() => {
-    const getintro = data.filter((item) => item.id === "10");
+    const getintro = data.filter((item) => item.id === "11");
     setIntroduction(getintro);
 
     const getstatements = data.filter((item) => item.id < "10");
+
     setStatements(getstatements);
   }, [data]);
 
@@ -35,7 +46,11 @@ function DragandDropMain(props) {
     setDestinationIndex(result.destination.index);
     setItemDragged(result.draggableId);
 
+    console.log(result);
+
     if (!result.destination) return;
+    if (!result.destination.index) return;
+
     // make a intermediate copy of state to update
     const newlist = statements;
     // remove the dragged item from list at source
@@ -55,60 +70,83 @@ function DragandDropMain(props) {
     setStatements(checkindividualstatments);
   };
 
-  let correctnumstatments = 0;
-
-  let incorrectnumstatments = 0;
+  let correctstatements = 0;
 
   let checkstatments = statements.forEach((item, index) => {
     if (item.id == index) {
-      correctnumstatments += 1;
-    } else {
-      incorrectnumstatments -= 1;
+      correctstatements += 1;
     }
   });
+  console.log(itemsarerandom);
 
-  let allcorrect = false;
+  useEffect(() => {
+    // check if order items == length of array
+    if (correctstatements === statements.length) {
+      // rerun runction set via context
+      setrerunRandomiseRequired((val) => !val);
+    } else {
+      // set items to be mapped as randomised list
+      setRandomisedList((val) => statements);
 
-  if (correctnumstatments == statements.length) {
-    allcorrect = true;
-  }
+      setItemsAreRandom((val) => true);
+
+      console.log("ok");
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (correctstatements == statements.length && itemsarerandom) {
+      setAllCorrect((val) => true);
+      console.log("checked");
+    }
+  }, [destinationindex, itemdragged]);
 
   useEffect(() => {
     //set context state for score component to update for index 0
-    if (allcorrect && index === 0) {
+
+    if (allcorrect && index === 0 && itemsarerandom) {
       setindex0AnswerisCorrect((val) => true);
     }
 
-    return () => {
-      setindex0AnswerisCorrect((val) => false);
-    };
+    // return () => {
+    //   setindex0AnswerisCorrect((val) => false);
+    // };
   }, [allcorrect]);
 
+  // index 1
+
   useEffect(() => {
-    //set context state for score component to update for index 1
-    if (allcorrect && index === 1) {
+    // check initial render for all times being in correct order at index 1
+    if (allcorrect && index === 1 && itemsarerandom) {
       setindex1AnswerisCorrect((val) => true);
+      console.log("caught");
     }
 
-    return () => {
-      setindex1AnswerisCorrect((val) => false);
-    };
+    // return () => {
+    //   setindex1AnswerisCorrect((val) => false);
+    // };
   }, [allcorrect]);
 
   const handleHelpneededBtnClicked = () => {
     setHelpNeeded(!helpneeded);
   };
 
+  console.log("randomisedlist", randomisedlist);
+
   return (
     <Wrapper>
+      <p> random? {JSON.stringify(itemsarerandom)}</p>
+      <p> all correct {JSON.stringify(allcorrect)}</p>
+      <p> length {JSON.stringify(statements.length)}</p>
+      <p>correct statements{JSON.stringify(correctstatements)}</p>
+
       <ScoreDragandDrop index={index}></ScoreDragandDrop>
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <p> {introduction[0]?.value}</p>
-
         <Droppable droppableId="list">
           {(provided) => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
-              {statements?.map((item, index) => (
+              {randomisedlist?.map((item, index) => (
                 <Draggable key={item.id} draggableId={item.id} index={index}>
                   {(provided) => (
                     <div
@@ -117,7 +155,7 @@ function DragandDropMain(props) {
                       {...provided.dragHandleProps}
                     >
                       <DragandDropItem
-                        statements={statements}
+                        statements={randomisedlist}
                         helpneeded={helpneeded}
                         text={item.value}
                         allcorrect={allcorrect}

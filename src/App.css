@@ -86,3 +86,9 @@ body {
   transform: translateX(-50%);
   transition: 0.3s;
 }
+
+/* animations */
+
+.shake {
+  transform: rotate(0.5turn);
+}

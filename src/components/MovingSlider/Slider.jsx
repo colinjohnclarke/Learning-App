@@ -14,6 +14,7 @@ import {
 } from "../../features/Slider/sliderindex0slice";
 
 function Slider(props) {
+  const position = props.position;
   const resetselected = props.resetselected;
   const [repositionFocusBox, setRepositionFocusBox] = useState();
 
@@ -70,54 +71,54 @@ function Slider(props) {
     (state) => state.sliderreducerindex0.value.length
   );
 
-  useEffect(() => {
-    if (isinitialRenderCompleted) {
-      if (
-        (leftisselected && sliderLeftIsCorrect) ||
-        (rightisselected && sliderRightIsCorrect)
-      ) {
-        dispatch(index0correctanswerselected());
-      }
-    }
+  // useEffect(() => {
+  //   if (isinitialRenderCompleted) {
+  //     if (
+  //       (leftisselected && sliderLeftIsCorrect) ||
+  //       (rightisselected && sliderRightIsCorrect)
+  //     ) {
+  //       dispatch(index0correctanswerselected());
+  //     }
+  //   }
 
-    // return () => {
-    //   if (isinitialRenderCompleted) {
-    //     if (
-    //       (leftisselected && sliderLeftIsCorrect) ||
-    //       (rightisselected && sliderRightIsCorrect)
-    //     ) {
-    //       dispatch(index0correctanswerUNselected());
+  //   // return () => {
+  //   //   if (isinitialRenderCompleted) {
+  //   //     if (
+  //   //       (leftisselected && sliderLeftIsCorrect) ||
+  //   //       (rightisselected && sliderRightIsCorrect)
+  //   //     ) {
+  //   //       dispatch(index0correctanswerUNselected());
 
-    //       console.log("  return dispatch(index0correctanswerUNselected");
-    //     }
-    //   }
-    // };
-  }, [leftisselected, rightisselected]);
+  //   //       console.log("  return dispatch(index0correctanswerUNselected");
+  //   //     }
+  //   //   }
+  //   // };
+  // }, [leftisselected, rightisselected]);
 
-  useEffect(() => {
-    if (isinitialRenderCompleted) {
-      if (leftisselected !== sliderLeftIsCorrect) {
-        dispatch(index0correctanswerUNselected());
-      }
-    }
-    // return () => {
-    //   if (isinitialRenderCompleted) {
-    //     if (leftisselected !== sliderLeftIsCorrect) {
-    //       dispatch(index0correctanswerselected());
-    //       console.log("  return dispatch(index0correctanswerselected");
-    //     }
-    //   }
-    // };
-  }, [leftisselected, rightisselected]);
+  // useEffect(() => {
+  //   if (isinitialRenderCompleted) {
+  //     if (leftisselected !== sliderLeftIsCorrect) {
+  //       dispatch(index0correctanswerUNselected());
+  //     }
+  //   }
+  //   // return () => {
+  //   //   if (isinitialRenderCompleted) {
+  //   //     if (leftisselected !== sliderLeftIsCorrect) {
+  //   //       dispatch(index0correctanswerselected());
+  //   //       console.log("  return dispatch(index0correctanswerselected");
+  //   //     }
+  //   //   }
+  //   // };
+  // }, [leftisselected, rightisselected]);
 
-  useEffect(() => {
-    if (correctanswerArr === 4) {
-      console.log("allcorrect");
+  // useEffect(() => {
+  //   if (correctanswerArr === 4) {
+  //     console.log("allcorrect");
 
-      // update context for score
-      setIndex0AnswerIsCorrect((val) => true);
-    }
-  }, [leftisselected, rightisselected, correctanswerArr]);
+  //     // update context for score
+  //     setIndex0AnswerIsCorrect((val) => true);
+  //   }
+  // }, [leftisselected, rightisselected, correctanswerArr]);
 
   // useEffect(() => {
   //   // console.log(isSelected, isCorrect);
@@ -164,25 +165,31 @@ function Slider(props) {
   //   onLoading();
   // }, []);
   useEffect(() => {
-    if (
-      (leftisselected && sliderLeftIsCorrect) ||
-      (rightisselected && sliderRightIsCorrect)
-    ) {
-      dispatch(index0correctanswerselected());
-      console.log("  dispatch(index0correctanswerselected());");
+    if (leftisselected && sliderLeftIsCorrect) {
+      dispatch(index0correctanswerselected({ payload: { textleft } }));
+      console.log(
+        "LEFT selected",
+        leftisselected,
+        "Left is correct",
+        sliderLeftIsCorrect
+      );
+    } else if (rightisselected && sliderRightIsCorrect) {
+      dispatch(index0correctanswerselected({ payload: { textright } }));
+      console.log(
+        "Right selected",
+        rightisselected,
+        "Right is correct",
+        sliderRightIsCorrect
+      );
     }
+
     dispatch(initialRenderCompleted());
     console.log("  initialRenderCompleted();");
 
-    // return () => {
-    //   if (
-    //     (leftisselected && sliderLeftIsCorrect) ||
-    //     (rightisselected && sliderRightIsCorrect)
-    //   ) {
-    //     dispatch(index0correctanswerUNselected());
-    //     console.log("  return dispatch(index0correctanswerUNselected());");
-    //   }
-    // };
+    return () => {
+      dispatch(index0EmptyArr());
+      console.log("  return dispatch empty arr;");
+    };
   }, []);
 
   const clickHandler = () => {
@@ -197,12 +204,16 @@ function Slider(props) {
           <Box>
             <Text>
               <p style={{ fontSize: "12px" }}>{textleft}</p>
+              <p>{JSON.stringify(sliderLeftIsCorrect)}</p>
+              <p>{JSON.stringify(leftisselected)}</p>
             </Text>
           </Box>
 
           <Box>
             <Text>
               <p style={{ fontSize: "12px" }}>{textright}</p>
+              <p>{JSON.stringify(sliderRightIsCorrect)}</p>
+              <p>{JSON.stringify(rightisselected)}</p>
             </Text>
           </Box>
 

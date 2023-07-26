@@ -62,6 +62,7 @@ function MCQ({ data }) {
 export default MCQ;
 
 const Wrapper = styled.div`
+  // padding: 30px;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -69,8 +70,9 @@ const Wrapper = styled.div`
 
 const Main = styled.div`
   position: relative;
+  // padding-top: 30px;
 `;
 
 const Question = styled.div`
-  padding-top: 40px;
+  padding: 60px;
 `;

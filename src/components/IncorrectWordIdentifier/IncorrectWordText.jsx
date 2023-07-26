@@ -8,7 +8,7 @@ import sanityClient from "../../createclient";
 import "animate.css";
 import ScoreInCorrectWord from "../scores/ScoreIncorrectWord";
 
-import { correctstyle, incorrectstyle } from "../../styles/colors";
+import { correctstyle, incorrectstyle, colors } from "../../styles/colors";
 
 function IncorrectWordText(props) {
   const [obj1key0, setObj1key0] = useState({});
@@ -17,6 +17,8 @@ function IncorrectWordText(props) {
   const [obj1key3, setObj1key3] = useState({});
   const [sortedquestionarrword1, setSortedQuestionArrword1] = useState();
   const [sortedquestionarrword2, setSortedQuestionArrword2] = useState();
+  const [numberofCorrectwordstoFind, setNumberofCorrectWordstoFind] =
+    useState(2);
 
   const {
     index0word1selectioncorrect,
@@ -194,9 +196,10 @@ function IncorrectWordText(props) {
     transition: "2.5s",
     backgroundColor: "rgba(0, 200, 200, 0.3)",
     boxShadow: "rgba(0, 0, 0, 0.15) 0px 3px 3px 0px",
-    padding: "10px",
-    margin: "10px",
+    paddingTop: "10px",
+    marginTop: "10px",
     width: "60%",
+    minWidth: "350px",
     textAlign: "center",
   };
 
@@ -225,13 +228,9 @@ function IncorrectWordText(props) {
 
     setTimeout(() => {
       scrolltoFn(elementRef);
-    }, 300);
+    }, 700);
     // scrolltoFn(mcqCheckWord1Ref);
   };
-
-  if (word1selected) {
-    word1mcqstyle = displaymcqStyle;
-  }
 
   // click handler second word
   const incorrectAnswer2Clicked = (elementRef) => {
@@ -244,12 +243,35 @@ function IncorrectWordText(props) {
     //   scrolltoFn(mcqCheckWord1Ref);
   };
 
+  let animateNum = "";
+
   if (word2selected) {
     word2mcqstyle = displaymcqStyle;
+    animateNum = " animate__animated animate__bounceInLeft";
+  }
+
+  // function to reduce the count of remaining words after incorrect word correctly selected
+  useEffect(() => {
+    if (word1selected && numberofCorrectwordstoFind === 2) {
+      setNumberofCorrectWordstoFind((val) => val - 1);
+    } else if (word2selected && numberofCorrectwordstoFind === 1) {
+      setNumberofCorrectWordstoFind((val) => val - 1);
+    }
+  }, [word1selected, word2selected]);
+
+  if (word1selected) {
+    word1mcqstyle = displaymcqStyle;
+    animateNum = " animate__animated animate__bounceInLeft";
   }
 
   const mcq1 = (
-    <Mcq ref={mcqCheckWord1Ref} style={word1mcqstyle}>
+    <Mcq
+      className={
+        word1mcqstyle ? " animate__animated animate__bounceInLeft" : ""
+      }
+      ref={mcqCheckWord1Ref}
+      style={word1mcqstyle}
+    >
       <p>
         Good! Now which word best fits in place of the word you have selected
         instead of{" "}
@@ -287,7 +309,11 @@ function IncorrectWordText(props) {
   );
 
   const mcq2 = (
-    <Mcq ref={mcqCheckWord2Ref} style={word2mcqstyle}>
+    <Mcq
+      className={word2mcqstyle ? "animate__animated animate__bounceInLeft" : ""}
+      ref={mcqCheckWord2Ref}
+      style={word2mcqstyle}
+    >
       <p>
         Great, whats the word from these below that should replace{" "}
         <strong style={{ color: "red", fontWeight: "bold", textSize: "17px" }}>
@@ -325,8 +351,18 @@ function IncorrectWordText(props) {
     <Wrapper>
       <ScoreInCorrectWord index={index}></ScoreInCorrectWord>
       <p style={{ textAlign: "center" }}>
-        {`There are incorrect words in the text below, find them and
-        click!`}
+        There are{" "}
+        <strong
+          className={animateNum}
+          style={{
+            fontWeight: 800,
+            color: colors.correctColor,
+            textDecoration: "underline",
+          }}
+        >
+          {numberofCorrectwordstoFind}
+        </strong>{" "}
+        incorrect words in the text below, find them and click!
       </p>
       <Main>
         <PortableText
@@ -373,9 +409,9 @@ const Wrapper = styled.div`
 
 const Text = styled.div`
   line-height: 20px;
-  text-align: justify;
+  text-align: center;
   display: inline;
-  padding: 10px;
+  padding: 15px;
 `;
 
 const Image = styled.div`
@@ -385,7 +421,7 @@ const Image = styled.div`
   align-items: center;
 `;
 
-const IncorrectWord = styled.div`
+const IncorrectWord = styled.p`
   display: inline;
 `;
 
