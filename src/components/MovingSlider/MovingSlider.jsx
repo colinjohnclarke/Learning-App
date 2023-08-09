@@ -1,12 +1,10 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState } from "react";
 import Slider from "./Slider";
 import styled from "styled-components";
-import ScoreSlider from "../scores/ScoreSlider";
+import ScoreSlider from "../../components/Data/CurrentQuestionScores/ScoreSlider";
 
 function MovingSlider(props) {
   const [resetselected, setResetSelected] = useState(false);
-
-  const [val, setVal] = useState(0);
 
   // save props as const
   const sliderData = props.data;
@@ -123,6 +121,7 @@ function MovingSlider(props) {
 export default MovingSlider;
 
 const Wrapper = styled.div`
+  border-top: 0.5px solid lightblue;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -130,4 +129,5 @@ const Wrapper = styled.div`
   text-align: center;
   position: relative;
   padding-top: 40px;
+  width: 100%;
 `;

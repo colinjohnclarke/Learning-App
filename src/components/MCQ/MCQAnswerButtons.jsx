@@ -2,11 +2,13 @@ import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import Button from "@mui/material/Button";
 import { colors } from "../../styles/colors";
-import MCQbtn from "../Buttons/MainActionBtn";
+import MCQbtn from "../Buttons/MCQbtn";
 import { TiTickOutline } from "react-icons/ti";
 import { RxCross2 } from "react-icons/rx";
 import "animate.css";
 import { MCQcontext } from "./MCQContext";
+import { useDispatch } from "react-redux";
+import { updateQuestionsAttempted } from "../../features/CurrentBlockProgressData/currentblockprogressdata";
 
 const MCQAnswerButtons = (props) => {
   const [buttonstyle, setButtonStyle] = useState({});
@@ -16,9 +18,7 @@ const MCQAnswerButtons = (props) => {
   const [animateclass, setAnimateClass] = useState("");
   const [textstyle, setTextStyle] = useState({});
   const [correctbuttondisabled, setCorrectButtonDisabled] = useState(false);
-
   const [buttonClicked, setButtonClicked] = useState(false);
-  // const [correctanswerSelected, setCorrectAnswerSelcted] = useState(false);
 
   const {
     index0ItemClickedisCorrect,
@@ -31,35 +31,21 @@ const MCQAnswerButtons = (props) => {
     setIndex1ItemSelectionIsInCorrect,
   } = useContext(MCQcontext);
 
+  const dispatch = useDispatch();
   // get props
   const index = props.index;
-  // console.log(
-  //   "🚀 ~ file: MCQAnswerButtons.jsx:36 ~ MCQAnswerButtons ~ index:",
-  //   index
-  // );
-
   const itemisCorrect = props.isCorrect;
-  // console.log(
-  //   "🚀 ~ file: MCQAnswerButtons.jsx:39 ~ MCQAnswerButtons ~ itemisCorrect:",
-  //   itemisCorrect
-  // );
 
   const onPressed = () => {
-    console.log("pressed");
-    console.log(index, itemisCorrect);
     setButtonClicked((val) => !val);
     if (itemisCorrect && index === 0) {
       setindex0ItemClickedIsCorrect((val) => true);
-      console.log("  setindex0ItemClickedIsCorrect((val) => true);");
     } else if (itemisCorrect && index === 1) {
       setindex1ItemClickedIsCorrect((val) => true);
-      console.log(" setindex1ItemClickedIsCorrect((val) => true)");
     } else if (!itemisCorrect && index === 0) {
       setIndex0ItemSelectionIsInCorrect((prevVal) => true);
-      console.log("index 0 clicked");
     } else if (!itemisCorrect && index === 1) {
       setIndex1ItemSelectionIsInCorrect((prevVal) => true);
-      console.log("index 1 clicked");
     }
 
     setButtonStyle({
@@ -78,10 +64,6 @@ const MCQAnswerButtons = (props) => {
         <RxCross2 />
       )
     );
-  };
-
-  const handleClick = () => {
-    console.log("pressed");
   };
 
   let showcorrectAns = {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import MovingSlider from "./MovingSlider";
 import { SliderContext } from "./SliderContext";
 

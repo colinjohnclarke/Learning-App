@@ -1,18 +1,21 @@
 import React from "react";
 import styled from "styled-components";
 
-function MCQbtn({ children, ...atributes }) {
-  console.log("children", children);
-
-  return <Btn></Btn>;
+function MCQbtn({ ...atributes }) {
+  return <Btn type="button" {...atributes}></Btn>;
 }
 
 export default MCQbtn;
 
 const Btn = styled.button`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   border: none;
   margin: 10px;
-  width: 300px;
+  height: 40px;
+  width: 250px;
   border-radius: 4px;
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;

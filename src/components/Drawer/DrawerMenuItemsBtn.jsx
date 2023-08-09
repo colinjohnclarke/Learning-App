@@ -139,7 +139,7 @@ function DrawerMenuItemsBtn(props) {
 export default DrawerMenuItemsBtn;
 
 const MenuItemsButton = styled.div`
-  height: 60px;
+  height: 50px;
   width: 100%;
   display: flex;
   flex-direction: row;

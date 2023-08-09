@@ -15,7 +15,7 @@ const Btn = styled.button`
   border: none;
   margin: 10px;
   height: 40px;
-  width: 250px;
+  width: 100px;
   border-radius: 4px;
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
@@ -32,6 +32,6 @@ const Btn = styled.button`
   }
 
   p {
-    font-size: 15px;
+    font-size: 12px;
   }
 `;

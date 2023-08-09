@@ -6,6 +6,10 @@ import DragandDropMain from "./DragandDropMain";
 import { DragandDropContext } from "./DragandDropContext";
 
 function DragDropRandomise(props) {
+  console.log(
+    "🚀 ~ file: DragDropRandomise.jsx:9 ~ DragDropRandomise ~ props:",
+    props
+  );
   const [reset, setReset] = useState(false);
 
   const [sorted, setSorted] = useState([]);
@@ -19,6 +23,12 @@ function DragDropRandomise(props) {
   const data = props.order_items_drag_drop;
 
   const index = props.index;
+
+  const totalMarksAvailable = data.total_marks_available;
+  console.log(
+    "🚀 ~ file: DragDropRandomise.jsx:28 ~ DragDropRandomise ~ totalMarksAvailable:",
+    totalMarksAvailable
+  );
 
   // create random nums
 
@@ -62,6 +72,7 @@ function DragDropRandomise(props) {
   return (
     <Wrapper>
       <DragandDropMain
+        totalMarksAvailable={totalMarksAvailable}
         index={index}
         reset={reset}
         randomisedorderitemsarr={sorted}
@@ -78,12 +89,14 @@ function DragDropRandomise(props) {
 export default DragDropRandomise;
 
 const Wrapper = styled.div`
+border-top: 0.5px solid lightblue;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   position: relative;
   padding-top: 40px;
+  width: 100%;
 `;
 
 const Btn = styled.button`

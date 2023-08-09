@@ -1,16 +1,15 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { memo } from "react";
-import { device } from "../../styles/breakpoints";
 import DualBox from "./DualBox";
-import { useSelector } from "react-redux";
 import ResetBtn from "../Buttons/ResetBtn";
-import ScoreDualSelection from "../scores/ScoreDualSelection";
+import ScoreDualSelection from "../Data/CurrentQuestionScores/ScoreDualSelection";
 
 function DualBoxSelection(props) {
   const [resetselected, setResetSelected] = useState(false);
 
   const sliderData = props.data;
+  const totalMarksAvailable = sliderData.total_marks_available;
+
   const index = props.index;
   const num1a = Math.random();
   const num1b = Math.random();
@@ -41,7 +40,10 @@ function DualBoxSelection(props) {
     <Wrapper>
       <Question>{sliderData.question}</Question>
 
-      <ScoreDualSelection index={index}></ScoreDualSelection>
+      <ScoreDualSelection
+        totalMarksAvailable={totalMarksAvailable}
+        index={index}
+      ></ScoreDualSelection>
 
       <DualBox
         resetselected={resetselected}
@@ -117,6 +119,7 @@ function DualBoxSelection(props) {
 export default DualBoxSelection;
 
 const Wrapper = styled.div`
+  border-top: 0.5px solid lightblue;
   display: flex;
   flex-direction: column;
   align-items: center;

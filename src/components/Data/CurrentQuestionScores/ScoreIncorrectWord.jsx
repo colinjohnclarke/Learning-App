@@ -1,12 +1,20 @@
 import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 import "animate.css";
-import { colors, correctStyle } from "../../styles/colors";
-import correct from "../../assets/correct.mp3";
-import { IncorrectWordContext } from "../IncorrectWordIdentifier/IncorrectWordContext";
+import { colors } from "../../../styles/colors";
+import correct from "../../../assets/correct.mp3";
+import { IncorrectWordContext } from "../../IncorrectWordIdentifier/IncorrectWordContext";
+
+import {
+  updatePointsAvaiableArr,
+  updateUserScore,
+} from "../../../features/CurrentBlockProgressData/currentblockprogressdata";
+
+import { useDispatch } from "react-redux";
 
 function ScoreInCorrectWord(props) {
   const index = props.index;
+  const totalMarksAvailable = props.totalMarksAvailable;
   const [score, setScore] = useState(0);
   const [scoreStyle, setScoreStyle] = useState({});
   const [animateclass, setAnimateClass] = useState("");
@@ -39,6 +47,12 @@ function ScoreInCorrectWord(props) {
   let someCorrect = { backgroundColor: colors.someCorrectColor };
   // let correctstyles = correctStyle;
 
+  // uodate total points available arr
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(updatePointsAvaiableArr({ totalMarksAvailable }));
+  }, []);
+
   // update score based on incorrect words correctly clicked
 
   // word 1
@@ -49,7 +63,7 @@ function ScoreInCorrectWord(props) {
       playCorrectSound();
       setScoreStyle((val) => someCorrect);
       setAnimateClass((val) => "animate__animated animate__tada");
-
+      dispatch(updateUserScore());
       setTimeout(() => {
         setAnimateClass((val) => "");
       }, 500);
@@ -68,6 +82,7 @@ function ScoreInCorrectWord(props) {
       playCorrectSound();
       setScoreStyle((val) => someCorrect);
       setAnimateClass((val) => "animate__animated animate__tada");
+      dispatch(updateUserScore());
 
       setTimeout(() => {
         setAnimateClass((val) => "");
@@ -90,6 +105,7 @@ function ScoreInCorrectWord(props) {
       playCorrectSound();
       setScoreStyle((val) => someCorrect);
       setAnimateClass((val) => "animate__animated animate__tada");
+      dispatch(updateUserScore());
 
       setTimeout(() => {
         setAnimateClass((val) => "");
@@ -111,6 +127,7 @@ function ScoreInCorrectWord(props) {
       playCorrectSound();
       setScoreStyle((val) => someCorrect);
       setAnimateClass((val) => "animate__animated animate__tada");
+      dispatch(updateUserScore());
 
       setTimeout(() => {
         setAnimateClass((val) => "");

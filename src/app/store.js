@@ -7,6 +7,7 @@ import draganddropreducer from "../features/draganddropdataSlice";
 import sliderreducerindex0 from "../features/Slider/sliderindex0slice";
 import progressbarreducer from "../features/ProgressBar/ProgressBar";
 import drawerSlice from "../features/Drawer/DrawerSlice";
+import currentblockprogressdata from "../features/CurrentBlockProgressData/currentblockprogressdata";
 
 export const store = configureStore({
   reducer: {
@@ -16,5 +17,6 @@ export const store = configureStore({
     sliderreducerindex0,
     progressbarreducer,
     drawerSlice,
+    currentblockprogressdata,
   },
 });

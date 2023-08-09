@@ -1,22 +1,25 @@
 import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 import "animate.css";
-import { colors, correctstyle, incorrectstyle } from "../../styles/colors";
-import correct from "../../assets/correct.mp3";
-import { SliderContext } from "../MovingSlider/SliderContext";
+import { correctstyle } from "../../../styles/colors";
+import correct from "../../../assets/correct.mp3";
+import { DragandDropContext } from "../../Drag&Drop/DragandDropContext";
+import { useDispatch } from "react-redux";
+import {
+  updatePointsAvaiableArr,
+  updateUserScore,
+} from "../../../features/CurrentBlockProgressData/currentblockprogressdata";
 
-function ScoreSlider(props) {
+function ScoreDragandDrop(props) {
   const index = props.index;
+  const totalMarksAvailable = props.totalMarksAvailable;
+
   const [score, setScore] = useState(0);
   const [scoreStyle, setScoreStyle] = useState({});
   const [animateclass, setAnimateClass] = useState("");
 
-  const {
-    index0AnswerisCorrect,
-    // setIndex0AnswerIsCorrect,
-    // index0AnswerisInCorrect,
-    // setIndex0AnswerIsInCorrect,
-  } = useContext(SliderContext);
+  const { index0AnswerisCorrect, index1AnswerisCorrect } =
+    useContext(DragandDropContext);
 
   let animateClass = "";
   const maxscore = 1;
@@ -25,8 +28,11 @@ function ScoreSlider(props) {
     new Audio(correct).play();
   };
 
-  //   let correctstyle = correctstyle;
-  //   let incorrectstyle = incorrectstyle;
+  // uodate total points available arr
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(updatePointsAvaiableArr({ totalMarksAvailable }));
+  }, []);
 
   useEffect(() => {
     if (index0AnswerisCorrect && index === 0) {
@@ -34,30 +40,36 @@ function ScoreSlider(props) {
       playCorrectSound();
       setAnimateClass((val) => "animate__animated animate__tada");
       setScoreStyle((val) => correctstyle);
+      dispatch(updateUserScore());
 
       console.log(" USE EFFECTindex0 correct", index0AnswerisCorrect);
+    } else {
+      setScoreStyle((val) => {});
     }
     return () => {
       if (index0AnswerisCorrect) {
-        setScore((val) => val - 1);
+        setScore((val) => 0);
       }
     };
   }, [index0AnswerisCorrect]);
 
-  //   useEffect(() => {
-  //     if (index1AnswerisCorrect && index === 1) {
-  //       setScore((val) => val + 1);
-  //       playCorrectSound();
-  //       setAnimateClass((val) => "animate__animated animate__tada");
-  //       setScoreStyle((val) => correctstyle);
-  //     }
+  useEffect(() => {
+    if (index1AnswerisCorrect && index === 1) {
+      setScore((val) => val + 1);
+      playCorrectSound();
+      setAnimateClass((val) => "animate__animated animate__tada");
+      setScoreStyle((val) => correctstyle);
+      dispatch(updateUserScore());
+    } else {
+      setScoreStyle((val) => {});
+    }
 
-  //     return () => {
-  //       if (index1AnswerisCorrect) {
-  //         setScore((val) => val - 1);
-  //       }
-  //     };
-  //   }, [index1AnswerisCorrect]);
+    return () => {
+      if (index1AnswerisCorrect) {
+        setScore((val) => 0);
+      }
+    };
+  }, [index1AnswerisCorrect]);
 
   return (
     <Wrapper style={scoreStyle}>
@@ -91,8 +103,9 @@ const Wrapper = styled.div`
 
 const Text = styled.p`
   display: flex;
+
   justify-content: center;
   align-items: center;
 `;
 
-export default ScoreSlider;
+export default ScoreDragandDrop;

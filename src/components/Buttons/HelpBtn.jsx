@@ -6,6 +6,7 @@ function HelpBtn({ ...atributes }) {
   return (
     <MainActionBtn {...atributes}>
       <BiHelpCircle />
+      <p style={{ paddingLeft: "8px" }}>Get Help</p>
     </MainActionBtn>
   );
 }

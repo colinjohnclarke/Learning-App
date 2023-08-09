@@ -1,13 +1,19 @@
 import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 import "animate.css";
-import { colors, correctstyle } from "../../styles/colors";
-import correct from "../../assets/correct.mp3";
-import { TableFillMissingValuesContext } from "../Tables/MissingData/FillMissingValuesContext";
-import { fontWeight } from "@mui/system";
+import { colors, correctstyle } from "../../../styles/colors";
+import correct from "../../../assets/correct.mp3";
+import { TableFillMissingValuesContext } from "../../Tables/MissingData/FillMissingValuesContext";
+import {
+  updatePointsAvaiableArr,
+  updateUserScore,
+} from "../../../features/CurrentBlockProgressData/currentblockprogressdata";
+
+import { useDispatch } from "react-redux";
 
 function ScoreMissingTableValues(props) {
   const index = props.index;
+  const totalMarksAvailable = props.totalMarksAvailable;
 
   const [score, setScore] = useState(0);
   const [scoreStyle, setScoreStyle] = useState({});
@@ -34,12 +40,19 @@ function ScoreMissingTableValues(props) {
     new Audio(correct).play();
   };
 
+  // update total points avaiable store in redux store
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(updatePointsAvaiableArr({ totalMarksAvailable }));
+  }, []);
+
   useEffect(() => {
     if (index0AnswerisCorrect && index === 0) {
       setScore((val) => val + 1);
       playCorrectSound();
       setAnimateClass((val) => "animate__animated animate__tada");
       setScoreStyle((val) => correctstyle);
+      dispatch(updateUserScore());
     }
     return () => {
       if (index0AnswerisCorrect) {
@@ -54,6 +67,7 @@ function ScoreMissingTableValues(props) {
       playCorrectSound();
       setAnimateClass((val) => "animate__animated animate__tada");
       setScoreStyle((val) => correctstyle);
+      dispatch(updateUserScore());
     }
 
     return () => {
@@ -67,15 +81,10 @@ function ScoreMissingTableValues(props) {
     <Wrapper style={scoreStyle}>
       <Text
         className={animateclass}
-        style={{ color: "white", fontWeight: "600" }}
+        style={{ fontSize: "16px", fontWeight: "400" }}
       >
-        <sup style={{ padding: "4px", color: "white", fontWeight: "600" }}>
-          {score}
-        </sup>{" "}
-        &#8260;
-        <sub style={{ padding: "4px", color: "white", fontWeight: "600" }}>
-          {maxscore}
-        </sub>
+        <sup style={{ padding: "4px", fontWeight: "400" }}>{score}</sup> &#8260;
+        <sub style={{ padding: "4px", fontWeight: "400" }}>{maxscore}</sub>
       </Text>
     </Wrapper>
   );

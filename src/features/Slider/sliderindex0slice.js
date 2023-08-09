@@ -12,13 +12,14 @@ export const sliderindex0Slice = createSlice({
   reducers: {
     index0correctanswerselected: (state, action) => {
       state.value.push(true);
-      // state.correct.push(action.payload);
+      state.correct.push(action.payload);
     },
     index0correctanswerUNselected: (state) => {
       state.value.pop(true);
     },
     index0EmptyArr: (state) => {
       state.value = [];
+      state.correct = [];
     },
     initialRenderCompleted: (state) => {
       state.renderCompleted = true;

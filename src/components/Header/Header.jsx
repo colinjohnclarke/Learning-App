@@ -20,7 +20,7 @@ const Wrapper = styled.div`
   min-height: 50px;
   height: 5%;
   background-color: white;
-  width: 100%;
+  width: 100vw;
   display: flex;
   flex-direction: row;
   justify-content: space-between;

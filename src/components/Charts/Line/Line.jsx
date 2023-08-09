@@ -75,7 +75,7 @@ function Line(props) {
     autosize: true,
     showlegend: true,
     // height: 400,
-    width: 400,
+    width: 350,
     font: {
       family: "Montserrat",
       size: 10,

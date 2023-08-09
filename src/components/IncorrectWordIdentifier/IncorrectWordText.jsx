@@ -6,7 +6,8 @@ import { PortableText } from "@portabletext/react";
 import imageUrlBuilder from "@sanity/image-url";
 import sanityClient from "../../createclient";
 import "animate.css";
-import ScoreInCorrectWord from "../scores/ScoreIncorrectWord";
+
+import ScoreInCorrectWord from "../Data/CurrentQuestionScores/ScoreIncorrectWord";
 
 import { correctstyle, incorrectstyle, colors } from "../../styles/colors";
 
@@ -20,20 +21,8 @@ function IncorrectWordText(props) {
   const [numberofCorrectwordstoFind, setNumberofCorrectWordstoFind] =
     useState(2);
 
-  const {
-    index0word1selectioncorrect,
-    setindex0Word1SelectionCorrect,
-    index0mcq1selectioncorrect,
-    setindex0MCQ1SelectionCorrect,
-    index0mcq1selectionIncorrect,
-    index0setMCQ1SelectionInCorrect,
-    index0word2selectioncorrect,
-    setindex0Word2SelectionCorrect,
-    index0mcq2selectioncorrect,
-    setindex0MCQ2SelectionCorrect,
-    index0mcq2selectionIncorrect,
-    setindex0MCQ2SelectionInCorrect,
-  } = useContext(IncorrectWordContext);
+  const { setindex0Word1SelectionCorrect, setindex0Word2SelectionCorrect } =
+    useContext(IncorrectWordContext);
 
   const [obj2key0, setObj2key0] = useState({});
   const [obj2key1, setObj2key1] = useState({});
@@ -47,8 +36,12 @@ function IncorrectWordText(props) {
   const mcqCheckWord2Ref = useRef(false);
 
   const data = props.data;
-
   const index = props.index;
+  const totalMarksAvailable = data.total_marks_available;
+  console.log(
+    "🚀 ~ file: IncorrectWordText.jsx:42 ~ IncorrectWordText ~ totalMarksAvailable:",
+    totalMarksAvailable
+  );
 
   // word 1
   const MCQ_option_for_replacement_word1 =
@@ -349,7 +342,10 @@ function IncorrectWordText(props) {
 
   return (
     <Wrapper>
-      <ScoreInCorrectWord index={index}></ScoreInCorrectWord>
+      <ScoreInCorrectWord
+        totalMarksAvailable={totalMarksAvailable}
+        index={index}
+      ></ScoreInCorrectWord>
       <p style={{ textAlign: "center" }}>
         There are{" "}
         <strong
@@ -405,6 +401,7 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
+  border-top: 0.5px solid lightblue;
 `;
 
 const Text = styled.div`

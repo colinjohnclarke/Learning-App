@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
-import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import styled from "styled-components";
-import Slide from "@mui/material/Slide";
 import { colors } from "../../styles/colors";
 import MainActionBtn from "../Buttons/MainActionBtn";
 import { BiHelpCircle } from "react-icons/bi";
-import ScoreTextInput from "../scores/ScoreTextInput";
+import ScoreTextInput from "../Data/CurrentQuestionScores/ScoreTextInput";
 import { TextInputContext } from "./TextInputContext";
+import "animate.css";
 
 // sanity imports
 import sanityClient from "../../createclient";
@@ -23,6 +22,8 @@ function StudentInputForm(props) {
   const data = props.data;
 
   const index = props.index;
+
+  const totalMarksAvailable = props.data.total_marks_available;
 
   //constants
 
@@ -166,7 +167,10 @@ function StudentInputForm(props) {
   };
   return (
     <Wrapper>
-      <ScoreTextInput index={index}></ScoreTextInput>
+      <ScoreTextInput
+        totalMarksAvailable={totalMarksAvailable}
+        index={index}
+      ></ScoreTextInput>
       <Question>{question}</Question>
 
       <PortableText
@@ -176,7 +180,14 @@ function StudentInputForm(props) {
 
       <HelpBtn onClick={helpBtnClickHandler}></HelpBtn>
 
-      <Hint style={helpneeded ? hintStyle : hintstyleHidden}>
+      <Hint
+        style={helpneeded ? hintStyle : hintstyleHidden}
+        className={
+          helpneeded
+            ? "animate__animated animate__backInRight animate__fast"
+            : ""
+        }
+      >
         <BiHelpCircle style={{ width: "70px" }} />
         {hint}
       </Hint>
@@ -201,11 +212,13 @@ function StudentInputForm(props) {
 export default StudentInputForm;
 
 const Wrapper = styled.div`
+  border-top: 0.5px solid lightblue;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   position: relative;
+  width: 100%;
 
   form {
     padding: 2%;

@@ -49,13 +49,8 @@ function DrawerMenuSubItemsBtn(props) {
     setButtonStyle((val) => normalstyle);
   };
 
-  const selectFun = () => {
-    console.log("clickde");
-  };
-
   return (
     <MenuItemsButton
-      onClick={selectFun}
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
       style={buttonstyle}

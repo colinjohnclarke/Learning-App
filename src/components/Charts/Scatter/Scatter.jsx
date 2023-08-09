@@ -47,8 +47,9 @@ function Scatter(props) {
     yaxis: {
       title: variable_2_name,
     },
-    // width: "100%",
-    // height: 400,
+    width: 300,
+    height: 400,
+
     font: {
       family: "Montserrat",
       size: 16,

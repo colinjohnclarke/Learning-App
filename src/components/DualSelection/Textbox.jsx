@@ -9,11 +9,6 @@ import {
   correctAnswerUNSelectedIndex0,
 } from "../../features/DualSelection/dualselectionquestiondataSliceIndex0";
 
-import {
-  correctAnswerSelectedIndex1,
-  correctAnswerUNSelectedIndex1,
-} from "../../features/DualSelection/dualselectionquestiondataSliceIndex1";
-
 import { useDispatch, useSelector } from "react-redux";
 import { DualSelectionContext } from "./DualSelectionContext";
 
@@ -53,7 +48,6 @@ function Textbox(props) {
   useEffect(() => {
     if (index === 0 && isSelected && isCorrect) {
       dispatch(correctAnswerSelectedIndex0());
-      console.log("  dispatch(correctAnswerSelectedIndex0());");
     } else if (index === 0 && !isSelected && isCorrect) {
       dispatch(correctAnswerUNSelectedIndex0());
     }
@@ -63,7 +57,6 @@ function Textbox(props) {
     if (index0currentSliderQuestionScore.length === 4) {
       // set context value to true to update score component, this needs to be in use Effect or we get a set state error
       setIndex0AnswerisCorrect((val) => true);
-      console.log(" setIndex0AnswerisCorrect((val) => true);");
     }
 
     return () => {
@@ -161,18 +154,13 @@ function Textbox(props) {
   return (
     <Box
       className={
-        index0currentSliderQuestionScore.length === 4 && !isCorrect
-          ? "animate__animated animate__hinge"
+        index0currentSliderQuestionScore.length === 4 && isCorrect
+          ? "animate__animated animate__bounce"
           : "animate__animated"
       }
       style={style}
     >
       <Text
-        className={
-          index0currentSliderQuestionScore.length === 4 && isCorrect
-            ? "animate__animated animate__tada"
-            : "animate__animated"
-        }
         style={
           index0currentSliderQuestionScore.length === 4 || isSelected
             ? whiteText

@@ -1,10 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
-import { keyframes } from "styled-components";
+
 import { useSelector, useDispatch } from "react-redux";
 import { colors, correctstyle } from "../../styles/colors";
 import { SliderContext } from "./SliderContext";
-import ScoreSlider from "../scores/ScoreSlider";
 
 import {
   index0correctanswerselected,
@@ -71,124 +70,45 @@ function Slider(props) {
     (state) => state.sliderreducerindex0.value.length
   );
 
-  // useEffect(() => {
-  //   if (isinitialRenderCompleted) {
-  //     if (
-  //       (leftisselected && sliderLeftIsCorrect) ||
-  //       (rightisselected && sliderRightIsCorrect)
-  //     ) {
-  //       dispatch(index0correctanswerselected());
-  //     }
-  //   }
+  useEffect(() => {
+    if (isinitialRenderCompleted) {
+      if (
+        (leftisselected && sliderLeftIsCorrect) ||
+        (rightisselected && sliderRightIsCorrect)
+      ) {
+        dispatch(index0correctanswerselected());
+        console.log(" mount");
+      } else if (leftisselected !== sliderLeftIsCorrect) {
+        dispatch(index0correctanswerUNselected());
+        console.log(" mount");
+      }
+    }
 
-  //   // return () => {
-  //   //   if (isinitialRenderCompleted) {
-  //   //     if (
-  //   //       (leftisselected && sliderLeftIsCorrect) ||
-  //   //       (rightisselected && sliderRightIsCorrect)
-  //   //     ) {
-  //   //       dispatch(index0correctanswerUNselected());
+    // return () => {
+    //   if (isinitialRenderCompleted) {
+    //     if (
+    //       (leftisselected && sliderLeftIsCorrect) ||
+    //       (rightisselected && sliderRightIsCorrect)
+    //     ) {
+    //       dispatch(index0correctanswerUNselected());
 
-  //   //       console.log("  return dispatch(index0correctanswerUNselected");
-  //   //     }
-  //   //   }
-  //   // };
-  // }, [leftisselected, rightisselected]);
+    //       console.log("  return dispatch(index0correctanswerUNselected");
+    //     }
+    //   }
+    // };
+  }, [leftisselected, rightisselected]);
 
-  // useEffect(() => {
-  //   if (isinitialRenderCompleted) {
-  //     if (leftisselected !== sliderLeftIsCorrect) {
-  //       dispatch(index0correctanswerUNselected());
-  //     }
-  //   }
-  //   // return () => {
-  //   //   if (isinitialRenderCompleted) {
-  //   //     if (leftisselected !== sliderLeftIsCorrect) {
-  //   //       dispatch(index0correctanswerselected());
-  //   //       console.log("  return dispatch(index0correctanswerselected");
-  //   //     }
-  //   //   }
-  //   // };
-  // }, [leftisselected, rightisselected]);
-
-  // useEffect(() => {
-  //   if (correctanswerArr === 4) {
-  //     console.log("allcorrect");
-
-  //     // update context for score
-  //     setIndex0AnswerIsCorrect((val) => true);
-  //   }
-  // }, [leftisselected, rightisselected, correctanswerArr]);
-
-  // useEffect(() => {
-  //   // console.log(isSelected, isCorrect);
-  //   // console.log({ text });
-  //   if (
-  //     (leftisselected && sliderLeftIsCorrect) ||
-  //     (rightisselected && sliderRightIsCorrect)
-  //   ) {
-  //     dispatch(index0correctanswerselected());
-  //     console.log("dispatch(index0correctanswerselected( FIRST));");
-  //   }
-  //   dispatch(initialRenderCompleted());
-
-  //   return () => {
-  //     if (
-  //       (leftisselected && sliderLeftIsCorrect) ||
-  //       (rightisselected && sliderRightIsCorrect)
-  //     ) {
-  //       dispatch(index0correctanswerUNselected());
-  //       console.log("dispatch(index0correctanswerUNselected())");
-  //     }
-  //     console.log("return function fired");
-  //   };
-  // }, []);
-
-  // const onLoading = () => {
-  //   console.log(leftisselected, siderLeftisCorrect);
-  //   console.log({ textleft });
-  //   if (leftisselected && siderLeftisCorrect) {
-  //     dispatch(index0correctanswerselected());
-  //     console.log("dispatch(index0correctanswerselected( FIRST));");
-  //   }
-  //   console.log(rightisselected, sliderRightisCorrect);
-  //   console.log({ textright });
-  //   if (rightisselected && sliderRightisCorrect) {
-  //     dispatch(index0correctanswerselected());
-  //     console.log("dispatch(index0correctanswerselected( FIRST));");
-  //   }
-
-  //   dispatch(initialRenderCompleted());
-  // };
-
-  // useEffect(() => {
-  //   onLoading();
-  // }, []);
   useEffect(() => {
     if (leftisselected && sliderLeftIsCorrect) {
-      dispatch(index0correctanswerselected({ payload: { textleft } }));
-      console.log(
-        "LEFT selected",
-        leftisselected,
-        "Left is correct",
-        sliderLeftIsCorrect
-      );
+      dispatch(index0correctanswerselected({ payload: textleft }));
     } else if (rightisselected && sliderRightIsCorrect) {
-      dispatch(index0correctanswerselected({ payload: { textright } }));
-      console.log(
-        "Right selected",
-        rightisselected,
-        "Right is correct",
-        sliderRightIsCorrect
-      );
+      dispatch(index0correctanswerselected({ payload: textright }));
     }
 
     dispatch(initialRenderCompleted());
-    console.log("  initialRenderCompleted();");
 
     return () => {
       dispatch(index0EmptyArr());
-      console.log("  return dispatch empty arr;");
     };
   }, []);
 
@@ -197,6 +117,13 @@ function Slider(props) {
     setRightisSelected(!rightisselected);
   };
 
+  useEffect(() => {
+    if (correctanswerArr === 4) {
+      setIndex0AnswerIsCorrect((val) => true);
+      console.log("all correct");
+    }
+  }, [correctanswerArr]);
+
   return (
     <div>
       <Wrapper>
@@ -204,16 +131,16 @@ function Slider(props) {
           <Box>
             <Text>
               <p style={{ fontSize: "12px" }}>{textleft}</p>
-              <p>{JSON.stringify(sliderLeftIsCorrect)}</p>
-              <p>{JSON.stringify(leftisselected)}</p>
+              {/* <p>{JSON.stringify(sliderLeftIsCorrect)}</p>
+              <p>{JSON.stringify(leftisselected)}</p> */}
             </Text>
           </Box>
 
           <Box>
             <Text>
               <p style={{ fontSize: "12px" }}>{textright}</p>
-              <p>{JSON.stringify(sliderRightIsCorrect)}</p>
-              <p>{JSON.stringify(rightisselected)}</p>
+              {/* <p>{JSON.stringify(sliderRightIsCorrect)}</p>
+              <p>{JSON.stringify(rightisselected)}</p> */}
             </Text>
           </Box>
 

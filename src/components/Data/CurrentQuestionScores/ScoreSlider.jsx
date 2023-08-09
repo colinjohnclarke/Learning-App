@@ -1,19 +1,30 @@
 import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 import "animate.css";
-import { colors, correctstyle } from "../../styles/colors";
-import correct from "../../assets/correct.mp3";
-import { DragandDropContext } from "../Drag&Drop/DragandDropContext";
+import { colors, correctstyle } from "../../../styles/colors";
+import correct from "../../../assets/correct.mp3";
+import { SliderContext } from "../../MovingSlider/SliderContext";
+import {
+  updatePointsAvaiableArr,
+  updateUserScore,
+} from "../../../features/CurrentBlockProgressData/currentblockprogressdata";
 
-function ScoreDragandDrop(props) {
+import { useDispatch } from "react-redux";
+
+function ScoreSlider(props) {
   const index = props.index;
+  const totalMarksAvailable = props.totalMarksAvailable;
 
   const [score, setScore] = useState(0);
   const [scoreStyle, setScoreStyle] = useState({});
   const [animateclass, setAnimateClass] = useState("");
 
-  const { index0AnswerisCorrect, index1AnswerisCorrect } =
-    useContext(DragandDropContext);
+  const {
+    index0AnswerisCorrect,
+    // setIndex0AnswerIsCorrect,
+    // index0AnswerisInCorrect,
+    // setIndex0AnswerIsInCorrect,
+  } = useContext(SliderContext);
 
   let animateClass = "";
   const maxscore = 1;
@@ -21,6 +32,14 @@ function ScoreDragandDrop(props) {
   const playCorrectSound = () => {
     new Audio(correct).play();
   };
+
+  //   let correctstyle = correctstyle;
+  //   let incorrectstyle = incorrectstyle;
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(updatePointsAvaiableArr({ totalMarksAvailable }));
+  }, []);
 
   useEffect(() => {
     if (index0AnswerisCorrect && index === 0) {
@@ -30,35 +49,34 @@ function ScoreDragandDrop(props) {
       setScoreStyle((val) => correctstyle);
 
       console.log(" USE EFFECTindex0 correct", index0AnswerisCorrect);
-    } else {
-      setScoreStyle((val) => {});
+      dispatch(updateUserScore());
     }
     return () => {
       if (index0AnswerisCorrect) {
-        setScore((val) => 0);
+        setScore((val) => val - 1);
       }
     };
   }, [index0AnswerisCorrect]);
 
-  useEffect(() => {
-    if (index1AnswerisCorrect && index === 1) {
-      setScore((val) => val + 1);
-      playCorrectSound();
-      setAnimateClass((val) => "animate__animated animate__tada");
-      setScoreStyle((val) => correctstyle);
-    } else {
-      setScoreStyle((val) => {});
-    }
+  //   useEffect(() => {
+  //     if (index1AnswerisCorrect && index === 1) {
+  //       setScore((val) => val + 1);
+  //       playCorrectSound();
+  //       setAnimateClass((val) => "animate__animated animate__tada");
+  //       setScoreStyle((val) => correctstyle);
+  // dispatch(updateUserScore());
+  //     }
 
-    return () => {
-      if (index1AnswerisCorrect) {
-        setScore((val) => 0);
-      }
-    };
-  }, [index1AnswerisCorrect]);
+  //     return () => {
+  //       if (index1AnswerisCorrect) {
+  //         setScore((val) => val - 1);
+  //       }
+  //     };
+  //   }, [index1AnswerisCorrect]);
 
   return (
     <Wrapper style={scoreStyle}>
+      {/* <p>{JSON.stringify(index0AnswerisCorrect)}</p> */}
       <Text
         className={animateclass}
         style={{ fontSize: "16px", fontWeight: "400" }}
@@ -89,9 +107,8 @@ const Wrapper = styled.div`
 
 const Text = styled.p`
   display: flex;
-
   justify-content: center;
   align-items: center;
 `;
 
-export default ScoreDragandDrop;
+export default ScoreSlider;

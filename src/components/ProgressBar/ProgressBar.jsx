@@ -19,23 +19,22 @@ function ProgressBar() {
     // width: "0%",
     borderRadius: "20px",
     background:
-      "linear-gradient(225deg, rgba(49,255,54,1) 0%, rgba(0,200,200,1) 100%)",
+      "linear-gradient(225deg, rgba(39, 106, 245, 1) 0%, rgba(0,200,200,1) 100%)",
     zIndex: "200",
     transition: "2s",
+    maxWidth: "60vw",
   };
 
-  return (
-    <Wrapper>
-      <Bar style={barStyle}></Bar>
-    </Wrapper>
-  );
+  return <Wrapper>{<Bar style={barStyle}></Bar>}</Wrapper>;
 }
 
 export default ProgressBar;
 
 const Wrapper = styled.div`
+  max-width: 60vw;
+  width: 60vw;
   height: 8px;
-  min-width: 60%;
+  // min-width: 60%;
   border-radius: 20px;
   background: rgb(223, 223, 223);
   background: linear-gradient(

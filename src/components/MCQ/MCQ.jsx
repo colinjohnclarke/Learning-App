@@ -2,16 +2,11 @@ import React, { useContext, useMemo, useState } from "react";
 import styled from "styled-components";
 import MCQblock from "./MCQblock";
 import MCQTeacherResponse from "./MCQTeacherResponse";
-import ScoreMCQ from "../scores/ScoreMCQ";
+import ScoreMCQ from "../Data/CurrentQuestionScores/ScoreMCQ";
 import { MCQcontext } from "./MCQContext";
 
 function MCQ({ data }) {
-  // const length = data?.length;
-  // console.log("🚀 ~ file: MCQ.jsx:8 ~ MCQ ~ length:", length);
-
-  // const CurrentMCQScoreContext = useContext(CurrentMCQScoreContext);
-  // const [currentScore, setCurrentScore] = useState(0);
-  // const [selectionisCorrect, setSelectionIsCorrect] = useState(false);
+  console.log("🚀 ~ file: MCQ.jsx:9 ~ MCQ ~ data:", data);
 
   const [index0ItemClickedisCorrect, setindex0ItemClickedIsCorrect] =
     useState(false);
@@ -35,10 +30,6 @@ function MCQ({ data }) {
     index1ItemClickedisInCorrect,
     setIndex1ItemSelectionIsInCorrect,
   };
-  // const providerValue = useMemo(
-  //   () => ({ currentScore, setCurrentScore }),
-  //   [currentScore, setCurrentScore]
-  // );
 
   return (
     <Wrapper>
@@ -47,7 +38,10 @@ function MCQ({ data }) {
           <Main key={item._key}>
             <Question>{item.question}</Question>
             <MCQcontext.Provider value={contextObj}>
-              <ScoreMCQ index={index} />
+              <ScoreMCQ
+                totalMarksAvailable={item.total_marks_available}
+                index={index}
+              />
               <MCQblock item={item} index={index} />
             </MCQcontext.Provider>
 
@@ -62,17 +56,19 @@ function MCQ({ data }) {
 export default MCQ;
 
 const Wrapper = styled.div`
-  // padding: 30px;
-  text-align: center;
   display: flex;
   flex-direction: column;
+  width: 100%;
 `;
 
 const Main = styled.div`
+  border-top: 0.5px solid lightblue;
   position: relative;
   // padding-top: 30px;
 `;
 
 const Question = styled.div`
   padding: 60px;
+  width: 80%;
+  text-align: center;
 `;

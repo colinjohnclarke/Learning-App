@@ -46,6 +46,8 @@ function DualBox(props) {
     }
   }, [rightselected]);
 
+
+  
   return (
     <Wrapper>
       {/* left */}

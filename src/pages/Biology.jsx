@@ -18,9 +18,12 @@ import Scatter from "../components/Charts/Scatter/Scatter";
 import MovingSliderWrapper from "../components/MovingSlider/MovingSliderWrapper";
 import { useSelector, useDispatch } from "react-redux";
 import { updateProgressPercentage } from "../features/ProgressBar/ProgressBar";
+import PostBlockPointsReveal from "../components/Data/PostBlockPointsReveal/PostBlockPointsReveal";
+import { updateBlockCompleted } from "../features/CurrentBlockProgressData/currentblockprogressdata";
 
 function Biology() {
   const [data, setData] = useState({});
+  const [blockcompleted, setBlockCompleted] = useState(false);
 
   const builder = imageUrlBuilder(sanityClient);
 
@@ -88,18 +91,18 @@ function Biology() {
   const line_graph_data = data.line_graph_data;
 
   const [item0displayed, setitemOdisplayed] = useState(true);
-  const [item1displayed, setitem1displayed] = useState(true);
-  const [item2displayed, setitem2displayed] = useState(true);
-  const [item3displayed, setitem3displayed] = useState(true);
-  const [item4displayed, setitem4displayed] = useState(true);
-  const [item5displayed, setitem5displayed] = useState(true);
-  const [item6displayed, setitem6displayed] = useState(true);
-  const [item7displayed, setitem7displayed] = useState(true);
-  const [item8displayed, setitem8displayed] = useState(true);
-  const [item9displayed, setitem9displayed] = useState(true);
-  const [item10displayed, setitem10displayed] = useState(true);
-  const [item11displayed, setitem11displayed] = useState(true);
-  const [item12displayed, setitem12displayed] = useState(true);
+  const [item1displayed, setitem1displayed] = useState(false);
+  const [item2displayed, setitem2displayed] = useState(false);
+  const [item3displayed, setitem3displayed] = useState(false);
+  const [item4displayed, setitem4displayed] = useState(false);
+  const [item5displayed, setitem5displayed] = useState(false);
+  const [item6displayed, setitem6displayed] = useState(false);
+  const [item7displayed, setitem7displayed] = useState(false);
+  const [item8displayed, setitem8displayed] = useState(false);
+  const [item9displayed, setitem9displayed] = useState(false);
+  const [item10displayed, setitem10displayed] = useState(false);
+  const [item11displayed, setitem11displayed] = useState(false);
+  const [item12displayed, setitem12displayed] = useState(false);
 
   const displayedArr = [
     item0displayed,
@@ -337,18 +340,17 @@ function Biology() {
   );
 
   const itemlist = [
-    // item0,
-    // item1,
-    // item2,
-    // item3,
-    // item4,
-    // item5,
-    // item6,
-    // item7,
-    // item8,
-    // item9,
+    item0,
+    item1,
+    item2,
+    item3,
+    item4,
+    item5,
+    item6,
+    item7,
+    item8,
+    item9,
     item10,
-    item11,
   ];
 
   displayedArr.forEach((item, i) => {
@@ -358,18 +360,36 @@ function Biology() {
   });
 
   // calculating length of component list and pass to context for access to the progress bar
-  const totalLengthofCourse = itemlist.length;
-  let currenPositioninCourse = content.length;
+  const totalLengthofCourse = itemlist.length + 1;
+  let currentPositioninCourse = content.length;
+
   useEffect(() => {
     let calculateProgress =
-      (currenPositioninCourse / totalLengthofCourse) * 100;
+      (currentPositioninCourse / totalLengthofCourse) * 100;
+
     dispatch(updateProgressPercentage({ payload: { calculateProgress } }));
-  }, [currenPositioninCourse, totalLengthofCourse]);
+    if (calculateProgress === 100) {
+      // couse finished
+      setBlockCompleted((val) => true);
+
+      // // pass current score and total available marks for current course
+      // dispatch(userScore({ payload: 50 }));
+      // dispatch(updatePointsAvaiableArr({ payload: 100 }));
+    }
+  }, [currentPositioninCourse, totalLengthofCourse]);
+
+  useEffect(() => {
+    if (blockcompleted) {
+      dispatch(updateBlockCompleted());
+      console.log("   dispatch(updateBlockCompleted());");
+    }
+  }, [blockcompleted]);
 
   return (
     <Wrapper>
       <h1>Biology</h1>
       {content}
+      {blockcompleted && <PostBlockPointsReveal></PostBlockPointsReveal>}
     </Wrapper>
   );
 }
@@ -383,10 +403,8 @@ const Container = styled.div`
   border-radius: 4px;
   background-color: rgb(255, 255, 255);
   box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
-
-  // width: 100%;
   min-width: 300px;
-  position: relative;
+  width: 100%;
 `;
 
 const Item = styled.div`
@@ -395,11 +413,9 @@ const Item = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
-    rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
-
   margin-top: 5px;
   margin-bottom: 5px;
+  width: 100%;
   // border-radius: 4px;
 `;
 

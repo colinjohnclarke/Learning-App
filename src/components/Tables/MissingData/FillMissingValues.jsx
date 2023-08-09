@@ -4,9 +4,11 @@ import parse from "html-react-parser";
 import { colors, correctstyle, incorrectstyle } from "../../../styles/colors";
 import { TableFillMissingValuesContext } from "./FillMissingValuesContext";
 import "animate.css";
-import ScoreMissingTableValues from "../../scores/ScoreMissingTableValues";
+import ScoreMissingTableValues from "../../Data/CurrentQuestionScores/ScoreMissingTableValues";
 
 function FillMissingValuesTable(props) {
+  const totalMarksAvailable = props.total_marks_available;
+
   const [data, setData] = useState({});
   const [predictvalue, setPredictedValue] = useState("");
   const [calculatedvalue, setCalculatedValue] = useState();
@@ -107,10 +109,11 @@ function FillMissingValuesTable(props) {
     <Wrapper>
       {grapharr?.map((item, index) => {
         return (
-          <div>
+          <div style={{ width: "100%" }}>
             <TableFillMissingValuesContext.Provider value={contextObj}>
               <Main key={item._key}>
                 <ScoreMissingTableValues
+                  totalMarksAvailable={totalMarksAvailable}
                   index={index}
                 ></ScoreMissingTableValues>
                 <p
@@ -195,13 +198,12 @@ function FillMissingValuesTable(props) {
 export default FillMissingValuesTable;
 
 const Wrapper = styled.div`
-  // padding-top: 50px;
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  // position: relative;
+  position: relative;
 `;
 
 const Input = styled.input`
@@ -220,6 +222,7 @@ const Main = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
+  width: 100%;
 `;
 
 const Anomalie = styled.div`
