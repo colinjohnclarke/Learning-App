@@ -17,15 +17,14 @@ function Header() {
 export default Header;
 
 const Wrapper = styled.div`
-  min-height: 50px;
-  height: 5%;
+  max-height: 40px;
+  min-height: 30px;
   background-color: white;
   width: 100vw;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  border-radius: 4px;
   background-color: rgb(255, 255, 255);
   box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
   position: fixed;

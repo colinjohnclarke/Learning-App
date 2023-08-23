@@ -41,7 +41,6 @@ function Dashboard() {
               style={{
                 height: "30px",
                 width: "30px",
-                paddingLeft: "10px",
                 objectFit: "fill",
               }}
               alt="djskjk"
@@ -61,7 +60,7 @@ function Dashboard() {
           </Box>
           <Box>
             <AllTimeXPBox />
-          </Box>{" "}
+          </Box>
         </UserdataWrapper>
 
         <SearchCourse />
@@ -70,8 +69,7 @@ function Dashboard() {
         <Course>
           <RecentCourse />
         </Course>
-
-        <LeaderBoard></LeaderBoard>
+        <LeaderBoard />
       </Main>
     </Wrapper>
   );
@@ -85,6 +83,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  // margin: 7px;
 `;
 
 const Main = styled.div`
@@ -121,7 +120,7 @@ const UserdataWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 8px;
+  // padding: 8px;
   // max-width: 500px;
 
   // @media ${device.tablet} {
@@ -132,7 +131,7 @@ const UserdataWrapper = styled.div`
 
 const Box = styled.div`
   height: 100%;
-  width: 33.3%;
+  width: 100%;
   margin: 3px;
   // padding: 5px;
   display: flex;

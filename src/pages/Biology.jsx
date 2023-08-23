@@ -16,6 +16,7 @@ import LineChart from "../components/Charts/Line/LineChart";
 import LargeTable from "../components/Tables/TableFromLineData";
 import Scatter from "../components/Charts/Scatter/Scatter";
 import MovingSliderWrapper from "../components/MovingSlider/MovingSliderWrapper";
+import TextSlideShowWrapper from "../components/TextSlideShow/TextSlideShowWrapper";
 import { useSelector, useDispatch } from "react-redux";
 import { updateProgressPercentage } from "../features/ProgressBar/ProgressBar";
 import PostBlockPointsReveal from "../components/Data/PostBlockPointsReveal/PostBlockPointsReveal";
@@ -25,35 +26,35 @@ function Biology() {
   const [data, setData] = useState({});
   const [blockcompleted, setBlockCompleted] = useState(false);
 
-  const builder = imageUrlBuilder(sanityClient);
+  // const builder = imageUrlBuilder(sanityClient);
 
   const dispatch = useDispatch();
 
-  function imgurlFor(source) {
-    return builder.image(source);
-  }
+  // function imgurlFor(source) {
+  //   return builder.image(source);
+  // }
 
-  const myPortableTextComponents = {
-    types: {
-      image: (props) => (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <img src={imgurlFor(props.value.asset).width(300)} alt="" />
-        </div>
-      ),
-      marks: {
-        // Ex. 1: custom renderer for the em / italics decorator
-        em: ({ children }) => (
-          <em className="text-gray-600 font-semibold">{children}</em>
-        ),
-      },
-    },
-  };
+  // const myPortableTextComponents = {
+  //   types: {
+  //     image: (props) => (
+  //       <div
+  //         style={{
+  //           display: "flex",
+  //           justifyContent: "center",
+  //           alignItems: "center",
+  //         }}
+  //       >
+  //         <img src={imgurlFor(props.value.asset).width(300)} alt="" />
+  //       </div>
+  //     ),
+  //     marks: {
+  //       // Ex. 1: custom renderer for the em / italics decorator
+  //       em: ({ children }) => (
+  //         <em className="text-gray-600 font-semibold">{children}</em>
+  //       ),
+  //     },
+  //   },
+  // };
 
   let content_from_api = "biology_blocks";
   let content_name = "photosynthesis_required_practical";
@@ -63,7 +64,7 @@ function Biology() {
       .fetch(
         `*[_type == "${content_from_api}" && name == "${content_name}" ] 
         { subject_skills[]->, slider, incorrect_words_from_text, order_items_drag_drop, 
-                    name, tags, textblock1, textblock2, hint, problem_keywords[]->,  example_problem, MCQ_INPUTS, student_text_input, gap_fill, incorrect_words_from_text, table, line_graph_data, 
+                    name, tags, textblock1, textblock2, textblock3, textblock4,textblock5,  hint, problem_keywords[]->,  example_problem, MCQ_INPUTS, student_text_input, gap_fill, incorrect_words_from_text, table, line_graph_data, 
                     standard_tables,standard_table_variable_names 
                     }`
       )
@@ -73,6 +74,11 @@ function Biology() {
 
   const block1 = data.textblock1;
   const block2 = data.textblock2;
+  const block3 = data.textblock3;
+  const block4 = data.textblock4;
+  const block5 = data.textblock5;
+  const slideShowDataArr = [block1, block2, block3, block4, block5];
+
   const skills = data.subject_skills;
   const problem_keywords = data.problem_keywords;
   const tags = data.tags;
@@ -153,21 +159,26 @@ function Biology() {
   const item0 = (
     <Item>
       <Container>
-        <PortableTextWrapper>
-          <PortableText
-            value={block1}
-            components={myPortableTextComponents}
-          ></PortableText>
-        </PortableTextWrapper>
-        <ContinueBtn
-          onClick={() => {
-            setitem1displayed(true);
-            handleContinueBtnClicked(item1listRef);
-          }}
-        />
+        <TextSlideShowWrapper
+          length={slideShowDataArr.length}
+          data={slideShowDataArr}
+        ></TextSlideShowWrapper>
       </Container>
     </Item>
   );
+
+  const startQuiz = useSelector(
+    (state) => state.textslideshowslice.completedTextSlideShow
+  );
+
+  useEffect(() => {
+    if (startQuiz) {
+      setitem1displayed(true);
+      handleContinueBtnClicked(item1listRef);
+    } else {
+      setitem1displayed(false);
+    }
+  }, [startQuiz]);
 
   const item1 = (
     <Item ref={item1listRef}>
@@ -359,9 +370,22 @@ function Biology() {
     }
   });
 
+  // calculate current poistion in text Slideshow
+  const currentPositionInSlideShow = useSelector(
+    (state) => state.textslideshowslice.position
+  );
+
   // calculating length of component list and pass to context for access to the progress bar
-  const totalLengthofCourse = itemlist.length + 1;
-  let currentPositioninCourse = content.length;
+  let totalLengthofCourse = itemlist.length + slideShowDataArr.length;
+  console.log(
+    "🚀 ~ file: Biology.jsx:379 ~ Biology ~ totalLengthofCourse:",
+    totalLengthofCourse
+  );
+  let currentPositioninCourse = content.length + currentPositionInSlideShow;
+  console.log(
+    "🚀 ~ file: Biology.jsx:381 ~ Biology ~ currentPositioninCourse:",
+    currentPositioninCourse
+  );
 
   useEffect(() => {
     let calculateProgress =
@@ -387,7 +411,6 @@ function Biology() {
 
   return (
     <Wrapper>
-      <h1>Biology</h1>
       {content}
       {blockcompleted && <PostBlockPointsReveal></PostBlockPointsReveal>}
     </Wrapper>
@@ -409,7 +432,7 @@ const Container = styled.div`
 
 const Item = styled.div`
   // scroll-padding: 100px;
-  scroll-margin: 57px;
+  scroll-margin: 45px;
   display: flex;
   flex-direction: column;
   align-items: center;

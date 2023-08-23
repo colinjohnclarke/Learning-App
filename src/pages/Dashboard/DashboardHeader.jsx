@@ -26,7 +26,7 @@ const Wrapper = styled.div`
   align-items: center;
   border-radius: 4px;
   background-color: rgb(255, 255, 255);
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
+
   position: fixed;
   z-index: 100;
 `;

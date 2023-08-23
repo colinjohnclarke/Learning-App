@@ -15,6 +15,7 @@ function SearchCourse() {
 export default SearchCourse;
 
 const Wrapper = styled.form`
+  margin-top: 10px;
   height: 30px;
   width: 93%;
   max-width: 880px;
@@ -29,13 +30,13 @@ const Wrapper = styled.form`
   color: red;
 
   @media ${device.tablet} {
-    width: 100vw;
+    width: 99vw;
   }
   @media ${device.mobileL} {
     width: 96vw;
   }
   @media ${device.mobileM} {
-    width: 91vw;
+    width: 94vw;
   }
 `;
 

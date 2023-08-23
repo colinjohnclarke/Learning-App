@@ -13,6 +13,10 @@ function AnimateCountFunction(maxNumber) {
       setCounter((val) => val + 1);
     }, counterinterval);
 
+    if (counter === points - 100) {
+      setCounterInterval((val) => 1);
+    }
+
     if (counter === points - 20) {
       setCounterInterval((val) => 50);
     }

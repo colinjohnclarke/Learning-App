@@ -10,7 +10,7 @@ function App() {
     <div>
       <BrowserRouter>
         <Drawer />
-        {/* <Header></Header> */}
+        <Header></Header>
         <Routing />
       </BrowserRouter>
     </div>

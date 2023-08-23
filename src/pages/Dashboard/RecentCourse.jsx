@@ -8,8 +8,10 @@ function RecentCourse() {
   return (
     <Wrapper>
       <Header>
-        <h2 style={{ fontSize: "17px" }}>Recent Courses</h2>
-        <SeeAllBtn> see all</SeeAllBtn>
+        <h2 style={{ fontSize: "13px", fontWeight: "500" }}>Recent Courses</h2>
+        <SeeAllBtn>
+          <p style={{ fontSize: "13px", fontWeight: "500" }}> see all</p>
+        </SeeAllBtn>
       </Header>
       <List>
         {recentCourseList.map((item) => {
@@ -117,6 +119,10 @@ const List = styled.div`
 `;
 
 const SeeAllBtn = styled.button`
+  // // display: flex;
+
+  // // justify-content: center;
   border: none;
+
   background-color: rgb(240, 245, 250);
 `;

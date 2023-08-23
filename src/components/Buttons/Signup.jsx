@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { device } from "../../styles/breakpoints";
 
 function Signup() {
   return (
@@ -16,8 +17,7 @@ export default Signup;
 const Wrapper = styled.button`
   color: blue;
   border: none;
-  min-height: 30px;
-  height: 7%;
+  height: 30px;
   background-color: white;
   width: 60px;
   display: flex;
@@ -32,6 +32,16 @@ const Wrapper = styled.button`
   text-align: center;
   transition: 0.3s;
   margin: 10px;
+
+  @media ${device.mobileL} {
+    margin-right: 20px;
+  }
+  @media ${device.tablet} {
+    margin-right: 30px;
+  }
+  @media ${device.laptop} {
+    margin-right: 40px;
+  }
 
   &:hover {
     transform: translateY(-1px);
