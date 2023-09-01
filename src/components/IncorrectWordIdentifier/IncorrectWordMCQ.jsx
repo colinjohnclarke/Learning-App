@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { IncorrectWordContext } from "./IncorrectWordContext";
 import styled from "styled-components";
-import Button from "@mui/material/Button";
+
 import { colors } from "../../styles/colors";
 import MCQbtn from "../Buttons/MainActionBtn";
 import { TiTickOutline } from "react-icons/ti";
@@ -9,7 +9,10 @@ import { RxCross2 } from "react-icons/rx";
 import "animate.css";
 
 const IncorrectWordMCQ = (props) => {
-  const [buttonstyle, setButtonStyle] = useState({});
+  const [buttonstyle, setButtonStyle] = useState({
+    width: "250px",
+    border: "none",
+  });
   const [clickResponseText, setClickResponseText] = useState();
   const [animateIndex0, setAnimateIncorrectAnswerIndex0] = useState(false);
   const [animateIndex1, setAnimateIncorrectAnswerIndex1] = useState(false);
@@ -50,19 +53,19 @@ const IncorrectWordMCQ = (props) => {
 
     if (itemisCorrect && index === 0 && mcq === "mcq1") {
       setindex0MCQ1SelectionCorrect((val) => true);
-      console.log("first");
+      setTextStyle((val) => correctfontstyle);
     } else if (!itemisCorrect && index === 0 && mcq === "mcq1") {
       index0setMCQ1SelectionInCorrect((prevVal) => true);
-      console.log("second");
     } else if (itemisCorrect && index === 0 && mcq === "mcq2") {
       setindex0MCQ2SelectionCorrect((val) => true);
-      console.log("third");
+      setTextStyle((val) => correctfontstyle);
     } else if (!itemisCorrect && index === 0 && mcq === "mcq2") {
       setindex0MCQ2SelectionInCorrect((prevVal) => true);
-      console.log("fourth");
     }
 
     setButtonStyle({
+      border: "none",
+      width: "250px",
       display: "flex",
       flexDirection: "row",
       position: "relative",
@@ -80,14 +83,15 @@ const IncorrectWordMCQ = (props) => {
     );
   };
 
-  console.log(mcq, index0mcq2selectioncorrect);
-
   let showcorrectAns = {
+    width: "250px",
     display: "flex",
     flexDirection: "row",
     position: "relative",
     justifyContent: "space-between",
     color: "white",
+    border: "none",
+
     backgroundColor: colors.correctColor,
   };
 

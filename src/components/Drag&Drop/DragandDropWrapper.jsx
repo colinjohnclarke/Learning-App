@@ -4,15 +4,10 @@ import { DragandDropContext } from "./DragandDropContext";
 
 function DragandDropWrapper(props) {
   const data = props.order_items_drag_drop;
-  console.log(
-    "🚀 ~ file: DragandDropWrapper.jsx:7 ~ DragandDropWrapper ~ data:",
-    data
-  );
+
 
   const [index0AnswerisCorrect, setindex0AnswerisCorrect] = useState(false);
-
   const [index1AnswerisCorrect, setindex1AnswerisCorrect] = useState(false);
-
   const [rerunRandomiseRequired, setrerunRandomiseRequired] = useState(false);
 
   const contextObj = {

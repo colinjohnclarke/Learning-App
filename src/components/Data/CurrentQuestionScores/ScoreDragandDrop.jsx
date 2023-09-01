@@ -24,9 +24,9 @@ function ScoreDragandDrop(props) {
   let animateClass = "";
   const maxscore = 1;
 
-  const playCorrectSound = () => {
-    new Audio(correct).play();
-  };
+  // const playCorrectSound = () => {
+  //   new Audio(correct).play();
+  // };
 
   // uodate total points available arr
   const dispatch = useDispatch();
@@ -37,7 +37,7 @@ function ScoreDragandDrop(props) {
   useEffect(() => {
     if (index0AnswerisCorrect && index === 0) {
       setScore((val) => val + 1);
-      playCorrectSound();
+      // playCorrectSound();
       setAnimateClass((val) => "animate__animated animate__tada");
       setScoreStyle((val) => correctstyle);
       dispatch(updateUserScore());
@@ -56,7 +56,7 @@ function ScoreDragandDrop(props) {
   useEffect(() => {
     if (index1AnswerisCorrect && index === 1) {
       setScore((val) => val + 1);
-      playCorrectSound();
+      // playCorrectSound();
       setAnimateClass((val) => "animate__animated animate__tada");
       setScoreStyle((val) => correctstyle);
       dispatch(updateUserScore());

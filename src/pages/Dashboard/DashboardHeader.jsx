@@ -15,9 +15,8 @@ function DashboardHeader() {
 export default DashboardHeader;
 
 const Wrapper = styled.div`
-  min-height: 50px;
-  width: 100%;
-  height: 5%;
+  max-height: 40px;
+  min-height: 30px;
   background-color: white;
   width: 100vw;
   display: flex;
@@ -26,7 +25,6 @@ const Wrapper = styled.div`
   align-items: center;
   border-radius: 4px;
   background-color: rgb(255, 255, 255);
-
   position: fixed;
   z-index: 100;
 `;

@@ -127,7 +127,8 @@ const Wrapper = styled.div`
   width: 100%;
   text-align: center;
   position: relative;
-  padding-top: 40px;
+  padding-top: 20px;
+  padding-bottom: 0px;
 `;
 
 const Question = styled.p`

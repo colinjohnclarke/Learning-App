@@ -27,7 +27,7 @@ function DualSelectionWrapper(props) {
   return data?.map((item, index) => {
     return (
       <DualSelectionContext.Provider value={contextObj}>
-        <DualBoxSelection key={item._key} index={index} data={item} />;
+        <DualBoxSelection key={item._key} index={index} data={item} />
       </DualSelectionContext.Provider>
     );
   });

@@ -18,8 +18,15 @@ import { display } from "@mui/system";
 
 function StudentInputForm(props) {
   const [helpneeded, setHelpNeeded] = useState(false);
-
-  const data = props.data;
+  const [spanStyle, setSpanStyle] = useState({
+    position: "absolute",
+    left: "0px",
+    top: "0px",
+    padding: "20px",
+    fontSize: "12px",
+    borderRadius: "5px",
+    transition: "0.3s",
+  });
 
   const index = props.index;
 
@@ -30,16 +37,9 @@ function StudentInputForm(props) {
   // context varibles
 
   const {
-    index0AnswerisCorrect,
     setIndex0AnswerisCorrect,
-
-    index0AnswerisInCorrect,
     setIndex0AnswerisInCorrect,
-
-    index1AnswerisCorrect,
     setIndex1AnswerisCorrect,
-
-    index1AnswerisInCorrect,
     setIndex1AnswerisInCorrect,
   } = useContext(TextInputContext);
 
@@ -50,6 +50,7 @@ function StudentInputForm(props) {
   const [selectedinputcolor, setSelectedInputColor] = useState("");
   const [textfieldlabel, setTextFieldLabel] = useState("What's your answer?");
   const [isShowingFeedback, setIsShowingFeedback] = useState(false);
+  const [animate, setAnimate] = useState("");
 
   // gather data from passed from from API fetched via get data component
 
@@ -89,7 +90,20 @@ function StudentInputForm(props) {
 
         setSelectedInputColor(colors.incorrectColor);
         setTextFieldLabel((val) => "Not right keep trying!");
+        setAnimate("animate__animated animate__wobble animate__faster");
         setIsShowingFeedback((val) => true);
+        setSpanStyle((val) => ({
+          position: "absolute",
+          left: "0px",
+          top: "0px",
+          transform: "translateX(10px) translateY(-7px)",
+          fontSize: "10px",
+          transition: "0.3s",
+          padding: "5px",
+          borderRadius: "5px",
+
+          backgroundColor: colors.incorrectColor,
+        }));
       } else if (check_answer && index === 0) {
         // set new context value for Score to update if Correct
         setIndex0AnswerisCorrect((val) => true);
@@ -98,7 +112,20 @@ function StudentInputForm(props) {
 
         setSelectedInputColor(colors.correctColor);
         setTextFieldLabel("Correct! Great work :) ");
+        setAnimate("animate__animated  animate__bounce animate__faster");
         setIsShowingFeedback((val) => true);
+
+        setSpanStyle((val) => ({
+          position: "absolute",
+          left: "0px",
+          top: "0px",
+          transform: "translateX(10px) translateY(-7px)",
+          fontSize: "10px",
+          transition: "0.3s",
+          padding: "5px",
+          borderRadius: "5px",
+          backgroundColor: colors.correctColor,
+        }));
       } else if (check_answer === undefined && index === 1) {
         // set new context value for Score to update if incorrect
         setIndex1AnswerisInCorrect((val) => true);
@@ -108,6 +135,19 @@ function StudentInputForm(props) {
         setSelectedInputColor((val) => colors.incorrectColor);
         setTextFieldLabel((val) => "Not right keep trying!");
         setIsShowingFeedback((val) => true);
+        setAnimate("animate__animated animate__wobble animate__faster");
+        setSpanStyle((val) => ({
+          position: "absolute",
+          left: "0px",
+          top: "0px",
+          transform: "translateX(10px) translateY(-7px)",
+          fontSize: "10px",
+          transition: "0.3s",
+          padding: "5px",
+          borderRadius: "5px",
+          backgroundColor: colors.incorrectColor,
+          // border: "none",
+        }));
       } else if (check_answer && index === 1) {
         // set new context value for Score to update if Correct
         setIndex1AnswerisCorrect((val) => true);
@@ -116,7 +156,21 @@ function StudentInputForm(props) {
 
         setSelectedInputColor(colors.correctColor);
         setTextFieldLabel("Correct! Great work :) ");
+        setAnimate("animate__animated  animate__bounce animate__faster");
+
         setIsShowingFeedback((val) => true);
+
+        setSpanStyle((val) => ({
+          position: "absolute",
+          left: "0px",
+          top: "0px",
+          transform: "translateX(10px) translateY(-7px)",
+          fontSize: "10px",
+          transition: "0.3s",
+          padding: "5px",
+          borderRadius: "5px",
+          backgroundColor: colors.correctColor,
+        }));
       }
     }
   };
@@ -126,6 +180,17 @@ function StudentInputForm(props) {
   const handleChange = (e) => {
     setInput(e.target.value);
     setIsShowingFeedback(false);
+    setSpanStyle((val) => ({
+      position: "absolute",
+      left: "0px",
+      top: "0px",
+      transform: "translateX(10px) translateY(-7px)",
+      fontSize: "10px",
+      transition: "0.3s",
+      padding: "5px",
+      borderRadius: "5px",
+      backgroundColor: colors.normalInputColor,
+    }));
   };
 
   useEffect(() => {
@@ -157,6 +222,7 @@ function StudentInputForm(props) {
 
   const helpBtnClickHandler = () => {
     setHelpNeeded(!helpneeded);
+
     return false;
   };
 
@@ -165,6 +231,21 @@ function StudentInputForm(props) {
   const hintStyle = {
     display: "flex",
   };
+
+  const handleFocusInput = () => {
+    setSpanStyle((val) => ({
+      position: "absolute",
+      left: "0px",
+      top: "0px",
+      transform: "translateX(10px) translateY(-7px)",
+      fontSize: "10px",
+      transition: "0.2s",
+      padding: "5px",
+      borderRadius: "5px",
+      backgroundColor: selectedinputcolor,
+    }));
+  };
+
   return (
     <Wrapper>
       <ScoreTextInput
@@ -178,7 +259,10 @@ function StudentInputForm(props) {
         components={myPortableTextComponents}
       ></PortableText>
 
-      <HelpBtn onClick={helpBtnClickHandler}></HelpBtn>
+      <HelpBtn
+        style={helpneeded ? { display: "none" } : { display: "flex" }}
+        onClick={helpBtnClickHandler}
+      ></HelpBtn>
 
       <Hint
         style={helpneeded ? hintStyle : hintstyleHidden}
@@ -192,15 +276,45 @@ function StudentInputForm(props) {
         {hint}
       </Hint>
       <form style={{ fontFamily: "Montserrat" }} onSubmit={handleSubmit}>
-        <TextField
-          // color="secondary"
-          style={{ fontFamily: "Montserrat" }}
-          sx={{ backgroundColor: selectedinputcolor }}
-          onChange={handleChange}
-          type="text"
-          label={textfieldlabel}
-        ></TextField>{" "}
-        <MainActionBtn type="submit"> Check</MainActionBtn>
+        <div
+          className={animate}
+          onClick={handleFocusInput}
+          style={{
+            position: "relative",
+            backgroundColor: selectedinputcolor,
+            borderRadius: "5px",
+          }}
+        >
+          <input
+            style={{
+              height: "30px",
+              width: "200px",
+              padding: "10px",
+              backgroundColor: selectedinputcolor,
+              border: "3.5px solid rgb(0, 200, 200, 0.5)",
+              borderRadius: "5px",
+              display: "flex",
+              position: "relative",
+              outline: "none",
+              fontSize: "14px",
+              transition: "0.2s",
+            }}
+            required="required"
+            type="text"
+            label={textfieldlabel}
+            onChange={handleChange}
+          />
+
+          <label style={spanStyle}>{textfieldlabel}</label>
+        </div>
+
+        <MainActionBtn
+          style={{ backgroundColor: "rgb(00, 200, 200)", color: "white" }}
+          type="submit"
+        >
+          {" "}
+          Check
+        </MainActionBtn>
       </form>
       {/* <Slide direction="left" in={isShowingFeedback} mountOnEnter unmountOnExit>
         <h3>{textfieldlabel}</h3>
@@ -235,18 +349,17 @@ const Hint = styled.div`
   justify-content: center;
   align-items: center;
   transition: 0.3s;
-  background-color: rgb(128, 48, 192);
   border-radius: 4px;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
-  color: black;
   width: 80%;
   max-width: 700px;
-  background-color: rgba(0, 200, 200, 0.29);
+  border: 2px solid rgba(0, 200, 200, 1);
+  color: rgba(0, 200, 200, 1);
   padding: 10px;
 `;
 
 const Question = styled.p`
   padding-top: 40px;
-  margin: 20px;
+  padding: 30px;
   text-align: center;
 `;

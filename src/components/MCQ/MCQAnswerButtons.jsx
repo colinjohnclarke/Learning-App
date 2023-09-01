@@ -40,8 +40,10 @@ const MCQAnswerButtons = (props) => {
     setButtonClicked((val) => !val);
     if (itemisCorrect && index === 0) {
       setindex0ItemClickedIsCorrect((val) => true);
+      setTextStyle(correctfontstyle);
     } else if (itemisCorrect && index === 1) {
       setindex1ItemClickedIsCorrect((val) => true);
+      setTextStyle(correctfontstyle);
     } else if (!itemisCorrect && index === 0) {
       setIndex0ItemSelectionIsInCorrect((prevVal) => true);
     } else if (!itemisCorrect && index === 1) {
@@ -53,6 +55,7 @@ const MCQAnswerButtons = (props) => {
       flexDirection: "row",
       position: "relative",
       justifyContent: "space-between",
+      border: "none",
       backgroundColor: itemisCorrect
         ? colors.correctColor
         : colors.incorrectColor,
@@ -72,6 +75,7 @@ const MCQAnswerButtons = (props) => {
     position: "relative",
     justifyContent: "space-between",
     color: "white",
+    border: "none",
     backgroundColor: colors.correctColor,
   };
 

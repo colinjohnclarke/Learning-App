@@ -21,6 +21,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { updateProgressPercentage } from "../features/ProgressBar/ProgressBar";
 import PostBlockPointsReveal from "../components/Data/PostBlockPointsReveal/PostBlockPointsReveal";
 import { updateBlockCompleted } from "../features/CurrentBlockProgressData/currentblockprogressdata";
+import { clearConfig } from "dompurify";
 
 function Biology() {
   const [data, setData] = useState({});
@@ -158,7 +159,7 @@ function Biology() {
 
   const item0 = (
     <Item>
-      <Container>
+      <Container style={{ marginTop: "40px" }}>
         <TextSlideShowWrapper
           length={slideShowDataArr.length}
           data={slideShowDataArr}
@@ -371,21 +372,35 @@ function Biology() {
   });
 
   // calculate current poistion in text Slideshow
-  const currentPositionInSlideShow = useSelector(
+  let getPositionofSlideShow = useSelector(
     (state) => state.textslideshowslice.position
   );
 
-  // calculating length of component list and pass to context for access to the progress bar
+  // ensuring the progress bar doesnt reset when Slider Deck returns to 0
+  const [position, setPosition] = useState(0);
+  const [allSlidesSeen, setAllSlidesSeen] = useState(false);
+
+  useEffect(() => {
+    if (getPositionofSlideShow + 1 === slideShowDataArr.length) {
+      setAllSlidesSeen((val) => true);
+      setPosition((val) => slideShowDataArr.length - 1);
+    } else if (
+      getPositionofSlideShow < slideShowDataArr.length &&
+      !allSlidesSeen
+    ) {
+      setPosition((val) => getPositionofSlideShow);
+    }
+
+    // if (allSlidesSeen) {
+    //   setPosition((val) => slideShowDataArr.length - 1);
+    // }
+  }, [getPositionofSlideShow, allSlidesSeen]);
+
   let totalLengthofCourse = itemlist.length + slideShowDataArr.length;
-  console.log(
-    "🚀 ~ file: Biology.jsx:379 ~ Biology ~ totalLengthofCourse:",
-    totalLengthofCourse
-  );
-  let currentPositioninCourse = content.length + currentPositionInSlideShow;
-  console.log(
-    "🚀 ~ file: Biology.jsx:381 ~ Biology ~ currentPositioninCourse:",
-    currentPositioninCourse
-  );
+
+  let currentPositioninCourse = content.length + position;
+
+  // calculating length of component list and pass to context for access to the progress bar
 
   useEffect(() => {
     let calculateProgress =
@@ -393,12 +408,8 @@ function Biology() {
 
     dispatch(updateProgressPercentage({ payload: { calculateProgress } }));
     if (calculateProgress === 100) {
-      // couse finished
+      // course finished
       setBlockCompleted((val) => true);
-
-      // // pass current score and total available marks for current course
-      // dispatch(userScore({ payload: 50 }));
-      // dispatch(updatePointsAvaiableArr({ payload: 100 }));
     }
   }, [currentPositioninCourse, totalLengthofCourse]);
 
@@ -428,18 +439,19 @@ const Container = styled.div`
   box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
   min-width: 300px;
   width: 100%;
+  max-width: 1000px;
 `;
 
 const Item = styled.div`
-  // scroll-padding: 100px;
+  scroll-padding: 100px;
   scroll-margin: 45px;
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 5px;
   margin-bottom: 5px;
+  border-radius: 4px;
   width: 100%;
-  // border-radius: 4px;
 `;
 
 const Wrapper = styled.div`

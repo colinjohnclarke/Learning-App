@@ -6,10 +6,11 @@ import { PortableText } from "@portabletext/react";
 import imageUrlBuilder from "@sanity/image-url";
 import sanityClient from "../../createclient";
 import "animate.css";
+import { device } from "../../styles/breakpoints";
 
 import ScoreInCorrectWord from "../Data/CurrentQuestionScores/ScoreIncorrectWord";
 
-import { correctstyle, incorrectstyle, colors } from "../../styles/colors";
+import { colors } from "../../styles/colors";
 
 function IncorrectWordText(props) {
   const [obj1key0, setObj1key0] = useState({});
@@ -20,6 +21,7 @@ function IncorrectWordText(props) {
   const [sortedquestionarrword2, setSortedQuestionArrword2] = useState();
   const [numberofCorrectwordstoFind, setNumberofCorrectWordstoFind] =
     useState(2);
+  const [animatenum, setAnimateNum] = useState("");
 
   const { setindex0Word1SelectionCorrect, setindex0Word2SelectionCorrect } =
     useContext(IncorrectWordContext);
@@ -29,8 +31,9 @@ function IncorrectWordText(props) {
   const [obj2key2, setObj2key2] = useState({});
   const [obj2key3, setObj2key3] = useState({});
 
-  const [word1selected, setWord1Selected] = useState();
-  const [word2selected, setWord2Selected] = useState();
+  const [word1selected, setWord1Selected] = useState(false);
+  const [word2selected, setWord2Selected] = useState(false);
+  const [showreminder, setShowReminder] = useState(false);
 
   const mcqCheckWord1Ref = useRef(false);
   const mcqCheckWord2Ref = useRef(false);
@@ -38,10 +41,6 @@ function IncorrectWordText(props) {
   const data = props.data;
   const index = props.index;
   const totalMarksAvailable = data.total_marks_available;
-  console.log(
-    "🚀 ~ file: IncorrectWordText.jsx:42 ~ IncorrectWordText ~ totalMarksAvailable:",
-    totalMarksAvailable
-  );
 
   // word 1
   const MCQ_option_for_replacement_word1 =
@@ -195,8 +194,15 @@ function IncorrectWordText(props) {
     minWidth: "350px",
     textAlign: "center",
   };
+  const correctstyle = {
+    backgroundColor: colors.correctColor,
+    color: "white",
+    paddingLeft: "3px",
+    paddingRight: "0px",
+    marginRight: "2px",
+  };
 
-  let normalTextStyle = { backgroundColor: "white" };
+  let normalTextStyle = { backgroundColor: "white", fontSize: "16px" };
 
   let correctBtnSelected = {
     backgroundColor: "rgba(137, 240, 158, 0.34)",
@@ -216,7 +222,6 @@ function IncorrectWordText(props) {
   // click handler first word
   const incorrectAnswer1Clicked = (elementRef) => {
     setWord1Selected(!word1selected);
-
     setindex0Word1SelectionCorrect((val) => true);
 
     setTimeout(() => {
@@ -236,11 +241,8 @@ function IncorrectWordText(props) {
     //   scrolltoFn(mcqCheckWord1Ref);
   };
 
-  let animateNum = "";
-
   if (word2selected) {
     word2mcqstyle = displaymcqStyle;
-    animateNum = " animate__animated animate__bounceInLeft";
   }
 
   // function to reduce the count of remaining words after incorrect word correctly selected
@@ -254,13 +256,24 @@ function IncorrectWordText(props) {
 
   if (word1selected) {
     word1mcqstyle = displaymcqStyle;
-    animateNum = " animate__animated animate__bounceInLeft";
   }
+
+  useEffect(() => {
+    setAnimateNum("animate__animated animate__jackInTheBox");
+
+    if (word1selected && !word2selected) {
+      setShowReminder((val) => true);
+    } else if (word1selected && word2selected) {
+      setShowReminder((val) => false);
+    }
+  }, [word1selected, word2selected]);
+
+  // check to see if world 1 is selected to display reminder that 1 more word is left and reveal to user, if second word is selected then remove remoinder
 
   const mcq1 = (
     <Mcq
       className={
-        word1mcqstyle ? " animate__animated animate__bounceInLeft" : ""
+        word1selected ? " animate__animated animate__bounceInLeft" : ""
       }
       ref={mcqCheckWord1Ref}
       style={word1mcqstyle}
@@ -348,16 +361,17 @@ function IncorrectWordText(props) {
       ></ScoreInCorrectWord>
       <p style={{ textAlign: "center" }}>
         There are{" "}
-        <strong
-          className={animateNum}
-          style={{
-            fontWeight: 800,
-            color: colors.correctColor,
-            textDecoration: "underline",
-          }}
-        >
-          {numberofCorrectwordstoFind}
-        </strong>{" "}
+        <div style={{ display: "inline" }} className={animatenum}>
+          <strong
+            style={{
+              fontWeight: 800,
+              color: colors.correctColor,
+              textDecoration: "underline",
+            }}
+          >
+            {numberofCorrectwordstoFind}
+          </strong>
+        </div>{" "}
         incorrect words in the text below, find them and click!
       </p>
       <Main>
@@ -366,7 +380,7 @@ function IncorrectWordText(props) {
           components={myPortableTextComponents}
         ></PortableText>
       </Main>
-      <Text>
+      <Text ref={mcqCheckWord1Ref}>
         {data.initial_leading_scentence_word1}
         <IncorrectWord
           style={word1selected ? correctstyle : normalTextStyle}
@@ -386,7 +400,27 @@ function IncorrectWordText(props) {
         </IncorrectWord>
         {data.remainder_sentence_word_2}
       </Text>
+
       {mcq1}
+      <Reminder
+        style={showreminder ? { display: "flex" } : { display: "none" }}
+      >
+        <p style={{ textAlign: "center" }}>
+          There is still{" "}
+          <div style={{ display: "inline" }} className={animatenum}>
+            <strong
+              style={{
+                fontWeight: 800,
+                color: colors.correctColor,
+                textDecoration: "underline",
+              }}
+            >
+              {numberofCorrectwordstoFind}
+            </strong>
+          </div>{" "}
+          incorrect word to find in the text above!
+        </p>
+      </Reminder>
       {mcq2}
     </Wrapper>
   );
@@ -395,6 +429,7 @@ function IncorrectWordText(props) {
 export default IncorrectWordText;
 
 const Wrapper = styled.div`
+  min-height: 490px;
   padding-top: 50px;
   display: flex;
   flex-direction: column;
@@ -402,6 +437,13 @@ const Wrapper = styled.div`
   align-items: center;
   position: relative;
   border-top: 0.5px solid lightblue;
+
+
+  @media ${device.mobileL} {
+    min-height: 400px;
+   
+
+  
 `;
 
 const Text = styled.div`
@@ -430,7 +472,9 @@ const Main = styled.div`
   align-items: center;
 `;
 
-const Mcq = styled.div``;
+const Mcq = styled.div`
+  scroll-padding-top: 50px;
+`;
 
 const Input = styled.input`
   transition: 0.5s;
@@ -453,3 +497,5 @@ const Input = styled.input`
     border-bottom: 1px solid;
   }
 `;
+
+const Reminder = styled.div``;

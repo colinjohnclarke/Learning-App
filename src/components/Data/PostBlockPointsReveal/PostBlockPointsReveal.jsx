@@ -6,6 +6,7 @@ import ContinueBtn from "../../Buttons/ContinueBtn";
 import AnimatedBlockScore from "../CurrentBlockScores/AnimatedBlockScore";
 import PointsSummary from "./PointsSummary";
 import "animate.css";
+import NativatetoDashBoard from "../../Buttons/NativatetoDashBoard";
 
 function PostBlockPointsReveal() {
   const displayAnimatedBlockScore = useSelector(
@@ -68,6 +69,7 @@ function PostBlockPointsReveal() {
     <Wrapper>
       {blockCompleted && animatedBlockProgressScore}
       {displaySummary && summaryPointsReveal}
+      <NativatetoDashBoard></NativatetoDashBoard>
     </Wrapper>
   );
 }

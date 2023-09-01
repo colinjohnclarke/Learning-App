@@ -16,10 +16,6 @@ import { useDispatch } from "react-redux";
 function ScoreGapFill(props) {
   const index = props.index;
   const totalMarksAvailable = props.totalMarksAvailable;
-  console.log(
-    "🚀 ~ file: ScoreGapFill.jsx:17 ~ ScoreGapFill ~ totalMarksAvailable:",
-    totalMarksAvailable
-  );
 
   const [score, setScore] = useState(0);
   const [scoreStyle, setScoreStyle] = useState({});

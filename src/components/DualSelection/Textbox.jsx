@@ -81,7 +81,9 @@ function Textbox(props) {
   ) {
     style = correctstyle;
 
-    content = <TiTickOutline style={{ height: "10px", color: "green" }} />;
+    content = <></>;
+
+    // <TiTickOutline style={{ height: "10px", color: "white" }} />;
   } else if (
     index === 0 &&
     index0currentSliderQuestionScore.length === 4 &&
@@ -89,7 +91,9 @@ function Textbox(props) {
   ) {
     style = incorrectstyle;
 
-    content = <RxCross2 style={{ height: "10px", color: "red" }} />;
+    content = <></>;
+
+    // <RxCross2 style={{ height: "10px", color: "white" }} />;
   } else if (index === 0 && index0currentSliderQuestionScore.length !== 4) {
     content = <></>;
   }
@@ -143,8 +147,6 @@ function Textbox(props) {
 
   const whiteText = {
     color: "white",
-
-    margin: "0px",
   };
 
   const normalText = {
@@ -170,14 +172,14 @@ function Textbox(props) {
         {text}
       </Text>
 
-      <div>{content}</div>
+      {content}
     </Box>
   );
 }
 
 export default Textbox;
 
-const Box = styled.div`
+const Box = styled.p`
   transition: 0.3s;
   text-align: center;
   box-shadow: rgba(0, 200, 200, 0.39) 0px 2px 4px inset,

@@ -1,15 +1,20 @@
 import React from "react";
 import styled from "styled-components";
+import { NavLink } from "react-router-dom";
 
-function ContinueBtn({ children, ...atributes }) {
+function NativatetoDashBoard({ ...atributes }) {
   return (
-    <Btn type="button" {...atributes}>
-      Continue
-    </Btn>
+    <div>
+      <NavLink to={"/dashboard"}>
+        <Btn type="button" {...atributes}>
+          Go to Dashboard
+        </Btn>
+      </NavLink>
+    </div>
   );
 }
 
-export default ContinueBtn;
+export default NativatetoDashBoard;
 
 const Btn = styled.button`
   display: flex;
@@ -24,21 +29,18 @@ const Btn = styled.button`
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
   transition: 0.3s;
-  // background-color: rgba(0, 200, 200, 0.8);
-  border: 2px solid rgba(0, 200, 200, 0.8);
-  color: rgba(0, 200, 200, 0.8);
+  background-color: rgba(0, 200, 200, 0.8);
+  color: white;
   font-weight: 400;
 
   &:hover {
     transform: translateY(-2px);
     background-color: rgba(0, 200, 200, 1);
-    color: white;
   }
 
   &:active {
-    transform: translateY(3px);
+    transform: translateY(-2px);
     background-color: rgba(0, 200, 200, 1);
-    box-shadow: none;
   }
 
   p {

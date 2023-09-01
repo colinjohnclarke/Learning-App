@@ -10,12 +10,12 @@ import { device } from "../../styles/breakpoints";
 import StartQuizBtn from "../Buttons/StartQuizBtn";
 import { useDispatch } from "react-redux";
 import { updateCompletedSlideShow } from "../../features/TextSlideShow/textslideshowSlice";
+import SlideLocator from "./SlideLocator";
 
 function TextSection(props) {
   const data = props.data;
   const index = props.index;
   const length = props.length;
-  console.log("🚀 ~ file: TextSection.jsx:15 ~ TextSection ~ length:", length);
 
   const refdata = props.refdata;
   const refVal = props.refVal;
@@ -24,9 +24,12 @@ function TextSection(props) {
     display: "none",
     flexDirection: "column",
     transition: "0.3s",
-    // paddingTop: "45px",
-    // paddingTop: "30px",
   });
+  const displayItemStyle = {
+    padding: "flex",
+    transition: "0.3s",
+    // paddingTop: "45px",
+  };
 
   const dispatch = useDispatch();
 
@@ -39,12 +42,6 @@ function TextSection(props) {
   function imgurlFor(source) {
     return builder.image(source);
   }
-
-  const displayItemStyle = {
-    padding: "flex",
-    transition: "0.3s",
-    // paddingTop: "45px",
-  };
 
   const myPortableTextComponents = {
     types: {
@@ -85,6 +82,7 @@ function TextSection(props) {
         value={data}
         components={myPortableTextComponents}
       ></PortableText>
+
       {index !== length - 1 ? (
         continueArrowButton
       ) : (

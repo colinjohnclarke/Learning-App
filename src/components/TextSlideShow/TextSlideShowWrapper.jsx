@@ -1,15 +1,19 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRe, useState } from "react";
 import styled from "styled-components";
 import { PortableText } from "@portabletext/react";
 import imageUrlBuilder from "@sanity/image-url";
 import sanityClient from "../../createclient";
 import MobileVerticalSlideDeck from "./MobileVeriticalSlideDeck";
 import MobileViewDropDown from "./DesktopHorizontalSlideDeck";
+import DesktopHorizontalSlideDeck from "./DesktopHorizontalSlideDeck";
+import { device } from "../../styles/breakpoints";
 
 function TextSlideShowWrapper(props) {
   const data = props.data;
   const length = props.length;
   const builder = imageUrlBuilder(sanityClient);
+
+  const [screennwidth, setScreenWitdth] = useState();
 
   function imgurlFor(source) {
     return builder.image(source);
@@ -37,17 +41,30 @@ function TextSlideShowWrapper(props) {
     },
   };
 
-  return (
-    <Wrapper>
+  let width = window.innerWidth;
+
+  let content;
+
+  if (width < 700) {
+    content = (
       <MobileVerticalSlideDeck
         length={length}
         data={data}
       ></MobileVerticalSlideDeck>
-      {/* <DesktopViewSlider length={length} data={data}></DesktopViewSlider> */}
-    </Wrapper>
-  );
+    );
+  } else {
+    content = (
+      <DesktopHorizontalSlideDeck data={data}></DesktopHorizontalSlideDeck>
+    );
+  }
+
+  return <Wrapper>{content}</Wrapper>;
 }
 
 export default TextSlideShowWrapper;
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  width: 100vw;
+  max-width: 1000px;
+  height: auto;
+`;

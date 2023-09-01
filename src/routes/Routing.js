@@ -9,7 +9,7 @@ function Routing() {
   return (
     <div>
       <Routes>
-        <Route index path="/" element={<LandingPage />} />
+        <Route index path="/" element={<Biology />} />
         <Route path="login" element={<Login />} />
         <Route path="/Biology" element={<Biology />} />
         <Route path="/dashboard" element={<Dashboard />} />

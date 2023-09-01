@@ -6,10 +6,7 @@ import DragandDropMain from "./DragandDropMain";
 import { DragandDropContext } from "./DragandDropContext";
 
 function DragDropRandomise(props) {
-  console.log(
-    "🚀 ~ file: DragDropRandomise.jsx:9 ~ DragDropRandomise ~ props:",
-    props
-  );
+
   const [reset, setReset] = useState(false);
 
   const [sorted, setSorted] = useState([]);
@@ -21,14 +18,8 @@ function DragDropRandomise(props) {
   } = useContext(DragandDropContext);
 
   const data = props.order_items_drag_drop;
-
   const index = props.index;
-
   const totalMarksAvailable = data.total_marks_available;
-  console.log(
-    "🚀 ~ file: DragDropRandomise.jsx:28 ~ DragDropRandomise ~ totalMarksAvailable:",
-    totalMarksAvailable
-  );
 
   // create random nums
 
@@ -58,6 +49,7 @@ function DragDropRandomise(props) {
       { value: data.introduction, id: "11" },
     ];
 
+    // remove empty input fields 
     const removeblanks = obj?.filter((item) => item.value !== undefined);
 
     const sortedarr = removeblanks.sort((a, b) =>

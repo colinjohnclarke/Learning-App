@@ -13,17 +13,11 @@ import "animate.css";
 import { BiHelpCircle } from "react-icons/bi";
 
 function GapFill(props) {
-  console.log("🚀 ~ file: GapFill.jsx:16 ~ props:", props);
   const item = props.item;
   const index = props.index;
   const acceptable_missing_words = props.item.acceptable_missing_words;
   const helphints = props.item.hint;
   const totalMarksAvailable = props.item.total_marks_available;
-
-  console.log(
-    "🚀 ~ file: GapFill.jsx:21 ~ totalMarksAvailable:",
-    totalMarksAvailable
-  );
 
   const [inputfieldgapfill, setInputFieldGapFill1] = useState("");
   const [iscorrect, setIsCorrect] = useState(false);
@@ -178,6 +172,7 @@ function GapFill(props) {
         {helphints}
       </Hint>
       <HelpBtn
+        style={helpneeded ? { display: "none" } : { display: "flex" }}
         onClick={() => {
           helpBtnClickHandler();
         }}

@@ -21,7 +21,7 @@ function ProgressBar() {
     background:
       "linear-gradient(225deg, rgba(39, 106, 245, 1) 0%, rgba(0,200,200,1) 100%)",
     zIndex: "200",
-    transition: "2s",
+    transition: "0.8s",
     maxWidth: "60vw",
   };
 

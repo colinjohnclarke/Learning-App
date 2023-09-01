@@ -6,8 +6,6 @@ import ScoreMCQ from "../Data/CurrentQuestionScores/ScoreMCQ";
 import { MCQcontext } from "./MCQContext";
 
 function MCQ({ data }) {
-  console.log("🚀 ~ file: MCQ.jsx:9 ~ MCQ ~ data:", data);
-
   const [index0ItemClickedisCorrect, setindex0ItemClickedIsCorrect] =
     useState(false);
 
@@ -64,11 +62,14 @@ const Wrapper = styled.div`
 const Main = styled.div`
   border-top: 0.5px solid lightblue;
   position: relative;
-  // padding-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Question = styled.div`
-  padding: 60px;
+  margin: 60px;
   width: 80%;
   text-align: center;
 `;
