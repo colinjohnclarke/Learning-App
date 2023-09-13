@@ -31,6 +31,7 @@ function ScoreMissingTableValues(props) {
     setindex1AnswerisCorrect,
     index1AnswerisInCorrect,
     setindex1AnswerisInCorrect,
+    index2AnswerisCorrect,
   } = useContext(TableFillMissingValuesContext);
 
   let animateClass = "";
@@ -76,6 +77,22 @@ function ScoreMissingTableValues(props) {
       }
     };
   }, [index1AnswerisCorrect]);
+
+  useEffect(() => {
+    if (index2AnswerisCorrect && index === 2) {
+      setScore((val) => val + 1);
+      playCorrectSound();
+      setAnimateClass((val) => "animate__animated animate__tada");
+      setScoreStyle((val) => correctstyle);
+      dispatch(updateUserScore());
+    }
+
+    return () => {
+      if (index2AnswerisCorrect) {
+        setScore((val) => 0);
+      }
+    };
+  }, [index2AnswerisCorrect]);
 
   return (
     <Wrapper style={scoreStyle}>

@@ -1,6 +1,7 @@
 import { createContext } from "react";
 
 const initialState = {
+  rerunRandomiseRequired: false,
   index0AnswerisCorrect: false,
   index0AnswerisInCorrect: false,
   index1AnswerisCorrect: false,

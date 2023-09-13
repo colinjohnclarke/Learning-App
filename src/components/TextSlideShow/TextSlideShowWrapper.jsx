@@ -15,6 +15,8 @@ function TextSlideShowWrapper(props) {
 
   const [screennwidth, setScreenWitdth] = useState();
 
+  const [reloadpage, setReloadPage] = useState(false);
+
   function imgurlFor(source) {
     return builder.image(source);
   }
@@ -41,11 +43,9 @@ function TextSlideShowWrapper(props) {
     },
   };
 
-  let width = window.innerWidth;
-
   let content;
 
-  if (width < 700) {
+  if (window.innerWidth < 700) {
     content = (
       <MobileVerticalSlideDeck
         length={length}

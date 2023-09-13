@@ -125,6 +125,7 @@ function DrawerMenuItemsBtn(props) {
         {blocks?.map((item, index) => {
           return (
             <DrawerMenuSubItemsBtn
+              // key={item}
               index={index}
               menuitemclicked={menuitemclicked}
               name={item.block}

@@ -41,8 +41,6 @@ function ScoreDragandDrop(props) {
       setAnimateClass((val) => "animate__animated animate__tada");
       setScoreStyle((val) => correctstyle);
       dispatch(updateUserScore());
-
-      console.log(" USE EFFECTindex0 correct", index0AnswerisCorrect);
     } else {
       setScoreStyle((val) => {});
     }

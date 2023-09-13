@@ -145,6 +145,7 @@ function GapFill(props) {
 
   return (
     <Wrapper>
+      <Question> Fill in the gaps below!</Question>
       <ScoreGapFill
         totalMarksAvailable={totalMarksAvailable}
         index={index}
@@ -155,6 +156,7 @@ function GapFill(props) {
           components={myPortableTextComponents}
         ></PortableText>
       </Image>
+
       <Text>
         {item.initial_scentence}
         <Input
@@ -246,4 +248,8 @@ const Text = styled.p`
 
   z-index: 0;
   // padding: 2%, 3%, 2%, 3%;
+`;
+
+const Question = styled.p`
+  font-weight: 400;
 `;

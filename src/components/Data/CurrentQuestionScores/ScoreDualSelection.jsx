@@ -4,7 +4,7 @@ import "animate.css";
 import { colors } from "../../../styles/colors";
 import correct from "../../../assets/correct.mp3";
 import { DualSelectionContext } from "../../DualSelection/DualSelectionContext";
-
+import { useSelector } from "react-redux";
 
 import {
   updatePointsAvaiableArr,
@@ -24,6 +24,16 @@ function ScoreDualSelection(props) {
   const { index0AnswerisCorrect, index1AnswerisCorrect } =
     useContext(DualSelectionContext);
 
+  //not using context here to identify if correct score as causes re render when update function is used, use redux store instead
+  let index0currentSliderQuestionScore = useSelector(
+    (state) => state.sliderquestiondataSliceIndex0reducer.value
+  );
+
+  let index0IsCorrect = false;
+  if (index0currentSliderQuestionScore.length === 4) {
+    index0IsCorrect = true;
+  }
+
   let animateClass = "";
   const maxscore = 1;
 
@@ -41,7 +51,7 @@ function ScoreDualSelection(props) {
   }, []);
 
   useEffect(() => {
-    if (index0AnswerisCorrect && index === 0) {
+    if (index0IsCorrect && index === 0) {
       setScore((val) => val + 1);
       playCorrectSound();
       setAnimateClass((val) => "animate__animated animate__tada");
@@ -51,27 +61,27 @@ function ScoreDualSelection(props) {
       dispatch(updateUserScore());
     }
     return () => {
-      if (index0AnswerisCorrect) {
+      if (index0IsCorrect) {
         setScore((val) => val - 1);
       }
     };
-  }, [index0AnswerisCorrect]);
+  }, [index0IsCorrect]);
 
-  useEffect(() => {
-    if (index1AnswerisCorrect && index === 1) {
-      setScore((val) => val + 1);
-      playCorrectSound();
-      setAnimateClass((val) => "animate__animated animate__tada");
-      setScoreStyle((val) => correctstyle);
-      dispatch(updateUserScore());
-    }
+  // useEffect(() => {
+  //   if (index1IsCorrect && index === 1) {
+  //     setScore((val) => val + 1);
+  //     playCorrectSound();
+  //     setAnimateClass((val) => "animate__animated animate__tada");
+  //     setScoreStyle((val) => correctstyle);
+  //     dispatch(updateUserScore());
+  //   }
 
-    return () => {
-      if (index1AnswerisCorrect) {
-        setScore((val) => val - 1);
-      }
-    };
-  }, [index1AnswerisCorrect]);
+  //   return () => {
+  //     if (index1IsCorrect) {
+  //       setScore((val) => val - 1);
+  //     }
+  //   };
+  // }, [index1IsCorrect]);
 
   return (
     <Wrapper style={scoreStyle}>

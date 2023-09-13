@@ -9,22 +9,25 @@ import {
   updateUserScore,
 } from "../../../features/CurrentBlockProgressData/currentblockprogressdata";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function ScoreSlider(props) {
   const index = props.index;
   const totalMarksAvailable = props.totalMarksAvailable;
+  const pairNumber = props.pairNumber;
 
   const [score, setScore] = useState(0);
   const [scoreStyle, setScoreStyle] = useState({});
   const [animateclass, setAnimateClass] = useState("");
 
-  const {
-    index0AnswerisCorrect,
-    // setIndex0AnswerIsCorrect,
-    // index0AnswerisInCorrect,
-    // setIndex0AnswerIsInCorrect,
-  } = useContext(SliderContext);
+  const correctanswerArr = useSelector(
+    (state) => state.sliderreducerindex0.value.length
+  );
+
+  let index0AnswerisCorrect = false;
+  if (correctanswerArr === pairNumber) {
+    index0AnswerisCorrect = true;
+  }
 
   let animateClass = "";
   const maxscore = 1;
@@ -48,7 +51,6 @@ function ScoreSlider(props) {
       setAnimateClass((val) => "animate__animated animate__tada");
       setScoreStyle((val) => correctstyle);
 
-      console.log(" USE EFFECTindex0 correct", index0AnswerisCorrect);
       dispatch(updateUserScore());
     }
     return () => {

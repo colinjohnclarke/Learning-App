@@ -32,10 +32,6 @@ function Textbox(props) {
     (state) => state.sliderquestiondataSliceIndex0reducer.value
   );
 
-  let index1currentSliderQuestionScore = useSelector(
-    (state) => state.sliderquestiondataSliceIndex1reducer.value
-  );
-
   // context value functions to update score component
 
   const {
@@ -56,7 +52,7 @@ function Textbox(props) {
   useEffect(() => {
     if (index0currentSliderQuestionScore.length === 4) {
       // set context value to true to update score component, this needs to be in use Effect or we get a set state error
-      setIndex0AnswerisCorrect((val) => true);
+      // setIndex0AnswerisCorrect((val) => true);
     }
 
     return () => {
@@ -197,6 +193,7 @@ const Box = styled.p`
   flex-direction: column;
   max-width: 700px;
   border-radius: 20px;
+ 
 
   &:hover {
     background-color: rgba(0, 200, 200, 0.29);

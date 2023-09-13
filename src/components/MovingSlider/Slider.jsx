@@ -10,18 +10,29 @@ import {
   index0correctanswerUNselected,
   index0EmptyArr,
   initialRenderCompleted,
+  rerunRandomiseRequired,
 } from "../../features/Slider/sliderindex0slice";
 
 function Slider(props) {
   const position = props.position;
   const resetselected = props.resetselected;
+
+  const pairNumber = props.pairNumber;
+
   const [repositionFocusBox, setRepositionFocusBox] = useState();
+  const [slideriscorrect, setSliderIsCorrect] = useState(false);
+
+  const [isDisabled, setIsDisabled] = useState(false);
+
+  const [slidersarerandom, setSlidersAreRandom] = useState(false);
 
   const {
     index0AnswerisCorrect,
     setIndex0AnswerIsCorrect,
     index0AnswerisInCorrect,
     setIndex0AnswerIsInCorrect,
+    rerunRandomiseRequired,
+    setrerunRandomiseRequired,
   } = useContext(SliderContext);
 
   const setNum = Math.random();
@@ -37,30 +48,29 @@ function Slider(props) {
   const sliderRightIsCorrect = props.sliderRightIsCorrect;
 
   const dispatch = useDispatch();
-  const index = props.index;
 
   const textleft = props.textleft;
   const textright = props.textright;
 
-  let correct = {
-    transition: "0.3s",
-    // position: "absolute",
-    transpose: "translateY(4px)",
-    backgroundColor: colors.correctColor,
-    opacity: "1",
-  };
+  // let correct = {
+  //   transition: "0.3s",
+  //   // position: "absolute",
+  //   transpose: "translateY(4px)",
+  //   backgroundColor: colors.correctColor,
+  //   opacity: "1",
+  // };
 
   const generalStyle = {};
 
-  const initialBoxStyle = {
-    transition: "0.3s",
-    position: "absolute",
-    transpose: "translateX(-250px)",
+  // const initialBoxStyle = {
+  //   transition: "0.3s",
+  //   position: "absolute",
+  //   transpose: "translateX(-250px)",
 
-    opacity: "0.4",
-  };
+  //   opacity: "0.4",
+  // };
 
-  const [initialrenderCompleted, setInitialRenderCompleted] = useState(false);
+  // const [initialrenderCompleted, setInitialRenderCompleted] = useState(false);
 
   const isinitialRenderCompleted = useSelector(
     (state) => state.sliderreducerindex0.renderCompleted
@@ -70,47 +80,91 @@ function Slider(props) {
     (state) => state.sliderreducerindex0.value.length
   );
 
+  // initial render check to see which statements are set to the correct poisition and update redux store that initial render is completed
+
   useEffect(() => {
+    console.log("INITAL RENDER FN");
+
+    if (leftisselected && sliderLeftIsCorrect) {
+      dispatch(index0correctanswerselected({ payload: textleft }));
+      // console.log("textleft is Correct", textleft);
+      // console.log("leftisselected", leftisselected);
+
+      // console.log("textleft is Correct");
+    } else if (rightisselected && sliderRightIsCorrect) {
+      dispatch(index0correctanswerselected({ payload: textright }));
+      //   console.log("textright is Correct", textright);
+      //   console.log("righis selected", rightisselected);
+      // }
+      // console.log("right left is Correct");
+    }
+    dispatch(initialRenderCompleted());
+
+    // return () => {
+    //   dispatch(index0EmptyArr());
+    //   console.log("clean up function initial render");
+    // };
+  }, [props]);
+
+  // function to remount the component when the initial selected slider for all sliders is correct
+
+  useEffect(() => {
+    console.log("CHECK IF RE RUN REQUIRED");
     if (isinitialRenderCompleted) {
-      if (
-        (leftisselected && sliderLeftIsCorrect) ||
-        (rightisselected && sliderRightIsCorrect)
-      ) {
-        dispatch(index0correctanswerselected());
-        console.log(" mount");
-      } else if (leftisselected !== sliderLeftIsCorrect) {
-        dispatch(index0correctanswerUNselected());
-        console.log(" mount");
+      // if the length of ansarr == pair number then all slides were randomly placed in the correct order so required re run of function, this is done by changing setreunrequired which is the dependency arr of the randomise function
+      if (correctanswerArr === pairNumber) {
+        setrerunRandomiseRequired((val) => !val);
+        console.log("reun required");
+      } else {
+        setSlidersAreRandom((val) => !val);
+        dispatch(index0EmptyArr());
       }
     }
 
     // return () => {
-    //   if (isinitialRenderCompleted) {
-    //     if (
-    //       (leftisselected && sliderLeftIsCorrect) ||
-    //       (rightisselected && sliderRightIsCorrect)
-    //     ) {
-    //       dispatch(index0correctanswerUNselected());
-
-    //       console.log("  return dispatch(index0correctanswerUNselected");
-    //     }
-    //   }
+    //   dispatch(index0EmptyArr());
+    //   console.log("clean up function rerrun function");
     // };
-  }, [leftisselected, rightisselected]);
+  }, [isinitialRenderCompleted]);
+
+  // run check function below after each slider movement
+
+  /////
+
+  // first
+  useEffect(() => {
+    dispatch(index0EmptyArr());
+    console.log("CHECK ITEMS");
+
+    if (slidersarerandom) {
+      if (leftisselected && sliderLeftIsCorrect) {
+        dispatch(index0correctanswerselected({ payload: textleft }));
+      } else if (rightisselected && sliderRightIsCorrect) {
+        dispatch(index0correctanswerselected({ payload: textright }));
+      } else if (leftisselected !== sliderLeftIsCorrect) {
+        dispatch(index0correctanswerUNselected());
+      }
+    }
+    // return () => {
+    //   dispatch(index0EmptyArr());
+    // };
+  }, [slidersarerandom]);
 
   useEffect(() => {
-    if (leftisselected && sliderLeftIsCorrect) {
-      dispatch(index0correctanswerselected({ payload: textleft }));
-    } else if (rightisselected && sliderRightIsCorrect) {
-      dispatch(index0correctanswerselected({ payload: textright }));
+    console.log("MOVED SLIDER");
+    if (slidersarerandom) {
+      if (leftisselected && sliderLeftIsCorrect) {
+        dispatch(index0correctanswerselected({ payload: textleft }));
+      } else if (rightisselected && sliderRightIsCorrect) {
+        dispatch(index0correctanswerselected({ payload: textright }));
+      } else if (
+        leftisselected !== sliderLeftIsCorrect ||
+        rightisselected !== sliderRightIsCorrect
+      ) {
+        dispatch(index0correctanswerUNselected());
+      }
     }
-
-    dispatch(initialRenderCompleted());
-
-    return () => {
-      dispatch(index0EmptyArr());
-    };
-  }, []);
+  }, [leftisselected]);
 
   const clickHandler = () => {
     setLeftisSelected(!leftisselected);
@@ -118,34 +172,76 @@ function Slider(props) {
   };
 
   useEffect(() => {
-    if (correctanswerArr === 4) {
-      setIndex0AnswerIsCorrect((val) => true);
+    console.log("(correctanswerArr === pairNumber)");
+    if (correctanswerArr === pairNumber) {
+      setSliderIsCorrect((val) => true);
       console.log("all correct");
+      setIsDisabled((val) => true);
     }
   }, [correctanswerArr]);
 
+  let fontsize = "16px";
+
+  // if (textleft.length > 40 && window.innerWidth < 400) {
+  //   fontsize = "14px";
+  // } else if (textleft.length > 30) {
+  //   fontsize = "15px";
+  // } else if (textleft.length === undefined) {
+  //   fontsize = "16px";
+  // }
+
+  let leftTextStyle = {
+    fontSize: fontsize,
+    color: leftisselected ? "white" : "black",
+    fontWeight: leftisselected ? "600" : "300",
+  };
+
+  let rightTextStyle = {
+    fontSize: fontsize,
+    color: rightisselected ? "white" : "black",
+    fontWeight: rightisselected ? "600" : "300",
+  };
+
+  let style = {};
+  if (!props.displaySlider) {
+    style = { display: "none" };
+  }
+
   return (
     <div>
-      <Wrapper>
-        <Outer onClick={clickHandler}>
+      <Wrapper style={style}>
+        <p>
+          initial render completed : {JSON.stringify(isinitialRenderCompleted)}
+        </p>
+        <p>sliders are random : {JSON.stringify(slidersarerandom)}</p>
+        <p> RE RUN randomise : {JSON.stringify(rerunRandomiseRequired)}</p>
+        <p>slidersarerandom: {JSON.stringify(slidersarerandom)}</p>
+        <p>correct: {correctanswerArr}</p>
+        <p> pairs: {pairNumber}</p>
+        <Outer
+          // disabled={isDisabled}
+          onClick={clickHandler}
+        >
           <Box>
-            <Text>
-              <p style={{ fontSize: "12px" }}>{textleft}</p>
-              {/* <p>{JSON.stringify(sliderLeftIsCorrect)}</p>
-              <p>{JSON.stringify(leftisselected)}</p> */}
-            </Text>
+            <TextLeft>
+              <p style={leftTextStyle}>{textleft}</p>
+              <p> CORRECT {JSON.stringify(sliderLeftIsCorrect)}</p>
+              <p> SELECTED {JSON.stringify(leftisselected)}</p>
+            </TextLeft>
           </Box>
 
           <Box>
-            <Text>
-              <p style={{ fontSize: "12px" }}>{textright}</p>
-              {/* <p>{JSON.stringify(sliderRightIsCorrect)}</p>
-              <p>{JSON.stringify(rightisselected)}</p> */}
-            </Text>
+            <TextRight>
+              <p style={rightTextStyle}>{textright}</p>
+              <p>CORRECT {JSON.stringify(sliderRightIsCorrect)}</p>
+              <p>SELECTED {JSON.stringify(rightisselected)}</p>
+            </TextRight>
           </Box>
 
           <MovingBox
-            style={correctanswerArr === 4 ? correctstyle : generalStyle}
+            style={
+              correctanswerArr === pairNumber ? correctstyle : generalStyle
+            }
             className={
               rightisselected
                 ? "moving_box_right_position"
@@ -168,7 +264,10 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const Outer = styled.div`
+const Outer = styled.button`
+  border: 2px solid red;
+  outline: none;
+  border: none;
   background-color: white;
   height: 70px;
   width: 90vw;
@@ -186,20 +285,40 @@ const Outer = styled.div`
 
 const Box = styled.div`
   max-width: 700px;
-  height: 70px;
+  height: 65px;
   width: 50%;
   border-radius: 40px;
+  border: 0px solid;
+  outline: none;
+  background-color: white;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 `;
 
-const Text = styled.p`
-  padding: 6px;
+const TextLeft = styled.p`
+  margin-right: 15px;
+  padding: 2px;
   position: relative;
-  z-index: 20;
+  z-index: 5;
   font-size: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const TextRight = styled.p`
+  margin-left: 15px;
+  padding: 2px;
+  position: relative;
+  z-index: 5;
+  font-size: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 const MovingBox = styled.div`

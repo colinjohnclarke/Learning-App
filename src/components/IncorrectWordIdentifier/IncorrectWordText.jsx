@@ -359,7 +359,7 @@ function IncorrectWordText(props) {
         totalMarksAvailable={totalMarksAvailable}
         index={index}
       ></ScoreInCorrectWord>
-      <p style={{ textAlign: "center" }}>
+      <Question style={{ textAlign: "center" }}>
         There are{" "}
         <div style={{ display: "inline" }} className={animatenum}>
           <strong
@@ -373,7 +373,7 @@ function IncorrectWordText(props) {
           </strong>
         </div>{" "}
         incorrect words in the text below, find them and click!
-      </p>
+      </Question>
       <Main>
         <PortableText
           value={data.picture}
@@ -499,3 +499,7 @@ const Input = styled.input`
 `;
 
 const Reminder = styled.div``;
+
+const Question = styled.p`
+  font-weight: 400;
+`;

@@ -9,21 +9,30 @@ import HelpBtn from "../Buttons/HelpBtn";
 import ScoreDragandDrop from "../Data/CurrentQuestionScores/ScoreDragandDrop";
 import { DragandDropContext } from "./DragandDropContext";
 
+import {
+  DndContext,
+  KeyboardSensor,
+  MouseSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+
 function DragandDropMain(props) {
   const [introduction, setIntroduction] = useState([]);
   const [statements, setStatements] = useState([]);
-  const [destinationindex, setDestinationIndex] = useState();
-  const [itemdragged, setItemDragged] = useState();
   const [helpneeded, setHelpNeeded] = useState(false);
   const [itemsarerandom, setItemsAreRandom] = useState(false);
-
-  const [randomisedlist, setRandomisedList] = useState([]);
-
+  const [listofstatments, setListofStatments] = useState([]);
   const [correctstatementsnum, setCorrectStatementsNum] = useState(0);
-  const [functionhasrerun, setFunctionhasRerun] = useState(false);
-
   const [allcorrect, setAllCorrect] = useState(false);
-
+  const [dataobj, setDataObj] = useState([]);
   const totalMarksAvailable = props.totalMarksAvailable;
 
   const {
@@ -38,49 +47,62 @@ function DragandDropMain(props) {
 
   const index = props.index;
 
-  // initial fuction to pass dara and split question and statements from props and save in state
+  // initial fuction to pass data and split question and statements from props and save in state
   useEffect(() => {
     setCorrectStatementsNum((val) => 0);
     const getintro = data.filter((item) => item.id === "11");
     setIntroduction(getintro);
-
     const getstatements = data.filter((item) => item.id < "10");
-
     setStatements(getstatements);
   }, [data]);
 
-  // handle drag function
-  const handleOnDragEnd = (result) => {
-    if (!result.destination) {
-      return;
+  // hooks for dnd sensors so can sense touch on touchscreen device
+  const mouseSensor = useSensor(MouseSensor);
+  const touchSensor = useSensor(TouchSensor);
+  const keyboardSensor = useSensor(KeyboardSensor);
+  const sensors = useSensors(mouseSensor, touchSensor, keyboardSensor);
+
+  // iniital render set the arr randomised list
+
+  useEffect(() => {
+    setListofStatments((val) => statements);
+  }, []);
+
+  //
+  function handleDragEnd(event) {
+    // get objects from event
+    const { active, over } = event;
+
+    // check the item dragged wasnt dropped in the same position
+    if (active.id !== over.id) {
+      // create copy of current list
+
+      let newList = listofstatments;
+
+      // find indexes of moved item and its new location to be dropped
+      const startPosition = newList.map((e) => e.id).indexOf(active.id);
+      const endPosition = newList.map((e) => e.id).indexOf(over.id);
+
+      // move item
+      const updatedList = arrayMove(newList, startPosition, endPosition);
+
+      // save the data object with details of if item is in the correct position
+      setDataObj((val) => {
+        updatedList.map((item, index) => {
+          if (item.id == index) {
+            return { id: item.id, iscorrect: true, value: item.value };
+          } else {
+            return { id: item.id, iscorrect: false, value: item.value };
+          }
+        });
+      });
+
+      // upate the  listofstatments array with current order after drag and drop
+      setListofStatments((val) => {
+        return updatedList;
+      });
     }
-    setDestinationIndex(result.destination.index);
-    setItemDragged(result.draggableId);
-
-    // make a intermediate copy of state to update
-    const newlist = randomisedlist;
-
-    // console.log("newlist", newlist);
-    // remove the dragged item from list at source
-    const [reorderedItem] = newlist.splice(result.source.index, 1);
-    // append the new item to arr
-    newlist.splice(result.destination.index, 0, reorderedItem);
-    // set updated state to be re-mapped
-
-    // map new statemnts into an object and state if true
-    const checkindividualstatments = newlist.map((item, index) => {
-      if (item.id == index) {
-        return { id: item.id, iscorrect: true, value: item.value };
-      } else {
-        return { id: item.id, iscorrect: false, value: item.value };
-      }
-    });
-
-    console.log("checkindividualstatments", checkindividualstatments);
-
-    // upate the  randomisedlist array with current order after drag and drop
-    setRandomisedList(checkindividualstatments);
-  };
+  }
 
   // function to check that randomise function does not order statements in the correct order and if they are in correct order, re run the randomise function and re order
 
@@ -100,7 +122,7 @@ function DragandDropMain(props) {
     if (answerArr.length < statements.length) {
       // confirm items are random in the state
       setItemsAreRandom((val) => true);
-      setRandomisedList((val) => statements);
+      setListofStatments((val) => statements);
 
       // if the array is = to length and the value is not 0 then this must mean statements are in correct order therefore require re run function   setrerunRandomiseRequired((val) => !val);  which is a function set context value
     } else if (
@@ -109,15 +131,9 @@ function DragandDropMain(props) {
       !itemsarerandom
     ) {
       setrerunRandomiseRequired((val) => !val);
-
-      console.log(
-        "items are NOT random,  setrerunRandomiseRequired((val) => !val);"
-      );
     }
 
-    console.log(answerArr.length, statements.length);
-
-    randomisedlist.forEach((item, index) => {
+    listofstatments.forEach((item, index) => {
       if (item.id == index) {
         console.log("index", index);
         setCorrectStatementsNum((val) => val + 1);
@@ -125,19 +141,16 @@ function DragandDropMain(props) {
     });
   }, [statements]);
 
-  // console.log("randomisedlist", randomisedlist);
+  // checking number of statements in listofstatments that are in the correct order and setting them as state
 
-  // console.log("randomsied arr", randomisedlist);
-
-  // checking number of statements in randomisedlist that are in the correct order and setting them as state
   useEffect(() => {
     setCorrectStatementsNum((val) => 0);
-    randomisedlist.forEach((item, index) => {
+    listofstatments.forEach((item, index) => {
       if (item.id == index) {
         setCorrectStatementsNum((val) => val + 1);
       }
     });
-  }, [destinationindex, itemdragged, randomisedlist]);
+  }, [dataobj, listofstatments]);
 
   // if the items are random and ordered and correct statement value = the length of the statement arr
 
@@ -151,66 +164,32 @@ function DragandDropMain(props) {
   //
 
   useEffect(() => {
-    //set context state for score component to update for index 0
-
     if (allcorrect && index === 0) {
       // confim index 0 drag and drop is correct
       setindex0AnswerisCorrect((val) => true);
     }
 
-    // return () => {
-    //   setindex0AnswerisCorrect((val) => false);
-    // };
+    //   // return () => {
+    //   //   setindex0AnswerisCorrect((val) => false);
+    //   // };
   }, [allcorrect]);
 
   // index 1
 
   useEffect(() => {
-    // check initial render for all times being in correct order at index 1
+    //   // check initial render for all times being in correct order at index 1
     if (allcorrect && index === 1) {
       setindex1AnswerisCorrect((val) => true);
     }
 
-    // return () => {
-    //   setindex1AnswerisCorrect((val) => false);
-    // };
+    //   // return () => {
+    //   //   setindex1AnswerisCorrect((val) => false);
+    //   // };
   }, [allcorrect]);
 
   const handleHelpneededBtnClicked = () => {
     setHelpNeeded(!helpneeded);
   };
-
-  const numberBorder = statements.map((item, index) => {
-    return (
-      <BorderNum>
-        <Num>{index}</Num>
-      </BorderNum>
-    );
-  });
-
-  console.log("numberBorder", numberBorder);
-
-  let list = randomisedlist?.map((item, index) => (
-    <div style={{ width: "100%" }}>
-      <Draggable key={item.id} draggableId={item.id} index={index}>
-        {(provided) => (
-          <div
-            draggableId={item.id}
-            ref={provided.innerRef}
-            {...provided.draggableProps}
-            {...provided.dragHandleProps}
-          >
-            <DragandDropItem
-              helpneeded={helpneeded}
-              text={item.value}
-              allcorrect={allcorrect}
-              iscorrect={item.iscorrect}
-            ></DragandDropItem>
-          </div>
-        )}
-      </Draggable>
-    </div>
-  ));
 
   return (
     <Wrapper>
@@ -219,25 +198,30 @@ function DragandDropMain(props) {
         index={index}
       ></ScoreDragandDrop>
 
-      <DragDropContext onDragEnd={handleOnDragEnd}>
-        <p> {introduction[0]?.value}</p>
-        <Droppable droppableId="list">
-          {(provided) => (
-            <div {...provided.droppableProps} ref={provided.innerRef}>
-              {list.map((item, index) => {
-                return (
-                  <BorderNum>
-                    <Num>{index + 1}</Num>
-                    {item}
-                  </BorderNum>
-                );
-              })}
+      <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
+        <Question> {introduction[0]?.value}</Question>
+        <NumWrapper>
+          {statements.map((item, index) => {
+            return <NumBorder>{<Num>{index + 1}</Num>}</NumBorder>;
+          })}
+        </NumWrapper>
 
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
+        <SortableContext
+          strategy={verticalListSortingStrategy}
+          items={listofstatments}
+        >
+          {listofstatments?.map((item, index) => (
+            <DragandDropItem
+              key={item.number}
+              id={item.id}
+              helpneeded={helpneeded}
+              text={item.value}
+              allcorrect={allcorrect}
+              iscorrect={item.iscorrect}
+            ></DragandDropItem>
+          ))}
+        </SortableContext>
+      </DndContext>
 
       <HelpBtn onClick={handleHelpneededBtnClicked}>Help </HelpBtn>
     </Wrapper>
@@ -246,50 +230,81 @@ function DragandDropMain(props) {
 
 export default DragandDropMain;
 
-const Border = styled.div`
-  // height: 100px;
+const NumBorder = styled.div`
+  height: 80px;
+  width: 95%;
+  margin: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  // align-items: center;
+  // border: 1px solid red;
 `;
 
-const BorderNum = styled.div`
-  height: 80px;
-  display: flex;
-  flex-direction: row;
-  width: 100%;
+const NumWrapper = styled.div`
+  display: none;
 
-  align-items: center;
-  padding: 5px;
-
-  @media ${device.tablet} {
-    width: 700px;
+  @media ${device.mobileS} {
+    display: none;
   }
-  @media ${device.desktop} {
-    width: 800px;
+
+  @media ${device.mobileM} {
+    // border: 1px solid;
+    position: absolute;
+    display: flex;
+    top: 110px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  @media ${device.mobileL} {
+    // border: 1px solid;
+    position: absolute;
+    display: flex;
+    top: 110px;
+    left: 6px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+  @media ${device.tablet} {
+    // border: 1px solid;
+    position: absolute;
+    display: flex;
+    top: 114px;
+    left: 65px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
   }
 `;
 
 const Num = styled.div`
+position: absolute; 
+// left: -80px; 
+
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 5px;
   height: 8px;
   width: 8px;
   padding: 10px;
   border-radius: 50%;
-  border: 1px solid green;
-  position: relative;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
   transition: 0.3s;
-  // background-color: rgba(0, 200, 200, 0.8);
   border: 2px solid rgba(0, 200, 200, 0.8);
   color: rgba(0, 200, 200, 0.8);
   font-weight: 400;
 
   @media ${device.tablet} {
-    margin: 20px;
+  left: -10px; 
   }
   @media ${device.desktop} {
-    margin: 30px;
+    left: -20px;
   }
 
  @media ${device.mobileS} {
@@ -311,7 +326,7 @@ const Wrapper = styled.div`
 
   p {
     text-align: center;
-    font-size: 15px;
+    font-size: 16px;
   }
 
   // @media ${device.mobileS} {
@@ -319,4 +334,12 @@ const Wrapper = styled.div`
   //   p {
   //     font-size: 16px;
   //   }
+`;
+
+const Question = styled.p`
+  max-height: 20px;
+
+  font-weight: 400;
+  padding: 10px;
+  text-align: center;
 `;

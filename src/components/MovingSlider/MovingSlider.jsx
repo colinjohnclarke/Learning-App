@@ -1,51 +1,107 @@
-import React, { useState } from "react";
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useSyncExternalStore,
+} from "react";
 import Slider from "./Slider";
 import styled from "styled-components";
 import ScoreSlider from "../../components/Data/CurrentQuestionScores/ScoreSlider";
+import { SliderContext } from "./SliderContext";
 
 function MovingSlider(props) {
   const [resetselected, setResetSelected] = useState(false);
 
+  const [slider0leftIsCorrect, setslider0leftIsCorrect] = useState();
+  const [slider0rightIsCorrect, setslider0rightIsCorrect] = useState();
+  const [slider1leftIsCorrect, setslider1leftIsCorrect] = useState();
+  const [slider1rightIsCorrect, setslider1rightIsCorrect] = useState();
+  const [slider2leftIsCorrect, setslider2leftIsCorrect] = useState();
+  const [slider2rightIsCorrect, setslider2rightIsCorrect] = useState();
+  const [slider3leftIsCorrect, setslider3leftIsCorrect] = useState();
+  const [slider3rightIsCorrect, setslider3rightIsCorrect] = useState();
+
+  const {
+    index0AnswerisCorrect,
+    setIndex0AnswerIsCorrect,
+    index0AnswerisInCorrect,
+    setIndex0AnswerIsInCorrect,
+    rerunRandomiseRequired,
+    setrerunRandomiseRequired,
+  } = useContext(SliderContext);
+
   // save props as const
   const sliderData = props.data;
 
+  const pairNumber = props.data.number_of_pairs_entered;
+
   const index = props.index;
 
-  // generate random vales to random ordering of the slider items on each refresh, in pairs, one pair for each slider, use these values to set which side recives the correct value and which incorrect  ( changes each time)
-  const num1a = Math.random();
-  const num1b = Math.random();
-  const num2a = Math.random();
-  const num2b = Math.random();
-  const num3a = Math.random();
-  const num3b = Math.random();
-  const num4a = Math.random();
-  const num4b = Math.random();
+  useEffect(() => {
+    // generate random vales to random ordering of the slider items on each refresh, in pairs, one pair for each slider, use these values to set which side recives the correct value and which incorrect  ( changes each time)
+    const num1a = Math.random();
+    const num1b = Math.random();
+    const num2a = Math.random();
+    const num2b = Math.random();
+    const num3a = Math.random();
+    const num3b = Math.random();
+    const num4a = Math.random();
+    const num4b = Math.random();
 
-  // deterine which value is higher and assign a boolean for condition
+    // deterine which value is higher and assign a boolean for condition
 
-  const slider0leftIsCorrect = num1a > num1b ? true : false;
-  const slider0rightIsCorrect = num1a < num1b ? true : false;
-
-  const slider1leftIsCorrect = num2a > num2b ? true : false;
-  const slider1rightIsCorrect = num2a < num2b ? true : false;
-
-  const slider2leftIsCorrect = num3a > num3b ? true : false;
-  const slider2rightIsCorrect = num3a < num3b ? true : false;
-
-  const slider3leftIsCorrect = num4a > num4b ? true : false;
-  const slider3rightIsCorrect = num4a < num4b ? true : false;
+    setslider0leftIsCorrect((val) => (num1a > num1b ? true : false));
+    setslider0rightIsCorrect((val) => (num1a < num1b ? true : false));
+    setslider1leftIsCorrect((val) => (num2a > num2b ? true : false));
+    setslider1rightIsCorrect((val) => (num2a < num2b ? true : false));
+    setslider2leftIsCorrect((val) => (num3a > num3b ? true : false));
+    setslider2rightIsCorrect((val) => (num3a < num3b ? true : false));
+    setslider3leftIsCorrect((val) => (num4a > num4b ? true : false));
+    setslider3rightIsCorrect((val) => (num4a < num4b ? true : false));
+  }, [props, rerunRandomiseRequired]);
 
   const handleResetBtnSelected = () => {
     setResetSelected(!resetselected);
   };
 
+  // only diplay the number of sliders specified
+  let displaySlider1 = false;
+  let displaySlider2 = false;
+  let displaySlider3 = false;
+  let displaySlider4 = false;
+
+  switch (sliderData.number_of_pairs_entered) {
+    case 4:
+      displaySlider4 = true;
+      displaySlider3 = true;
+      displaySlider2 = true;
+      displaySlider1 = true;
+      break;
+    case 3:
+      displaySlider3 = true;
+      displaySlider2 = true;
+      displaySlider1 = true;
+      break;
+    case 2:
+      displaySlider2 = true;
+      displaySlider1 = true;
+      break;
+    case 1:
+      displaySlider1 = true;
+      break;
+    default:
+      break;
+  }
+
   return (
     <Wrapper>
-      {/* <h1>{val}</h1> */}
+      <h1> RERUN: {JSON.stringify(rerunRandomiseRequired)}</h1>
 
-      <ScoreSlider index={index}></ScoreSlider>
+      <ScoreSlider pairNumber={pairNumber} index={index}></ScoreSlider>
       <p>{sliderData.question}</p>
       <Slider
+        displaySlider={displaySlider1}
+        pairNumber={props.data.number_of_pairs_entered}
         position={0}
         resetselected={resetselected}
         index={index}
@@ -64,6 +120,8 @@ function MovingSlider(props) {
       ></Slider>
 
       <Slider
+        displaySlider={displaySlider2}
+        pairNumber={props.data.number_of_pairs_entered}
         position={1}
         resetselected={resetselected}
         index={index}
@@ -81,6 +139,8 @@ function MovingSlider(props) {
         }
       ></Slider>
       <Slider
+        displaySlider={displaySlider3}
+        pairNumber={props.data.number_of_pairs_entered}
         position={2}
         resetselected={resetselected}
         index={index}
@@ -98,6 +158,8 @@ function MovingSlider(props) {
         }
       ></Slider>
       <Slider
+        displaySlider={displaySlider4}
+        pairNumber={props.data.number_of_pairs_entered}
         position={3}
         resetselected={resetselected}
         index={index}

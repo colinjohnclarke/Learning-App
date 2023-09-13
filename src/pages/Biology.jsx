@@ -21,7 +21,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { updateProgressPercentage } from "../features/ProgressBar/ProgressBar";
 import PostBlockPointsReveal from "../components/Data/PostBlockPointsReveal/PostBlockPointsReveal";
 import { updateBlockCompleted } from "../features/CurrentBlockProgressData/currentblockprogressdata";
-import { clearConfig } from "dompurify";
 
 function Biology() {
   const [data, setData] = useState({});
@@ -59,6 +58,7 @@ function Biology() {
 
   let content_from_api = "biology_blocks";
   let content_name = "photosynthesis_required_practical";
+  // let content_name = "kinetic_energy";
 
   useEffect(() => {
     sanityClient
@@ -154,7 +154,7 @@ function Biology() {
   const handleContinueBtnClicked = (elementRef) => {
     setTimeout(() => {
       scrolltoFn(elementRef);
-    }, 100);
+    }, 50);
   };
 
   const item0 = (
@@ -337,19 +337,19 @@ function Biology() {
     </Item>
   );
 
-  const item11 = (
-    <Item ref={item11listRef}>
-      <Container>
-        <ContinueBtn
-          onClick={() => {
-            setitem12displayed(true);
-            handleContinueBtnClicked(item12listRef);
-            console.log("ITEM 11 CLICKED");
-          }}
-        />
-      </Container>
-    </Item>
-  );
+  // const item11 = (
+  //   <Item ref={item11listRef}>
+  //     <Container>
+  //       <ContinueBtn
+  //         onClick={() => {
+  //           setitem12displayed(true);
+  //           handleContinueBtnClicked(item12listRef);
+  //           console.log("ITEM 11 CLICKED");
+  //         }}
+  //       />
+  //     </Container>
+  //   </Item>
+  // );
 
   const itemlist = [
     item0,
@@ -363,6 +363,7 @@ function Biology() {
     item8,
     item9,
     item10,
+    // item11,
   ];
 
   displayedArr.forEach((item, i) => {

@@ -6,7 +6,6 @@ import DragandDropMain from "./DragandDropMain";
 import { DragandDropContext } from "./DragandDropContext";
 
 function DragDropRandomise(props) {
-
   const [reset, setReset] = useState(false);
 
   const [sorted, setSorted] = useState([]);
@@ -49,7 +48,7 @@ function DragDropRandomise(props) {
       { value: data.introduction, id: "11" },
     ];
 
-    // remove empty input fields 
+    // remove empty input fields
     const removeblanks = obj?.filter((item) => item.value !== undefined);
 
     const sortedarr = removeblanks.sort((a, b) =>
@@ -81,7 +80,7 @@ function DragDropRandomise(props) {
 export default DragDropRandomise;
 
 const Wrapper = styled.div`
-border-top: 0.5px solid lightblue;
+  border-top: 0.5px solid lightblue;
   display: flex;
   flex-direction: column;
   justify-content: center;

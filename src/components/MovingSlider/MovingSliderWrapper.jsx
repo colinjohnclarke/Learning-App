@@ -9,6 +9,7 @@ function MovingSliderWrapper(props) {
   const [index0AnswerisInCorrect, setIndex0AnswerIsInCorrect] = useState(false);
   const [index1AnswerisCorrect, index1AnswerIsCorrect] = useState(false);
   const [index1AnswerisInCorrect, setIndex1AnswerIsInCorrect] = useState(false);
+  const [rerunRandomiseRequired, setrerunRandomiseRequired] = useState(false);
 
   // const [val, setVal] = useState(0);
 
@@ -21,16 +22,13 @@ function MovingSliderWrapper(props) {
     index1AnswerIsCorrect,
     index1AnswerisInCorrect,
     setIndex1AnswerIsInCorrect,
+    rerunRandomiseRequired,
+    setrerunRandomiseRequired,
   };
-
-  // useEffect(() => {
-  //   setVal((value) => +1);
-  // }, []);
 
   return data?.map((item, index) => {
     return (
       <SliderContext.Provider index={index} value={contextObj}>
-        {/* <h1>{val}</h1> */}
         <MovingSlider key={item._key} data={item} index={index}></MovingSlider>
       </SliderContext.Provider>
     );

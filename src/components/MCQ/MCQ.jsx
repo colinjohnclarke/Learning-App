@@ -68,8 +68,10 @@ const Main = styled.div`
   justify-content: center;
 `;
 
-const Question = styled.div`
+const Question = styled.p`
   margin: 60px;
   width: 80%;
   text-align: center;
+  font-weight: 400;
+  
 `;

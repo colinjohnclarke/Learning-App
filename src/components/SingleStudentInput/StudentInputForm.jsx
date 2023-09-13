@@ -62,8 +62,16 @@ function StudentInputForm(props) {
   const image = props.data.image;
   // pass in acceptable answers from props and check to see if user input matches
 
-  const correct_expected_answers_listArr =
+  const correct_expected_answers_listArr1 =
     correct_expected_answers_list.split(", ");
+
+  const correct_expected_answers_listArr2 =
+    correct_expected_answers_list.split(",");
+
+  const correct_expected_answers_listArr =
+    correct_expected_answers_listArr1.concat(correct_expected_answers_listArr2);
+
+  console.log(correct_expected_answers_listArr);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -212,7 +220,11 @@ function StudentInputForm(props) {
       image: (props) => (
         <div>
           {" "}
-          <img src={imgurlFor(props.value.asset)} alt="" />
+          <img
+            src={imgurlFor(props.value.asset)}
+            style={{ maxWidth: "300px" }}
+            alt=""
+          />
         </div>
       ),
     },
@@ -362,4 +374,9 @@ const Question = styled.p`
   padding-top: 40px;
   padding: 30px;
   text-align: center;
+  font-weight: 400;
+`;
+
+const Image = styled.div`
+  max-width: 200px;
 `;
