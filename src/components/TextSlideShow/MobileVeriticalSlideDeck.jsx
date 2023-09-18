@@ -1,14 +1,12 @@
 import React, { useRef } from "react";
-import styled from "styled-components";
-
 import TextSection from "./TextSection";
-import { device } from "../../styles/breakpoints";
-import SlideLocator from "./SlideLocator";
 
-function MobileVerticalSlideDeck(props) {
-  const length = props.length;
-  const data = props.data;
-
+function MobileVerticalSlideDeck({
+  length,
+  data,
+  currentslide,
+  setCurrentSlide,
+}) {
   const item1listRef = useRef(null);
   const item2listRef = useRef(null);
   const item3listRef = useRef(null);
@@ -28,17 +26,17 @@ function MobileVerticalSlideDeck(props) {
     ];
 
     return (
-      <Wrapper>
-        <Section>
-          <TextSection
-            length={length}
-            refVal={refArr[index + 1]}
-            refdata={refArr[index]}
-            data={item}
-            index={index}
-          />
-        </Section>
-      </Wrapper>
+      <div key={index} style={{ padding: "20px" }}>
+        <TextSection
+          currentslide={currentslide}
+          setCurrentSlide={setCurrentSlide}
+          length={length}
+          refVal={refArr[index + 1]}
+          refdata={refArr[index]}
+          data={item}
+          index={index}
+        />
+      </div>
     );
   });
 
@@ -46,20 +44,3 @@ function MobileVerticalSlideDeck(props) {
 }
 
 export default MobileVerticalSlideDeck;
-
-const Section = styled.section`
-  padding: 20px;
-`;
-
-const LocationSlider = styled.div`
-  height: 39px;
-  width: 140px;
-  margin-bottom: 30px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  transition: 0.5s;
-`;
-
-const Wrapper = styled.div``;

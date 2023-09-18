@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
-import TextField from "@mui/material/TextField";
 import styled from "styled-components";
 import { colors } from "../../styles/colors";
 import MainActionBtn from "../Buttons/MainActionBtn";
 import { BiHelpCircle } from "react-icons/bi";
 import ScoreTextInput from "../Data/CurrentQuestionScores/ScoreTextInput";
 import { TextInputContext } from "./TextInputContext";
+import { myPortableTextComponents } from "../../config/sanity/portableText";
 import "animate.css";
 
 // sanity imports
@@ -14,19 +14,8 @@ import { PortableText } from "@portabletext/react";
 import imageUrlBuilder from "@sanity/image-url";
 import HelpBtn from "../Buttons/HelpBtn";
 
-import { display } from "@mui/system";
-
 function StudentInputForm(props) {
   const [helpneeded, setHelpNeeded] = useState(false);
-  const [spanStyle, setSpanStyle] = useState({
-    position: "absolute",
-    left: "0px",
-    top: "0px",
-    padding: "20px",
-    fontSize: "12px",
-    borderRadius: "5px",
-    transition: "0.3s",
-  });
 
   const index = props.index;
 
@@ -37,20 +26,78 @@ function StudentInputForm(props) {
   // context varibles
 
   const {
+    index0AnswerisCorrect,
     setIndex0AnswerisCorrect,
+    index0AnswerisInCorrect,
     setIndex0AnswerisInCorrect,
+    index1AnswerisCorrect,
     setIndex1AnswerisCorrect,
+    index1AnswerisInCorrect,
     setIndex1AnswerisInCorrect,
   } = useContext(TextInputContext);
 
   // user input state
 
   const [input, setInput] = useState("");
+  const [inputfocused, setInputFocused] = useState(false);
+  const [answerSubmitted, setAnswerSubmitted] = useState(false);
   const inputlength = input.length;
-  const [selectedinputcolor, setSelectedInputColor] = useState("");
-  const [textfieldlabel, setTextFieldLabel] = useState("What's your answer?");
-  const [isShowingFeedback, setIsShowingFeedback] = useState(false);
-  const [animate, setAnimate] = useState("");
+  let selectedInputColor;
+  let textfieldLabel = "What's your answer?";
+
+  let animate = "";
+  let animateIncorrect = "animate__animated animate__wobble animate__faster";
+  let animateCorrect = "animate__animated  animate__bounce animate__faster";
+
+  const spanStyleCorrect = {
+    position: "absolute",
+    left: "0px",
+    top: "0px",
+    transform: "translateX(10px) translateY(-7px)",
+    fontSize: "10px",
+    transition: "0.3s",
+    padding: "5px",
+    borderRadius: "5px",
+    backgroundColor: colors.correctColor,
+    color: "white",
+  };
+
+  const spanStyleIncorrect = {
+    position: "absolute",
+    left: "0px",
+    top: "0px",
+    transform: "translateX(10px) translateY(-7px)",
+    fontSize: "10px",
+    transition: "0.3s",
+    padding: "5px",
+    borderRadius: "5px",
+    backgroundColor: colors.incorrectColor,
+    color: "white",
+  };
+
+  const spanStyleNormal = {
+    position: "absolute",
+    left: "0px",
+    top: "0px",
+    transform: "translateX(10px) translateY(-7px)",
+    fontSize: "10px",
+    transition: "0.3s",
+    padding: "5px",
+    borderRadius: "5px",
+    backgroundColor: "white",
+  };
+
+  const spanStyleNormalUnFocused = {
+    position: "absolute",
+    left: "0px",
+    top: "0px",
+    padding: "20px",
+    fontSize: "12px",
+    borderRadius: "5px",
+    transition: "0.3s",
+  };
+
+  let spanStyle = spanStyleNormalUnFocused;
 
   // gather data from passed from from API fetched via get data component
 
@@ -71,16 +118,15 @@ function StudentInputForm(props) {
   const correct_expected_answers_listArr =
     correct_expected_answers_listArr1.concat(correct_expected_answers_listArr2);
 
-  console.log(correct_expected_answers_listArr);
-
   const handleSubmit = (e) => {
+    console.log("handleSubmit");
     e.preventDefault();
+    setAnswerSubmitted((val) => true);
 
     // validation that user has provided an answer
 
     if (inputlength === 0) {
-      setTextFieldLabel("Please enter an answer and submit :) ");
-      setIsShowingFeedback(true);
+      textfieldLabel = "Please enter an answer and submit :) ";
 
       // pass in acceptable answers from props and check to see if user input matches and update state
     } else {
@@ -92,143 +138,90 @@ function StudentInputForm(props) {
 
       if (check_answer === undefined && index === 0) {
         // set new context value for Score to update if incorrect
+
         setIndex0AnswerisInCorrect((val) => true);
-
-        //
-
-        setSelectedInputColor(colors.incorrectColor);
-        setTextFieldLabel((val) => "Not right keep trying!");
-        setAnimate("animate__animated animate__wobble animate__faster");
-        setIsShowingFeedback((val) => true);
-        setSpanStyle((val) => ({
-          position: "absolute",
-          left: "0px",
-          top: "0px",
-          transform: "translateX(10px) translateY(-7px)",
-          fontSize: "10px",
-          transition: "0.3s",
-          padding: "5px",
-          borderRadius: "5px",
-
-          backgroundColor: colors.incorrectColor,
-        }));
       } else if (check_answer && index === 0) {
         // set new context value for Score to update if Correct
         setIndex0AnswerisCorrect((val) => true);
-
-        //
-
-        setSelectedInputColor(colors.correctColor);
-        setTextFieldLabel("Correct! Great work :) ");
-        setAnimate("animate__animated  animate__bounce animate__faster");
-        setIsShowingFeedback((val) => true);
-
-        setSpanStyle((val) => ({
-          position: "absolute",
-          left: "0px",
-          top: "0px",
-          transform: "translateX(10px) translateY(-7px)",
-          fontSize: "10px",
-          transition: "0.3s",
-          padding: "5px",
-          borderRadius: "5px",
-          backgroundColor: colors.correctColor,
-        }));
       } else if (check_answer === undefined && index === 1) {
         // set new context value for Score to update if incorrect
         setIndex1AnswerisInCorrect((val) => true);
-
-        //
-
-        setSelectedInputColor((val) => colors.incorrectColor);
-        setTextFieldLabel((val) => "Not right keep trying!");
-        setIsShowingFeedback((val) => true);
-        setAnimate("animate__animated animate__wobble animate__faster");
-        setSpanStyle((val) => ({
-          position: "absolute",
-          left: "0px",
-          top: "0px",
-          transform: "translateX(10px) translateY(-7px)",
-          fontSize: "10px",
-          transition: "0.3s",
-          padding: "5px",
-          borderRadius: "5px",
-          backgroundColor: colors.incorrectColor,
-          // border: "none",
-        }));
       } else if (check_answer && index === 1) {
         // set new context value for Score to update if Correct
         setIndex1AnswerisCorrect((val) => true);
-
-        //
-
-        setSelectedInputColor(colors.correctColor);
-        setTextFieldLabel("Correct! Great work :) ");
-        setAnimate("animate__animated  animate__bounce animate__faster");
-
-        setIsShowingFeedback((val) => true);
-
-        setSpanStyle((val) => ({
-          position: "absolute",
-          left: "0px",
-          top: "0px",
-          transform: "translateX(10px) translateY(-7px)",
-          fontSize: "10px",
-          transition: "0.3s",
-          padding: "5px",
-          borderRadius: "5px",
-          backgroundColor: colors.correctColor,
-        }));
       }
     }
   };
+
+  if (answerSubmitted) {
+    if (index0AnswerisCorrect && index === 0) {
+      selectedInputColor = colors.correctColor;
+      textfieldLabel = "Correct! Great work :) ";
+      animate = animateCorrect;
+      spanStyle = spanStyleCorrect;
+      console.log("  spanStyle = spanStyleCorrect;");
+    } else if (index0AnswerisInCorrect && index === 0) {
+      selectedInputColor = colors.incorrectColor;
+      textfieldLabel = "Not right keep trying!";
+      console.log("Not right keep trying!");
+      animate = animateIncorrect;
+      spanStyle = spanStyleIncorrect;
+    } else if (index1AnswerisCorrect && index === 1) {
+      selectedInputColor = colors.correctColor;
+      textfieldLabel = "Correct! Great work :) ";
+      animate = animateCorrect;
+      spanStyle = spanStyleCorrect;
+    } else if (index1AnswerisInCorrect && index === 1) {
+      selectedInputColor = colors.incorrectColor;
+      textfieldLabel = "Not right keep trying!";
+      animate = animateIncorrect;
+      spanStyle = spanStyleIncorrect;
+    } else {
+      spanStyle = spanStyleNormal;
+      selectedInputColor = colors.normalInputColor;
+      textfieldLabel = "Whats your answer?";
+    }
+  }
 
   // remove the feedback comments and input box colour as user types in input field
 
   const handleChange = (e) => {
     setInput(e.target.value);
-    setIsShowingFeedback(false);
-    setSpanStyle((val) => ({
-      position: "absolute",
-      left: "0px",
-      top: "0px",
-      transform: "translateX(10px) translateY(-7px)",
-      fontSize: "10px",
-      transition: "0.3s",
-      padding: "5px",
-      borderRadius: "5px",
-      backgroundColor: colors.normalInputColor,
-    }));
+    setAnswerSubmitted((val) => false);
+
+    const check_answer = correct_expected_answers_listArr.find(
+      (element) => element === input
+    );
+
+    if (check_answer === undefined) {
+      spanStyle = spanStyleNormal;
+      selectedInputColor = colors.normalInputColor;
+      textfieldLabel = "Whats your answer?";
+    }
   };
 
-  useEffect(() => {
-    setSelectedInputColor(colors.normalInputColor);
-    setTextFieldLabel("Whats your answer?");
-  }, [input]);
+  // const check_answer = correct_expected_answers_listArr.find(
+  //   (element) => element === input
+  // );
+
+  // if (check_answer === undefined) {
+  //   spanStyle = spanStyleNormal;
+  //   selectedInputColor = colors.normalInputColor;
+  //   textfieldLabel = "Whats your answer?";
+  // }
+
+  // useEffect(() => {
+  //   selectedInputColor = colors.normalInputColor;
+  //   textfieldLabel = "Whats your answer?";
+  // }, [input]);
+
+  // selectedInputColor = colors.normalInputColor;
+  // textfieldLabel = "Whats your answer?";
 
   // functions to render text and image from image blocks from sanity
 
   // initiated Sanity url builder
   const builder = imageUrlBuilder(sanityClient);
-
-  function imgurlFor(source) {
-    return builder.image(source);
-  }
-
-  const myPortableTextComponents = {
-    types: {
-      image: (props) => (
-        <div>
-          {" "}
-          <img
-            src={imgurlFor(props.value.asset)}
-            style={{ maxWidth: "300px" }}
-            alt=""
-          />
-        </div>
-      ),
-    },
-  };
 
   let hintstyle = {};
 
@@ -245,18 +238,12 @@ function StudentInputForm(props) {
   };
 
   const handleFocusInput = () => {
-    setSpanStyle((val) => ({
-      position: "absolute",
-      left: "0px",
-      top: "0px",
-      transform: "translateX(10px) translateY(-7px)",
-      fontSize: "10px",
-      transition: "0.2s",
-      padding: "5px",
-      borderRadius: "5px",
-      backgroundColor: selectedinputcolor,
-    }));
+    setInputFocused((val) => true);
   };
+
+  if (inputfocused && !answerSubmitted) {
+    spanStyle = spanStyleNormal;
+  }
 
   return (
     <Wrapper>
@@ -290,10 +277,13 @@ function StudentInputForm(props) {
       <form style={{ fontFamily: "Montserrat" }} onSubmit={handleSubmit}>
         <div
           className={animate}
-          onClick={handleFocusInput}
+          onClick={() => {
+            console.log("   handleFocusInput()");
+            handleFocusInput();
+          }}
           style={{
             position: "relative",
-            backgroundColor: selectedinputcolor,
+            backgroundColor: selectedInputColor,
             borderRadius: "5px",
           }}
         >
@@ -302,7 +292,7 @@ function StudentInputForm(props) {
               height: "30px",
               width: "200px",
               padding: "10px",
-              backgroundColor: selectedinputcolor,
+              backgroundColor: selectedInputColor,
               border: "3.5px solid rgb(0, 200, 200, 0.5)",
               borderRadius: "5px",
               display: "flex",
@@ -313,11 +303,11 @@ function StudentInputForm(props) {
             }}
             required="required"
             type="text"
-            label={textfieldlabel}
+            label={textfieldLabel}
             onChange={handleChange}
           />
 
-          <label style={spanStyle}>{textfieldlabel}</label>
+          <label style={spanStyle}>{textfieldLabel}</label>
         </div>
 
         <MainActionBtn
@@ -328,9 +318,6 @@ function StudentInputForm(props) {
           Check
         </MainActionBtn>
       </form>
-      {/* <Slide direction="left" in={isShowingFeedback} mountOnEnter unmountOnExit>
-        <h3>{textfieldlabel}</h3>
-      </Slide> */}
     </Wrapper>
   );
 }

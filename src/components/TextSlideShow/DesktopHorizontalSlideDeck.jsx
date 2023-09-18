@@ -1,107 +1,65 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import { PortableText } from "@portabletext/react";
-import imageUrlBuilder from "@sanity/image-url";
-import sanityClient from "../../createclient";
 import "@splidejs/react-splide/css/skyblue";
 import TextSectionDesktop from "./TextSectionDesktop";
 import StartQuizBtn from "../Buttons/StartQuizBtn";
-import {
-  moveDesktopPositionForward,
-  moveDesktopPositionBack,
-  updateCompletedSlideShow,
-  resetPosition,
-} from "./../../features/TextSlideShow/textslideshowSlice";
-import { useDispatch, useSelector } from "react-redux";
 import { GrLinkNext } from "react-icons/gr";
-import { device } from "../../styles/breakpoints";
 import SlideLocator from "./SlideLocator";
 import "animate.css";
+import { updateStartQuiz } from "../../features/CurrentBlockProgressData/currentblockprogressdata";
 
-function DesktopHorizontalSlideDeck(props) {
-  const length = props.length;
-  const data = props.data;
-  const builder = imageUrlBuilder(sanityClient);
+import { useDispatch } from "react-redux";
+
+function DesktopHorizontalSlideDeck({
+  length,
+  data,
+  currentslide,
+  setCurrentSlide,
+}) {
   const dispatch = useDispatch();
-  const position = useSelector((state) => state.textslideshowslice.position);
   const showbtn = { display: "block" };
   const hidebtn = { display: "none" };
-
-  const [leftbtnstyle, setLeftBtnStyle] = useState(hidebtn);
-  const [startquizbtnstyle, setStartQuizBtnStyle] = useState(hidebtn);
-
-  const [animateclass, setAimateClass] = useState();
-
-  function imgurlFor(source) {
-    return builder.image(source);
-  }
-
-  const myPortableTextComponents = {
-    types: {
-      image: (props) => (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <img src={imgurlFor(props.value.asset).width(300)} alt="" />
-        </div>
-      ),
-      marks: {
-        // Ex. 1: custom renderer for the em / italics decorator
-        em: ({ children }) => (
-          <em className="text-gray-600 font-semibold">{children}</em>
-        ),
-      },
-    },
-  };
+  let leftbtnstyle = { hidebtn };
+  let startquizbtnstyle = { hidebtn };
 
   const changeSlideRight = () => {
-    dispatch(moveDesktopPositionForward());
+    setCurrentSlide((s) => s + 1);
   };
   const changeSlideLeft = () => {
-    dispatch(moveDesktopPositionBack());
+    setCurrentSlide((s) => s - 1);
   };
 
-  useEffect(() => {
-    if (position === 0) {
-      setLeftBtnStyle((val) => hidebtn);
-    } else if (position !== 0) {
-      setLeftBtnStyle((val) => showbtn);
-    } else if (position < 0) {
-      dispatch(resetPosition());
-    }
+  if (currentslide === 0) {
+    leftbtnstyle = hidebtn;
+  } else if (currentslide !== 0) {
+    leftbtnstyle = showbtn;
+  } else if (currentslide < 0) {
+    setCurrentSlide((s) => 0);
+  }
 
-    if (position === data.length - 1) {
-      setStartQuizBtnStyle((val) => ({ display: "flex" }));
-      console.log("setStartQuizBtnStyle((val) => showbtn);");
-    }
+  if (currentslide === data.length - 1) {
+    startquizbtnstyle = { display: "flex" };
+  }
 
-    console.log(data.length - 1);
-    console.log("position ", position);
+  let animateClass = "";
 
-    switch (position) {
-      case 1:
-        setAimateClass("animate__animated animate__jello");
-        break;
-      case 2:
-        setAimateClass("animate__animated animate__rubberBand");
-        break;
-      case 3:
-        setAimateClass("animate__animated animate__shakeX");
-        break;
-
-      case 4:
-        setAimateClass("animate__animated animate__heartBeat");
-        break;
-
-      default:
-        setAimateClass("");
-        break;
-    }
-  }, [position]);
+  switch (currentslide) {
+    case 1:
+      animateClass = "animate__animated animate__jello";
+      break;
+    case 2:
+      animateClass = "animate__animated animate__rubberBand";
+      break;
+    case 3:
+      animateClass = "animate__animated animate__shakeX";
+      break;
+    case 4:
+      animateClass = "animate__animated animate__heartBeat";
+      break;
+    default:
+      animateClass = "";
+      break;
+  }
 
   const positioncolorsarr = [
     "rgb(0, 255, 255, 0.2) ",
@@ -111,19 +69,19 @@ function DesktopHorizontalSlideDeck(props) {
     "rgb(0, 255, 255, 1) ",
   ];
 
-  let backgroundcolor = positioncolorsarr[position];
+  let backgroundcolor = positioncolorsarr[currentslide];
 
   return (
     <Main>
       <Position style={{ backgroundColor: backgroundcolor }}>
         <Text
-          className={animateclass}
+          className={animateClass}
           style={{
             fontSize: "16px",
             fontWeight: "400",
           }}
         >
-          <sup style={{ padding: "4px" }}>{position + 1} </sup> &#8260;
+          <sup style={{ padding: "4px" }}>{currentslide + 1} </sup> &#8260;
           <sub style={{ padding: "4px" }}> {data.length}</sub>
         </Text>
       </Position>
@@ -135,6 +93,8 @@ function DesktopHorizontalSlideDeck(props) {
         {data.map((item, index) => {
           return (
             <TextSectionDesktop
+              currentslide={currentslide}
+              setCurrentSlide={setCurrentSlide}
               length={data.length}
               index={index}
               data={item}
@@ -149,12 +109,12 @@ function DesktopHorizontalSlideDeck(props) {
       <StartQuizBtn
         style={startquizbtnstyle}
         onClick={() => {
-          dispatch(updateCompletedSlideShow());
+          dispatch(updateStartQuiz());
         }}
       />
       <LocationSlider>
         {data.map((item, index) => {
-          return <SlideLocator index={index} />;
+          return <SlideLocator currentslide={currentslide} index={index} />;
         })}
       </LocationSlider>
     </Main>

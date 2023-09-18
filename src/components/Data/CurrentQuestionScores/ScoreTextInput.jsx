@@ -33,7 +33,7 @@ function ScoreTextInput(props) {
     new Audio(correct).play();
   };
 
-  let correctstyle = { backgroundColor: colors.correctColor };
+  let correctstyle = { backgroundColor: colors.correctColor, color: "white" };
   let incorrectstyle = { backgroundColor: colors.incorrectColor };
 
   // uodate total points available arr
@@ -100,10 +100,29 @@ function ScoreTextInput(props) {
     <Wrapper style={scoreStyle}>
       <Text
         className={animateclass}
-        style={{ fontSize: "16px", fontWeight: "400" }}
+        style={{ fontSize: "16px", fontWeight: "500", color: "white" }}
       >
-        <sup style={{ padding: "4px" }}>{score}</sup> &#8260;
-        <sub style={{ padding: "4px" }}>{maxscore}</sub>
+        <sup
+          style={{
+            padding: "5px",
+            color: "white",
+            fontWeight: "500",
+            fontSize: "16px",
+          }}
+        >
+          {score}
+        </sup>{" "}
+        &#8260;
+        <sub
+          style={{
+            padding: "5px",
+            color: "white",
+            fontWeight: "500",
+            fontSize: "16px",
+          }}
+        >
+          {maxscore}
+        </sub>
       </Text>
     </Wrapper>
   );

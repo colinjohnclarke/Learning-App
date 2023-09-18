@@ -1,12 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
 
-function SlideLocator(props) {
-  const index = props.index;
-
-  const position = useSelector((state) => state.textslideshowslice.position);
-
+function SlideLocator({ index, currentslide }) {
   const unSelected = {
     backgroundColor: "rgb(0, 255, 255, 0.3)",
     boxShadow:
@@ -16,7 +11,7 @@ function SlideLocator(props) {
     transition: "0.5s",
   };
 
-  const [locatorStyle, setLocatorStyle] = useState(unSelected);
+  let locatorStyle = unSelected;
 
   const selected = {
     backgroundColor: "rgb(0, 255, 255, 1)",
@@ -27,13 +22,11 @@ function SlideLocator(props) {
     transition: "0.5s",
   };
 
-  useEffect(() => {
-    if (index === position) {
-      setLocatorStyle((val) => selected);
-    } else {
-      setLocatorStyle((val) => unSelected);
-    }
-  }, [position]);
+  if (index === currentslide) {
+    locatorStyle = selected;
+  } else {
+    locatorStyle = unSelected;
+  }
 
   return <Wrapper style={locatorStyle}></Wrapper>;
 }

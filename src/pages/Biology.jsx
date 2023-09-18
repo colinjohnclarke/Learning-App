@@ -24,37 +24,7 @@ import { updateBlockCompleted } from "../features/CurrentBlockProgressData/curre
 
 function Biology() {
   const [data, setData] = useState({});
-  const [blockcompleted, setBlockCompleted] = useState(false);
-
-  // const builder = imageUrlBuilder(sanityClient);
-
   const dispatch = useDispatch();
-
-  // function imgurlFor(source) {
-  //   return builder.image(source);
-  // }
-
-  // const myPortableTextComponents = {
-  //   types: {
-  //     image: (props) => (
-  //       <div
-  //         style={{
-  //           display: "flex",
-  //           justifyContent: "center",
-  //           alignItems: "center",
-  //         }}
-  //       >
-  //         <img src={imgurlFor(props.value.asset).width(300)} alt="" />
-  //       </div>
-  //     ),
-  //     marks: {
-  //       // Ex. 1: custom renderer for the em / italics decorator
-  //       em: ({ children }) => (
-  //         <em className="text-gray-600 font-semibold">{children}</em>
-  //       ),
-  //     },
-  //   },
-  // };
 
   let content_from_api = "biology_blocks";
   let content_name = "photosynthesis_required_practical";
@@ -90,42 +60,25 @@ function Biology() {
   const incorrect_words_from_text = data.incorrect_words_from_text;
   const standard_table_variable_names = data.standard_table_variable_names;
   const standard_tables = data.standard_tables;
-
   const student_text_input = data.student_text_input;
-
   const table = data.table;
-
   const line_graph_data = data.line_graph_data;
 
-  const [item0displayed, setitemOdisplayed] = useState(true);
-  const [item1displayed, setitem1displayed] = useState(false);
-  const [item2displayed, setitem2displayed] = useState(false);
-  const [item3displayed, setitem3displayed] = useState(false);
-  const [item4displayed, setitem4displayed] = useState(false);
-  const [item5displayed, setitem5displayed] = useState(false);
-  const [item6displayed, setitem6displayed] = useState(false);
-  const [item7displayed, setitem7displayed] = useState(false);
-  const [item8displayed, setitem8displayed] = useState(false);
-  const [item9displayed, setitem9displayed] = useState(false);
-  const [item10displayed, setitem10displayed] = useState(false);
-  const [item11displayed, setitem11displayed] = useState(false);
-  const [item12displayed, setitem12displayed] = useState(false);
-
-  const displayedArr = [
-    item0displayed,
-    item1displayed,
-    item2displayed,
-    item3displayed,
-    item4displayed,
-    item5displayed,
-    item6displayed,
-    item7displayed,
-    item8displayed,
-    item9displayed,
-    item10displayed,
-    item11displayed,
-    item12displayed,
-  ];
+  // slide show
+  let item0displayed = true;
+  // // quiz components
+  const [item1displayed, setItem1displayed] = useState(false);
+  const [item2displayed, setItem2displayed] = useState(false);
+  const [item3displayed, setItem3displayed] = useState(false);
+  const [item4displayed, setItem4displayed] = useState(false);
+  const [item5displayed, setItem5displayed] = useState(false);
+  const [item6displayed, setItem6displayed] = useState(false);
+  const [item7displayed, setItem7displayed] = useState(false);
+  const [item8displayed, setItem8displayed] = useState(false);
+  const [item9displayed, setItem9displayed] = useState(false);
+  const [item10displayed, setItem10displayed] = useState(false);
+  const [item11displayed, setItem11displayed] = useState(false);
+  const [item12displayed, setItem12displayed] = useState(false);
 
   const item1listRef = useRef(null);
   const item2listRef = useRef(null);
@@ -168,16 +121,17 @@ function Biology() {
     </Item>
   );
 
-  const startQuiz = useSelector(
-    (state) => state.textslideshowslice.completedTextSlideShow
-  );
+  // let startQuiz = useSelector(
+  //   (state) => state.currentblockprogressdata.startQuiz
+  // );
 
+  let startQuiz = true;
+
+  // TO D0: remove useEffect
   useEffect(() => {
     if (startQuiz) {
-      setitem1displayed(true);
+      setItem1displayed((val) => true);
       handleContinueBtnClicked(item1listRef);
-    } else {
-      setitem1displayed(false);
     }
   }, [startQuiz]);
 
@@ -185,10 +139,9 @@ function Biology() {
     <Item ref={item1listRef}>
       <Container>
         <MCQ data={mcq1}></MCQ>
-
         <ContinueBtn
           onClick={() => {
-            setitem2displayed(true);
+            setItem2displayed((val) => true);
             handleContinueBtnClicked(item2listRef);
           }}
         />
@@ -202,7 +155,7 @@ function Biology() {
         <StudentTextInputWrapper data={student_text_input} />
         <ContinueBtn
           onClick={() => {
-            setitem3displayed(true);
+            setItem3displayed((val) => true);
             handleContinueBtnClicked(item3listRef);
           }}
         />
@@ -216,7 +169,7 @@ function Biology() {
         <DualBoxSelectionWrapper slider={slider} />
         <ContinueBtn
           onClick={() => {
-            setitem4displayed(true);
+            setItem4displayed((val) => true);
             handleContinueBtnClicked(item4listRef);
           }}
         />
@@ -232,7 +185,7 @@ function Biology() {
         ></DragandDropWrapper>
         <ContinueBtn
           onClick={() => {
-            setitem5displayed(true);
+            setItem5displayed((val) => true);
             handleContinueBtnClicked(item5listRef);
           }}
         />
@@ -246,7 +199,7 @@ function Biology() {
         <GapFillWrapper data={gap_fill}></GapFillWrapper>
         <ContinueBtn
           onClick={() => {
-            setitem6displayed(true);
+            setItem6displayed((val) => true);
             handleContinueBtnClicked(item6listRef);
           }}
         />
@@ -263,7 +216,7 @@ function Biology() {
 
         <ContinueBtn
           onClick={() => {
-            setitem7displayed(true);
+            setItem7displayed((val) => true);
             handleContinueBtnClicked(item7listRef);
           }}
         />
@@ -277,7 +230,7 @@ function Biology() {
         <FillMissingValuesTable data={table}></FillMissingValuesTable>
         <ContinueBtn
           onClick={() => {
-            setitem8displayed(true);
+            setItem8displayed((val) => true);
             handleContinueBtnClicked(item8listRef);
           }}
         />
@@ -290,7 +243,7 @@ function Biology() {
         <LineChart data={line_graph_data}></LineChart>
         <ContinueBtn
           onClick={() => {
-            setitem9displayed(true);
+            setItem9displayed((val) => true);
             handleContinueBtnClicked(item9listRef);
             console.log("ITEM 8 CLICKED");
           }}
@@ -313,7 +266,7 @@ function Biology() {
           ></Scatter>
           <ContinueBtn
             onClick={() => {
-              setitem10displayed(true);
+              setItem10displayed((val) => true);
               handleContinueBtnClicked(item10listRef);
             }}
           />
@@ -328,7 +281,7 @@ function Biology() {
         <MovingSliderWrapper data={slider} />
         <ContinueBtn
           onClick={() => {
-            setitem11displayed(true);
+            setItem11displayed((val) => true);
             handleContinueBtnClicked(item11listRef);
             console.log("ITEM 10 CLICKED");
           }}
@@ -337,33 +290,34 @@ function Biology() {
     </Item>
   );
 
-  // const item11 = (
-  //   <Item ref={item11listRef}>
-  //     <Container>
-  //       <ContinueBtn
-  //         onClick={() => {
-  //           setitem12displayed(true);
-  //           handleContinueBtnClicked(item12listRef);
-  //           console.log("ITEM 11 CLICKED");
-  //         }}
-  //       />
-  //     </Container>
-  //   </Item>
-  // );
-
   const itemlist = [
     item0,
     item1,
     item2,
     item3,
     item4,
-    item5,
-    item6,
-    item7,
-    item8,
-    item9,
-    item10,
+    // item5,
+    // item6,
+    // item7,
+    // item8,
+    // item9,
+    // item10,
     // item11,
+  ];
+  let displayedArr = [
+    item0displayed,
+    item1displayed,
+    item2displayed,
+    item3displayed,
+    item4displayed,
+    item5displayed,
+    item6displayed,
+    item7displayed,
+    item8displayed,
+    item9displayed,
+    item10displayed,
+    item11displayed,
+    item12displayed,
   ];
 
   displayedArr.forEach((item, i) => {
@@ -374,57 +328,34 @@ function Biology() {
 
   // calculate current poistion in text Slideshow
   let getPositionofSlideShow = useSelector(
-    (state) => state.textslideshowslice.position
+    (state) => state.currentblockprogressdata.currentSlide
   );
 
-  // ensuring the progress bar doesnt reset when Slider Deck returns to 0
-  const [position, setPosition] = useState(0);
-  const [allSlidesSeen, setAllSlidesSeen] = useState(false);
+  let slideShowLength = useSelector(
+    (state) => state.currentblockprogressdata.slideNumber
+  );
 
-  useEffect(() => {
-    if (getPositionofSlideShow + 1 === slideShowDataArr.length) {
-      setAllSlidesSeen((val) => true);
-      setPosition((val) => slideShowDataArr.length - 1);
-    } else if (
-      getPositionofSlideShow < slideShowDataArr.length &&
-      !allSlidesSeen
-    ) {
-      setPosition((val) => getPositionofSlideShow);
-    }
+  let totalLengthofCourse = itemlist.length + slideShowLength;
 
-    // if (allSlidesSeen) {
-    //   setPosition((val) => slideShowDataArr.length - 1);
-    // }
-  }, [getPositionofSlideShow, allSlidesSeen]);
-
-  let totalLengthofCourse = itemlist.length + slideShowDataArr.length;
-
-  let currentPositioninCourse = content.length + position;
+  let currentPositioninCourse = content.length + getPositionofSlideShow;
 
   // calculating length of component list and pass to context for access to the progress bar
 
-  useEffect(() => {
-    let calculateProgress =
-      (currentPositioninCourse / totalLengthofCourse) * 100;
+  let blockCompleted = false;
 
-    dispatch(updateProgressPercentage({ payload: { calculateProgress } }));
-    if (calculateProgress === 100) {
-      // course finished
-      setBlockCompleted((val) => true);
-    }
-  }, [currentPositioninCourse, totalLengthofCourse]);
+  let calculateProgress = (currentPositioninCourse / totalLengthofCourse) * 100;
 
-  useEffect(() => {
-    if (blockcompleted) {
-      dispatch(updateBlockCompleted());
-      console.log("   dispatch(updateBlockCompleted());");
-    }
-  }, [blockcompleted]);
+  dispatch(updateProgressPercentage({ payload: { calculateProgress } }));
+  if (calculateProgress === 100) {
+    // course finished
+    blockCompleted = true;
+    dispatch(updateBlockCompleted());
+  }
 
   return (
     <Wrapper>
       {content}
-      {blockcompleted && <PostBlockPointsReveal></PostBlockPointsReveal>}
+      {blockCompleted && <PostBlockPointsReveal></PostBlockPointsReveal>}
     </Wrapper>
   );
 }

@@ -1,60 +1,45 @@
-import React, { useEffect, useRe, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { PortableText } from "@portabletext/react";
-import imageUrlBuilder from "@sanity/image-url";
-import sanityClient from "../../createclient";
 import MobileVerticalSlideDeck from "./MobileVeriticalSlideDeck";
-import MobileViewDropDown from "./DesktopHorizontalSlideDeck";
 import DesktopHorizontalSlideDeck from "./DesktopHorizontalSlideDeck";
-import { device } from "../../styles/breakpoints";
+import { useDispatch } from "react-redux";
+import {
+  updateCurrentSlide,
+  updateAllSlidesSeen,
+  updateSlideNumber,
+} from "../../features/CurrentBlockProgressData/currentblockprogressdata";
 
-function TextSlideShowWrapper(props) {
-  const data = props.data;
-  const length = props.length;
-  const builder = imageUrlBuilder(sanityClient);
+function TextSlideShowWrapper({ data, length }) {
+  const [currentslide, setCurrentSlide] = useState(0);
+  const dispatch = useDispatch();
 
-  const [screennwidth, setScreenWitdth] = useState();
-
-  const [reloadpage, setReloadPage] = useState(false);
-
-  function imgurlFor(source) {
-    return builder.image(source);
+  if (data.length - 1 === currentslide) {
+    dispatch(updateAllSlidesSeen());
   }
 
-  const myPortableTextComponents = {
-    types: {
-      image: (props) => (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <img src={imgurlFor(props.value.asset).width(300)} alt="" />
-        </div>
-      ),
-      marks: {
-        // Ex. 1: custom renderer for the em / italics decorator
-        em: ({ children }) => (
-          <em className="text-gray-600 font-semibold">{children}</em>
-        ),
-      },
-    },
-  };
+  dispatch(updateSlideNumber(data.length));
+
+  dispatch(updateCurrentSlide(currentslide));
 
   let content;
 
   if (window.innerWidth < 700) {
     content = (
       <MobileVerticalSlideDeck
+        currentslide={currentslide}
+        setCurrentSlide={setCurrentSlide}
         length={length}
         data={data}
       ></MobileVerticalSlideDeck>
     );
   } else {
     content = (
-      <DesktopHorizontalSlideDeck data={data}></DesktopHorizontalSlideDeck>
+      <DesktopHorizontalSlideDeck
+        currentslide={currentslide}
+        setCurrentSlide={setCurrentSlide}
+        length={length}
+        data={data}
+      ></DesktopHorizontalSlideDeck>
     );
   }
 

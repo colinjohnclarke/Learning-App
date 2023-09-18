@@ -1,6 +1,5 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
-import { MCQcontext } from "../../MCQ/MCQContext";
 import "animate.css";
 import { colors, correctstyle } from "../../../styles/colors";
 import correct from "../../../assets/correct.mp3";
@@ -9,110 +8,121 @@ import {
   updateUserScore,
 } from "../../../features/CurrentBlockProgressData/currentblockprogressdata";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function ScoreMCQ(props) {
   const totalMarksAvailable = props.totalMarksAvailable;
-
   const index = props.index;
+  const index0SelectionCorrect = useSelector(
+    (state) => state.mcqslice.index0CorrectAnswerSelected
+  );
 
-  const [score, setScore] = useState(0);
-  const [scoreStyle, setScoreStyle] = useState({});
-  const [animateclass, setAnimateClass] = useState("");
+  const index1SelectionCorrect = useSelector(
+    (state) => state.mcqslice.index1CorrectAnswerSelected
+  );
 
-  const {
-    index0ItemClickedisCorrect,
-    index1ItemClickedisCorrect,
-    index0ItemClickedisInCorrect,
-    index1ItemClickedisInCorrect,
-  } = useContext(MCQcontext);
+  const index0SelectionINcorrect = useSelector(
+    (state) => state.mcqslice.index0INCorrectAnswerSelected
+  );
 
-  const dispatch = useDispatch();
+  const index1SelectionINcorrect = useSelector(
+    (state) => state.mcqslice.index1INCorrectAnswerSelected
+  );
 
+  let score = 0;
+
+  let scoreStyle = {};
   let animateClass = "";
-
+  const dispatch = useDispatch();
   const maxscore = 1;
 
-  const playCorrectSound = () => {
-    new Audio(correct).play();
-  };
-
-  let correctstyle = { backgroundColor: colors.correctColor };
+  let correctstyle = { backgroundColor: colors.correctColor, color: "white" };
   let incorrectstyle = { backgroundColor: colors.incorrectColor };
 
   // update total marks available in redux store
 
-  useEffect(() => {
-    dispatch(updatePointsAvaiableArr({ totalMarksAvailable }));
-  }, []);
+  dispatch(updatePointsAvaiableArr({ totalMarksAvailable }));
+
+  let index0SoundPlayed = false;
+  let index1SoundPlayed = false;
+
+  if (index0SelectionCorrect && index === 0 && index0SoundPlayed === false) {
+    index0SoundPlayed = true;
+    score++;
+    animateClass = "animate__animated animate__tada";
+    scoreStyle = correctstyle;
+    // dispatch(updateUserScore());
+    console.log("index 0 correct");
+  } else if (
+    index1SelectionCorrect &&
+    index === 1 &&
+    index1SoundPlayed === false
+  ) {
+    index1SoundPlayed = true;
+    score++;
+    animateClass = "animate__animated animate__tada";
+    scoreStyle = correctstyle;
+    // dispatch(updateUserScore());
+    console.log("index1 correct");
+  }
 
   useEffect(() => {
-    if (index0ItemClickedisCorrect && index === 0) {
-      setScore((val) => val + 1);
-      playCorrectSound();
-      setAnimateClass((val) => "animate__animated animate__tada");
-      setScoreStyle((val) => correctstyle);
-
-      // need to update action
+    if (index0SelectionCorrect && index === 0) {
+      new Audio(correct).play();
       dispatch(updateUserScore());
     }
-    return () => {
-      if (index0ItemClickedisCorrect) {
-        setScore((val) => val - 1);
-      }
-    };
-  }, [index0ItemClickedisCorrect]);
+  }, [index0SelectionCorrect]);
 
   useEffect(() => {
-    if (index1ItemClickedisCorrect && index === 1) {
-      setScore((val) => val + 1);
-      playCorrectSound();
-      setAnimateClass((val) => "animate__animated animate__tada");
-      setScoreStyle((val) => correctstyle);
-
-      // need to update action
+    if (index1SelectionCorrect && index === 1) {
+      new Audio(correct).play();
       dispatch(updateUserScore());
-
-      ///
     }
-
-    return () => {
-      if (index1ItemClickedisCorrect) {
-        setScore((val) => val - 1);
-      }
-    };
-  }, [index1ItemClickedisCorrect]);
+  }, [index1SelectionCorrect]);
 
   // handle incorrect selection for index 0
 
-  useEffect(() => {
-    if (index0ItemClickedisInCorrect && index === 0) {
-      // setScoreStyle((val) => incorrectstyle);
-      setAnimateClass((val) => "animate__animated animate__headShake");
-    }
-
-    return () => {};
-  }, [index0ItemClickedisInCorrect]);
+  if (index0SelectionINcorrect && index === 0) {
+    animateClass = "animate__animated animate__headShake";
+  }
 
   // handle incorrect selection for index 1
 
-  useEffect(() => {
-    if (index1ItemClickedisInCorrect && index === 1) {
-      // setScoreStyle((val) => incorrectstyle);
-      setAnimateClass((val) => "animate__animated animate__headShake");
-    }
-
-    return () => {};
-  }, [index1ItemClickedisInCorrect]);
+  if (index1SelectionINcorrect && index === 1) {
+    animateClass = "animate__animated animate__headShake";
+  }
 
   return (
     <Wrapper style={scoreStyle}>
       <Text
-        className={animateclass}
-        style={{ fontSize: "16px", fontWeight: "400" }}
+        className={animateClass}
+        style={{
+          fontSize: "16px",
+          fontWeight: "500",
+          color: "white",
+        }}
       >
-        <sup style={{ padding: "4px" }}>{score}</sup> &#8260;
-        <sub style={{ padding: "4px" }}>{maxscore}</sub>
+        <sup
+          style={{
+            padding: "5px",
+            color: "white",
+            fontWeight: "500",
+            fontSize: "16px",
+          }}
+        >
+          {score}
+        </sup>{" "}
+        &#8260;
+        <sub
+          style={{
+            padding: "5px",
+            color: "white",
+            fontWeight: "500",
+            fontSize: "16px",
+          }}
+        >
+          {maxscore}
+        </sub>
       </Text>
     </Wrapper>
   );

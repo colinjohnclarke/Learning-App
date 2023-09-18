@@ -20,18 +20,18 @@ function DualBox(props) {
 
   const dispatch = useDispatch();
 
-  // reset btn selected when resetbtn selected
-  useEffect(() => {
-    if (index === 0) {
-      setRightSelected(false);
-      setLeftSelected(false);
-      dispatch(resetSliderSelectionIndex0());
-    } else if (index === 1) {
-      setRightSelected(false);
-      setLeftSelected(false);
-      dispatch(resetSliderSelectionIndex1());
-    }
-  }, [resetselected]);
+  // // reset btn selected when resetbtn selected
+  // useEffect(() => {
+  //   if (index === 0) {
+  //     setRightSelected(false);
+  //     setLeftSelected(false);
+  //     dispatch(resetSliderSelectionIndex0());
+  //   } else if (index === 1) {
+  //     setRightSelected(false);
+  //     setLeftSelected(false);
+  //     dispatch(resetSliderSelectionIndex1());
+  //   }
+  // }, [resetselected]);
 
   // set opposite box to opposite state so only one box can be selected at one time in one slider line
   useEffect(() => {

@@ -8,7 +8,7 @@ import sliderreducerindex0 from "../features/Slider/sliderindex0slice";
 import progressbarreducer from "../features/ProgressBar/ProgressBar";
 import drawerSlice from "../features/Drawer/DrawerSlice";
 import currentblockprogressdata from "../features/CurrentBlockProgressData/currentblockprogressdata";
-import textslideshowslice from "../features/TextSlideShow/textslideshowSlice";
+import mcqslice from "../features/MCQ/MCQslice";
 
 export const store = configureStore({
   reducer: {
@@ -19,6 +19,6 @@ export const store = configureStore({
     progressbarreducer,
     drawerSlice,
     currentblockprogressdata,
-    textslideshowslice,
+    mcqslice,
   },
 });

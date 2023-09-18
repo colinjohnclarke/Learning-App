@@ -9,10 +9,7 @@ function DualBoxSelection(props) {
   const [resetselected, setResetSelected] = useState(false);
 
   const sliderData = props.data;
-  console.log(
-    "🚀 ~ file: DualBoxSelection.jsx:11 ~ DualBoxSelection ~ sliderData:",
-    sliderData
-  );
+
   const totalMarksAvailable = sliderData.total_marks_available;
 
   const index = props.index;

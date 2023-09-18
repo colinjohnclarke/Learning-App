@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  // provide data from user navigating through slides so can uodate progress bar and render quiz when last slide has been observed
+  currentSlide: 0,
+  allSlidesSeen: false,
+  slideNumber: 0,
+  startQuiz: false,
   // set initial state for number of correct questions scored in a row
   userScore: 0,
   pointsAvaiableArr: [],
@@ -44,10 +49,29 @@ export const currentblockprogressdata = createSlice({
     updateBlockCompleted: (state) => {
       state.blockCompleted = true;
     },
+    updateCurrentSlide: (state, action) => {
+      state.currentSlide = action.payload;
+    },
+    updateAllSlidesSeen: (state) => {
+      state.allSlidesSeen = true;
+    },
+    updateSlideNumber: (state, action) => {
+      state.slideNumber = action.payload;
+    },
+    updateStartQuiz: (state) => {
+      state.startQuiz = true;
+    },
   },
 });
 
 export const {
+  // slide show updater functions
+  updateCurrentSlide,
+  updateAllSlidesSeen,
+  updateSlideNumber,
+  updateStartQuiz,
+
+  //
   userScore,
   updateUserScore,
   updatePointsAvaiableArr,
