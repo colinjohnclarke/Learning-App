@@ -68,6 +68,8 @@ const Wrapper = styled.button`
   box-shadow: inset 1px 1px 2px 1px rgba(0, 0, 0, 0.15),
     inset -3px -1px 3px -1px rgba(255, 255, 255, 0.7),
     -0.5px -0.5px 0px rgba(255, 255, 255, 1);
+
+    
   box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
     rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
   transition: 0.3s;

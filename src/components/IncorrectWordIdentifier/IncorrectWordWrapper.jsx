@@ -6,6 +6,7 @@ import { IncorrectWordContext } from "./IncorrectWordContext";
 function IncorrectWordWrapper(props) {
   const incorrect_words_from_text = props.data;
 
+
   const [index0word1selectioncorrect, setindex0Word1SelectionCorrect] =
     useState(false);
   const [index0mcq1selectioncorrect, setindex0MCQ1SelectionCorrect] =

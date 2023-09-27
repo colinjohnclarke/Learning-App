@@ -1,7 +1,7 @@
 export const colors = {
-  correctColor: "rgba(137, 240, 158, 0.9)",
+  correctColor: "rgba(137, 240, 158, 1 )",
   incorrectColor: "rgba(240, 137, 137, 0.9)",
-  someCorrectColor: "yellow",
+  someCorrectColor: "rgba(100, 40, 258)",
   normalInputColor: "white",
 };
 
@@ -10,7 +10,7 @@ export const correctstyle = {
   color: "white",
   boxShadow:
     "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px",
-  backgroundColor: "rgba(137, 240, 158, 0.9)",
+  backgroundColor: "rgba(137, 240, 158, 1)",
   fontSize: "16px",
 };
 

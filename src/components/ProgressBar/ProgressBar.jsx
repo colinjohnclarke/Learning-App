@@ -9,6 +9,8 @@ function ProgressBar() {
     (state) => state.progressbarreducer.value
   );
 
+  
+
   useEffect(() => {
     setProgress((val) => getCurrentpercentage?.payload?.calculateProgress);
   }, [getCurrentpercentage]);

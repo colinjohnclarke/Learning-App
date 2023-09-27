@@ -2,9 +2,7 @@ import React, { Children, useEffect, useState } from "react";
 
 import styled from "styled-components";
 import { device } from "../../styles/breakpoints";
-
 import { useDraggable } from "@dnd-kit/core";
-
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
@@ -66,7 +64,7 @@ function DragandDropItem(props) {
     } else setFontSize((val) => "16px");
   }, []);
 
-  const { attributes, listeners, setNodeRef, transform, transition } =
+  const { attributes, listeners, setNodeRef, transform, transition, disabled } =
     useSortable({ id: props.id });
 
   const style = {
@@ -78,7 +76,13 @@ function DragandDropItem(props) {
   };
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+      disabled={disabled}
+    >
       <Item>
         <Text style={itemstyle}>
           {/* {props.id} */}
@@ -131,9 +135,6 @@ height: 80px;
     left: 25px; 
     width: 90%; 
   }
-
-
-
 
   &:active {
    

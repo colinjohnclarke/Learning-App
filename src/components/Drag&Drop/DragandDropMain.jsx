@@ -205,8 +205,8 @@ function DragandDropMain(props) {
             return <NumBorder>{<Num>{index + 1}</Num>}</NumBorder>;
           })}
         </NumWrapper>
-
         <SortableContext
+          disabled={allcorrect}
           strategy={verticalListSortingStrategy}
           items={listofstatments}
         >
@@ -338,8 +338,14 @@ const Wrapper = styled.div`
 
 const Question = styled.p`
   max-height: 20px;
-
   font-weight: 400;
   padding: 10px;
   text-align: center;
 `;
+
+// const ScrollLayer = styled.div`
+//   border: 2px solid green;
+//   position: relative;
+//   background-color: red;
+//   z-index: 0;
+// `;

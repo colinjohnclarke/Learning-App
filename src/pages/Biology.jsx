@@ -121,11 +121,11 @@ function Biology() {
     </Item>
   );
 
-  // let startQuiz = useSelector(
-  //   (state) => state.currentblockprogressdata.startQuiz
-  // );
+  let startQuiz = useSelector(
+    (state) => state.currentblockprogressdata.startQuiz
+  );
 
-  let startQuiz = true;
+  // let startQuiz = true;
 
   // TO D0: remove useEffect
   useEffect(() => {
@@ -296,14 +296,15 @@ function Biology() {
     item2,
     item3,
     item4,
-    // item5,
-    // item6,
-    // item7,
-    // item8,
-    // item9,
-    // item10,
+    item5,
+    item6,
+    item7,
+    item8,
+    item9,
+    item10,
     // item11,
   ];
+
   let displayedArr = [
     item0displayed,
     item1displayed,

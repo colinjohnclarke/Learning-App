@@ -18,7 +18,7 @@ const Btn = styled.button`
   width: 250px;
   border-radius: 4px;
   background-color: white;
-  box-shadow: rgba(0, 200, 200, 0.5) 0px 3px 3px 0px;
+  box-shadow: rgba(0, 200, 200, 0.5) 0px 0px 5px 0px;
   transition: 0.3s;
 
   &:hover {

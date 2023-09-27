@@ -19,8 +19,8 @@ function ScoreMissingTableValues(props) {
   const [scoreStyle, setScoreStyle] = useState({});
   const [animateclass, setAnimateClass] = useState("");
 
-  //   const { index0answeriscorrect, index1AnswerisCorrect } =
-  //     useContext(GapFillContext);
+  let correctstyle = { backgroundColor: colors.correctColor, color: "white" };
+  let incorrectstyle = { backgroundColor: colors.incorrectColor };
 
   const {
     index0AnswerisCorrect,
@@ -98,10 +98,29 @@ function ScoreMissingTableValues(props) {
     <Wrapper style={scoreStyle}>
       <Text
         className={animateclass}
-        style={{ fontSize: "16px", fontWeight: "400" }}
+        style={{ fontSize: "16px", fontWeight: "400", color: "white" }}
       >
-        <sup style={{ padding: "4px", fontWeight: "400" }}>{score}</sup> &#8260;
-        <sub style={{ padding: "4px", fontWeight: "400" }}>{maxscore}</sub>
+        <sup
+          style={{
+            padding: "5px",
+            color: "white",
+            fontWeight: "500",
+            fontSize: "16px",
+          }}
+        >
+          {score}
+        </sup>{" "}
+        &#8260;
+        <sub
+          style={{
+            padding: "5px",
+            color: "white",
+            fontWeight: "500",
+            fontSize: "16px",
+          }}
+        >
+          {maxscore}
+        </sub>
       </Text>
     </Wrapper>
   );

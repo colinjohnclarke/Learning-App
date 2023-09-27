@@ -42,7 +42,10 @@ function ScoreInCorrectWord(props) {
     new Audio(correct).play();
   };
 
-  let correctStyle = { backgroundColor: colors.correctColor };
+  let correctStyle = {
+    backgroundColor: colors.correctColor,
+    color: "white",
+  };
 
   let someCorrect = { backgroundColor: colors.someCorrectColor };
   // let correctstyles = correctStyle;
@@ -176,10 +179,33 @@ function ScoreInCorrectWord(props) {
     <Wrapper style={scoreStyle}>
       <Text
         className={animateclass}
-        style={{ fontSize: "16px", fontWeight: "400" }}
+        style={{
+          fontSize: "16px",
+          fontWeight: "400",
+          color: "white",
+        }}
       >
-        <sup style={{ padding: "4px" }}>{score}</sup> &#8260;
-        <sub style={{ padding: "4px" }}>{maxscore}</sub>
+        <sup
+          style={{
+            padding: "5px",
+            color: "white",
+            fontWeight: "500",
+            fontSize: "16px",
+          }}
+        >
+          {score}
+        </sup>{" "}
+        &#8260;
+        <sub
+          style={{
+            padding: "5px",
+            color: "white",
+            fontWeight: "500",
+            fontSize: "16px",
+          }}
+        >
+          {maxscore}
+        </sub>
       </Text>
     </Wrapper>
   );

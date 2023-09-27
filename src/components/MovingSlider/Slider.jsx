@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -6,189 +6,103 @@ import { colors, correctstyle } from "../../styles/colors";
 import { SliderContext } from "./SliderContext";
 
 import {
-  index0correctanswerselected,
-  index0correctanswerUNselected,
-  index0EmptyArr,
-  initialRenderCompleted,
+  setslider1correct,
+  setslider2correct,
+  setslider3correct,
+  setslider4correct,
+  setslider1Incorrect,
+  setslider2Incorrect,
+  setslider3Incorrect,
+  setslider4Incorrect,
+  setRenderCompleted,
   rerunRandomiseRequired,
+  rerunRandomiseNOTRequired,
+  resetRenderCompleted,
+  setAllSlidersCorrect,
 } from "../../features/Slider/sliderindex0slice";
 
-function Slider(props) {
-  const position = props.position;
-  const resetselected = props.resetselected;
+function Slider({
+  slidersRandom,
+  initialBoolSlider,
+  rerunFunction,
+  setReRunFunction,
+  statObj,
+  position,
+  resetselected,
+  slidercorrect,
+  setSliderCorrect,
+  allcorrect,
+  // setAllSlidersCorrectArr,
+  // allSlidersCorrectArr,
+  pairNumber,
+  sliderLeftIsCorrect,
+  sliderRightIsCorrect,
+  textleft,
+  textright,
+  displaySlider,
+}) {
+  const [rightisselected, setRightisSelected] = useState(initialBoolSlider);
+  const [leftisselected, setLeftisSelected] = useState(!initialBoolSlider);
 
-  const pairNumber = props.pairNumber;
+  // useEffect(() => {
+  //   setRightisSelected(initialBoolSlider);
+  //   setLeftisSelected(!initialBoolSlider);
+  // }, [rerunFunction]);
 
-  const [repositionFocusBox, setRepositionFocusBox] = useState();
-  const [slideriscorrect, setSliderIsCorrect] = useState(false);
-
-  const [isDisabled, setIsDisabled] = useState(false);
-
-  const [slidersarerandom, setSlidersAreRandom] = useState(false);
-
-  const {
-    index0AnswerisCorrect,
-    setIndex0AnswerIsCorrect,
-    index0AnswerisInCorrect,
-    setIndex0AnswerIsInCorrect,
-    rerunRandomiseRequired,
-    setrerunRandomiseRequired,
-  } = useContext(SliderContext);
-
-  const setNum = Math.random();
-  let setbool;
-  if (setNum > 0.5) {
-    setbool = true;
-  } else setbool = false;
-
-  const [rightisselected, setRightisSelected] = useState(setbool);
-  const [leftisselected, setLeftisSelected] = useState(!setbool);
-
-  const sliderLeftIsCorrect = props.sliderLeftIsCorrect;
-  const sliderRightIsCorrect = props.sliderRightIsCorrect;
-
-  const dispatch = useDispatch();
-
-  const textleft = props.textleft;
-  const textright = props.textright;
-
-  // let correct = {
-  //   transition: "0.3s",
-  //   // position: "absolute",
-  //   transpose: "translateY(4px)",
-  //   backgroundColor: colors.correctColor,
-  //   opacity: "1",
-  // };
+  const initialRenderCompleted = useSelector(
+    (state) => state.sliderSliceIndex0reducer.renderCompleted
+  );
 
   const generalStyle = {};
 
-  // const initialBoxStyle = {
-  //   transition: "0.3s",
-  //   position: "absolute",
-  //   transpose: "translateX(-250px)",
-
-  //   opacity: "0.4",
-  // };
-
-  // const [initialrenderCompleted, setInitialRenderCompleted] = useState(false);
-
-  const isinitialRenderCompleted = useSelector(
-    (state) => state.sliderreducerindex0.renderCompleted
-  );
-
-  const correctanswerArr = useSelector(
-    (state) => state.sliderreducerindex0.value.length
-  );
-
   // initial render check to see which statements are set to the correct poisition and update redux store that initial render is completed
 
-  useEffect(() => {
-    console.log("INITAL RENDER FN");
+  let checkSliderCorrect = false;
 
-    if (leftisselected && sliderLeftIsCorrect) {
-      dispatch(index0correctanswerselected({ payload: textleft }));
-      // console.log("textleft is Correct", textleft);
-      // console.log("leftisselected", leftisselected);
+  if (displaySlider && slidersRandom) {
+    checkSliderCorrect =
+      (leftisselected && sliderLeftIsCorrect) ||
+      (rightisselected && sliderRightIsCorrect);
+  }
 
-      // console.log("textleft is Correct");
-    } else if (rightisselected && sliderRightIsCorrect) {
-      dispatch(index0correctanswerselected({ payload: textright }));
-      //   console.log("textright is Correct", textright);
-      //   console.log("righis selected", rightisselected);
-      // }
-      // console.log("right left is Correct");
+  const dispatch = useDispatch();
+
+  if (checkSliderCorrect) {
+    switch (position) {
+      case 0:
+        dispatch(setslider1correct());
+        break;
+      case 1:
+        dispatch(setslider2correct());
+        break;
+      case 2:
+        dispatch(setslider3correct());
+        break;
+      case 3:
+        dispatch(setslider4correct());
+        break;
+      default:
+        break;
     }
-    dispatch(initialRenderCompleted());
+  }
 
-    // return () => {
-    //   dispatch(index0EmptyArr());
-    //   console.log("clean up function initial render");
-    // };
-  }, [props]);
-
-  // function to remount the component when the initial selected slider for all sliders is correct
-
-  useEffect(() => {
-    console.log("CHECK IF RE RUN REQUIRED");
-    if (isinitialRenderCompleted) {
-      // if the length of ansarr == pair number then all slides were randomly placed in the correct order so required re run of function, this is done by changing setreunrequired which is the dependency arr of the randomise function
-      if (correctanswerArr === pairNumber) {
-        setrerunRandomiseRequired((val) => !val);
-        console.log("reun required");
-      } else {
-        setSlidersAreRandom((val) => !val);
-        dispatch(index0EmptyArr());
-      }
-    }
-
-    // return () => {
-    //   dispatch(index0EmptyArr());
-    //   console.log("clean up function rerrun function");
-    // };
-  }, [isinitialRenderCompleted]);
-
-  // run check function below after each slider movement
-
-  /////
-
-  // first
-  useEffect(() => {
-    dispatch(index0EmptyArr());
-    console.log("CHECK ITEMS");
-
-    if (slidersarerandom) {
-      if (leftisselected && sliderLeftIsCorrect) {
-        dispatch(index0correctanswerselected({ payload: textleft }));
-      } else if (rightisselected && sliderRightIsCorrect) {
-        dispatch(index0correctanswerselected({ payload: textright }));
-      } else if (leftisselected !== sliderLeftIsCorrect) {
-        dispatch(index0correctanswerUNselected());
-      }
-    }
-    // return () => {
-    //   dispatch(index0EmptyArr());
-    // };
-  }, [slidersarerandom]);
-
-  useEffect(() => {
-    console.log("MOVED SLIDER");
-    if (slidersarerandom) {
-      if (leftisselected && sliderLeftIsCorrect) {
-        dispatch(index0correctanswerselected({ payload: textleft }));
-      } else if (rightisselected && sliderRightIsCorrect) {
-        dispatch(index0correctanswerselected({ payload: textright }));
-      } else if (
-        leftisselected !== sliderLeftIsCorrect ||
-        rightisselected !== sliderRightIsCorrect
-      ) {
-        dispatch(index0correctanswerUNselected());
-      }
-    }
-  }, [leftisselected]);
+  // if !allcorrect this means items will not be correctly marked after inital render so can set initial render completed to true.
 
   const clickHandler = () => {
-    setLeftisSelected(!leftisselected);
-    setRightisSelected(!rightisselected);
+    setRightisSelected((rightisselected) => !rightisselected);
+    setLeftisSelected((leftisselected) => !leftisselected);
+    // dispatch(setRenderCompleted());
   };
-
-  useEffect(() => {
-    console.log("(correctanswerArr === pairNumber)");
-    if (correctanswerArr === pairNumber) {
-      setSliderIsCorrect((val) => true);
-      console.log("all correct");
-      setIsDisabled((val) => true);
-    }
-  }, [correctanswerArr]);
 
   let fontsize = "16px";
 
-  // if (textleft.length > 40 && window.innerWidth < 400) {
-  //   fontsize = "14px";
-  // } else if (textleft.length > 30) {
-  //   fontsize = "15px";
-  // } else if (textleft.length === undefined) {
-  //   fontsize = "16px";
-  // }
+  if (textleft.length > 40 && window.innerWidth < 400) {
+    fontsize = "14px";
+  } else if (textleft.length > 30) {
+    fontsize = "15px";
+  } else if (textleft.length === undefined) {
+    fontsize = "16px";
+  }
 
   let leftTextStyle = {
     fontSize: fontsize,
@@ -203,45 +117,36 @@ function Slider(props) {
   };
 
   let style = {};
-  if (!props.displaySlider) {
+  if (!displaySlider) {
     style = { display: "none" };
+  }
+
+  if (allcorrect) {
+    // dispatch(setAllSlidersCorrect());
   }
 
   return (
     <div>
       <Wrapper style={style}>
-        <p>
-          initial render completed : {JSON.stringify(isinitialRenderCompleted)}
-        </p>
-        <p>sliders are random : {JSON.stringify(slidersarerandom)}</p>
-        <p> RE RUN randomise : {JSON.stringify(rerunRandomiseRequired)}</p>
-        <p>slidersarerandom: {JSON.stringify(slidersarerandom)}</p>
-        <p>correct: {correctanswerArr}</p>
-        <p> pairs: {pairNumber}</p>
         <Outer
           // disabled={isDisabled}
+
           onClick={clickHandler}
         >
           <Box>
             <TextLeft>
               <p style={leftTextStyle}>{textleft}</p>
-              <p> CORRECT {JSON.stringify(sliderLeftIsCorrect)}</p>
-              <p> SELECTED {JSON.stringify(leftisselected)}</p>
             </TextLeft>
           </Box>
 
           <Box>
             <TextRight>
               <p style={rightTextStyle}>{textright}</p>
-              <p>CORRECT {JSON.stringify(sliderRightIsCorrect)}</p>
-              <p>SELECTED {JSON.stringify(rightisselected)}</p>
             </TextRight>
           </Box>
 
           <MovingBox
-            style={
-              correctanswerArr === pairNumber ? correctstyle : generalStyle
-            }
+            style={allcorrect ? correctstyle : generalStyle}
             className={
               rightisselected
                 ? "moving_box_right_position"

@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 import "animate.css";
 
-import { colors, correctstyle } from "../../../styles/colors";
+import { colors } from "../../../styles/colors";
 import correct from "../../../assets/correct.mp3";
 import { GapFillContext } from "../../GapFill/GapFillContext";
 
@@ -36,6 +36,9 @@ function ScoreGapFill(props) {
   useEffect(() => {
     dispatch(updatePointsAvaiableArr({ totalMarksAvailable }));
   }, []);
+
+  let correctstyle = { backgroundColor: colors.correctColor, color: "white" };
+  let incorrectstyle = { backgroundColor: colors.incorrectColor };
 
   useEffect(() => {
     if (index0answeriscorrect && index === 0) {
@@ -72,10 +75,29 @@ function ScoreGapFill(props) {
     <Wrapper style={scoreStyle}>
       <Text
         className={animateclass}
-        style={{ fontSize: "16px", fontWeight: "400" }}
+        style={{ fontSize: "16px", fontWeight: "500", color: "white" }}
       >
-        <sup style={{ padding: "4px" }}>{score}</sup> &#8260;
-        <sub style={{ padding: "4px" }}>{maxscore}</sub>
+        <sup
+          style={{
+            padding: "5px",
+            color: "white",
+            fontWeight: "500",
+            fontSize: "16px",
+          }}
+        >
+          {score}
+        </sup>{" "}
+        &#8260;
+        <sub
+          style={{
+            padding: "5px",
+            color: "white",
+            fontWeight: "500",
+            fontSize: "16px",
+          }}
+        >
+          {maxscore}
+        </sub>
       </Text>
     </Wrapper>
   );

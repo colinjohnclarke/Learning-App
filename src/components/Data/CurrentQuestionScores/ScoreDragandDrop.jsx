@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 import "animate.css";
-import { correctstyle } from "../../../styles/colors";
+import { colors } from "../../../styles/colors";
 import correct from "../../../assets/correct.mp3";
 import { DragandDropContext } from "../../Drag&Drop/DragandDropContext";
 import { useDispatch } from "react-redux";
@@ -24,9 +24,12 @@ function ScoreDragandDrop(props) {
   let animateClass = "";
   const maxscore = 1;
 
-  // const playCorrectSound = () => {
-  //   new Audio(correct).play();
-  // };
+  let correctstyle = { backgroundColor: colors.correctColor, color: "white" };
+  let incorrectstyle = { backgroundColor: colors.incorrectColor };
+
+  const playCorrectSound = () => {
+    new Audio(correct).play();
+  };
 
   // uodate total points available arr
   const dispatch = useDispatch();
@@ -54,7 +57,7 @@ function ScoreDragandDrop(props) {
   useEffect(() => {
     if (index1AnswerisCorrect && index === 1) {
       setScore((val) => val + 1);
-      // playCorrectSound();
+      playCorrectSound();
       setAnimateClass((val) => "animate__animated animate__tada");
       setScoreStyle((val) => correctstyle);
       dispatch(updateUserScore());
@@ -73,10 +76,29 @@ function ScoreDragandDrop(props) {
     <Wrapper style={scoreStyle}>
       <Text
         className={animateclass}
-        style={{ fontSize: "16px", fontWeight: "400" }}
+        style={{ fontSize: "16px", fontWeight: "400", color: "white" }}
       >
-        <sup style={{ padding: "4px" }}>{score}</sup> &#8260;
-        <sub style={{ padding: "4px" }}>{maxscore}</sub>
+        <sup
+          style={{
+            padding: "5px",
+            color: "white",
+            fontWeight: "500",
+            fontSize: "16px",
+          }}
+        >
+          {score}
+        </sup>{" "}
+        &#8260;
+        <sub
+          style={{
+            padding: "5px",
+            color: "white",
+            fontWeight: "500",
+            fontSize: "16px",
+          }}
+        >
+          {maxscore}
+        </sub>
       </Text>
     </Wrapper>
   );

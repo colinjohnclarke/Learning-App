@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 function ScoreSlider(props) {
   const index = props.index;
+  console.log("🚀 ~ file: ScoreSlider.jsx:16 ~ ScoreSlider ~ index:", index);
   const totalMarksAvailable = props.totalMarksAvailable;
   const pairNumber = props.pairNumber;
 
@@ -20,12 +21,17 @@ function ScoreSlider(props) {
   const [scoreStyle, setScoreStyle] = useState({});
   const [animateclass, setAnimateClass] = useState("");
 
-  const correctanswerArr = useSelector(
-    (state) => state.sliderreducerindex0.value.length
+  const allSlidersCorrectIndex0 = useSelector(
+    (state) => state.sliderSliceIndex0reducer.allSlidersCorrect
+  );
+  console.log(
+    "🚀 ~ file: ScoreSlider.jsx:26 ~ ScoreSlider ~ allSlidersCorrectIndex0:",
+    allSlidersCorrectIndex0
   );
 
   let index0AnswerisCorrect = false;
-  if (correctanswerArr === pairNumber) {
+
+  if (allSlidersCorrectIndex0) {
     index0AnswerisCorrect = true;
   }
 
@@ -81,10 +87,29 @@ function ScoreSlider(props) {
       {/* <p>{JSON.stringify(index0AnswerisCorrect)}</p> */}
       <Text
         className={animateclass}
-        style={{ fontSize: "16px", fontWeight: "400" }}
+        style={{ fontSize: "16px", fontWeight: "400", color: "white" }}
       >
-        <sup style={{ padding: "4px" }}>{score}</sup> &#8260;
-        <sub style={{ padding: "4px" }}>{maxscore}</sub>
+        <sup
+          style={{
+            padding: "5px",
+            color: "white",
+            fontWeight: "500",
+            fontSize: "16px",
+          }}
+        >
+          {score}
+        </sup>{" "}
+        &#8260;
+        <sub
+          style={{
+            padding: "5px",
+            color: "white",
+            fontWeight: "500",
+            fontSize: "16px",
+          }}
+        >
+          {maxscore}
+        </sub>
       </Text>
     </Wrapper>
   );
