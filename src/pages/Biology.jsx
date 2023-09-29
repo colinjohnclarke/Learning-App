@@ -43,12 +43,13 @@ function Biology() {
       .catch(console.error);
   }, []);
 
-  const block1 = data.textblock1;
-  const block2 = data.textblock2;
-  const block3 = data.textblock3;
-  const block4 = data.textblock4;
-  const block5 = data.textblock5;
-  const slideShowDataArr = [block1, block2, block3, block4, block5];
+  const slideShowDataArr = [
+    data.textblock1,
+    data.textblock2,
+    data.textblock3,
+    data.textblock4,
+    data.textblock5,
+  ];
 
   const skills = data.subject_skills;
   const problem_keywords = data.problem_keywords;
@@ -289,6 +290,21 @@ function Biology() {
       </Container>
     </Item>
   );
+
+  // const item11 = (
+  //   <Item ref={item11listRef}>
+  //     <Container>
+  //       <MovingSliderWrapper data={slider} />
+  //       <ContinueBtn
+  //         onClick={() => {
+  //           setItem12displayed((val) => true);
+  //           handleContinueBtnClicked(item12listRef);
+  //           console.log("ITEM 10 CLICKED");
+  //         }}
+  //       />
+  //     </Container>
+  //   </Item>
+  // );
 
   const itemlist = [
     item0,

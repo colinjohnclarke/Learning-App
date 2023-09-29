@@ -10,6 +10,8 @@ import {
 } from "../../features/CurrentBlockProgressData/currentblockprogressdata";
 
 function TextSlideShowWrapper({ data, length }) {
+  console.log("DATA", data);
+
   const [currentslide, setCurrentSlide] = useState(0);
   const dispatch = useDispatch();
 
