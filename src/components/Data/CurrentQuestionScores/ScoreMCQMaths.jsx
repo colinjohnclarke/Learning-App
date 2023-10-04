@@ -10,29 +10,35 @@ import {
 
 import { useDispatch, useSelector } from "react-redux";
 
-function ScoreMCQ(props) {
+function ScoreMCQMaths(props) {
   const totalMarksAvailable = props.totalMarksAvailable;
   const index = props.index;
+  console.log(
+    "🚀 ~ file: ScoreMCQMaths.jsx:16 ~ ScoreMCQMaths ~ index:",
+    index
+  );
 
-  
   const index0SelectionCorrect = useSelector(
-    (state) => state.mcqslice.index0CorrectAnswerSelected
+    (state) => state.mathsMCQSlice.index0CorrectAnswerSelected
   );
 
   const index1SelectionCorrect = useSelector(
-    (state) => state.mcqslice.index1CorrectAnswerSelected
+    (state) => state.mathsMCQSlice.index1CorrectAnswerSelected
   );
 
   const index0SelectionINcorrect = useSelector(
-    (state) => state.mcqslice.index0INCorrectAnswerSelected
+    (state) => state.mathsMCQSlice.index0INCorrectAnswerSelected
   );
 
   const index1SelectionINcorrect = useSelector(
-    (state) => state.mcqslice.index1INCorrectAnswerSelected
+    (state) => state.mathsMCQSlice.index1INCorrectAnswerSelected
   );
 
   let score = 0;
-
+  console.log(
+    "🚀 ~ file: ScoreMCQMaths.jsx:38 ~ ScoreMCQMaths ~ score:",
+    score
+  );
   let scoreStyle = {};
   let animateClass = "";
   const dispatch = useDispatch();
@@ -53,8 +59,7 @@ function ScoreMCQ(props) {
     score++;
     animateClass = "animate__animated animate__tada";
     scoreStyle = correctstyle;
-    // dispatch(updateUserScore());
-    console.log("index 0 correct");
+    dispatch(updateUserScore());
   } else if (
     index1SelectionCorrect &&
     index === 1 &&
@@ -64,21 +69,20 @@ function ScoreMCQ(props) {
     score++;
     animateClass = "animate__animated animate__tada";
     scoreStyle = correctstyle;
-    // dispatch(updateUserScore());
-    console.log("index1 correct");
+    dispatch(updateUserScore());
   }
 
   useEffect(() => {
     if (index0SelectionCorrect && index === 0) {
       new Audio(correct).play();
-      dispatch(updateUserScore());
+      // dispatch(updateUserScore());
     }
   }, [index0SelectionCorrect]);
 
   useEffect(() => {
     if (index1SelectionCorrect && index === 1) {
       new Audio(correct).play();
-      dispatch(updateUserScore());
+      // dispatch(updateUserScore());
     }
   }, [index1SelectionCorrect]);
 
@@ -130,7 +134,7 @@ function ScoreMCQ(props) {
   );
 }
 
-export default ScoreMCQ;
+export default ScoreMCQMaths;
 
 const Wrapper = styled.div`
   min-width: 50px;

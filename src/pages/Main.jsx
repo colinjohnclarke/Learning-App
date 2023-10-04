@@ -22,12 +22,12 @@ import { updateProgressPercentage } from "../features/ProgressBar/ProgressBar";
 import PostBlockPointsReveal from "../components/Data/PostBlockPointsReveal/PostBlockPointsReveal";
 import { updateBlockCompleted } from "../features/CurrentBlockProgressData/currentblockprogressdata";
 
-function Biology() {
+function Main() {
   const [data, setData] = useState({});
   const dispatch = useDispatch();
 
-  let content_from_api = "biology_blocks";
-  let content_name = "photosynthesis_required_practical";
+  let content_from_api = "maths_blocks";
+  let content_name = "test_1";
   // let content_name = "kinetic_energy";
 
   useEffect(() => {
@@ -35,7 +35,7 @@ function Biology() {
       .fetch(
         `*[_type == "${content_from_api}" && name == "${content_name}" ] 
         { subject_skills[]->, slider, incorrect_words_from_text, order_items_drag_drop, 
-                    name, tags, textblock1, textblock2, textblock3, textblock4,textblock5,  hint, problem_keywords[]->,  example_problem, MCQ_INPUTS, student_text_input, gap_fill, incorrect_words_from_text, table, line_graph_data, 
+                    name, tags, textblock1, textblock2, textblock3, textblock4,textblock5,  hint, problem_keywords[]->,  example_problem, MCQ_INPUTS, MCQ_MATH_INPUTS,  student_text_input, gap_fill, incorrect_words_from_text, table, line_graph_data, 
                     standard_tables,standard_table_variable_names 
                     }`
       )
@@ -54,7 +54,10 @@ function Biology() {
   const skills = data.subject_skills;
   const problem_keywords = data.problem_keywords;
   const tags = data.tags;
-  const mcq1 = data.MCQ_INPUTS;
+  const mcq = data.MCQ_INPUTS;
+
+  // const mcqMath = data.MCQ_MATH_INPUTS;
+
   const order_items_drag_drop = data.order_items_drag_drop;
   const slider = data.slider;
   const gap_fill = data.gap_fill;
@@ -139,7 +142,7 @@ function Biology() {
   const item1 = (
     <Item ref={item1listRef}>
       <Container>
-        <MCQ data={mcq1}></MCQ>
+        <MCQ data={mcq}> </MCQ>
         <ContinueBtn
           onClick={() => {
             setItem2displayed((val) => true);
@@ -309,15 +312,15 @@ function Biology() {
   const itemlist = [
     item0,
     item1,
-    item2,
-    item3,
-    item4,
-    item5,
-    item6,
-    item7,
-    item8,
-    item9,
-    item10,
+    // item2,
+    // item3,
+    // item4,
+    // item5,
+    // item6,
+    // item7,
+    // item8,
+    // item9,
+    // item10,
     // item11,
   ];
 
@@ -376,7 +379,7 @@ function Biology() {
     </Wrapper>
   );
 }
-export default Biology;
+export default Main;
 
 const Container = styled.div`
   display: flex;

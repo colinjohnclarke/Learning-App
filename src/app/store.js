@@ -9,6 +9,7 @@ import progressbarreducer from "../features/ProgressBar/ProgressBar";
 import drawerSlice from "../features/Drawer/DrawerSlice";
 import currentblockprogressdata from "../features/CurrentBlockProgressData/currentblockprogressdata";
 import mcqslice from "../features/MCQ/MCQslice";
+import mathsMCQSlice from "../features/MCQ/mathsMCQSlice";
 
 export const store = configureStore({
   reducer: {
@@ -20,5 +21,6 @@ export const store = configureStore({
     drawerSlice,
     currentblockprogressdata,
     mcqslice,
+    mathsMCQSlice,
   },
 });

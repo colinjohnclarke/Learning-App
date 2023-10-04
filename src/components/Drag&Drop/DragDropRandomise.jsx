@@ -16,44 +16,31 @@ function DragDropRandomise(props) {
     rerunRandomiseRequired,
   } = useContext(DragandDropContext);
 
-  const data = props.order_items_drag_drop;
+  const data = props.data;
   const index = props.index;
   const totalMarksAvailable = data.total_marks_available;
 
   // create random nums
 
   useEffect(() => {
-    const num1 = Math.random();
-    const num2 = Math.random();
-    const num3 = Math.random();
-    const num4 = Math.random();
-    const num5 = Math.random();
-    const num6 = Math.random();
-    const num7 = Math.random();
-    const num8 = Math.random();
-    const num9 = Math.random();
-    const num10 = Math.random();
-
     const obj = [
-      { number: num1, value: data.position_0, id: "00" },
-      { number: num2, value: data.position_1, id: "01" },
-      { number: num3, value: data.position_2, id: "02" },
-      { number: num4, value: data.position_3, id: "03" },
-      { number: num5, value: data.position_4, id: "04" },
-      { number: num6, value: data.position_5, id: "05" },
-      { number: num7, value: data.position_6, id: "06" },
-      { number: num8, value: data.position_7, id: "07" },
-      { number: num9, value: data.position_8, id: "09" },
-      { number: num10, value: data.position_9, id: "10" },
+      { number: Math.random(), value: data.position_0, id: "00" },
+      { number: Math.random(), value: data.position_1, id: "01" },
+      { number: Math.random(), value: data.position_2, id: "02" },
+      { number: Math.random(), value: data.position_3, id: "03" },
+      { number: Math.random(), value: data.position_4, id: "04" },
+      { number: Math.random(), value: data.position_5, id: "05" },
+      { number: Math.random(), value: data.position_6, id: "06" },
+      { number: Math.random(), value: data.position_7, id: "07" },
+      { number: Math.random(), value: data.position_8, id: "09" },
+      { number: Math.random(), value: data.position_9, id: "10" },
       { value: data.introduction, id: "11" },
     ];
 
     // remove empty input fields
     const removeblanks = obj?.filter((item) => item.value !== undefined);
 
-    const sortedarr = removeblanks.sort((a, b) =>
-      a.number > b.number ? +1 : -1
-    );
+    const sortedarr = removeblanks.sort((a, b) => a.number - b.number);
 
     setSorted(sortedarr);
   }, [reset, data, rerunRandomiseRequired]);
@@ -63,6 +50,7 @@ function DragDropRandomise(props) {
   return (
     <Wrapper>
       <DragandDropMain
+        isAlgebra={data.isAlgebra}
         totalMarksAvailable={totalMarksAvailable}
         index={index}
         reset={reset}

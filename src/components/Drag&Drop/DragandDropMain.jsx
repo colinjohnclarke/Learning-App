@@ -46,6 +46,11 @@ function DragandDropMain(props) {
   const data = props.randomisedorderitemsarr;
 
   const index = props.index;
+  const isAlgebra = props.isAlgebra;
+  console.log(
+    "🚀 ~ file: DragandDropMain.jsx:50 ~ DragandDropMain ~ isAlgebra:",
+    isAlgebra
+  );
 
   // initial fuction to pass data and split question and statements from props and save in state
   useEffect(() => {
@@ -212,6 +217,7 @@ function DragandDropMain(props) {
         >
           {listofstatments?.map((item, index) => (
             <DragandDropItem
+              isAlgebra={isAlgebra}
               key={item.number}
               id={item.id}
               helpneeded={helpneeded}

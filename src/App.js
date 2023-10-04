@@ -9,9 +9,8 @@ function App() {
   return (
     <div>
       <BrowserRouter>
-        <Drawer />
+        {/* <Drawer /> */}
         {/* <Header></Header> */}
-
         <Routing />
       </BrowserRouter>
     </div>

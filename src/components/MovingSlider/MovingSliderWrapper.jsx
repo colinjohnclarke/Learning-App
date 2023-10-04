@@ -16,6 +16,10 @@ import {
 } from "../../features/Slider/sliderindex0slice";
 
 function MovingSliderWrapper({ data }) {
+  console.log(
+    "🚀 ~ file: MovingSliderWrapper.jsx:19 ~ MovingSliderWrapper ~ data:",
+    data
+  );
   let rerunRandomiseRequired = useSelector(
     (state) => state.sliderSliceIndex0reducer.rerunRandomiseRequired
   );

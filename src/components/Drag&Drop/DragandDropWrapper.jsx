@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import DragDropRandomise from "./DragDropRandomise";
 import { DragandDropContext } from "./DragandDropContext";
 
-function DragandDropWrapper(props) {
-  const data = props.order_items_drag_drop;
-
-
+function DragandDropWrapper({ data }) {
+  console.log(
+    "🚀 ~ file: DragandDropWrapper.jsx:6 ~ DragandDropWrapper ~ data:",
+    data
+  );
   const [index0AnswerisCorrect, setindex0AnswerisCorrect] = useState(false);
   const [index1AnswerisCorrect, setindex1AnswerisCorrect] = useState(false);
   const [rerunRandomiseRequired, setrerunRandomiseRequired] = useState(false);
@@ -24,7 +25,7 @@ function DragandDropWrapper(props) {
       <DragDropRandomise
         index={index}
         key={item._key}
-        order_items_drag_drop={item}
+        data={item}
       ></DragDropRandomise>
     </DragandDropContext.Provider>
   ));

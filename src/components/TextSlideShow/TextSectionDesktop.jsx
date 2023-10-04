@@ -2,6 +2,8 @@ import React from "react";
 import { PortableText } from "@portabletext/react";
 import { myPortableTextComponents } from "../../config/sanity/portableText";
 
+import BlockText from "../../config/sanity/BlockText";
+
 function TextSectionDesktop({
   data,
   index,
@@ -31,10 +33,12 @@ function TextSectionDesktop({
         setCurrentSlide((s) => s + 1);
       }}
     >
-      <PortableText
+      {/* <PortableText
         value={data}
         components={myPortableTextComponents}
-      ></PortableText>
+      ></PortableText> */}
+
+      <BlockText data={data}></BlockText>
     </div>
   );
 }

@@ -1,13 +1,15 @@
 import React from "react";
 import MCQAnswerButtons from "./MCQAnswerButtons";
+import ImagefromSanity from "../../config/sanity/ImagefromSanity";
 
 function MCQblock(props) {
+  console.log("🚀 ~ file: MCQblock.jsx:6 ~ MCQblock ~ props:", props);
   let objkey0 = {};
   let objkey1 = {};
   let objkey2 = {};
   let objkey3 = {};
 
-  const getprops = props.item;
+  const data = props.item;
   const index = props.index;
   const updateStateFunctions = props.updateStateFunctions;
 
@@ -17,10 +19,10 @@ function MCQblock(props) {
   const nu4 = Math.random();
 
   const random = [
-    { number: nu1, value: getprops.distractor_1, isCorrect: false },
-    { number: nu2, value: getprops.distractor_2, isCorrect: false },
-    { number: nu3, value: getprops.distractor_3, isCorrect: false },
-    { number: nu4, value: getprops.correct_answer, isCorrect: true },
+    { number: nu1, value: data.distractor_1, isCorrect: false },
+    { number: nu2, value: data.distractor_2, isCorrect: false },
+    { number: nu3, value: data.distractor_3, isCorrect: false },
+    { number: nu4, value: data.correct_answer, isCorrect: true },
   ];
 
   const sorted = random.sort((number1, number2) =>
@@ -37,25 +39,30 @@ function MCQblock(props) {
 
   return (
     <div>
+      <ImagefromSanity data={data.picture}></ImagefromSanity>
       <MCQAnswerButtons
+        isAlgebra={data.isAlgebra}
         updateStateFunctions={updateStateFunctions}
         index={index}
         isCorrect={objkey0.isCorrect}
         text={objkey0.value}
       ></MCQAnswerButtons>
       <MCQAnswerButtons
+        isAlgebra={data.isAlgebra}
         updateStateFunctions={updateStateFunctions}
         index={index}
         isCorrect={objkey1.isCorrect}
         text={objkey1.value}
       ></MCQAnswerButtons>
       <MCQAnswerButtons
+        isAlgebra={data.isAlgebra}
         updateStateFunctions={updateStateFunctions}
         index={index}
         isCorrect={objkey2.isCorrect}
         text={objkey2.value}
       ></MCQAnswerButtons>
       <MCQAnswerButtons
+        isAlgebra={data.isAlgebra}
         updateStateFunctions={updateStateFunctions}
         index={index}
         isCorrect={objkey3.isCorrect}

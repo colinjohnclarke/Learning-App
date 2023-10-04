@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { colors } from "../../styles/colors";
 import MCQbtn from "../Buttons/MCQbtn";
+import MCQMathButton from "../Buttons/MCQMathButton";
 import { TiTickOutline } from "react-icons/ti";
 import { RxCross2 } from "react-icons/rx";
+import MathsMLfromString from "../../config/sanity/MathsMLfromString";
 import "animate.css";
 import { useDispatch, useSelector } from "react-redux";
 import { updateQuestionsAttempted } from "../../features/CurrentBlockProgressData/currentblockprogressdata";
@@ -15,7 +17,7 @@ import {
   updateindex1INCorrectAnswerSelected,
 } from "../../features/MCQ/MCQslice";
 
-const MCQAnswerButtons = ({ index, isCorrect, text }) => {
+const MCQAnswerButtons = ({ index, isCorrect, text, isAlgebra }) => {
   const [buttonClicked, setButtonClicked] = useState(false);
 
   let buttonstyle = {};
@@ -40,8 +42,6 @@ const MCQAnswerButtons = ({ index, isCorrect, text }) => {
     (state) => state.mcqslice.index1INCorrectAnswerSelected
   );
 
-
-
   const correctfontstyle = {
     color: "white",
     fontWeight: "500",
@@ -51,7 +51,7 @@ const MCQAnswerButtons = ({ index, isCorrect, text }) => {
     display: "flex",
     flexDirection: "row",
     position: "relative",
-    justifyContent: "space-between",
+    // justifyContent: "space-around",
     border: "none",
     backgroundColor: isCorrect ? colors.correctColor : colors.incorrectColor,
   };
@@ -128,21 +128,41 @@ const MCQAnswerButtons = ({ index, isCorrect, text }) => {
     buttonDisabled = true;
   }
 
-  return (
-    <Wrapper>
-      <MCQbtn
-        disabled={buttonDisabled}
-        className={animateclass}
-        style={buttonstyle}
-        onClick={onPressed}
-      >
-        <Box> </Box>
-
-        <Answer style={textstyle}>{text}</Answer>
-        <ClickResponseText>{clickResponseText}</ClickResponseText>
-      </MCQbtn>
-    </Wrapper>
+  const textContent = !isAlgebra ? (
+    <Answer style={textstyle}>{text}</Answer>
+  ) : (
+    <MathsMLfromString data={text}></MathsMLfromString>
   );
+
+  const btn = isAlgebra ? (
+    <MCQMathButton
+      disabled={buttonDisabled}
+      className={animateclass}
+      style={buttonstyle}
+      onClick={onPressed}
+    >
+      {" "}
+      <Box> </Box>
+      {textContent}
+      <Box> </Box>
+      <ClickResponseText>{clickResponseText}</ClickResponseText>
+    </MCQMathButton>
+  ) : (
+    <MCQbtn
+      disabled={buttonDisabled}
+      className={animateclass}
+      style={buttonstyle}
+      onClick={onPressed}
+    >
+      <Box>
+        {" "}
+        <ClickResponseText>{clickResponseText}</ClickResponseText>{" "}
+      </Box>
+      {textContent}
+    </MCQbtn>
+  );
+
+  return <Wrapper>{btn}</Wrapper>;
 };
 
 export default MCQAnswerButtons;
@@ -155,11 +175,9 @@ const Wrapper = styled.div`
 `;
 
 const Box = styled.div`
-  width: 10px;
+  width: 40px;
 `;
-const ClickResponseText = styled.div`
-  // position: absolute;
-`;
+const ClickResponseText = styled.div``;
 
 const Answer = styled.div`
   display: flex;

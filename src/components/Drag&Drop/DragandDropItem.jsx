@@ -5,6 +5,7 @@ import { device } from "../../styles/breakpoints";
 import { useDraggable } from "@dnd-kit/core";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import MathMLfromString from "../../config/sanity/MathsMLfromString";
 
 import {
   correctstyle,
@@ -25,6 +26,7 @@ function DragandDropItem(props) {
   let iscorrect = props.iscorrect;
   let helpneeded = props.helpneeded;
   const allcorrect = props.allcorrect;
+  const isAlgebra = props.isAlgebra;
 
   const correct_answer_input_color = "rgba(137, 240, 158, 0.34)";
 
@@ -75,6 +77,23 @@ function DragandDropItem(props) {
     justifyContent: "center",
   };
 
+  let textContent = (
+    <Text style={itemstyle}>
+      <p
+        style={{
+          fontSize: fontsize,
+          color: allcorrect ? textColor : "",
+        }}
+      >
+        {!isAlgebra ? (
+          gettext
+        ) : (
+          <MathMLfromString data={gettext}></MathMLfromString>
+        )}
+      </p>
+    </Text>
+  );
+
   return (
     <div
       ref={setNodeRef}
@@ -83,19 +102,7 @@ function DragandDropItem(props) {
       {...listeners}
       disabled={disabled}
     >
-      <Item>
-        <Text style={itemstyle}>
-          {/* {props.id} */}
-          <p
-            style={{
-              fontSize: fontsize,
-              color: allcorrect ? textColor : "",
-            }}
-          >
-            {gettext}
-          </p>
-        </Text>
-      </Item>
+      <Item>{textContent}</Item>
     </div>
   );
 }

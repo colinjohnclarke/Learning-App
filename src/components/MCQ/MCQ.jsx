@@ -4,7 +4,8 @@ import MCQblock from "./MCQblock";
 import MCQTeacherResponse from "./MCQTeacherResponse";
 import ScoreMCQ from "../Data/CurrentQuestionScores/ScoreMCQ";
 
-function MCQ({ data }) {
+function MCQMath({ data }) {
+
   return (
     <Wrapper>
       {data?.map((item, index) => {
@@ -24,7 +25,7 @@ function MCQ({ data }) {
   );
 }
 
-export default MCQ;
+export default MCQMath;
 
 const Wrapper = styled.div`
   display: flex;

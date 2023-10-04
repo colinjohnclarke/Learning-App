@@ -8,6 +8,7 @@ import SlideLocator from "./SlideLocator";
 import { myPortableTextComponents } from "../../config/sanity/portableText";
 import { useDispatch } from "react-redux";
 import { updateStartQuiz } from "../../features/CurrentBlockProgressData/currentblockprogressdata";
+import BlockText from "../../config/sanity/BlockText";
 
 function TextSection({
   data,
@@ -42,10 +43,12 @@ function TextSection({
 
   return (
     <Wrapper ref={refdata} className={animateSection} style={textStyle}>
-      <PortableText
+      {/* <PortableText
         value={data}
         components={myPortableTextComponents}
-      ></PortableText>
+      ></PortableText> */}
+
+      <BlockText data={data}></BlockText>
 
       {index !== length - 1 ? (
         continueArrowButton
