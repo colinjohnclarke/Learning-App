@@ -18,6 +18,7 @@ const initialState = {
   diplayPostBlockPointsReveal: false,
 };
 
+
 export const currentblockprogressdata = createSlice({
   name: "currentblockprogressdata",
   initialState,

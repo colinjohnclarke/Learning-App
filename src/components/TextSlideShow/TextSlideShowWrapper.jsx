@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import MobileVerticalSlideDeck from "./MobileVeriticalSlideDeck";
 import DesktopHorizontalSlideDeck from "./DesktopHorizontalSlideDeck";
@@ -10,9 +10,8 @@ import {
 } from "../../features/CurrentBlockProgressData/currentblockprogressdata";
 
 function TextSlideShowWrapper({ data, length }) {
-
-
   const [currentslide, setCurrentSlide] = useState(0);
+  const [width, setWidth] = useState(window.innerWidth);
   const dispatch = useDispatch();
 
   if (data.length - 1 === currentslide) {
@@ -20,38 +19,43 @@ function TextSlideShowWrapper({ data, length }) {
   }
 
   dispatch(updateSlideNumber(data.length));
-
   dispatch(updateCurrentSlide(currentslide));
 
-  let content;
-
-  if (window.innerWidth < 700) {
-    content = (
-      <MobileVerticalSlideDeck
-        currentslide={currentslide}
-        setCurrentSlide={setCurrentSlide}
-        length={length}
-        data={data}
-      ></MobileVerticalSlideDeck>
-    );
-  } else {
-    content = (
-      <DesktopHorizontalSlideDeck
-        currentslide={currentslide}
-        setCurrentSlide={setCurrentSlide}
-        length={length}
-        data={data}
-      ></DesktopHorizontalSlideDeck>
-    );
+  function handleResize() {
+    setWidth((width) => window.innerWidth);
   }
 
-  return <Wrapper>{content}</Wrapper>;
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    handleResize(); // Call handleResize initially
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [width]);
+
+  return (
+    <Wrapper>
+      {width < 550 ? (
+        <MobileVerticalSlideDeck
+          currentslide={currentslide}
+          setCurrentSlide={setCurrentSlide}
+          length={length}
+          data={data}
+        />
+      ) : (
+        <DesktopHorizontalSlideDeck
+          currentslide={currentslide}
+          setCurrentSlide={setCurrentSlide}
+          length={length}
+          data={data}
+        />
+      )}
+    </Wrapper>
+  );
 }
 
 export default TextSlideShowWrapper;
 
 const Wrapper = styled.div`
-  width: 100vw;
-  max-width: 1000px;
-  height: auto;
+  width: 100%;
 `;

@@ -9,11 +9,18 @@ import LeaderBoard from "./LeaderBoard/LeaderBoard";
 import SearchCourse from "../../components/Search/SearchCourse";
 import "animate.css";
 import { device } from "../../styles/breakpoints";
+import { useAuth0 } from "@auth0/auth0-react";
+
+import { useGetUserByEmailQuery } from "../../features/api/UserData/userDataSlice";
 
 function Dashboard() {
   const [val, setVal] = useState(0);
-
   const [animateClass, setAnimateClass] = useState("");
+  const { user } = useAuth0();
+
+  const { data, isLoading, isError, error } = useGetUserByEmailQuery(
+    user?.email
+  );
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -35,16 +42,25 @@ function Dashboard() {
       <Main>
         <Greeting>
           <Welcome>
-            Welcome Colin!
+            Welcome {user.given_name}
             <img
               className={animateClass}
               style={{
-                height: "30px",
-                width: "30px",
+                height: "60px",
+                width: "60px",
+                borderRadius: "20px",
                 objectFit: "fill",
+                margin: "10px",
+                border: "2px solid",
+                boxShadow:
+                  "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
               }}
               alt="djskjk"
-              src="https://cdn.shopify.com/s/files/1/1061/1924/files/Hugging_Face_Emoji_2028ce8b-c213-4d45-94aa-21e1a0842b4d_large.png?15202324258887420558"
+              src={
+                user.picture
+                  ? user.picture
+                  : "https://cdn.shopify.com/s/files/1/1061/1924/files/Hugging_Face_Emoji_2028ce8b-c213-4d45-94aa-21e1a0842b4d_large.png?15202324258887420558"
+              }
             ></img>
           </Welcome>
         </Greeting>
@@ -53,13 +69,13 @@ function Dashboard() {
 
         <UserdataWrapper>
           <Box>
-            <AllTimeLearningTimeBox />
+            <AllTimeLearningTimeBox quizscore={data} />
           </Box>
           <Box>
-            <AllTimeQuestionsAnsweredBox />
+            <AllTimeQuestionsAnsweredBox quizscore={data} />
           </Box>
           <Box>
-            <AllTimeXPBox />
+            <AllTimeXPBox quizscore={data} />
           </Box>
         </UserdataWrapper>
 
@@ -67,7 +83,7 @@ function Dashboard() {
 
         {/* display recent Courses */}
         <Course>
-          <RecentCourse />
+          <RecentCourse enrolledCourses={data} />
         </Course>
         <LeaderBoard />
       </Main>
@@ -96,7 +112,7 @@ const Main = styled.div`
 `;
 
 const Greeting = styled.div`
-  padding-top: 30px;
+  padding-top: 40px;
   height: 80px;
   width: 250px;
   display: flex;
@@ -107,7 +123,8 @@ const Greeting = styled.div`
 
 const Welcome = styled.h1`
   font-size: 20px;
-  padding-top: 20px;
+  padding-top: 30px;
+  padding-bottom: 30px;
   display: flex;
   flex-direction: row;
   align-items: center;

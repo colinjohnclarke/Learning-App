@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import ContinueBtn from "../../Buttons/ContinueBtn";
@@ -7,24 +7,63 @@ import AnimatedBlockScore from "../CurrentBlockScores/AnimatedBlockScore";
 import PointsSummary from "./PointsSummary";
 import "animate.css";
 import NativatetoDashBoard from "../../Buttons/NativatetoDashBoard";
+import { useUpdateUserDataMutation } from "../../../features/api/UserData/userDataSlice";
 
 function PostBlockPointsReveal() {
-  const displayAnimatedBlockScore = useSelector(
-    (state) => state.currentblockprogressdata.displayAnimatedBlockScore
-  );
-
-  const diplayPostBlockPointsReveal = useSelector(
-    (state) => state.currentblockprogressdata.diplayPostBlockPointsReveal
-  );
-
-  const blockCompleted = useSelector(
-    (state) => state.currentblockprogressdata.blockCompleted
-  );
-
   const [displayAnimateBlockScore, setdisplayAnimateBlockScore] =
     useState(true);
 
   const [displaySummary, setDisplaySummary] = useState(false);
+  // data to send to db from redux store
+  let userScore = useSelector(
+    (state) => state.currentblockprogressdata.userScore
+  );
+
+  let totalScore = useSelector(
+    (state) => state.currentblockprogressdata.totalScore
+  );
+
+  let percentageScore = useSelector(
+    (state) => state.currentblockprogressdata.percentageScore
+  );
+
+  let questionsAttempted = useSelector(
+    (state) => state.currentblockprogressdata.questionsAttempted
+  );
+
+  let blockCompleted = useSelector(
+    (state) => state.currentblockprogressdata.blockCompleted
+  );
+
+  const [updateUserData, { isLoading, isSuccess, isError, error }] =
+    useUpdateUserDataMutation();
+
+  // TODO: this update user data needs correcting. There is a reponse but does not store value in DB
+
+  useEffect(() => {
+    const updateUserDataFN = async () => {
+      await updateUserData({
+        id: "6538cfe66c79108d4d93baf9",
+        quizScores: [
+          {
+            updateQuizId: "TEST22",
+            updateScore: 2,
+            updateCompletionStatus: true,
+          },
+        ],
+      });
+    };
+
+    updateUserDataFN();
+  }, []);
+
+  // const displayAnimatedBlockScore = useSelector(
+  //   (state) => state.currentblockprogressdata.displayAnimatedBlockScore
+  // );
+
+  // const diplayPostBlockPointsReveal = useSelector(
+  //   (state) => state.currentblockprogressdata.diplayPostBlockPointsReveal
+  // );
 
   const animatedBlockProgressScore = (
     <PercentageScoreRevealAnimate

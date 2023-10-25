@@ -19,6 +19,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { updateProgressPercentage } from "../features/ProgressBar/ProgressBar";
 import PostBlockPointsReveal from "../components/Data/PostBlockPointsReveal/PostBlockPointsReveal";
 import { updateBlockCompleted } from "../features/CurrentBlockProgressData/currentblockprogressdata";
+import GeogebraText from "./Dashboard/GeogebraText";
+import TablesfromLineData2 from "../components/Tables/TablesfromLineData2";
 
 function Maths() {
   const [data, setData] = useState({});
@@ -40,7 +42,7 @@ function Maths() {
       )
       .then((result) => setData(result[0]))
       .catch(console.error);
-  }, []);
+  }, [content_from_api]);
 
   const slideShowDataArr = [
     data.textblock1,
@@ -50,19 +52,21 @@ function Maths() {
     data.textblock5,
   ];
 
-  const skills = data.subject_skills;
-  const problem_keywords = data.problem_keywords;
-  const tags = data.tags;
-  const mcq = data.MCQ_INPUTS;
-  const order_items_drag_drop = data.order_items_drag_drop;
-  const slider = data.slider;
-  const gap_fill = data.gap_fill;
-  const incorrect_words_from_text = data.incorrect_words_from_text;
-  const standard_table_variable_names = data.standard_table_variable_names;
-  const standard_tables = data.standard_tables;
-  const student_text_input = data.student_text_input;
-  const table = data.table;
-  const line_graph_data = data.line_graph_data;
+  const {
+    subject_skills,
+    problem_keywords,
+    tags,
+    MCQ_INPUTS: mcq,
+    order_items_drag_drop,
+    slider,
+    gap_fill,
+    incorrect_words_from_text,
+    standard_table_variable_names,
+    standard_tables,
+    student_text_input,
+    table,
+    line_graph_data,
+  } = data;
 
   // slide show
   let item0displayed = true;
@@ -197,7 +201,8 @@ function Maths() {
   const item5 = (
     <Item ref={item5listRef}>
       <Container>
-        <GapFillWrapper data={gap_fill}></GapFillWrapper>
+        {/* <GapFillWrapper data={gap_fill}></GapFillWrapper> */}
+        <TablesfromLineData2 data={line_graph_data}></TablesfromLineData2>
         <ContinueBtn
           onClick={() => {
             setItem6displayed((val) => true);
@@ -211,9 +216,10 @@ function Maths() {
   const item6 = (
     <Item ref={item6listRef}>
       <Container>
-        <IncorrectWordWrapper
+        {/* <IncorrectWordWrapper
           data={incorrect_words_from_text}
-        ></IncorrectWordWrapper>
+        ></IncorrectWordWrapper> */}
+        <GeogebraText></GeogebraText>
 
         <ContinueBtn
           onClick={() => {
@@ -318,7 +324,7 @@ function Maths() {
     item8,
     item9,
     item10,
-    // item11,
+    //  item11,
   ];
 
   let displayedArr = [
@@ -372,7 +378,7 @@ function Maths() {
   return (
     <Wrapper>
       {content}
-      {blockCompleted && <PostBlockPointsReveal></PostBlockPointsReveal>}
+      {/* {blockCompleted && <PostBlockPointsReveal></PostBlockPointsReveal>} */}
     </Wrapper>
   );
 }

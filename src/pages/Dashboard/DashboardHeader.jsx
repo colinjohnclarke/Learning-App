@@ -2,12 +2,23 @@ import React from "react";
 import styled from "styled-components";
 import OpenDrawerBtn from "../../components/Drawer/OpenDrawerBtn";
 import Signup from "../../components/Buttons/Signup";
+import { useAuth0 } from "@auth0/auth0-react";
+import LogoutBtn from "../../components/Login/LogoutBtn";
 
 function DashboardHeader() {
+  // const { user } = useAuth0();
+
+  // console.log("useAuth0", useAuth0);
+  // console.log(
+  //   "🚀 ~ file: DashboardHeader.jsx:10 ~ DashboardHeader ~ user:",
+  //   user
+  // );
+
   return (
     <Wrapper>
       <OpenDrawerBtn />
-      <Signup />
+      <LogoutBtn> Logout</LogoutBtn>
+      {/* <Signup /> */}
     </Wrapper>
   );
 }

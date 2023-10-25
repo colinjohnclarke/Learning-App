@@ -85,6 +85,7 @@ function Line(props) {
 
   return (
     <Wrapper>
+    
       <Plot data={linedataarr} layout={layout}></Plot>
     </Wrapper>
   );

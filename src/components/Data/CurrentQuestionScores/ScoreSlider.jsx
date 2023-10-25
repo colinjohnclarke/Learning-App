@@ -13,7 +13,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 function ScoreSlider(props) {
   const index = props.index;
-  console.log("🚀 ~ file: ScoreSlider.jsx:16 ~ ScoreSlider ~ index:", index);
   const totalMarksAvailable = props.totalMarksAvailable;
   const pairNumber = props.pairNumber;
 
@@ -23,10 +22,6 @@ function ScoreSlider(props) {
 
   const allSlidersCorrectIndex0 = useSelector(
     (state) => state.sliderSliceIndex0reducer.allSlidersCorrect
-  );
-  console.log(
-    "🚀 ~ file: ScoreSlider.jsx:26 ~ ScoreSlider ~ allSlidersCorrectIndex0:",
-    allSlidersCorrectIndex0
   );
 
   let index0AnswerisCorrect = false;
@@ -38,9 +33,9 @@ function ScoreSlider(props) {
   let animateClass = "";
   const maxscore = 1;
 
-  const playCorrectSound = () => {
-    new Audio(correct).play();
-  };
+  // const playCorrectSound = () => {
+  // //   new Audio(correct).play();
+  // // };
 
   //   let correctstyle = correctstyle;
   //   let incorrectstyle = incorrectstyle;
@@ -53,7 +48,7 @@ function ScoreSlider(props) {
   useEffect(() => {
     if (index0AnswerisCorrect && index === 0) {
       setScore((val) => val + 1);
-      playCorrectSound();
+      // playCorrectSound();
       setAnimateClass((val) => "animate__animated animate__tada");
       setScoreStyle((val) => correctstyle);
 

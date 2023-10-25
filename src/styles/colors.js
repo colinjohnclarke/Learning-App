@@ -42,7 +42,7 @@ export const normalboxstyleHover = {
 
 export const selectedbuttonstyle = {
   // transform: "translateY(6px)",
-  backgroundColor: "rgba(39, 106, 245, 0.7",
+  backgroundColor: "rgba(39, 106, 245, 0.7)",
   boxShadow: "none",
   color: "white",
 };

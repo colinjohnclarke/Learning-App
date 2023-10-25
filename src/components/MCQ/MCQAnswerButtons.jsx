@@ -154,11 +154,10 @@ const MCQAnswerButtons = ({ index, isCorrect, text, isAlgebra }) => {
       style={buttonstyle}
       onClick={onPressed}
     >
-      <Box>
-        {" "}
-        <ClickResponseText>{clickResponseText}</ClickResponseText>{" "}
-      </Box>
+      <Box> </Box>
       {textContent}
+      <Box></Box>
+      <ClickResponseText>{clickResponseText}</ClickResponseText>
     </MCQbtn>
   );
 

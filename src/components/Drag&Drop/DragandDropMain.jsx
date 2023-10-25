@@ -47,10 +47,7 @@ function DragandDropMain(props) {
 
   const index = props.index;
   const isAlgebra = props.isAlgebra;
-  console.log(
-    "🚀 ~ file: DragandDropMain.jsx:50 ~ DragandDropMain ~ isAlgebra:",
-    isAlgebra
-  );
+
 
   // initial fuction to pass data and split question and statements from props and save in state
   useEffect(() => {

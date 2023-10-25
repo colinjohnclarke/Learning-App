@@ -5,14 +5,11 @@ import ResetBtn from "../Buttons/ResetBtn";
 import ScoreDualSelection from "../Data/CurrentQuestionScores/ScoreDualSelection";
 import { device } from "../../styles/breakpoints";
 
-function DualBoxSelection(props) {
+function DualBoxSelection({ index, data }) {
   const [resetselected, setResetSelected] = useState(false);
 
-  const sliderData = props.data;
+  const totalMarksAvailable = data.total_marks_available;
 
-  const totalMarksAvailable = sliderData.total_marks_available;
-
-  const index = props.index;
   const num1a = Math.random();
   const num1b = Math.random();
   const num2a = Math.random();
@@ -43,7 +40,7 @@ function DualBoxSelection(props) {
   let displayBox3 = false;
   let displayBox4 = false;
 
-  switch (sliderData.number_of_pairs_entered) {
+  switch (data.number_of_pairs_entered) {
     case 4:
       displayBox4 = true;
       displayBox3 = true;
@@ -74,7 +71,7 @@ function DualBoxSelection(props) {
 
   return (
     <Wrapper>
-      <Question>{sliderData.Question}</Question>
+      <Question>{data.Question}</Question>
 
       <ScoreDualSelection
         totalMarksAvailable={totalMarksAvailable}
@@ -84,6 +81,7 @@ function DualBoxSelection(props) {
       <Pair>
         <DualBox
           boxnum={1}
+          isAlgebra={data.isAlgebra}
           displayBox={displayBox1}
           resetselected={resetselected}
           index={index}
@@ -91,13 +89,13 @@ function DualBoxSelection(props) {
           sliderRightIsCorrect={slider0rightIsCorrect}
           textleft={
             slider0leftIsCorrect
-              ? sliderData.Statement_1_correct_option
-              : sliderData.Statement_1_incorrect_option
+              ? data.Statement_1_correct_option
+              : data.Statement_1_incorrect_option
           }
           textright={
             slider0rightIsCorrect
-              ? sliderData.Statement_1_correct_option
-              : sliderData.Statement_1_incorrect_option
+              ? data.Statement_1_correct_option
+              : data.Statement_1_incorrect_option
           }
         ></DualBox>
       </Pair>
@@ -105,6 +103,7 @@ function DualBoxSelection(props) {
       <Pair>
         <DualBox
           boxnum={2}
+          isAlgebra={data.isAlgebra}
           displayBox={displayBox2}
           resetselected={resetselected}
           index={index}
@@ -112,13 +111,13 @@ function DualBoxSelection(props) {
           sliderRightIsCorrect={slider1rightIsCorrect}
           textleft={
             slider1leftIsCorrect
-              ? sliderData.Statement_2_correct_option
-              : sliderData.Statement_2_incorrect_option
+              ? data.Statement_2_correct_option
+              : data.Statement_2_incorrect_option
           }
           textright={
             slider1rightIsCorrect
-              ? sliderData.Statement_2_correct_option
-              : sliderData.Statement_2_incorrect_option
+              ? data.Statement_2_correct_option
+              : data.Statement_2_incorrect_option
           }
         ></DualBox>
       </Pair>
@@ -126,6 +125,7 @@ function DualBoxSelection(props) {
       <Pair>
         <DualBox
           boxnum={3}
+          isAlgebra={data.isAlgebra}
           displayBox={displayBox3}
           resetselected={resetselected}
           index={index}
@@ -133,13 +133,13 @@ function DualBoxSelection(props) {
           sliderRightIsCorrect={slider2rightIsCorrect}
           textleft={
             slider2leftIsCorrect
-              ? sliderData.Statement_3_correct_option
-              : sliderData.Statement_3_incorrect_option
+              ? data.Statement_3_correct_option
+              : data.Statement_3_incorrect_option
           }
           textright={
             slider2rightIsCorrect
-              ? sliderData.Statement_3_correct_option
-              : sliderData.Statement_3_incorrect_option
+              ? data.Statement_3_correct_option
+              : data.Statement_3_incorrect_option
           }
         ></DualBox>
       </Pair>
@@ -147,6 +147,7 @@ function DualBoxSelection(props) {
       <Pair>
         <DualBox
           boxnum={4}
+          isAlgebra={data.isAlgebra}
           displayBox={displayBox4}
           resetselected={resetselected}
           index={index}
@@ -154,13 +155,13 @@ function DualBoxSelection(props) {
           sliderRightIsCorrect={slider3rightIsCorrect}
           textleft={
             slider3leftIsCorrect
-              ? sliderData.Statement_4_correct_option
-              : sliderData.Statement_4_incorrect_option
+              ? data.Statement_4_correct_option
+              : data.Statement_4_incorrect_option
           }
           textright={
             slider3rightIsCorrect
-              ? sliderData.Statement_4_correct_option
-              : sliderData.Statement_4_incorrect_option
+              ? data.Statement_4_correct_option
+              : data.Statement_4_incorrect_option
           }
         ></DualBox>
       </Pair>

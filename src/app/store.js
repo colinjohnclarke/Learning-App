@@ -11,6 +11,8 @@ import currentblockprogressdata from "../features/CurrentBlockProgressData/curre
 import mcqslice from "../features/MCQ/MCQslice";
 import mathsMCQSlice from "../features/MCQ/mathsMCQSlice";
 
+import { userDataSlice } from "../features/api/UserData/userDataSlice";
+
 export const store = configureStore({
   reducer: {
     sliderquestiondataSliceIndex0reducer,
@@ -22,5 +24,8 @@ export const store = configureStore({
     currentblockprogressdata,
     mcqslice,
     mathsMCQSlice,
+    [userDataSlice.reducerPath]: userDataSlice.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(userDataSlice.middleware),
 });

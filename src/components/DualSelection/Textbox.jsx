@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { TiTickOutline } from "react-icons/ti";
 import { RxCross2 } from "react-icons/rx";
 import { device } from "../../styles/breakpoints";
+import MathsMLfromString from "../../config/sanity/MathsMLfromString";
 import "animate.css";
 import {
   correctAnswerSelectedIndex0,
@@ -20,12 +21,7 @@ import {
   normalboxstyleHover,
 } from "../../styles/colors";
 
-function Textbox(props) {
-  const text = props.text;
-  const isCorrect = props.isCorrect;
-  let isSelected = props.isSelected;
-
-  const index = props.index;
+function Textbox({ text, isCorrect, isSelected, index, isAlgebra }) {
   const dispatch = useDispatch();
 
   let index0currentSliderQuestionScore = useSelector(
@@ -158,15 +154,19 @@ function Textbox(props) {
       }
       style={style}
     >
-      <Text
-        style={
-          index0currentSliderQuestionScore.length === 4 || isSelected
-            ? whiteText
-            : normalText
-        }
-      >
-        {text}
-      </Text>
+      {!isAlgebra ? (
+        <Text
+          style={
+            index0currentSliderQuestionScore.length === 4 || isSelected
+              ? whiteText
+              : normalText
+          }
+        >
+          {text}
+        </Text>
+      ) : (
+        <MathsMLfromString data={text}></MathsMLfromString>
+      )}
 
       {content}
     </Box>
@@ -193,7 +193,6 @@ const Box = styled.p`
   flex-direction: column;
   max-width: 700px;
   border-radius: 20px;
- 
 
   &:hover {
     background-color: rgba(0, 200, 200, 0.29);

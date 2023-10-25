@@ -1,12 +1,12 @@
 import React, { useState, useContext } from "react";
 import { GapFillContext } from "./GapFillContext";
 import styled from "styled-components";
-import { PortableText } from "@portabletext/react";
 import { correctstyle } from "../../styles/colors";
 import HelpBtn from "../Buttons/HelpBtn";
 import ScoreGapFill from "../../components/Data/CurrentQuestionScores/ScoreGapFill";
 import "animate.css";
 import { myPortableTextComponents } from "../../config/sanity/portableText";
+import { PortableText } from "@portabletext/react";
 import { BiHelpCircle } from "react-icons/bi";
 
 function GapFill(props) {

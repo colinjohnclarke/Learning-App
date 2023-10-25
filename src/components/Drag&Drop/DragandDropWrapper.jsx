@@ -3,10 +3,7 @@ import DragDropRandomise from "./DragDropRandomise";
 import { DragandDropContext } from "./DragandDropContext";
 
 function DragandDropWrapper({ data }) {
-  console.log(
-    "🚀 ~ file: DragandDropWrapper.jsx:6 ~ DragandDropWrapper ~ data:",
-    data
-  );
+
   const [index0AnswerisCorrect, setindex0AnswerisCorrect] = useState(false);
   const [index1AnswerisCorrect, setindex1AnswerisCorrect] = useState(false);
   const [rerunRandomiseRequired, setrerunRandomiseRequired] = useState(false);

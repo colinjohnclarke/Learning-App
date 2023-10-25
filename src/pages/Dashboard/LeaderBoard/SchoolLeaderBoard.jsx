@@ -8,10 +8,7 @@ function SchoolLeaderBoard() {
     return b.xp - a.xp;
   });
 
-  console.log(schoolLeaderBoardFakeData);
   const data = rankData;
-
-  let thirdplaceborder = "0.5";
 
   return (
     <Wrapper>
@@ -69,16 +66,10 @@ function SchoolLeaderBoard() {
                 src={item.cartoonImg}
               ></img>
             );
-
-            const Td = styled.td`
-              border-bottom: ${thirdplaceborder}px solid lightgrey;
-              font-size: 10px;
-              height: 50px;
-            `;
-
-            if (index === 1) {
-              thirdplaceborder = "3";
-            } else thirdplaceborder = "0.5";
+            const borderBottomStyle =
+              index === 2
+                ? "2px solid rgba(0, 200, 200, 0.5)"
+                : "0.5px solid rgba(200, 200, 200, 0.5)";
 
             return (
               <tr>
@@ -89,12 +80,13 @@ function SchoolLeaderBoard() {
                     alignItems: "center",
                     width: "100%",
                     fontWeight: "700",
+                    borderBottom: borderBottomStyle,
                   }}
                 >
                   {rankElement}
                 </Td>
 
-                <Td>
+                <Td style={{ borderBottom: borderBottomStyle }}>
                   <div
                     style={{
                       display: "flex",
@@ -138,6 +130,7 @@ function SchoolLeaderBoard() {
                     fontWeight: "700",
                     fontSize: "10px",
                     color: "darkblue",
+                    borderBottom: borderBottomStyle,
                   }}
                 >
                   {item.xp}
@@ -156,6 +149,7 @@ export default SchoolLeaderBoard;
 const Wrapper = styled.div`
   width: 100%;
   background-color: white;
+
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 1px 0px;
 `;
@@ -193,3 +187,8 @@ const GifImg = styled.img``;
 //   font-size: 10px;
 //   height: 50px;
 // `;
+
+const Td = styled.td`
+  font-size: 10px;
+  height: 50px;
+`;

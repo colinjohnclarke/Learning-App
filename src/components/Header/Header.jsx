@@ -3,13 +3,15 @@ import styled from "styled-components";
 import ProgressBar from "../ProgressBar/ProgressBar";
 import OpenDrawerBtn from "../Drawer/OpenDrawerBtn";
 import Signup from "../Buttons/Signup";
+import LogoutBtn from "../Login/LogoutBtn";
 
 function Header() {
   return (
     <Wrapper>
       <OpenDrawerBtn></OpenDrawerBtn>
       <ProgressBar></ProgressBar>
-      <Signup></Signup>
+      {/* <Signup></Signup> */}
+      <LogoutBtn ></LogoutBtn>
     </Wrapper>
   );
 }

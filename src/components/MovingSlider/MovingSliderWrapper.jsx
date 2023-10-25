@@ -3,10 +3,10 @@ import MovingSlider from "./MovingSlider";
 import { SliderContext } from "./SliderContext";
 import { useSelector, useDispatch } from "react-redux";
 import {
+  setslider0Incorrect,
   setslider1Incorrect,
   setslider2Incorrect,
   setslider3Incorrect,
-  setslider4Incorrect,
   rerunRandomiseNOTRequired,
   index0correctanswerselected,
   index0correctanswerUNselected,
@@ -16,115 +16,31 @@ import {
 } from "../../features/Slider/sliderindex0slice";
 
 function MovingSliderWrapper({ data }) {
-  console.log(
-    "🚀 ~ file: MovingSliderWrapper.jsx:19 ~ MovingSliderWrapper ~ data:",
-    data
-  );
-  let rerunRandomiseRequired = useSelector(
-    (state) => state.sliderSliceIndex0reducer.rerunRandomiseRequired
-  );
+  const [rerunFunction, setReRunFunction] = useState(0);
 
-  const dispatch = useDispatch();
+  const [
+    slidersAreInitiallySettoCorrectPosition,
+    setslidersAreInitiallySettoCorrectPosition,
+  ] = useState(false);
 
   // generate random vales to random ordering of the slider items on each refresh, in pairs, one pair for each slider, use these values to set which side recives the correct value and which incorrect  ( changes each time)
 
-  // const [slider0leftIsCorrect, setslider0leftIsCorrect] = useState();
-  // const [slider0rightIsCorrect, setslider0rightIsCorrect] = useState();
-  // const [slider1leftIsCorrect, setslider1leftIsCorrect] = useState();
-  // const [slider1rightIsCorrect, setslider1rightIsCorrect] = useState();
-  // const [slider2leftIsCorrect, setslider2leftIsCorrect] = useState();
-  // const [slider2rightIsCorrect, setslider2rightIsCorrect] = useState();
-  // const [slider3leftIsCorrect, setslider3leftIsCorrect] = useState();
-  // const [slider3rightIsCorrect, setslider3rightIsCorrect] = useState();
-  const [rerunFunction, setReRunFunction] = useState(0);
+  let slider0leftIsCorrect = Math.random() > Math.random();
+  let slider0rightIsCorrect = !slider0leftIsCorrect;
 
-  const isinitialRenderCompleted = useSelector(
-    (state) => state.sliderSliceIndex0reducer.renderCompleted
-  );
+  let slider1leftIsCorrect = Math.random() > Math.random();
+  let slider1rightIsCorrect = !slider1leftIsCorrect;
 
-  let secondRenderCompleted = useSelector(
-    (state) => state.sliderSliceIndex0reducer.secondRenderCompleted
-  );
+  let slider2leftIsCorrect = Math.random() > Math.random();
+  let slider2rightIsCorrect = !slider2leftIsCorrect;
 
-  dispatch(setslider1Incorrect());
-  dispatch(setslider2Incorrect());
-  dispatch(setslider3Incorrect());
-  dispatch(setslider4Incorrect());
+  let slider3leftIsCorrect = Math.random() > Math.random();
+  let slider3rightIsCorrect = !slider3leftIsCorrect;
 
-  useEffect(() => {
-    setReRunFunction((val) => val + 1);
-  }, [isinitialRenderCompleted, secondRenderCompleted]);
-
-  console.log("rerun");
-
-  // if (allcorrect && !initial) {
-  //   setReRunFunction((val) => val);
-  //   console.log("    setReRunFunction((val) => val);");
-  // }
-
-  // let tester = false;
-
-  let initialBoolSlider1 = 0;
-  let initialBoolSlider2 = 1;
-  let initialBoolSlider3 = 2;
-  let initialBoolSlider4 = 3;
-
-  // useEffect(() => {
-
-  const num1a = Math.random();
-  const num1b = Math.random();
-  const num2a = Math.random();
-  const num2b = Math.random();
-  const num3a = Math.random();
-  const num3b = Math.random();
-  const num4a = Math.random();
-  const num4b = Math.random();
-
-  // deterine which value is higher and assign a boolean for condition
-
-  // setslider0leftIsCorrect(num1a > num1b);
-  // setslider0rightIsCorrect(num1a < num1b);
-  // setslider1leftIsCorrect(num2a > num2b);
-  // setslider1rightIsCorrect(num2a < num2b);
-  // setslider2leftIsCorrect(num3a > num3b);
-  // setslider2rightIsCorrect(num3a < num3b);
-  // setslider3leftIsCorrect(num4a > num4b);
-  // setslider3rightIsCorrect(num4a < num4b);
-
-  let slider0leftIsCorrect = num1a > num1b;
-  let slider0rightIsCorrect = num1a < num1b;
-
-  let slider1leftIsCorrect = num2a > num2b;
-  let slider1rightIsCorrect = num2a < num2b;
-
-  let slider2leftIsCorrect = num3a > num3b;
-  let slider2rightIsCorrect = num3a < num3b;
-
-  let slider3leftIsCorrect = num4a > num4b;
-  let slider3rightIsCorrect = num4a < num4b;
-
-  initialBoolSlider1 = Math.random() > 0.5;
-  initialBoolSlider2 = Math.random() > 0.5;
-  initialBoolSlider3 = Math.random() > 0.5;
-  initialBoolSlider4 = Math.random() > 0.5;
-
-  // const boolRef = useRef(initialBool);
-  // }, [rerunFunction]);
-
-  console.log(
-    "BOOLS",
-    initialBoolSlider1,
-    initialBoolSlider2,
-    initialBoolSlider3,
-    initialBoolSlider4
-  );
-
-  const sliderBool = {
-    initialBoolSlider1,
-    initialBoolSlider2,
-    initialBoolSlider3,
-    initialBoolSlider4,
-  };
+  let rightSlideIsHighlightedSlider0 = Math.random() > 0.5;
+  let rightSlideIsHighlightedSlider1 = Math.random() > 0.5;
+  let rightSlideIsHighlightedSlider2 = Math.random() > 0.5;
+  let rightSlideIsHighlightedSlider3 = Math.random() > 0.5;
 
   const sliderNumsArr = {
     slider0leftIsCorrect,
@@ -137,13 +53,60 @@ function MovingSliderWrapper({ data }) {
     slider3rightIsCorrect,
   };
 
+  const slider0rightArr = [
+    slider0rightIsCorrect,
+    slider1rightIsCorrect,
+    slider2rightIsCorrect,
+    slider3rightIsCorrect,
+  ];
+
+  const sliderBoolsArr = [
+    rightSlideIsHighlightedSlider0,
+    rightSlideIsHighlightedSlider1,
+    rightSlideIsHighlightedSlider2,
+    rightSlideIsHighlightedSlider3,
+  ];
+
+  const sliderBools = {
+    rightSlideIsHighlightedSlider0,
+    rightSlideIsHighlightedSlider1,
+    rightSlideIsHighlightedSlider2,
+    rightSlideIsHighlightedSlider3,
+  };
+
+  let boolsCorrect = 0;
+  let slidersRandom = false;
+
+  useEffect(() => {
+    setReRunFunction((val) => val + 1);
+    console.log("function is being rerun");
+  }, [slidersAreInitiallySettoCorrectPosition]);
+
   return data?.map((item, index) => {
+    for (let i = 0; i < item.number_of_pairs_entered; i++) {
+      if (sliderBoolsArr[i] === slider0rightArr[i]) {
+        boolsCorrect++;
+      }
+    }
+
+    if (boolsCorrect === item.number_of_pairs_entered) {
+      console.log("ALL SLIDERS HAVE BEEN LOADED IN THE CORRECT POSITIONasd");
+      setslidersAreInitiallySettoCorrectPosition((val) => !val);
+      boolsCorrect = 0;
+      slidersRandom = false;
+    } else {
+      console.log("RANDOM slides");
+      slidersRandom = true;
+    }
+
     return (
       <SliderContext.Provider index={index}>
         <MovingSlider
-          sliderBool={sliderBool}
-          setReRunFunction={setReRunFunction}
-          rerunFunction={rerunFunction}
+          isAlgebra={item.isAlgebra}
+          sliderBool={sliderBools}
+          slidersRandom={slidersRandom}
+          // setReRunFunction={setReRunFunction}
+          // rerunFunction={rerunFunction}
           sliderNumsArr={sliderNumsArr}
           key={item._key}
           data={item}

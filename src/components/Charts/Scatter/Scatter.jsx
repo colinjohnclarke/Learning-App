@@ -22,6 +22,7 @@ function Scatter(props) {
 
   // create two arrays from each data variable
   const variable1Arr = [];
+
   standard_tables?.map((element) => {
     return variable1Arr.push(element.variable1_value);
   });

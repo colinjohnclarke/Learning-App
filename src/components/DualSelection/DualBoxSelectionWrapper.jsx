@@ -2,15 +2,12 @@ import React, { useState } from "react";
 import { DualSelectionContext } from "./DualSelectionContext";
 import DualBoxSelection from "./DualBoxSelection";
 
-function DualSelectionWrapper(props) {
-  const data = props.slider;
+function DualSelectionWrapper({data}) {
+
 
   const [index0AnswerisCorrect, setIndex0AnswerisCorrect] = useState(false);
-
   const [index0AnswerisInCorrect, setIndex0AnswerisInCorrect] = useState(false);
-
   const [index1AnswerisCorrect, setIndex1AnswerisCorrect] = useState(false);
-
   const [index1AnswerisInCorrect, setIndex1AnswerisInCorrect] = useState(false);
 
   const contextObj = {

@@ -1,8 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 
-function MCQbtn({ ...atributes }) {
-  return <Btn type="button" {...atributes}></Btn>;
+function MCQbtn({ children, ...atributes }) {
+  return (
+    <Btn type="button" {...atributes}>
+      {children}
+    </Btn>
+  );
 }
 
 export default MCQbtn;

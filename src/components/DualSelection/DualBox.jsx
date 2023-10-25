@@ -5,18 +5,21 @@ import { useDispatch, useSelector } from "react-redux";
 import Textbox from "./Textbox";
 import { resetSliderSelectionIndex0 } from "../../features/DualSelection/dualselectionquestiondataSliceIndex0";
 import { resetSliderSelectionIndex1 } from "../../features/DualSelection/dualselectionquestiondataSliceIndex1";
+import MathsMLfromString from "../../config/sanity/MathsMLfromString";
 
-function DualBox(props) {
+function DualBox({
+  index,
+  sliderLeftIsCorrect,
+  sliderRightIsCorrect,
+  isAlgebra,
+  textleft,
+  textright,
+  resetselected,
+  boxnum,
+  displayBox,
+}) {
   const [leftselected, setLeftSelected] = useState(false);
   const [rightselected, setRightSelected] = useState(false);
-
-  const index = props.index;
-  const sliderLeftIsCorrect = props.sliderLeftIsCorrect;
-  const sliderRightIsCorrect = props.sliderRightIsCorrect;
-
-  const textleft = props.textleft;
-  const textright = props.textright;
-  const resetselected = props.resetselected;
 
   const dispatch = useDispatch();
 
@@ -55,13 +58,13 @@ function DualBox(props) {
     inactivateSelection = true;
   }
   let style = {};
-  if (!props.displayBox) {
+  if (!displayBox) {
     style = { display: "none" };
   }
 
   return (
     <Wrapper style={style}>
-      <Num>{props.boxnum}</Num>
+      <Num>{boxnum}</Num>
       {/* left */}
       <LeftBox
         onClick={() => {
@@ -71,6 +74,7 @@ function DualBox(props) {
         }}
       >
         <Textbox
+          isAlgebra={isAlgebra}
           index={index}
           isSelected={leftselected}
           isCorrect={sliderLeftIsCorrect}
@@ -78,6 +82,7 @@ function DualBox(props) {
         ></Textbox>
       </LeftBox>
       {/* right */}
+
       <RightBox
         onClick={() => {
           if (!inactivateSelection) {
@@ -86,6 +91,7 @@ function DualBox(props) {
         }}
       >
         <Textbox
+          isAlgebra={isAlgebra}
           index={index}
           isSelected={rightselected}
           isCorrect={sliderRightIsCorrect}

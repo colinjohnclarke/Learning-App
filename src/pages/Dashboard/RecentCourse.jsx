@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { recentCourseList } from "./RecentCourseList";
 
 import { device } from "../../styles/breakpoints";
 
 function RecentCourse() {
+  <NavLink to={"/cuisine/Chicken"}></NavLink>;
+
   return (
     <Wrapper>
       <Header>
@@ -16,32 +19,34 @@ function RecentCourse() {
       <List>
         {recentCourseList.map((item) => {
           return (
-            <Box>
-              <Text>
-                {" "}
-                <p
-                  style={{
-                    fontSize: "12px",
-                    listStyle: "none",
-                    paddingLeft: "10px",
-                    fontWeight: "600",
-                  }}
-                >
-                  {item.subject} :
-                </p>
-                <p
-                  style={{
-                    fontSize: "12px",
-                    listStyle: "none",
-                    paddingLeft: "10px",
-                  }}
-                >
-                  {item.courseName}
-                </p>
-              </Text>
+            <NavLink to={"/courses/biology"}>
+              <Box>
+                <Text>
+                  {" "}
+                  <p
+                    style={{
+                      fontSize: "12px",
+                      listStyle: "none",
+                      paddingLeft: "10px",
+                      fontWeight: "600",
+                    }}
+                  >
+                    {item.subject} :
+                  </p>
+                  <p
+                    style={{
+                      fontSize: "12px",
+                      listStyle: "none",
+                      paddingLeft: "10px",
+                    }}
+                  >
+                    {item.courseName}
+                  </p>
+                </Text>
 
-              <Image src={item.imageUrl}></Image>
-            </Box>
+                <Image src={item.imageUrl}></Image>
+              </Box>
+            </NavLink>
           );
         })}
       </List>

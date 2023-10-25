@@ -3,7 +3,7 @@ import MCQAnswerButtons from "./MCQAnswerButtons";
 import ImagefromSanity from "../../config/sanity/ImagefromSanity";
 
 function MCQblock(props) {
-  console.log("🚀 ~ file: MCQblock.jsx:6 ~ MCQblock ~ props:", props);
+
   let objkey0 = {};
   let objkey1 = {};
   let objkey2 = {};

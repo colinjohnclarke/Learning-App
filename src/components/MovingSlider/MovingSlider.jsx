@@ -4,6 +4,10 @@ import styled from "styled-components";
 import ScoreSlider from "../../components/Data/CurrentQuestionScores/ScoreSlider";
 import { SliderContext } from "./SliderContext";
 import {
+  setslider0Incorrect,
+  setslider1Incorrect,
+  setslider2Incorrect,
+  setslider3Incorrect,
   setfirstRenderCompleted,
   setSecondRenderCompleted,
   refreshRenderRequired,
@@ -13,37 +17,39 @@ import {
 
 import { useDispatch, useSelector } from "react-redux";
 
-function MovingSlider(props) {
+function MovingSlider({
+  data,
+  isAlgebra,
+  sliderBool,
+  sliderNumsArr,
+  index,
+  slidersRandom,
+}) {
   const dispatch = useDispatch();
 
-  const rerunFunction = props.rerunFunction;
-  const setReRunFunction = props.setReRunFunction;
+  const sliderCorrect = useSelector((state) => state.sliderSliceIndex0reducer);
+  const sliderCorrectList = [];
 
-  const slider1correct = useSelector(
-    (state) => state.sliderSliceIndex0reducer.slider1correct
-  );
-  const slider2correct = useSelector(
-    (state) => state.sliderSliceIndex0reducer.slider2correct
-  );
+  for (let i = 0; i < 4; i++) {
+    sliderCorrectList.push(sliderCorrect[`slider${i}correct`]);
+  }
 
-  const slider3correct = useSelector(
-    (state) => state.sliderSliceIndex0reducer.slider3correct
-  );
+  const sliderData = data;
 
-  const slider4correct = useSelector(
-    (state) => state.sliderSliceIndex0reducer.slider4correct
-  );
+  const allcorrect =
+    sliderCorrectList.filter((item) => item === true).length ===
+    data.number_of_pairs_entered;
 
-  const sliderData = props.data;
-  const pairNumber = props.data.number_of_pairs_entered;
-  const index = props.index;
+  if (allcorrect) {
+    dispatch(setAllSlidersCorrect());
+  }
 
   const {
-    initialBoolSlider1,
-    initialBoolSlider2,
-    initialBoolSlider3,
-    initialBoolSlider4,
-  } = props.sliderBool;
+    rightSlideIsHighlightedSlider0,
+    rightSlideIsHighlightedSlider1,
+    rightSlideIsHighlightedSlider2,
+    rightSlideIsHighlightedSlider3,
+  } = sliderBool;
 
   const {
     slider0leftIsCorrect,
@@ -54,107 +60,70 @@ function MovingSlider(props) {
     slider2rightIsCorrect,
     slider3leftIsCorrect,
     slider3rightIsCorrect,
-  } = props.sliderNumsArr;
-
-  let sliderList = [
-    slider1correct,
-    slider2correct,
-    slider3correct,
-    slider4correct,
-  ];
-
-  let firstRenderCompleted = useSelector(
-    (state) => state.sliderSliceIndex0reducer.firstRenderCompleted
-  );
-
-  let secondRenderCompleted = useSelector(
-    (state) => state.sliderSliceIndex0reducer.secondRenderCompleted
-  );
-
-  // const [allcorrect, setAllCorrect] = useState(false);
-  const allcorrect =
-    sliderList.filter((item) => item === true).length === pairNumber;
-
-  // useEffect(() => {
-  //   setAllCorrect(
-  //     (val) => sliderList.filter((item) => item === true).length === pairNumber
-  //   );
-  // }, [rerunFunction, initialRenderCompleted, sliderList]);
-
-  let slidersRandom = false;
-
-  if (!firstRenderCompleted && !slidersRandom) {
-    if (allcorrect) {
-      slidersRandom = false;
-      dispatch(refreshRenderRequired());
-      console.log("first");
-    } else if (!allcorrect) {
-      slidersRandom = true;
-      console.log("second");
-      dispatch(setfirstRenderCompleted());
-    }
-  }
-  if (firstRenderCompleted && !slidersRandom) {
-    if (allcorrect) {
-      dispatch(setSecondRenderCompleted());
-      console.log("third");
-    } else if (!allcorrect) {
-      slidersRandom = true;
-      console.log("fourth");
-    }
-  }
-
-  if (allcorrect && slidersRandom) {
-    dispatch(setAllSlidersCorrect());
-    console.log("fith");
-  }
+  } = sliderNumsArr;
 
   // only diplay the number of sliders specified
+  let displaySlider0 = false;
   let displaySlider1 = false;
   let displaySlider2 = false;
   let displaySlider3 = false;
-  let displaySlider4 = false;
 
-  switch (sliderData.number_of_pairs_entered) {
+  let displaySliders = [
+    displaySlider0,
+    displaySlider1,
+    displaySlider2,
+    displaySlider3,
+  ];
+
+  // for (
+  //   let i = 0;
+  //   i < data.number_of_pairs_entered && i < displaySliders.length;
+  //   i++
+  // ) {
+  //   displaySliders[i] = true;
+  // }
+
+  switch (data.number_of_pairs_entered) {
     case 4:
-      displaySlider4 = true;
       displaySlider3 = true;
       displaySlider2 = true;
       displaySlider1 = true;
+      displaySlider0 = true;
       break;
     case 3:
-      displaySlider3 = true;
       displaySlider2 = true;
       displaySlider1 = true;
+      displaySlider0 = true;
       break;
     case 2:
-      displaySlider2 = true;
       displaySlider1 = true;
+      displaySlider0 = true;
       break;
     case 1:
-      displaySlider1 = true;
+      displaySlider0 = true;
       break;
     default:
       break;
   }
 
+  const sliderProps = {
+    isAlgebra,
+    slidersRandom,
+    allcorrect,
+    pairNumber: data.number_of_pairs_entered,
+    index,
+  };
+
   return (
     <Wrapper>
-      <p>{props.data.Question}</p>
-      {/* <h1>First {JSON.stringify(firstRenderCompleted)}</h1>
-      <h1>Second {JSON.stringify(secondRenderCompleted)}</h1> */}
+      <p>{data.Question}</p>
 
       <ScoreSlider index={index}></ScoreSlider>
       <Slider
-        slidersRandom={slidersRandom}
-        initialBoolSlider={initialBoolSlider1}
-        setReRunFunction={setReRunFunction}
-        rerunFunction={rerunFunction}
-        allcorrect={allcorrect}
-        displaySlider={displaySlider1}
-        pairNumber={props.data.number_of_pairs_entered}
+        {...sliderProps}
+        initialBoolSlider={rightSlideIsHighlightedSlider0}
+        displaySlider={displaySlider0}
         position={0}
-        index={index}
         sliderLeftIsCorrect={slider0leftIsCorrect}
         sliderRightIsCorrect={slider0rightIsCorrect}
         textleft={
@@ -170,15 +139,10 @@ function MovingSlider(props) {
       ></Slider>
 
       <Slider
-        slidersRandom={slidersRandom}
-        initialBoolSlider={initialBoolSlider2}
-        setReRunFunction={setReRunFunction}
-        rerunFunction={rerunFunction}
-        allcorrect={allcorrect}
-        displaySlider={displaySlider2}
-        pairNumber={props.data.number_of_pairs_entered}
+        {...sliderProps}
+        initialBoolSlider={rightSlideIsHighlightedSlider1}
+        displaySlider={displaySlider1}
         position={1}
-        index={index}
         sliderLeftIsCorrect={slider1leftIsCorrect}
         sliderRightIsCorrect={slider1rightIsCorrect}
         textleft={
@@ -193,15 +157,10 @@ function MovingSlider(props) {
         }
       ></Slider>
       <Slider
-        slidersRandom={slidersRandom}
-        initialBoolSlider={initialBoolSlider3}
-        setReRunFunction={setReRunFunction}
-        rerunFunction={rerunFunction}
-        allcorrect={allcorrect}
-        displaySlider={displaySlider3}
-        pairNumber={props.data.number_of_pairs_entered}
+        {...sliderProps}
+        initialBoolSlider={rightSlideIsHighlightedSlider2}
+        displaySlider={displaySlider2}
         position={2}
-        index={index}
         sliderLeftIsCorrect={slider2leftIsCorrect}
         sliderRightIsCorrect={slider2rightIsCorrect}
         textleft={
@@ -216,15 +175,10 @@ function MovingSlider(props) {
         }
       ></Slider>
       <Slider
-        slidersRandom={slidersRandom}
-        initialBoolSlider={initialBoolSlider4}
-        setReRunFunction={setReRunFunction}
-        rerunFunction={rerunFunction}
-        allcorrect={allcorrect}
-        displaySlider={displaySlider4}
-        pairNumber={props.data.number_of_pairs_entered}
+        {...sliderProps}
+        initialBoolSlider={rightSlideIsHighlightedSlider3}
+        displaySlider={displaySlider3}
         position={3}
-        index={index}
         sliderLeftIsCorrect={slider3leftIsCorrect}
         sliderRightIsCorrect={slider3rightIsCorrect}
         textleft={

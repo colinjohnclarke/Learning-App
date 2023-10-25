@@ -1,7 +1,5 @@
 import React from "react";
-import { PortableText } from "@portabletext/react";
-import { myPortableTextComponents } from "../../config/sanity/portableText";
-
+import styled from "styled-components";
 import BlockText from "../../config/sanity/BlockText";
 
 function TextSectionDesktop({
@@ -20,27 +18,32 @@ function TextSectionDesktop({
   }
 
   return (
-    <div
+    <Wrapper
       style={{
         position: "absolute",
-        paddingTop: "20px",
-        width: "100%",
-        height: "700px",
         transition: "0.5s",
+        width: "100%",
         transform: `translateX(${translateStartPosition}%)`,
-      }}
-      onClick={() => {
-        setCurrentSlide((s) => s + 1);
+        overflow: "hidden",
+        // padding: "40px",
       }}
     >
-      {/* <PortableText
-        value={data}
-        components={myPortableTextComponents}
-      ></PortableText> */}
-
-      <BlockText data={data}></BlockText>
-    </div>
+      <Wrapper
+        style={{
+          padding: "40px",
+          overflow: "hidden",
+        }}
+      >
+        <BlockText data={data}></BlockText>
+      </Wrapper>
+    </Wrapper>
   );
 }
 
 export default TextSectionDesktop;
+
+const Wrapper = styled.section`
+  // display: flex;
+  // flex-direction: column;
+  // overflow: hidden;
+`;

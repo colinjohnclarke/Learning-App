@@ -26,8 +26,8 @@ function Main() {
   const [data, setData] = useState({});
   const dispatch = useDispatch();
 
-  let content_from_api = "maths_blocks";
-  let content_name = "test_1";
+  let content_from_api = "biology_blocks";
+  let content_name = "photosynthesis_required_practical";
   // let content_name = "kinetic_energy";
 
   useEffect(() => {
@@ -35,7 +35,7 @@ function Main() {
       .fetch(
         `*[_type == "${content_from_api}" && name == "${content_name}" ] 
         { subject_skills[]->, slider, incorrect_words_from_text, order_items_drag_drop, 
-                    name, tags, textblock1, textblock2, textblock3, textblock4,textblock5,  hint, problem_keywords[]->,  example_problem, MCQ_INPUTS, MCQ_MATH_INPUTS,  student_text_input, gap_fill, incorrect_words_from_text, table, line_graph_data, 
+                    name, tags, textblock1, textblock2, textblock3, textblock4, textblock5,  hint, problem_keywords[]->,  example_problem, MCQ_INPUTS, MCQ_MATH_INPUTS,  student_text_input, gap_fill, incorrect_words_from_text, table, line_graph_data, 
                     standard_tables,standard_table_variable_names 
                     }`
       )
@@ -51,26 +51,25 @@ function Main() {
     data.textblock5,
   ];
 
-  const skills = data.subject_skills;
-  const problem_keywords = data.problem_keywords;
-  const tags = data.tags;
-  const mcq = data.MCQ_INPUTS;
+  const {
+    subject_skills,
+    skills,
+    problem_keywords,
+    tags,
+    MCQ_INPUTS,
+    order_items_drag_drop,
+    slider,
+    gap_fill,
+    incorrect_words_from_text,
+    standard_table_variable_names,
+    standard_tables,
+    student_text_input,
+    table,
+    line_graph_data,
+  } = data;
 
-  // const mcqMath = data.MCQ_MATH_INPUTS;
-
-  const order_items_drag_drop = data.order_items_drag_drop;
-  const slider = data.slider;
-  const gap_fill = data.gap_fill;
-  const incorrect_words_from_text = data.incorrect_words_from_text;
-  const standard_table_variable_names = data.standard_table_variable_names;
-  const standard_tables = data.standard_tables;
-  const student_text_input = data.student_text_input;
-  const table = data.table;
-  const line_graph_data = data.line_graph_data;
-
-  // slide show
-  let item0displayed = true;
-  // // quiz components
+  const item0displayed = true;
+  // const [item0displayed, setItem0displayed] = useState(true);
   const [item1displayed, setItem1displayed] = useState(false);
   const [item2displayed, setItem2displayed] = useState(false);
   const [item3displayed, setItem3displayed] = useState(false);
@@ -132,9 +131,11 @@ function Main() {
   // let startQuiz = true;
 
   // TO D0: remove useEffect
+
   useEffect(() => {
     if (startQuiz) {
       setItem1displayed((val) => true);
+      // item1displayed = true;
       handleContinueBtnClicked(item1listRef);
     }
   }, [startQuiz]);
@@ -142,11 +143,15 @@ function Main() {
   const item1 = (
     <Item ref={item1listRef}>
       <Container>
-        <MCQ data={mcq}> </MCQ>
+        <MCQ data={MCQ_INPUTS}> </MCQ>
         <ContinueBtn
           onClick={() => {
             setItem2displayed((val) => true);
+            // item2displayed = true;
             handleContinueBtnClicked(item2listRef);
+            console.log("item show item 2 clicked");
+            console.log("item2displayed", item2displayed);
+            console.log("displayedArr", displayedArr);
           }}
         />
       </Container>
@@ -160,6 +165,8 @@ function Main() {
         <ContinueBtn
           onClick={() => {
             setItem3displayed((val) => true);
+            console.log("item show item 3 clicked");
+            // item3displayed = true;
             handleContinueBtnClicked(item3listRef);
           }}
         />
@@ -170,10 +177,11 @@ function Main() {
   const item3 = (
     <Item ref={item3listRef}>
       <Container>
-        <DualBoxSelectionWrapper slider={slider} />
+        <DualBoxSelectionWrapper data={slider} />
         <ContinueBtn
           onClick={() => {
             setItem4displayed((val) => true);
+            // item4displayed = true;
             handleContinueBtnClicked(item4listRef);
           }}
         />
@@ -184,12 +192,11 @@ function Main() {
   const item4 = (
     <Item ref={item4listRef}>
       <Container>
-        <DragandDropWrapper
-          order_items_drag_drop={order_items_drag_drop}
-        ></DragandDropWrapper>
+        <DragandDropWrapper data={order_items_drag_drop}></DragandDropWrapper>
         <ContinueBtn
           onClick={() => {
             setItem5displayed((val) => true);
+            // item5displayed = true;
             handleContinueBtnClicked(item5listRef);
           }}
         />
@@ -204,6 +211,7 @@ function Main() {
         <ContinueBtn
           onClick={() => {
             setItem6displayed((val) => true);
+            // item6displayed = true;
             handleContinueBtnClicked(item6listRef);
           }}
         />
@@ -221,6 +229,7 @@ function Main() {
         <ContinueBtn
           onClick={() => {
             setItem7displayed((val) => true);
+            // item7displayed = true;
             handleContinueBtnClicked(item7listRef);
           }}
         />
@@ -235,6 +244,7 @@ function Main() {
         <ContinueBtn
           onClick={() => {
             setItem8displayed((val) => true);
+            // item8displayed = true;
             handleContinueBtnClicked(item8listRef);
           }}
         />
@@ -248,6 +258,7 @@ function Main() {
         <ContinueBtn
           onClick={() => {
             setItem9displayed((val) => true);
+            // item9displayed = true;
             handleContinueBtnClicked(item9listRef);
             console.log("ITEM 8 CLICKED");
           }}
@@ -271,6 +282,7 @@ function Main() {
           <ContinueBtn
             onClick={() => {
               setItem10displayed((val) => true);
+              // item10displayed = true;
               handleContinueBtnClicked(item10listRef);
             }}
           />
@@ -286,6 +298,7 @@ function Main() {
         <ContinueBtn
           onClick={() => {
             setItem11displayed((val) => true);
+            // item11displayed = true;
             handleContinueBtnClicked(item11listRef);
             console.log("ITEM 10 CLICKED");
           }}
@@ -293,34 +306,18 @@ function Main() {
       </Container>
     </Item>
   );
-
-  // const item11 = (
-  //   <Item ref={item11listRef}>
-  //     <Container>
-  //       <MovingSliderWrapper data={slider} />
-  //       <ContinueBtn
-  //         onClick={() => {
-  //           setItem12displayed((val) => true);
-  //           handleContinueBtnClicked(item12listRef);
-  //           console.log("ITEM 10 CLICKED");
-  //         }}
-  //       />
-  //     </Container>
-  //   </Item>
-  // );
-
   const itemlist = [
     item0,
     item1,
-    // item2,
-    // item3,
-    // item4,
-    // item5,
-    // item6,
-    // item7,
-    // item8,
-    // item9,
-    // item10,
+    item2,
+    item3,
+    item4,
+    item5,
+    item6,
+    item7,
+    item8,
+    item9,
+    item10,
     // item11,
   ];
 
@@ -345,6 +342,20 @@ function Main() {
       content.push(itemlist[i]);
     }
   });
+  // const item11 = (
+  //   <Item ref={item11listRef}>
+  //     <Container>
+  //       <MovingSliderWrapper data={slider} />
+  //       <ContinueBtn
+  //         onClick={() => {
+  //           setItem12displayed((val) => true);
+  //           handleContinueBtnClicked(item12listRef);
+  //           console.log("ITEM 10 CLICKED");
+  //         }}
+  //       />
+  //     </Container>
+  //   </Item>
+  // );
 
   // calculate current poistion in text Slideshow
   let getPositionofSlideShow = useSelector(
@@ -356,13 +367,10 @@ function Main() {
   );
 
   let totalLengthofCourse = itemlist.length + slideShowLength;
-
   let currentPositioninCourse = content.length + getPositionofSlideShow;
-
   // calculating length of component list and pass to context for access to the progress bar
 
   let blockCompleted = false;
-
   let calculateProgress = (currentPositioninCourse / totalLengthofCourse) * 100;
 
   dispatch(updateProgressPercentage({ payload: { calculateProgress } }));

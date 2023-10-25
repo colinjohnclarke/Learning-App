@@ -5,16 +5,12 @@ import { rankData } from "./LeaderBoardRankData";
 import { device } from "../../../styles/breakpoints";
 
 function StudentLeaderBoard() {
-  console.log("NOT RANKED", LeaderBoardFakeData);
+  // console.log("NOT RANKED", LeaderBoardFakeData);
   LeaderBoardFakeData.sort(function (a, b) {
     return b.xp - a.xp;
   });
 
   const data = rankData;
-
-  let thirdplaceborder = "0.5";
-
-  // const rankVal
 
   return (
     <Wrapper>
@@ -84,17 +80,13 @@ function StudentLeaderBoard() {
               ></GifImg>
             );
 
-            const Td = styled.td`
-              border-bottom: ${thirdplaceborder}px solid lightgrey;
-              font-size: 10px;
-            `;
-
-            if (index === 1) {
-              thirdplaceborder = "3";
-            } else thirdplaceborder = "0.5";
+            const borderBottomStyle =
+              index === 2
+                ? "2px solid rgba(0, 200, 200, 0.5)"
+                : "0.5px solid rgba(200, 200, 200, 0.5)";
 
             return (
-              <tr style={{ borderBottom: "0.5px solid " }}>
+              <tr>
                 <Td
                   style={{
                     display: "flex",
@@ -102,15 +94,23 @@ function StudentLeaderBoard() {
                     alignItems: "center",
                     width: "100%",
                     fontWeight: "700",
+                    borderBottom: borderBottomStyle,
                   }}
                 >
                   {rankElement}
 
                   {gifElement}
                 </Td>
-                <Td>{item.school}</Td>
-                <Td>
-                  <p style={{ fontWeight: "500", fontSize: "10px" }}>
+                <Td style={{ borderBottom: borderBottomStyle }}>
+                  {item.school}
+                </Td>
+                <Td style={{ borderBottom: borderBottomStyle }}>
+                  <p
+                    style={{
+                      fontWeight: "500",
+                      fontSize: "10px",
+                    }}
+                  >
                     {item.name}
                   </p>
                 </Td>
@@ -119,6 +119,7 @@ function StudentLeaderBoard() {
                     fontWeight: "700",
                     fontSize: "10px",
                     color: "darkblue",
+                    borderBottom: borderBottomStyle,
                   }}
                 >
                   {item.xp}
@@ -177,3 +178,8 @@ const TableBody = styled.tbody`
 // `;
 
 const GifImg = styled.img``;
+
+const Td = styled.td`
+  // border-bottom: 0.5px solid lightgrey;
+  ]font-size: 10px;
+`;

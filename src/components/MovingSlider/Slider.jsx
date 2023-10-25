@@ -1,40 +1,25 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-
-import { useSelector, useDispatch } from "react-redux";
-import { colors, correctstyle } from "../../styles/colors";
-import { SliderContext } from "./SliderContext";
-
+import { useDispatch } from "react-redux";
+import { correctstyle } from "../../styles/colors";
+import MathsMLfromString from "../../config/sanity/MathsMLfromString";
 import {
+  setslider0correct,
   setslider1correct,
   setslider2correct,
   setslider3correct,
-  setslider4correct,
+  setslider0Incorrect,
   setslider1Incorrect,
   setslider2Incorrect,
   setslider3Incorrect,
-  setslider4Incorrect,
-  setRenderCompleted,
-  rerunRandomiseRequired,
-  rerunRandomiseNOTRequired,
-  resetRenderCompleted,
-  setAllSlidersCorrect,
 } from "../../features/Slider/sliderindex0slice";
 
 function Slider({
+  isAlgebra,
   slidersRandom,
   initialBoolSlider,
-  rerunFunction,
-  setReRunFunction,
-  statObj,
   position,
-  resetselected,
-  slidercorrect,
-  setSliderCorrect,
   allcorrect,
-  // setAllSlidersCorrectArr,
-  // allSlidersCorrectArr,
-  pairNumber,
   sliderLeftIsCorrect,
   sliderRightIsCorrect,
   textleft,
@@ -44,45 +29,33 @@ function Slider({
   const [rightisselected, setRightisSelected] = useState(initialBoolSlider);
   const [leftisselected, setLeftisSelected] = useState(!initialBoolSlider);
 
-  // useEffect(() => {
-  //   setRightisSelected(initialBoolSlider);
-  //   setLeftisSelected(!initialBoolSlider);
-  // }, [rerunFunction]);
-
-  const initialRenderCompleted = useSelector(
-    (state) => state.sliderSliceIndex0reducer.renderCompleted
-  );
-
   const generalStyle = {};
-
-  // initial render check to see which statements are set to the correct poisition and update redux store that initial render is completed
-
-  let checkSliderCorrect = false;
-
-  if (displaySlider && slidersRandom) {
-    checkSliderCorrect =
-      (leftisselected && sliderLeftIsCorrect) ||
-      (rightisselected && sliderRightIsCorrect);
-  }
-
   const dispatch = useDispatch();
 
-  if (checkSliderCorrect) {
-    switch (position) {
-      case 0:
-        dispatch(setslider1correct());
-        break;
-      case 1:
-        dispatch(setslider2correct());
-        break;
-      case 2:
-        dispatch(setslider3correct());
-        break;
-      case 3:
-        dispatch(setslider4correct());
-        break;
-      default:
-        break;
+  if (displaySlider && slidersRandom) {
+    const sliderCorrectMap = {
+      0: setslider0correct,
+      1: setslider1correct,
+      2: setslider2correct,
+      3: setslider3correct,
+    };
+    const correctSliderDispatch = sliderCorrectMap[position];
+
+    if (
+      (leftisselected && sliderLeftIsCorrect) ||
+      (rightisselected && sliderRightIsCorrect)
+    ) {
+      dispatch(correctSliderDispatch());
+    }
+    if (leftisselected !== sliderLeftIsCorrect) {
+      const sliderInCorrectMap = {
+        0: setslider0Incorrect,
+        1: setslider1Incorrect,
+        2: setslider2Incorrect,
+        3: setslider3Incorrect,
+      };
+      const incorrectSliderDispatch = sliderInCorrectMap[position];
+      dispatch(incorrectSliderDispatch());
     }
   }
 
@@ -91,86 +64,84 @@ function Slider({
   const clickHandler = () => {
     setRightisSelected((rightisselected) => !rightisselected);
     setLeftisSelected((leftisselected) => !leftisselected);
-    // dispatch(setRenderCompleted());
   };
 
-  let fontsize = "16px";
+  let fontSize = "18px";
 
-  if (textleft.length > 40 && window.innerWidth < 400) {
-    fontsize = "14px";
-  } else if (textleft.length > 30) {
-    fontsize = "15px";
-  } else if (textleft.length === undefined) {
-    fontsize = "16px";
+  if (!isAlgebra) {
+    if (
+      textleft &&
+      textright && // Check if textleft and textright are defined
+      (textleft.length > 40 ||
+        (textright.length > 40 && window.innerWidth < 400))
+    ) {
+      fontSize = "14px";
+    } else if (
+      (textleft && textleft.length > 30) ||
+      (textright && textright.length > 30)
+    ) {
+      // Check if textleft is defined and for right
+      fontSize = "15px";
+    } else if (!textleft || !textright) {
+      // Check if textleft is falsy or undefined
+      fontSize = "16px";
+    } else if (!textleft || !textright) {
+      // Check if either textleft or textright is undefined
+      return null;
+    }
   }
 
   let leftTextStyle = {
-    fontSize: fontsize,
+    fontSize,
     color: leftisselected ? "white" : "black",
     fontWeight: leftisselected ? "600" : "300",
   };
 
   let rightTextStyle = {
-    fontSize: fontsize,
+    fontSize,
     color: rightisselected ? "white" : "black",
     fontWeight: rightisselected ? "600" : "300",
   };
 
-  let style = {};
-  if (!displaySlider) {
-    style = { display: "none" };
-  }
+  const content = (
+    <Outer disabled={allcorrect} onClick={clickHandler}>
+      <Box>
+        {!isAlgebra ? (
+          <TextLeft>
+            <p style={leftTextStyle}>{textleft}</p>
+          </TextLeft>
+        ) : (
+          <MathsMLfromString data={textleft}></MathsMLfromString>
+        )}
+      </Box>
 
-  if (allcorrect) {
-    // dispatch(setAllSlidersCorrect());
-  }
+      <Box>
+        {!isAlgebra ? (
+          <TextRight>
+            <p style={rightTextStyle}>{textright}</p>
+          </TextRight>
+        ) : (
+          <MathsMLfromString data={textright}></MathsMLfromString>
+        )}
+      </Box>
 
-  return (
-    <div>
-      <Wrapper style={style}>
-        <Outer
-          // disabled={isDisabled}
-
-          onClick={clickHandler}
-        >
-          <Box>
-            <TextLeft>
-              <p style={leftTextStyle}>{textleft}</p>
-            </TextLeft>
-          </Box>
-
-          <Box>
-            <TextRight>
-              <p style={rightTextStyle}>{textright}</p>
-            </TextRight>
-          </Box>
-
-          <MovingBox
-            style={allcorrect ? correctstyle : generalStyle}
-            className={
-              rightisselected
-                ? "moving_box_right_position"
-                : "moving_box_left_position"
-            }
-          ></MovingBox>
-        </Outer>
-      </Wrapper>
-    </div>
+      <MovingBox
+        style={allcorrect ? correctstyle : generalStyle}
+        className={
+          rightisselected
+            ? "moving_box_right_position"
+            : "moving_box_left_position"
+        }
+      ></MovingBox>
+    </Outer>
   );
+
+  return content;
 }
 
 export default Slider;
 
-const Wrapper = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
 const Outer = styled.button`
-  border: 2px solid red;
   outline: none;
   border: none;
   background-color: white;
@@ -202,7 +173,7 @@ const Box = styled.div`
   align-items: center;
 `;
 
-const TextLeft = styled.p`
+const TextLeft = styled.div`
   margin-right: 15px;
   padding: 2px;
   position: relative;
@@ -214,7 +185,7 @@ const TextLeft = styled.p`
   align-items: center;
 `;
 
-const TextRight = styled.p`
+const TextRight = styled.div`
   margin-left: 15px;
   padding: 2px;
   position: relative;

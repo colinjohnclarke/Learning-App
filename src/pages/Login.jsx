@@ -5,11 +5,10 @@ import LogoutBtn from "../components/Login/LogoutBtn";
 
 function Login() {
   return (
-    <main>
-      <h1>Login</h1>
+    <div>
       <LoginBtn />
       <LogoutBtn />
-    </main>
+    </div>
   );
 }
 

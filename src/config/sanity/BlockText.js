@@ -1,11 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import sanityClient from "../../createclient";
 import DOMPurify from "dompurify";
 import imageUrlBuilder from "@sanity/image-url";
-import { fontWeight } from "@mui/system";
+import { myPortableTextComponents } from "../../config/sanity/portableText";
+import { PortableText } from "@portabletext/react";
+import Test from "../../components/Geogebra/Test";
 
 function BlockText({ data }) {
+  // console.log("🚀 ~ file: BlockText.js:10 ~ BlockText ~ data:", data);
   const builder = imageUrlBuilder(sanityClient);
 
   const imgurlFor = (source) => {
@@ -27,7 +30,7 @@ function BlockText({ data }) {
     dataBlock = data.map((item) => {
       const { _type, body, children, style, listItem, markDefs, asset } = item;
       return {
-        _type,
+        type: _type,
         algebra: body,
         text: children,
         style,
@@ -40,16 +43,41 @@ function BlockText({ data }) {
 
   let content = [];
 
+
   if (dataBlock) {
     content = dataBlock.map((item) => {
-      const { algebra, text, style, listItem, _type, asset } = item;
-
+      const { algebra, text, style, listItem, type, asset } = item;
+      /// CHECK IF CODE MARKS ARE ASSIGNED AND RENDER GEOGEBRA APP
       if (
+        text &&
+        !listItem &&
+        text.some((subItem) => subItem.marks.includes("code"))
+      ) {
+       
+        return (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              // overflow: "hidden",
+            }}
+          >
+            {" "}
+            <Test
+              id={text.map((section) => section.text)}
+              material_id={text.map((section) => section.text)}
+            ></Test>
+            ;
+          </div>
+        );
+      } else if (
         text &&
         !listItem &&
         !text.some((subItem) => subItem.marks.includes("strong"))
       ) {
-        // check to seee what style has been asigned and make new approprate element
+        // check to see what style has been asigned and make new approprate element
 
         const textContent = text.map((item) => item.text);
 
@@ -154,8 +182,6 @@ function BlockText({ data }) {
         });
 
         return <li>{text2}</li>;
-
-        
       } else if (algebra) {
         // if alebgra then render xml maths
         const cleaned = DOMPurify.sanitize(algebra);
@@ -168,7 +194,7 @@ function BlockText({ data }) {
             dangerouslySetInnerHTML={{ __html: cleaned }}
           ></h2>
         );
-      } else if (_type === "image") {
+      } else if (type === "image") {
         return (
           <div
             style={{
@@ -188,15 +214,10 @@ function BlockText({ data }) {
     });
   }
 
-  return <Wrapper>{content}</Wrapper>;
+  // const data2 =
+  //   "When \\(a \\ne 0\\), there are two solutions to \\(ax^2 + bx + c = 0\\) and they are \\[x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}.\\]";
+
+  return content;
 }
 
 export default BlockText;
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  // align-items: center;
-  text-align: left;
-`;

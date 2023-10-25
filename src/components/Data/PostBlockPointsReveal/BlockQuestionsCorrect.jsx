@@ -8,6 +8,8 @@ function BlockQuestionsCorrect() {
     (state) => state.currentblockprogressdata.userScore
   );
 
+  // function to send the X points to be stored in DB
+
   const { counter } = AnimateCountFunction(userScore);
 
   return (

@@ -90,16 +90,17 @@ const Tags = styled.div`
   flex-direction: row;
   align-items: center;
   justifty-content: flex-start;
+
 `;
 
 const Select = styled.div`
-  width: 50%;
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  justifty-content: center;
   font-size: 12px;
-
   @media ${device.tablet} {
     width: 25%;
   }
