@@ -87,4 +87,3 @@ export const menuItems = [
 //   return (element.style = itemsstyle);
 // });
 
-// console.log(menuItems);

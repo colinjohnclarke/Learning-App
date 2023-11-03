@@ -2,14 +2,19 @@ import React from "react";
 import styled from "styled-components";
 import AnimateCountFunction from "../../../components/functions/AnimateCountFunction";
 
-function AllTimeQuestionsAnsweredBox() {
-  const questionsAnswered = 30;
+function AllTimeQuestionsAnsweredBox({ data }) {
+  const questionAttempted = data?.user.totalQuestionsAttempted;
+  let counter = 0;
 
-  const { counter } = AnimateCountFunction(30);
+  if (questionAttempted) {
+    const animiationCount = AnimateCountFunction(questionAttempted);
+
+    counter = animiationCount.counter;
+  }
 
   return (
     <Wrapper>
-      <Points>{counter}</Points> Questions
+      <Points>{counter}</Points> Questions Correct
     </Wrapper>
   );
 }
@@ -19,7 +24,6 @@ export default AllTimeQuestionsAnsweredBox;
 const Wrapper = styled.p`
   height: 100%;
   width: 100%;
-
   display: flex;
   justify-content: center;
   align-items: center;

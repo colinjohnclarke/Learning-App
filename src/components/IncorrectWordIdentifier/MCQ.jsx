@@ -19,13 +19,11 @@ function MCQ({
 
   //  randomise
 
-  console.log(wordIsSelected);
-
-  console.log("data", data);
+;
 
   // function to randomise the possible answers for the MCQ
 
-  console.log(data.correct_word_1);
+
 
   useEffect(() => {
     const index0nu1 = Math.random();

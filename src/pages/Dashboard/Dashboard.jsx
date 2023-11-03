@@ -25,7 +25,6 @@ function Dashboard() {
   useEffect(() => {
     const timer = setInterval(() => {
       setVal((val) => val + 1);
-
       if (val % 2 === 0) {
         setAnimateClass((val) => " animate__animated animate__swing  ");
       } else if (val % 2 !== 0) {
@@ -69,13 +68,13 @@ function Dashboard() {
 
         <UserdataWrapper>
           <Box>
-            <AllTimeLearningTimeBox quizscore={data} />
+            <AllTimeLearningTimeBox data={data} />
           </Box>
           <Box>
-            <AllTimeQuestionsAnsweredBox quizscore={data} />
+            <AllTimeQuestionsAnsweredBox data={data} />
           </Box>
           <Box>
-            <AllTimeXPBox quizscore={data} />
+            <AllTimeXPBox data={data} />
           </Box>
         </UserdataWrapper>
 
@@ -83,7 +82,7 @@ function Dashboard() {
 
         {/* display recent Courses */}
         <Course>
-          <RecentCourse enrolledCourses={data} />
+          <RecentCourse data={data} />
         </Course>
         <LeaderBoard />
       </Main>

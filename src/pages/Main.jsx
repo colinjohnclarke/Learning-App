@@ -1,5 +1,5 @@
 import "../App.css";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { PortableText } from "@portabletext/react";
 import imageUrlBuilder from "@sanity/image-url";
 import sanityClient from "../createclient";
@@ -21,14 +21,22 @@ import { useSelector, useDispatch } from "react-redux";
 import { updateProgressPercentage } from "../features/ProgressBar/ProgressBar";
 import PostBlockPointsReveal from "../components/Data/PostBlockPointsReveal/PostBlockPointsReveal";
 import { updateBlockCompleted } from "../features/CurrentBlockProgressData/currentblockprogressdata";
+import { useUpdateUserDataMutation } from "../features/api/UserData/userDataSlice";
+import { useGetUserByEmailQuery } from "../features/api/UserData/userDataSlice";
+import { UserContext } from "../App";
 
 function Main() {
   const [data, setData] = useState({});
   const dispatch = useDispatch();
+  // const [timeElapsed, setTimeElapsed] = useState(Date.now());
 
   let content_from_api = "biology_blocks";
   let content_name = "photosynthesis_required_practical";
   // let content_name = "kinetic_energy";
+
+  const startTimeRef = useRef(Date.now());
+
+  const userData = useContext(UserContext);
 
   useEffect(() => {
     sanityClient
@@ -149,9 +157,6 @@ function Main() {
             setItem2displayed((val) => true);
             // item2displayed = true;
             handleContinueBtnClicked(item2listRef);
-            console.log("item show item 2 clicked");
-            console.log("item2displayed", item2displayed);
-            console.log("displayedArr", displayedArr);
           }}
         />
       </Container>
@@ -165,8 +170,7 @@ function Main() {
         <ContinueBtn
           onClick={() => {
             setItem3displayed((val) => true);
-            console.log("item show item 3 clicked");
-            // item3displayed = true;
+          
             handleContinueBtnClicked(item3listRef);
           }}
         />
@@ -260,7 +264,7 @@ function Main() {
             setItem9displayed((val) => true);
             // item9displayed = true;
             handleContinueBtnClicked(item9listRef);
-            console.log("ITEM 8 CLICKED");
+         
           }}
         />
       </Container>
@@ -300,7 +304,7 @@ function Main() {
             setItem11displayed((val) => true);
             // item11displayed = true;
             handleContinueBtnClicked(item11listRef);
-            console.log("ITEM 10 CLICKED");
+           
           }}
         />
       </Container>
@@ -350,7 +354,7 @@ function Main() {
   //         onClick={() => {
   //           setItem12displayed((val) => true);
   //           handleContinueBtnClicked(item12listRef);
-  //           console.log("ITEM 10 CLICKED");
+  //           
   //         }}
   //       />
   //     </Container>
@@ -373,12 +377,55 @@ function Main() {
   let blockCompleted = false;
   let calculateProgress = (currentPositioninCourse / totalLengthofCourse) * 100;
 
+  let userScore = useSelector(
+    (state) => state.currentblockprogressdata.userScore
+  );
+
+  let percentageScore = useSelector(
+    (state) => state.currentblockprogressdata.percentageScore
+  );
+
+  let questionsAttempted = useSelector(
+    (state) => state.currentblockprogressdata.questionsAttempted
+  );
+
+  const [updateUserData] = useUpdateUserDataMutation();
+
   dispatch(updateProgressPercentage({ payload: { calculateProgress } }));
+
   if (calculateProgress === 100) {
     // course finished
     blockCompleted = true;
-    dispatch(updateBlockCompleted());
   }
+
+  useEffect(() => {
+    const updateUserDataFN = async () => {
+      // console.log("updateUserDataFN");
+      await updateUserData({
+        id: userData?.user._id,
+        updateTimeElapsed: elapsedTime,
+        quizScores: [
+          {
+            updateQuizId: "Ccolin22223",
+            updateScore: userScore,
+            updateCompletionStatus: blockCompleted,
+            // updateQuestionsAttempted: "3",
+            updatePercentageScore: percentageScore,
+          },
+        ],
+      });
+    };
+
+    let elapsedTime = 0;
+
+    if (calculateProgress === 100) {
+      dispatch(updateBlockCompleted());
+      elapsedTime = Date.now() - startTimeRef.current;
+  
+      updateUserDataFN();
+      console.log("    updateUserDataFN();");
+    }
+  }, [blockCompleted]);
 
   return (
     <Wrapper>

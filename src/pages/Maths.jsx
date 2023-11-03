@@ -252,7 +252,7 @@ function Maths() {
           onClick={() => {
             setItem9displayed((val) => true);
             handleContinueBtnClicked(item9listRef);
-            console.log("ITEM 8 CLICKED");
+          
           }}
         />
       </Container>
@@ -290,7 +290,7 @@ function Maths() {
           onClick={() => {
             setItem11displayed((val) => true);
             handleContinueBtnClicked(item11listRef);
-            console.log("ITEM 10 CLICKED");
+          
           }}
         />
       </Container>
@@ -305,7 +305,7 @@ function Maths() {
   //         onClick={() => {
   //           setItem12displayed((val) => true);
   //           handleContinueBtnClicked(item12listRef);
-  //           console.log("ITEM 10 CLICKED");
+  //           
   //         }}
   //       />
   //     </Container>

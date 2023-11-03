@@ -119,7 +119,7 @@ function StudentInputForm(props) {
     correct_expected_answers_listArr1.concat(correct_expected_answers_listArr2);
 
   const handleSubmit = (e) => {
-    console.log("handleSubmit");
+   
     e.preventDefault();
     setAnswerSubmitted((val) => true);
 
@@ -159,11 +159,11 @@ function StudentInputForm(props) {
       textfieldLabel = "Correct! Great work :) ";
       animate = animateCorrect;
       spanStyle = spanStyleCorrect;
-      console.log("  spanStyle = spanStyleCorrect;");
+     
     } else if (index0AnswerisInCorrect && index === 0) {
       selectedInputColor = colors.incorrectColor;
       textfieldLabel = "Not right keep trying!";
-      console.log("Not right keep trying!");
+   
       animate = animateIncorrect;
       spanStyle = spanStyleIncorrect;
     } else if (index1AnswerisCorrect && index === 1) {
@@ -278,7 +278,7 @@ function StudentInputForm(props) {
         <div
           className={animate}
           onClick={() => {
-            console.log("   handleFocusInput()");
+           
             handleFocusInput();
           }}
           style={{

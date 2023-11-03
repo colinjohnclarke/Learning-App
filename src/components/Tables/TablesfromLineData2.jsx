@@ -68,7 +68,7 @@ function TablesfromLineData2({ data }) {
           },
         ];
 
-        console.log(valuesSplitArr);
+       
 
         tableContent = (
           <Table>
@@ -88,7 +88,7 @@ function TablesfromLineData2({ data }) {
                   <Td
                     key={val}
                     onClick={() => {
-                      console.log("you clicked", val);
+                     
                       setClicked(val);
                     }}
                     //  the heading X values
@@ -122,7 +122,7 @@ function TablesfromLineData2({ data }) {
           </Table>
         );
 
-        console.log("tableContent", tableContent);
+        // console.log("tableContent", tableContent);
         // const tableContent = (
         //   <Table>
         //     <tbody>
@@ -143,7 +143,7 @@ function TablesfromLineData2({ data }) {
         //           valuesSplitArr.split_trace_1_x_values.map((val) => (
         //             <Td
         //               onClick={() => {
-        //                 console.log("you clicked", val);
+        //               
         //                 setClicked(val);
         //               }}
         //             >
@@ -161,7 +161,7 @@ function TablesfromLineData2({ data }) {
         //           valuesSplitArr.split_trace_1_y_values.map((val) => (
         //             <Td
         //               onClick={() => {
-        //                 console.log("you clicked", val);
+        //                
         //                 setClicked(val);
         //               }}
         //             >
@@ -180,7 +180,7 @@ function TablesfromLineData2({ data }) {
         //           valuesSplitArr.split_trace_2_y_values.map((val) => (
         //             <Td
         //               onClick={() => {
-        //                 console.log("you clicked", val);
+        //                
         //                 setClicked(val);
         //               }}
         //             >
@@ -199,7 +199,7 @@ function TablesfromLineData2({ data }) {
         //           valuesSplitArr.split_trace_3_y_values.map((val) => (
         //             <Td
         //               onClick={() => {
-        //                 console.log("you clicked", val);
+        //               
         //                 setClicked(val);
         //               }}
         //             >
@@ -218,7 +218,7 @@ function TablesfromLineData2({ data }) {
         //           valuesSplitArr.split_trace_4_y_values.map((val) => (
         //             <Td
         //               onClick={() => {
-        //                 console.log("you clicked", val);
+        //                
         //                 setClicked(val);
         //               }}
         //             >
@@ -230,7 +230,7 @@ function TablesfromLineData2({ data }) {
         //   </Table>
         // );
 
-        // console.log("valuesSplitArr", valuesSplitArr);
+       
 
         // const app = window.ggbApplet;
 

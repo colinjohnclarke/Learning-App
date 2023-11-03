@@ -3,10 +3,7 @@ import styled from "styled-components";
 import DOMPurify from "dompurify";
 
 function MCQMathTextInput({ data, textstyle }) {
-  //   console.log(
-  //     "🚀 ~ file: MCQMathTextinput.js:9 ~ MCQMathTextInput ~ data CHECK:",
-  //     data
-  //   );
+
   useEffect(() => {
     // mathJax added to index HTML head
     //we need to tell MathJax to typeset the mathematics once it has been inserted into the page. We can use the MathJax.typeset() or MathJax.typesetPromise() functions for this.By calling the MathJax.typeset() function inside a useEffect, our latex can be rendered properly when a component re-render occurs.

@@ -8,11 +8,7 @@ import LogoutBtn from "../../components/Login/LogoutBtn";
 function DashboardHeader() {
   // const { user } = useAuth0();
 
-  // console.log("useAuth0", useAuth0);
-  // console.log(
-  //   "🚀 ~ file: DashboardHeader.jsx:10 ~ DashboardHeader ~ user:",
-  //   user
-  // );
+
 
   return (
     <Wrapper>

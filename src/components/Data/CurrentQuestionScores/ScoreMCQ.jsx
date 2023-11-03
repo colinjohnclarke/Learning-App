@@ -54,7 +54,7 @@ function ScoreMCQ(props) {
     animateClass = "animate__animated animate__tada";
     scoreStyle = correctstyle;
     // dispatch(updateUserScore());
-    console.log("index 0 correct");
+    
   } else if (
     index1SelectionCorrect &&
     index === 1 &&
@@ -65,7 +65,7 @@ function ScoreMCQ(props) {
     animateClass = "animate__animated animate__tada";
     scoreStyle = correctstyle;
     // dispatch(updateUserScore());
-    console.log("index1 correct");
+    
   }
 
   useEffect(() => {

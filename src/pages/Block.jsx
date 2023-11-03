@@ -18,7 +18,7 @@
 //     setData(response);
 //   };
 
-//   console.log("block data", data);
+
 
 //   //   return <h1>Block</h1>;
 

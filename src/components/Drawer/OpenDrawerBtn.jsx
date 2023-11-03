@@ -29,7 +29,7 @@ function OpenDrawerBtn() {
 
   const handleClick = () => {
     dispatch(setDrawerIsOpen());
-    console.log("open clicked");
+   
   };
 
   return (

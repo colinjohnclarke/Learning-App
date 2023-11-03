@@ -2,10 +2,16 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import AnimateCountFunction from "../../../components/functions/AnimateCountFunction";
 
-function AllTimeXPBox() {
-  const XPoints = 30;
+function AllTimeXPBox({ data }) {
+  const totalXP = data?.user.totalXP;
 
-  const { counter } = AnimateCountFunction(XPoints);
+  let counter = 0;
+
+  if (totalXP) {
+    const animateXP = AnimateCountFunction(totalXP);
+
+    counter = animateXP.counter;
+  }
 
   return (
     <Wrapper>

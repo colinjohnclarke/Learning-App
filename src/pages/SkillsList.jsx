@@ -19,7 +19,7 @@
 //     setData(response);
 //   };
 
-//   console.log("skill data", data);
+
 
 //   return (
 //     <div>

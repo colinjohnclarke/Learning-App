@@ -33,9 +33,9 @@ function ScoreDragandDrop(props) {
 
   // uodate total points available arr
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(updatePointsAvaiableArr({ totalMarksAvailable }));
-  }, []);
+  // useEffect(() => {
+  dispatch(updatePointsAvaiableArr({ totalMarksAvailable }));
+  // }, []);
 
   useEffect(() => {
     if (index0AnswerisCorrect && index === 0) {

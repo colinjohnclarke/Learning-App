@@ -8,7 +8,7 @@ import { PortableText } from "@portabletext/react";
 import Test from "../../components/Geogebra/Test";
 
 function BlockText({ data }) {
-  // console.log("🚀 ~ file: BlockText.js:10 ~ BlockText ~ data:", data);
+
   const builder = imageUrlBuilder(sanityClient);
 
   const imgurlFor = (source) => {

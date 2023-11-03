@@ -137,7 +137,7 @@ function DragandDropMain(props) {
 
     listofstatments.forEach((item, index) => {
       if (item.id == index) {
-        console.log("index", index);
+       
         setCorrectStatementsNum((val) => val + 1);
       }
     });
@@ -159,7 +159,7 @@ function DragandDropMain(props) {
   useEffect(() => {
     if (correctstatementsnum == statements.length && itemsarerandom) {
       setAllCorrect((val) => true);
-      console.log("checked");
+      
     }
   }, [correctstatementsnum]);
 

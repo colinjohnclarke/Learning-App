@@ -5,7 +5,7 @@ import { rankData } from "./LeaderBoardRankData";
 import { device } from "../../../styles/breakpoints";
 
 function StudentLeaderBoard() {
-  // console.log("NOT RANKED", LeaderBoardFakeData);
+ 
   LeaderBoardFakeData.sort(function (a, b) {
     return b.xp - a.xp;
   });

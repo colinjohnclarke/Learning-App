@@ -2,14 +2,25 @@ import React from "react";
 import styled from "styled-components";
 import AnimateCountFunction from "../../../components/functions/AnimateCountFunction";
 
-function AllTimeLearningTimeBox() {
-  const learningTime = "8hr 2min";
+function AllTimeLearningTimeBox({ data }) {
+  let allTimeLearningTime = data?.user.totalTimeElapsed / 1000 / 60;
 
-  const { counter } = AnimateCountFunction(20);
+  // let allTimeLearningTime = 300;
+
+  let counter = 0;
+
+  // if (allTimeLearningTime > 60) {
+  //   allTimeLearningTime = data?.user.totalTimeElapsed / 1000 / 60 / 60;
+  // }
+
+  if (allTimeLearningTime) {
+    const animiationCounter = AnimateCountFunction(allTimeLearningTime);
+    counter = animiationCounter.counter;
+  }
 
   return (
     <Wrapper>
-      <Points>{counter} hours </Points> total time
+      <Points>{counter} mins </Points> total time
     </Wrapper>
   );
 }

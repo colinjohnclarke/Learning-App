@@ -79,7 +79,7 @@ function MovingSliderWrapper({ data }) {
 
   useEffect(() => {
     setReRunFunction((val) => val + 1);
-    console.log("function is being rerun");
+
   }, [slidersAreInitiallySettoCorrectPosition]);
 
   return data?.map((item, index) => {
@@ -90,12 +90,12 @@ function MovingSliderWrapper({ data }) {
     }
 
     if (boolsCorrect === item.number_of_pairs_entered) {
-      console.log("ALL SLIDERS HAVE BEEN LOADED IN THE CORRECT POSITIONasd");
+     
       setslidersAreInitiallySettoCorrectPosition((val) => !val);
       boolsCorrect = 0;
       slidersRandom = false;
     } else {
-      console.log("RANDOM slides");
+     
       slidersRandom = true;
     }
 

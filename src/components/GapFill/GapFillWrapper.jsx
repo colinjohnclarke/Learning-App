@@ -5,7 +5,7 @@ import { GapFillContext } from "./GapFillContext";
 
 function GapFillWrapper(props) {
   const data = props.data;
-  console.log("🚀 ~ file: GapFillWrapper.jsx:9 ~ GapFillWrapper ~ data:", data);
+
 
   const [index0answeriscorrect, setindex0AnswerisCorrect] = useState(false);
   const [index1AnswerisCorrect, setindex1AnswerisCorrect] = useState(false);

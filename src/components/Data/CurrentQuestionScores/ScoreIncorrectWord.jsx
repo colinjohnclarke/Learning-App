@@ -114,7 +114,7 @@ function ScoreInCorrectWord(props) {
         setAnimateClass((val) => "");
       }, 500);
 
-      console.log(" USE EFFECTindex0 correct", index0mcq1selectioncorrect);
+    
     }
     return () => {
       if (index0mcq1selectioncorrect) {
@@ -136,7 +136,7 @@ function ScoreInCorrectWord(props) {
         setAnimateClass((val) => "");
       }, 500);
 
-      console.log(" USE EFFECTindex0 correct", index0mcq2selectioncorrect);
+    
     }
     return () => {
       if (index0mcq1selectioncorrect) {

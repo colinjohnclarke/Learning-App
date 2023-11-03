@@ -19,10 +19,6 @@ function PostBlockPointsReveal() {
     (state) => state.currentblockprogressdata.userScore
   );
 
-  let totalScore = useSelector(
-    (state) => state.currentblockprogressdata.totalScore
-  );
-
   let percentageScore = useSelector(
     (state) => state.currentblockprogressdata.percentageScore
   );
@@ -30,32 +26,29 @@ function PostBlockPointsReveal() {
   let questionsAttempted = useSelector(
     (state) => state.currentblockprogressdata.questionsAttempted
   );
+ 
 
   let blockCompleted = useSelector(
     (state) => state.currentblockprogressdata.blockCompleted
   );
 
-  const [updateUserData, { isLoading, isSuccess, isError, error }] =
-    useUpdateUserDataMutation();
+  // const [updateUserData] = useUpdateUserDataMutation();
 
-  // TODO: this update user data needs correcting. There is a reponse but does not store value in DB
-
-  useEffect(() => {
-    const updateUserDataFN = async () => {
-      await updateUserData({
-        id: "6538cfe66c79108d4d93baf9",
-        quizScores: [
-          {
-            updateQuizId: "TEST22",
-            updateScore: 2,
-            updateCompletionStatus: true,
-          },
-        ],
-      });
-    };
-
-    updateUserDataFN();
-  }, []);
+  // const updateUserDataFN = async () => {
+  //   console.log("updateUserDataFN");
+  //   await updateUserData({
+  //     id: "6543b0cf130f12a64f88eb22",
+  //     quizScores: [
+  //       {
+  //         updateQuizId: "Ccolin22223",
+  //         updateScore: userScore,
+  //         updateCompletionStatus: blockCompleted,
+  //         // updateQuestionsAttempted: "3",
+  //         updatePercentageScore: percentageScore,
+  //       },
+  //     ],
+  //   });
+  // };
 
   // const displayAnimatedBlockScore = useSelector(
   //   (state) => state.currentblockprogressdata.displayAnimatedBlockScore
@@ -76,9 +69,10 @@ function PostBlockPointsReveal() {
       <AnimatedBlockScore></AnimatedBlockScore>
       <ContinueBtn
         onClick={() => {
-          console.log("clicked");
+         
           setdisplayAnimateBlockScore((val) => !val);
           setDisplaySummary((val) => true);
+          // updateUserDataFN();
         }}
         style={{ position: "relative", zIndex: "300", top: "100px" }}
       ></ContinueBtn>
@@ -98,7 +92,7 @@ function PostBlockPointsReveal() {
         style={{ position: "relative", zIndex: "400", bottom: "10vh" }}
         onClick={() => {
           setDisplaySummary((val) => !val);
-          console.log("click");
+    
         }}
       ></ContinueBtn>
     </Summary>

@@ -10,10 +10,6 @@ function ExperiencePoints() {
   const percentageScore = useSelector(
     (state) => state.currentblockprogressdata.percentageScore
   );
-  console.log(
-    "🚀 ~ file: ExperiencePoints.jsx:12 ~ ExperiencePoints ~ percentageScore:",
-    percentageScore
-  );
 
   const { counter, animateclass } = AnimateCountFunction(percentageScore);
 

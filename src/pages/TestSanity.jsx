@@ -18,7 +18,7 @@ function TestSanity() {
       .then((data) => setSubjects(data))
       .catch(console.error);
   }, []);
-  console.log(subjects);
+
   //
   return (
     <div>

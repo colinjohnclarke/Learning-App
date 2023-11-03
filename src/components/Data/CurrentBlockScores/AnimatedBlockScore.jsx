@@ -94,7 +94,6 @@ function AnimatedBlockScore() {
 export default AnimatedBlockScore;
 
 const Wrapper = styled.div`
-
   position: fixed;
   z-index: 300;
   height: 100%;

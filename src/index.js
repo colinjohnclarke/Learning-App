@@ -17,9 +17,10 @@ root.render(
       domain={domain}
       clientId={clientId}
       redirectUri={
-        // "http://localhost:3000/dashboard" ||
-        // "http://localhost:3001/dashboard" ||
-        "http://localhost:3002/dashboard"
+        "http://localhost:3000/dashboard"
+        // ||
+        // // "http://localhost:3001/dashboard" ||
+        // // "http://localhost:3002/dashboard"
       }
     >
       <Provider store={store}>

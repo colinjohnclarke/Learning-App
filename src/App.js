@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext, createContext } from "react";
 import "./App.css";
 import Routing from "./routes/Routing";
 import { BrowserRouter } from "react-router-dom";
@@ -11,10 +11,11 @@ import {
   useCreateUserMutation,
 } from "./features/api/UserData/userDataSlice";
 
+export const UserContext = createContext();
+
 function App() {
   const { isAuthenticated, user } = useAuth0();
   const { data } = useGetUserByEmailQuery(user?.email);
-  console.log("🚀 ~ file: App.js:17 ~ App ~ data:", data);
 
   let createUserRequired = false;
   if (!data) {
@@ -37,15 +38,15 @@ function App() {
           });
           return response;
         } catch (error) {
-          // Handle any error that occurs during user creation
-          console.log("Error creating user:", error);
+          // // Handle any error that occurs during user creation
+          // console.log("Error creating user:", error);
           return null; // Return null if there's an error
         }
       };
 
       const newlyCreatedUser = createNewUser();
       newlyCreatedUser.then((response) => {
-        console.log("Response from createUser:", response);
+        // console.log("Response from createUser:", response);
         // Handle the response object here
       });
     }
@@ -59,7 +60,9 @@ function App() {
         <BrowserRouter>
           <Drawer />
           <Header></Header>
-          <Routing />
+          <UserContext.Provider value={data}>
+            <Routing />
+          </UserContext.Provider>
         </BrowserRouter>
       )}
     </div>

@@ -13,10 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 function ScoreMCQMaths(props) {
   const totalMarksAvailable = props.totalMarksAvailable;
   const index = props.index;
-  console.log(
-    "🚀 ~ file: ScoreMCQMaths.jsx:16 ~ ScoreMCQMaths ~ index:",
-    index
-  );
+
 
   const index0SelectionCorrect = useSelector(
     (state) => state.mathsMCQSlice.index0CorrectAnswerSelected
@@ -35,10 +32,7 @@ function ScoreMCQMaths(props) {
   );
 
   let score = 0;
-  console.log(
-    "🚀 ~ file: ScoreMCQMaths.jsx:38 ~ ScoreMCQMaths ~ score:",
-    score
-  );
+
   let scoreStyle = {};
   let animateClass = "";
   const dispatch = useDispatch();
