@@ -17,7 +17,7 @@ root.render(
       domain={domain}
       clientId={clientId}
       redirectUri={
-        `https://spsfrontendtest3.onrender.com/dashboard`
+        `https://spsdevtest2.netlify.app/`
         // ||
         // // "http://localhost:3001/dashboard" ||
         // // "http://localhost:3002/dashboard"
