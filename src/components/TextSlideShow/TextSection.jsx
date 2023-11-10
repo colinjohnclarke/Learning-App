@@ -1,13 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import { PortableText } from "@portabletext/react";
 import NextArrowBtn from "../Buttons/NextArrowBtn";
 import "animate.css";
-import StartQuizBtn from "../Buttons/StartQuizBtn";
-import SlideLocator from "./SlideLocator";
-import { myPortableTextComponents } from "../../config/sanity/portableText";
+// import StartQuizBtn from "../Buttons/StartQuizBtn";
+// import SlideLocator from "./SlideLocator";
 import { useDispatch } from "react-redux";
-import { updateStartQuiz } from "../../features/CurrentBlockProgressData/currentblockprogressdata";
+// import { updateStartQuiz } from "../../features/CurrentBlockProgressData/currentblockprogressdata";
 import BlockText from "../../config/sanity/BlockText";
 
 function TextSection({
@@ -19,7 +17,6 @@ function TextSection({
   currentslide,
   setCurrentSlide,
 }) {
-  const dispatch = useDispatch();
   let animateSection = "";
 
   let textStyle = {
@@ -52,16 +49,7 @@ function TextSection({
           overflow: "hidden",
         }}
       >
-        {index !== length - 1 ? (
-          continueArrowButton
-        ) : (
-          <StartQuizBtn
-            // style={startquizbtnstyle}
-            onClick={() => {
-              dispatch(updateStartQuiz());
-            }}
-          />
-        )}
+        {index !== length - 1 && continueArrowButton}
       </div>
     </Wrapper>
   );
@@ -76,3 +64,10 @@ const Wrapper = styled.section`
   flex-direction: column;
   // overflow: hidden;
 `;
+
+// <StartQuizBtn
+//   // style={startquizbtnstyle}
+//   onClick={() => {
+//     dispatch(updateStartQuiz());
+//   }}
+// />

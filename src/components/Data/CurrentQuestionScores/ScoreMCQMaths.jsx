@@ -128,7 +128,7 @@ function ScoreMCQMaths(props) {
   );
 }
 
-export default ScoreMCQMaths;
+export default React.memo(ScoreMCQMaths);
 
 const Wrapper = styled.div`
   min-width: 50px;

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { colors } from "../../styles/colors";
 import MainActionBtn from "../Buttons/MainActionBtn";
 import { BiHelpCircle } from "react-icons/bi";
-import ScoreTextInput from "../Data/CurrentQuestionScores/ScoreTextInput";
+import Score from "../Data/CurrentQuestionScores/Score";
 import { TextInputContext } from "./TextInputContext";
 import { myPortableTextComponents } from "../../config/sanity/portableText";
 import "animate.css";
@@ -119,7 +119,6 @@ function StudentInputForm(props) {
     correct_expected_answers_listArr1.concat(correct_expected_answers_listArr2);
 
   const handleSubmit = (e) => {
-   
     e.preventDefault();
     setAnswerSubmitted((val) => true);
 
@@ -159,11 +158,10 @@ function StudentInputForm(props) {
       textfieldLabel = "Correct! Great work :) ";
       animate = animateCorrect;
       spanStyle = spanStyleCorrect;
-     
     } else if (index0AnswerisInCorrect && index === 0) {
       selectedInputColor = colors.incorrectColor;
       textfieldLabel = "Not right keep trying!";
-   
+
       animate = animateIncorrect;
       spanStyle = spanStyleIncorrect;
     } else if (index1AnswerisCorrect && index === 1) {
@@ -247,10 +245,11 @@ function StudentInputForm(props) {
 
   return (
     <Wrapper>
-      <ScoreTextInput
+      <Score
+        scoreData={{ index0AnswerisCorrect, index1AnswerisCorrect }}
         totalMarksAvailable={totalMarksAvailable}
         index={index}
-      ></ScoreTextInput>
+      ></Score>
       <Question>{question}</Question>
 
       <PortableText
@@ -278,7 +277,6 @@ function StudentInputForm(props) {
         <div
           className={animate}
           onClick={() => {
-           
             handleFocusInput();
           }}
           style={{

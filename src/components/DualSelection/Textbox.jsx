@@ -30,11 +30,7 @@ function Textbox({ text, isCorrect, isSelected, index, isAlgebra }) {
 
   // context value functions to update score component
 
-  const {
-    index0answerisCorrect,
-    setIndex0AnswerisCorrect,
-    setIndex1AnswerisCorrect,
-  } = useContext(DualSelectionContext);
+  const { setIndex0AnswerisCorrect } = useContext(DualSelectionContext);
 
   // slider index 0
   useEffect(() => {
@@ -48,7 +44,7 @@ function Textbox({ text, isCorrect, isSelected, index, isAlgebra }) {
   useEffect(() => {
     if (index0currentSliderQuestionScore.length === 4) {
       // set context value to true to update score component, this needs to be in use Effect or we get a set state error
-      // setIndex0AnswerisCorrect((val) => true);
+      setIndex0AnswerisCorrect((val) => true);
     }
 
     return () => {

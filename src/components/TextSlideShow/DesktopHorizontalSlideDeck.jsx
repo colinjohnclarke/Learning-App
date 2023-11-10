@@ -2,11 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import "@splidejs/react-splide/css/skyblue";
 import TextSectionDesktop from "./TextSectionDesktop";
-import StartQuizBtn from "../Buttons/StartQuizBtn";
+// import StartQuizBtn from "../Buttons/StartQuizBtn";
 import { GrLinkNext } from "react-icons/gr";
 import SlideLocator from "./SlideLocator";
 import "animate.css";
-import { updateStartQuiz } from "../../features/CurrentBlockProgressData/currentblockprogressdata";
+// import { updateStartQuiz } from "../../features/CurrentBlockProgressData/currentblockprogressdata";
 import SlideShowNavBtn from "../Buttons/SlideShowNavBtn";
 
 import { useDispatch } from "react-redux";
@@ -108,12 +108,12 @@ function DesktopHorizontalSlideDeck({
         <GrLinkNext />
       </SlideShowNavBtn>
 
-      <StartQuizBtn
+      {/* <StartQuizBtn
         style={startquizbtnstyle}
         onClick={() => {
           dispatch(updateStartQuiz());
         }}
-      />
+      /> */}
       <LocationSlider>
         {data.map((item, index) => {
           return <SlideLocator currentslide={currentslide} index={index} />;

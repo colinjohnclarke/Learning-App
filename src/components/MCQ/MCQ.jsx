@@ -1,17 +1,26 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import MCQblock from "./MCQblock";
 import MCQTeacherResponse from "./MCQTeacherResponse";
-import ScoreMCQ from "../Data/CurrentQuestionScores/ScoreMCQ";
+import Score from "../Data/CurrentQuestionScores/Score";
+import { useSelector } from "react-redux";
 
-function MCQMath({ data }) {
+function MCQ({ data }) {
+  const index0AnswerisCorrect = useSelector(
+    (state) => state.mcqslice.index0CorrectAnswerSelected
+  );
+
+  const index1AnswerisCorrect = useSelector(
+    (state) => state.mcqslice.index1CorrectAnswerSelected
+  );
 
   return (
     <Wrapper>
       {data?.map((item, index) => {
         return (
           <Main key={item._key}>
-            <ScoreMCQ
+            <Score
+              scoreData={{ index0AnswerisCorrect, index1AnswerisCorrect }}
               totalMarksAvailable={item.total_marks_available}
               index={index}
             />
@@ -25,7 +34,7 @@ function MCQMath({ data }) {
   );
 }
 
-export default MCQMath;
+export default React.memo(MCQ);
 
 const Wrapper = styled.div`
   display: flex;

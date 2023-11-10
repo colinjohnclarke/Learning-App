@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import parse from "html-react-parser";
-import { colors, correctstyle, incorrectstyle } from "../../../styles/colors";
+import { colors } from "../../../styles/colors";
 import { TableFillMissingValuesContext } from "./FillMissingValuesContext";
 import "animate.css";
-import ScoreMissingTableValues from "../../Data/CurrentQuestionScores/ScoreMissingTableValues";
+import Score from "../../Data/CurrentQuestionScores/Score";
 
-function FillMissingValuesTable(props) {
-  const totalMarksAvailable = props.total_marks_available;
-
-  const [data, setData] = useState({});
+function FillMissingValuesTable({ data }) {
+  console.log(
+    "🚀 ~ file: FillMissingValues.jsx:10 ~ FillMissingValuesTable ~ data:",
+    data
+  );
   const [predictedvalue, setPredictedValue] = useState("");
   const [predictedvaluerange, setPredictedValueRange] = useState([]);
   const [predictedValueStyle, setPredictedValueStyle] = useState({});
@@ -47,7 +48,7 @@ function FillMissingValuesTable(props) {
     setindex2AnswerisInCorrect,
   };
 
-  const grapharr = props.data;
+  let additionalMark1 = index2AnswerisCorrect;
 
   const calculate_valueHandler = (e) => {
     setCalculatedValue(e.target.value);
@@ -125,16 +126,22 @@ function FillMissingValuesTable(props) {
   }, [anomalieselected]);
 
   return (
-    <Wrapper>
-      {grapharr?.map((item, index) => {
-        return (
-          <div style={{ width: "100%" }}>
-            <TableFillMissingValuesContext.Provider value={contextObj}>
+    <TableFillMissingValuesContext.Provider value={contextObj}>
+      <Wrapper>
+        {data?.map((item, index) => {
+          return (
+            <div style={{ width: "100%" }}>
               <Main key={item._key}>
-                <ScoreMissingTableValues
-                  totalMarksAvailable={totalMarksAvailable}
+                <Score
+                  scoreData={{
+                    index0AnswerisCorrect,
+                    index1AnswerisCorrect,
+                    // additionalMark1,
+                  }}
+                  totalMarksAvailable={item.total_marks_available}
                   index={index}
-                ></ScoreMissingTableValues>
+                ></Score>
+
                 <Question
                   style={{
                     padding: "50px 10px 10px 10px",
@@ -223,15 +230,15 @@ function FillMissingValuesTable(props) {
                   },
                 })}
               </Main>
-            </TableFillMissingValuesContext.Provider>
-          </div>
-        );
-      })}
-    </Wrapper>
+            </div>
+          );
+        })}
+      </Wrapper>
+    </TableFillMissingValuesContext.Provider>
   );
 }
 
-export default FillMissingValuesTable;
+export default React.memo(FillMissingValuesTable);
 
 const Wrapper = styled.div`
   width: 100%;

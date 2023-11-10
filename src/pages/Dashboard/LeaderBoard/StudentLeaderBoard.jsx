@@ -1,16 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { LeaderBoardFakeData } from "./StudentLeaderBoardFakeData";
 import { rankData } from "./LeaderBoardRankData";
 import { device } from "../../../styles/breakpoints";
+import { useGetTop10UsersQuery } from "../../../features/api/UserData/userDataSlice";
 
 function StudentLeaderBoard() {
- 
-  LeaderBoardFakeData.sort(function (a, b) {
-    return b.xp - a.xp;
-  });
+  // console.log(useGetTop10UsersQuery);
 
-  const data = rankData;
+  const { data, error, isLoading } = useGetTop10UsersQuery();
+  console.log(
+    "🚀 ~ file: StudentLeaderBoard.jsx:12 ~ StudentLeaderBoard ~ data:",
+    data
+  );
 
   return (
     <Wrapper>
@@ -18,19 +20,17 @@ function StudentLeaderBoard() {
         <thead>
           <tr>
             <Rank style={{ position: "relative", right: "14.7%" }}>Rank</Rank>
-            <TableHead>School</TableHead>
             <TableHead>Student</TableHead>
             <TableHead>Xp</TableHead>
+            <TableHead>School</TableHead>
           </tr>
         </thead>
 
-        {/* <img style={{ height: "30px" }} alt="" src={x}></img> */}
-
         <TableBody>
-          {LeaderBoardFakeData.map((item, index) => {
+          {data?.map((item, index) => {
             let rankElement = <></>;
 
-            if (data[index].display) {
+            if (rankData[index].display) {
               rankElement = (
                 <img
                   style={{
@@ -38,8 +38,8 @@ function StudentLeaderBoard() {
                     position: "relative",
                     right: "1.3%",
                   }}
-                  src={data[index].display}
-                  alt={data[index].position}
+                  src={rankData[index].display}
+                  alt={rankData[index].position}
                 />
               );
             } else {
@@ -57,7 +57,7 @@ function StudentLeaderBoard() {
                     right: "1.3%",
                   }}
                 >
-                  {data[index].position}
+                  {rankData[index].position}
                 </div>
               );
             }
@@ -75,8 +75,8 @@ function StudentLeaderBoard() {
                   maxHeight: "100px",
                   // display: "none",
                 }}
-                alt={data[index].position}
-                src={data[index].gif}
+                alt={rankData[index].position}
+                src={rankData[index].gif}
               ></GifImg>
             );
 
@@ -101,17 +101,23 @@ function StudentLeaderBoard() {
 
                   {gifElement}
                 </Td>
-                <Td style={{ borderBottom: borderBottomStyle }}>
-                  {item.school}
-                </Td>
+
                 <Td style={{ borderBottom: borderBottomStyle }}>
                   <p
                     style={{
-                      fontWeight: "500",
+                      fontWeight: "700",
                       fontSize: "10px",
+                      color: "darkblue",
+                      textAlign: "left",
                     }}
                   >
-                    {item.name}
+                    {item.firstName ? (
+                      <span>
+                        {item.firstName} {item.lastName}
+                      </span>
+                    ) : (
+                      <span>{item.email}</span>
+                    )}
                   </p>
                 </Td>
                 <Td
@@ -119,10 +125,20 @@ function StudentLeaderBoard() {
                     fontWeight: "700",
                     fontSize: "10px",
                     color: "darkblue",
+                    width: "100px",
                     borderBottom: borderBottomStyle,
                   }}
                 >
-                  {item.xp}
+                  {item.totalXP}
+                </Td>
+                <Td style={{ borderBottom: borderBottomStyle }}>
+                  <p
+                    style={{
+                      fontSize: "10px",
+                    }}
+                  >
+                    {item.schoolName}
+                  </p>
                 </Td>
               </tr>
             );
@@ -132,18 +148,7 @@ function StudentLeaderBoard() {
     </Wrapper>
   );
 }
-// <tr style={{ border: "1px solid" }}>
-//         <td>test</td>
-//         <td>test</td>
-//         <td>test</td>
-//         <td>test</td>
-//       </tr>
-//       <tr>
-//         <td>test</td>
-//         <td>test</td>
-//         <td>test</td>
-//         <td>test</td>
-//       </tr>
+
 export default StudentLeaderBoard;
 
 const Wrapper = styled.div`

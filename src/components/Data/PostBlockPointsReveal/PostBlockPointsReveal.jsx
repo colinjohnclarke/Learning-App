@@ -15,6 +15,11 @@ function PostBlockPointsReveal() {
 
   const [displaySummary, setDisplaySummary] = useState(false);
   // data to send to db from redux store
+
+const currentblockprogressdata = useSelector(
+  (state) => state.currentblockprogressdata
+);
+
   let userScore = useSelector(
     (state) => state.currentblockprogressdata.userScore
   );

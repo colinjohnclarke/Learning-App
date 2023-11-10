@@ -117,4 +117,4 @@ function MovingSliderWrapper({ data }) {
   });
 }
 
-export default MovingSliderWrapper;
+export default React.memo(MovingSliderWrapper);

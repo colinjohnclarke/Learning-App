@@ -1,12 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import DualBox from "./DualBox";
 import ResetBtn from "../Buttons/ResetBtn";
-import ScoreDualSelection from "../Data/CurrentQuestionScores/ScoreDualSelection";
+import Score from "../Data/CurrentQuestionScores/Score";
 import { device } from "../../styles/breakpoints";
+import { DualSelectionContext } from "./DualSelectionContext";
+import { useSelector } from "react-redux";
 
 function DualBoxSelection({ index, data }) {
   const [resetselected, setResetSelected] = useState(false);
+
+  //not using context here to identify if correct score as causes re render when update function is used, use redux store instead
+  // let index0currentSliderQuestionScore = useSelector(
+  //   (state) => state.sliderquestiondataSliceIndex0reducer.value
+  // );
+
+  // let index0AnswerisCorrect = false;
+  // let index1AnswerisCorrect = false;
+  // if (index0currentSliderQuestionScore.length === 4) {
+  //   index0AnswerisCorrect = true;
+  // }
+
+  const {
+    index0AnswerisCorrect,
+    setIndex0AnswerisCorrect,
+    index1AnswerisCorrect,
+    setIndex1AnswerisCorrect,
+  } = useContext(DualSelectionContext);
 
   const totalMarksAvailable = data.total_marks_available;
 
@@ -73,10 +93,11 @@ function DualBoxSelection({ index, data }) {
     <Wrapper>
       <Question>{data.Question}</Question>
 
-      <ScoreDualSelection
+      <Score
+        scoreData={{ index0AnswerisCorrect, index1AnswerisCorrect }}
         totalMarksAvailable={totalMarksAvailable}
         index={index}
-      ></ScoreDualSelection>
+      ></Score>
 
       <Pair>
         <DualBox
@@ -171,7 +192,7 @@ function DualBoxSelection({ index, data }) {
   );
 }
 
-export default DualBoxSelection;
+export default React.memo(DualBoxSelection);
 
 const Pair = styled.div`
   width: 100%;

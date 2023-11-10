@@ -7,24 +7,16 @@ function MobileVerticalSlideDeck({
   currentslide,
   setCurrentSlide,
 }) {
-  const item1listRef = useRef(null);
-  const item2listRef = useRef(null);
-  const item3listRef = useRef(null);
-  const item4listRef = useRef(null);
-  const item5listRef = useRef(null);
-  const item6listRef = useRef(null);
-  const item7listRef = useRef(null);
+  const refArr = [
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+  ];
 
   const textArr = data.map((item, index) => {
-    const refArr = [
-      item1listRef,
-      item2listRef,
-      item3listRef,
-      item4listRef,
-      item5listRef,
-      item6listRef,
-    ];
-
     return (
       <div key={index} style={{ padding: "20px" }}>
         <TextSection

@@ -6,30 +6,43 @@ import { myPortableTextComponents } from "../../config/sanity/portableText";
 import { PortableText } from "@portabletext/react";
 import "animate.css";
 import { device } from "../../styles/breakpoints";
-import ScoreInCorrectWord from "../Data/CurrentQuestionScores/ScoreIncorrectWord";
+import Score from "../Data/CurrentQuestionScores/Score";
 import { colors } from "../../styles/colors";
 import MCQ from "./MCQ";
 
-function IncorrectWordText(props) {
+function IncorrectWordText({ data, index }) {
   let word1selected = false;
   let word2selected = false;
 
   const mcqCheckWord1Ref = useRef(false);
   const mcqCheckWord2Ref = useRef(false);
 
-  let numberofCorrectwordstoFind = 2;
+  let numberofCorrectWordstoFind = 2;
   let animatenum = "";
-  let showreminder = false;
+  let showReminder = false;
 
   const {
     index0word1selectioncorrect,
     setindex0Word1SelectionCorrect,
+    index0mcq1selectioncorrect,
+    setindex0MCQ1SelectionCorrect,
+    index0mcq1selectionIncorrect,
+    index0setMCQ1SelectionInCorrect,
     index0word2selectioncorrect,
     setindex0Word2SelectionCorrect,
+    index0mcq2selectioncorrect,
+    setindex0MCQ2SelectionCorrect,
+    index0mcq2selectionIncorrect,
+    setindex0MCQ2SelectionInCorrect,
   } = useContext(IncorrectWordContext);
 
-  const data = props.data;
-  const index = props.index;
+  // reassign these context values to pass to score component with correct name
+  let index0AnswerisCorrect = index0word1selectioncorrect;
+  let index1AnswerisCorrect = index0word2selectioncorrect;
+
+  let additionalMark1 = index0mcq1selectioncorrect;
+  let additionalMark2 = index0mcq2selectioncorrect;
+
   const totalMarksAvailable = data.total_marks_available;
 
   // word 1
@@ -69,19 +82,26 @@ function IncorrectWordText(props) {
 
   let normalTextStyle = { backgroundColor: "white", fontSize: "16px" };
 
-  let correctBtnSelected = {
-    backgroundColor: "rgba(137, 240, 158, 0.34)",
-    color: "green",
-    fontWeight: "bold",
-    textDecoration: "underline",
-  };
-
   // scroll function pass in element ref
   const scrolltoFn = (elementRef) => {
     elementRef.current?.scrollIntoView({
       alignToTop: true,
       behavior: "smooth",
     });
+  };
+
+  const handleWordSelection = (elementRef, isWord1) => {
+    if (isWord1) {
+      setindex0Word1SelectionCorrect(true);
+      setTimeout(() => {
+        scrolltoFn(elementRef);
+      }, 700);
+    } else {
+      setindex0Word2SelectionCorrect(true);
+      setTimeout(() => {
+        scrolltoFn(elementRef);
+      }, 300);
+    }
   };
 
   // click handler first word
@@ -114,17 +134,17 @@ function IncorrectWordText(props) {
 
   // function to reduce the count of remaining words after incorrect word correctly selected
 
-  if (word1selected && numberofCorrectwordstoFind === 2) {
-    numberofCorrectwordstoFind = numberofCorrectwordstoFind - 1;
-  } else if (word2selected && numberofCorrectwordstoFind === 1) {
-    numberofCorrectwordstoFind = numberofCorrectwordstoFind - 1;
+  if (word1selected && numberofCorrectWordstoFind === 2) {
+    numberofCorrectWordstoFind = numberofCorrectWordstoFind - 1;
+  } else if (word2selected && numberofCorrectWordstoFind === 1) {
+    numberofCorrectWordstoFind = numberofCorrectWordstoFind - 1;
   }
 
   // setAnimateNum("animate__animated animate__jackInTheBox");
   else if (word1selected && !word2selected) {
-    showreminder = true;
+    showReminder = true;
   } else if (word1selected && word2selected) {
-    showreminder = false;
+    showReminder = false;
   }
 
   const mcq1 = (
@@ -157,10 +177,16 @@ function IncorrectWordText(props) {
 
   return (
     <Wrapper>
-      <ScoreInCorrectWord
+      <Score
+        scoreData={{
+          index0AnswerisCorrect,
+          index1AnswerisCorrect,
+          additionalMark1,
+          additionalMark2,
+        }}
         totalMarksAvailable={totalMarksAvailable}
         index={index}
-      ></ScoreInCorrectWord>
+      ></Score>
       <Question style={{ textAlign: "center" }}>
         There are{" "}
         <div style={{ display: "inline" }} className={animatenum}>
@@ -171,7 +197,7 @@ function IncorrectWordText(props) {
               textDecoration: "underline",
             }}
           >
-            {numberofCorrectwordstoFind}
+            {numberofCorrectWordstoFind}
           </strong>
         </div>{" "}
         incorrect words in the text below, find them and click!
@@ -205,7 +231,7 @@ function IncorrectWordText(props) {
       {mcq1}
 
       <Reminder
-        style={showreminder ? { display: "flex" } : { display: "none" }}
+        style={showReminder ? { display: "flex" } : { display: "none" }}
       >
         <p style={{ textAlign: "center" }}>
           There is still{" "}
@@ -217,7 +243,7 @@ function IncorrectWordText(props) {
                 textDecoration: "underline",
               }}
             >
-              {numberofCorrectwordstoFind}
+              {numberofCorrectWordstoFind}
             </strong>
           </div>{" "}
           incorrect word(s) to find in the text above!

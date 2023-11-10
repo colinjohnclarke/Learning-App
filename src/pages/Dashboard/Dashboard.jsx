@@ -54,13 +54,12 @@ function Dashboard() {
                 boxShadow:
                   "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
               }}
-              alt="djskjk"
+              alt="User Avatar"
               src={
-                user.picture
-                  ? user.picture
-                  : "https://cdn.shopify.com/s/files/1/1061/1924/files/Hugging_Face_Emoji_2028ce8b-c213-4d45-94aa-21e1a0842b4d_large.png?15202324258887420558"
+                user.picture ||
+                "https://gravatar.com/avatar/d4f9730f236a9c26d71d7d4ec267b7e4?s=400&d=robohash&r=x"
               }
-            ></img>
+            />
           </Welcome>
         </Greeting>
 

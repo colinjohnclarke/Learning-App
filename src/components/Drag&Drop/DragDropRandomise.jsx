@@ -77,27 +77,3 @@ const Wrapper = styled.div`
   padding-top: 40px;
   width: 100%;
 `;
-
-const Btn = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 70px;
-  height: 50px;
-  background-color: white;
-  box-shadow: rgba(0, 0, 0, 0.39) 0px 2px 4px,
-    rgba(39, 106, 245, 0.3) 0px 7px 10px -3px,
-    rgba(39, 106, 245, 0.1) 0px -3px 0px inset;
-  border: none;
-  transition: 0.3s;
-
-  &:hover {
-    background-color: rgba(39, 106, 245, 0.3);
-    transform: translateY(-3px);
-  }
-
-  &:active {
-    background-color: rgba(39, 106, 245, 0.3);
-    transform: translateY(3px);
-  }
-`;

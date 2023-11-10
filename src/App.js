@@ -15,6 +15,7 @@ export const UserContext = createContext();
 
 function App() {
   const { isAuthenticated, user } = useAuth0();
+  console.log("🚀 ~ file: App.js:18 ~ App ~ user:", user);
   const { data } = useGetUserByEmailQuery(user?.email);
 
   let createUserRequired = false;
@@ -31,7 +32,8 @@ function App() {
       const createNewUser = async () => {
         try {
           const response = await createUser({
-            firstName: user.family_name,
+            firstName: user.given_name,
+            lastName: user.family_name,
             email: user.email,
             emailVerified: user.email_verified,
             // password: user.password,

@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import Slider from "./Slider";
 import styled from "styled-components";
-import ScoreSlider from "../../components/Data/CurrentQuestionScores/ScoreSlider";
+import Score from "../../components/Data/CurrentQuestionScores/Score";
 import { SliderContext } from "./SliderContext";
 import {
   setslider0Incorrect,
@@ -35,6 +35,7 @@ function MovingSlider({
   }
 
   const sliderData = data;
+  console.log("🚀 ~ file: MovingSlider.jsx:38 ~ sliderData:", sliderData);
 
   const allcorrect =
     sliderCorrectList.filter((item) => item === true).length ===
@@ -43,6 +44,12 @@ function MovingSlider({
   if (allcorrect) {
     dispatch(setAllSlidersCorrect());
   }
+
+  // setting values for score component so mark can be awarded
+  let index0AnswerisCorrect = allcorrect;
+
+  // no index so set to false
+  let index1AnswerisCorrect = false;
 
   const {
     rightSlideIsHighlightedSlider0,
@@ -118,7 +125,11 @@ function MovingSlider({
     <Wrapper>
       <p>{data.Question}</p>
 
-      <ScoreSlider index={index}></ScoreSlider>
+      <Score
+        index={index}
+        scoreData={{ index0AnswerisCorrect, index1AnswerisCorrect }}
+        totalMarksAvailable={data.total_marks_available}
+      ></Score>
       <Slider
         {...sliderProps}
         initialBoolSlider={rightSlideIsHighlightedSlider0}

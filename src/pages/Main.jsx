@@ -24,11 +24,16 @@ import { updateBlockCompleted } from "../features/CurrentBlockProgressData/curre
 import { useUpdateUserDataMutation } from "../features/api/UserData/userDataSlice";
 import { useGetUserByEmailQuery } from "../features/api/UserData/userDataSlice";
 import { UserContext } from "../App";
+import CheckScoreBtn from "../components/Buttons/CheckScoreBtn";
 
 function Main() {
   const [data, setData] = useState({});
+  console.log("🚀 ~ file: Main.jsx:31 ~ Main ~ data:", data);
   const dispatch = useDispatch();
-  // const [timeElapsed, setTimeElapsed] = useState(Date.now());
+
+  const currentblockprogressdata = useSelector(
+    (state) => state.currentblockprogressdata
+  );
 
   let content_from_api = "biology_blocks";
   let content_name = "photosynthesis_required_practical";
@@ -51,14 +56,6 @@ function Main() {
       .catch(console.error);
   }, []);
 
-  const slideShowDataArr = [
-    data.textblock1,
-    data.textblock2,
-    data.textblock3,
-    data.textblock4,
-    data.textblock5,
-  ];
-
   const {
     subject_skills,
     skills,
@@ -76,320 +73,149 @@ function Main() {
     line_graph_data,
   } = data;
 
-  const item0displayed = true;
-  // const [item0displayed, setItem0displayed] = useState(true);
-  const [item1displayed, setItem1displayed] = useState(false);
-  const [item2displayed, setItem2displayed] = useState(false);
-  const [item3displayed, setItem3displayed] = useState(false);
-  const [item4displayed, setItem4displayed] = useState(false);
-  const [item5displayed, setItem5displayed] = useState(false);
-  const [item6displayed, setItem6displayed] = useState(false);
-  const [item7displayed, setItem7displayed] = useState(false);
-  const [item8displayed, setItem8displayed] = useState(false);
-  const [item9displayed, setItem9displayed] = useState(false);
-  const [item10displayed, setItem10displayed] = useState(false);
-  const [item11displayed, setItem11displayed] = useState(false);
-  const [item12displayed, setItem12displayed] = useState(false);
+  const slideShowDataArr = [
+    data.textblock1,
+    data.textblock2,
+    data.textblock3,
+    data.textblock4,
+    data.textblock5,
+  ];
 
-  const item1listRef = useRef(null);
-  const item2listRef = useRef(null);
-  const item3listRef = useRef(null);
-  const item4listRef = useRef(null);
-  const item5listRef = useRef(null);
-  const item6listRef = useRef(null);
-  const item7listRef = useRef(null);
-  const item8listRef = useRef(null);
-  const item9listRef = useRef(null);
-  const item10listRef = useRef(null);
-  const item11listRef = useRef(null);
-  const item12listRef = useRef(null);
-
-  // obj where each value represents a value of displayed of not
-
-  let content = [];
-
-  const scrolltoFn = (elementRef) => {
-    elementRef.current?.scrollIntoView({
-      alignToTop: true,
-      behavior: "smooth",
-    });
-  };
-
-  const handleContinueBtnClicked = (elementRef) => {
-    setTimeout(() => {
-      scrolltoFn(elementRef);
-    }, 50);
-  };
-
-  const item0 = (
-    <Item>
-      <Container style={{ marginTop: "40px" }}>
+  const itemData = [
+    {
+      component: (
         <TextSlideShowWrapper
           length={slideShowDataArr.length}
           data={slideShowDataArr}
-        ></TextSlideShowWrapper>
-      </Container>
-    </Item>
-  );
-
-  let startQuiz = useSelector(
-    (state) => state.currentblockprogressdata.startQuiz
-  );
-
-  // let startQuiz = true;
-
-  // TO D0: remove useEffect
-
-  useEffect(() => {
-    if (startQuiz) {
-      setItem1displayed((val) => true);
-      // item1displayed = true;
-      handleContinueBtnClicked(item1listRef);
-    }
-  }, [startQuiz]);
-
-  const item1 = (
-    <Item ref={item1listRef}>
-      <Container>
-        <MCQ data={MCQ_INPUTS}> </MCQ>
-        <ContinueBtn
-          onClick={() => {
-            setItem2displayed((val) => true);
-            // item2displayed = true;
-            handleContinueBtnClicked(item2listRef);
-          }}
         />
-      </Container>
-    </Item>
-  );
-
-  const item2 = (
-    <Item ref={item2listRef}>
-      <Container>
-        <StudentTextInputWrapper data={student_text_input} />
-        <ContinueBtn
-          onClick={() => {
-            setItem3displayed((val) => true);
-          
-            handleContinueBtnClicked(item3listRef);
-          }}
-        />
-      </Container>
-    </Item>
-  );
-
-  const item3 = (
-    <Item ref={item3listRef}>
-      <Container>
-        <DualBoxSelectionWrapper data={slider} />
-        <ContinueBtn
-          onClick={() => {
-            setItem4displayed((val) => true);
-            // item4displayed = true;
-            handleContinueBtnClicked(item4listRef);
-          }}
-        />
-      </Container>
-    </Item>
-  );
-
-  const item4 = (
-    <Item ref={item4listRef}>
-      <Container>
-        <DragandDropWrapper data={order_items_drag_drop}></DragandDropWrapper>
-        <ContinueBtn
-          onClick={() => {
-            setItem5displayed((val) => true);
-            // item5displayed = true;
-            handleContinueBtnClicked(item5listRef);
-          }}
-        />
-      </Container>
-    </Item>
-  );
-
-  const item5 = (
-    <Item ref={item5listRef}>
-      <Container>
-        <GapFillWrapper data={gap_fill}></GapFillWrapper>
-        <ContinueBtn
-          onClick={() => {
-            setItem6displayed((val) => true);
-            // item6displayed = true;
-            handleContinueBtnClicked(item6listRef);
-          }}
-        />
-      </Container>
-    </Item>
-  );
-
-  const item6 = (
-    <Item ref={item6listRef}>
-      <Container>
+      ),
+    },
+    // {
+    //   component: <MCQ data={MCQ_INPUTS} />,
+    // },
+    // {
+    //   component: <StudentTextInputWrapper data={student_text_input} />,
+    // },
+    // {
+    //   component: <DualBoxSelectionWrapper data={slider} />,
+    // },
+    // {
+    //   component: (
+    //     <DragandDropWrapper data={order_items_drag_drop}></DragandDropWrapper>
+    //   ),
+    // },
+    {
+      component: <GapFillWrapper data={gap_fill}></GapFillWrapper>,
+    },
+    {
+      component: (
         <IncorrectWordWrapper
           data={incorrect_words_from_text}
         ></IncorrectWordWrapper>
-
-        <ContinueBtn
-          onClick={() => {
-            setItem7displayed((val) => true);
-            // item7displayed = true;
-            handleContinueBtnClicked(item7listRef);
-          }}
-        />
-      </Container>
-    </Item>
-  );
-
-  const item7 = (
-    <Item ref={item7listRef}>
-      <Container>
-        <FillMissingValuesTable data={table}></FillMissingValuesTable>
-        <ContinueBtn
-          onClick={() => {
-            setItem8displayed((val) => true);
-            // item8displayed = true;
-            handleContinueBtnClicked(item8listRef);
-          }}
-        />
-      </Container>
-    </Item>
-  );
-  const item8 = (
-    <Item ref={item8listRef}>
-      <Container>
-        <LineChart data={line_graph_data}></LineChart>
-        <ContinueBtn
-          onClick={() => {
-            setItem9displayed((val) => true);
-            // item9displayed = true;
-            handleContinueBtnClicked(item9listRef);
-         
-          }}
-        />
-      </Container>
-    </Item>
-  );
-
-  const item9 = (
-    <Item ref={item9listRef}>
-      <Container>
-        <div style={{}}>
-          <LargeTable
-            standard_tables={standard_tables}
-            standard_table_variable_names={standard_table_variable_names}
-          ></LargeTable>
-          <Scatter
-            standard_tables={standard_tables}
-            standard_table_variable_names={standard_table_variable_names}
-          ></Scatter>
-          <ContinueBtn
-            onClick={() => {
-              setItem10displayed((val) => true);
-              // item10displayed = true;
-              handleContinueBtnClicked(item10listRef);
-            }}
-          />
-        </div>
-      </Container>
-    </Item>
-  );
-
-  const item10 = (
-    <Item ref={item10listRef}>
-      <Container>
-        <MovingSliderWrapper data={slider} />
-        <ContinueBtn
-          onClick={() => {
-            setItem11displayed((val) => true);
-            // item11displayed = true;
-            handleContinueBtnClicked(item11listRef);
-           
-          }}
-        />
-      </Container>
-    </Item>
-  );
-  const itemlist = [
-    item0,
-    item1,
-    item2,
-    item3,
-    item4,
-    item5,
-    item6,
-    item7,
-    item8,
-    item9,
-    item10,
-    // item11,
+      ),
+    },
+    {
+      component: <FillMissingValuesTable data={table}></FillMissingValuesTable>,
+    },
+    // {
+    //   component: <MovingSliderWrapper data={slider} />,
+    // },
   ];
 
-  let displayedArr = [
-    item0displayed,
-    item1displayed,
-    item2displayed,
-    item3displayed,
-    item4displayed,
-    item5displayed,
-    item6displayed,
-    item7displayed,
-    item8displayed,
-    item9displayed,
-    item10displayed,
-    item11displayed,
-    item12displayed,
+  const itemDisplayedInitialState = [
+    true,
+    ...Array(itemData.length - 1).fill(false),
+  ];
+  const [itemDisplayed, setItemDisplayed] = useState(itemDisplayedInitialState);
+
+  const displayedItems = itemData.map((item, index) => ({
+    component: item.component,
+    displayed: itemDisplayed[index],
+  }));
+
+  const itemRefs = [
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
   ];
 
-  displayedArr.forEach((item, i) => {
-    if (item) {
-      content.push(itemlist[i]);
+  // handle continue btn clicked and uodate item displayedstate array, use a slight delay for the scroll into view function.
+  const handleContinueBtnClicked = (index) => {
+    setItemDisplayed((prevState) => {
+      const newState = [...prevState];
+      newState[index] = true;
+      return newState;
+    });
+
+    setTimeout(() => {
+      itemRefs[index].current?.scrollIntoView({
+        alignToTop: true,
+        behavior: "smooth",
+      });
+    }, 50);
+  };
+
+  // when start quiz is clicked, state the displayed object Arr at position 1 to true so quiz startrs
+
+  useEffect(() => {
+    if (currentblockprogressdata.startQuiz) {
+      console.log("start quiz");
+      setItemDisplayed((prevState) => {
+        const newState = [...prevState];
+        newState[1] = true;
+        return newState;
+      });
     }
-  });
-  // const item11 = (
-  //   <Item ref={item11listRef}>
-  //     <Container>
-  //       <MovingSliderWrapper data={slider} />
-  //       <ContinueBtn
-  //         onClick={() => {
-  //           setItem12displayed((val) => true);
-  //           handleContinueBtnClicked(item12listRef);
-  //           
-  //         }}
-  //       />
-  //     </Container>
-  //   </Item>
-  // );
+  }, [currentblockprogressdata.startQuiz]);
+
+  const renderedItems = displayedItems.map(
+    (item, index) =>
+      item.displayed && (
+        <Item ref={itemRefs[index]}>
+          <Container>
+            {item.component}
+            {index < itemData.length && index !== itemData.length - 1 && (
+              <ContinueBtn
+                onClick={() => handleContinueBtnClicked(index + 1)}
+              />
+            )}
+
+            {index === itemData.length - 1 && (
+              <CheckScoreBtn
+                onClick={() => handleContinueBtnClicked(index + 1)}
+              />
+            )}
+          </Container>
+        </Item>
+      )
+  );
 
   // calculate current poistion in text Slideshow
-  let getPositionofSlideShow = useSelector(
-    (state) => state.currentblockprogressdata.currentSlide
-  );
 
-  let slideShowLength = useSelector(
-    (state) => state.currentblockprogressdata.slideNumber
-  );
+  let totalLengthofCourse =
+    itemData.length + currentblockprogressdata.slideNumber;
 
-  let totalLengthofCourse = itemlist.length + slideShowLength;
-  let currentPositioninCourse = content.length + getPositionofSlideShow;
+  let numOfDisplayedItems = 1;
+
+  displayedItems.forEach((item) => {
+    if (item.displayed) {
+      numOfDisplayedItems++;
+    }
+  });
+
+  let currentPositioninCourse =
+    numOfDisplayedItems + currentblockprogressdata.currentSlide;
   // calculating length of component list and pass to context for access to the progress bar
 
   let blockCompleted = false;
   let calculateProgress = (currentPositioninCourse / totalLengthofCourse) * 100;
-
-  let userScore = useSelector(
-    (state) => state.currentblockprogressdata.userScore
-  );
-
-  let percentageScore = useSelector(
-    (state) => state.currentblockprogressdata.percentageScore
-  );
-
-  let questionsAttempted = useSelector(
-    (state) => state.currentblockprogressdata.questionsAttempted
-  );
-
-  const [updateUserData] = useUpdateUserDataMutation();
 
   dispatch(updateProgressPercentage({ payload: { calculateProgress } }));
 
@@ -397,6 +223,8 @@ function Main() {
     // course finished
     blockCompleted = true;
   }
+
+  const [updateUserData] = useUpdateUserDataMutation();
 
   useEffect(() => {
     const updateUserDataFN = async () => {
@@ -407,10 +235,11 @@ function Main() {
         quizScores: [
           {
             updateQuizId: "Ccolin22223",
-            updateScore: userScore,
+            updateScore: currentblockprogressdata.userScore,
             updateCompletionStatus: blockCompleted,
-            // updateQuestionsAttempted: "3",
-            updatePercentageScore: percentageScore,
+            updateQuestionsAttempted:
+              currentblockprogressdata.questionsAttempted,
+            updatePercentageScore: currentblockprogressdata.percentageScore,
           },
         ],
       });
@@ -421,15 +250,14 @@ function Main() {
     if (calculateProgress === 100) {
       dispatch(updateBlockCompleted());
       elapsedTime = Date.now() - startTimeRef.current;
-  
       updateUserDataFN();
-      console.log("    updateUserDataFN();");
+      console.log("updateUserDataFN();");
     }
   }, [blockCompleted]);
 
   return (
     <Wrapper>
-      {content}
+      {renderedItems}
       {blockCompleted && <PostBlockPointsReveal></PostBlockPointsReveal>}
     </Wrapper>
   );

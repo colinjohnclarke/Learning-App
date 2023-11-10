@@ -6,7 +6,7 @@ import "animate.css";
 import DragandDropItem from "./DragandDropItem";
 import { device } from "../../styles/breakpoints";
 import HelpBtn from "../Buttons/HelpBtn";
-import ScoreDragandDrop from "../Data/CurrentQuestionScores/ScoreDragandDrop";
+import Score from "../Data/CurrentQuestionScores/Score";
 import { DragandDropContext } from "./DragandDropContext";
 
 import {
@@ -38,6 +38,7 @@ function DragandDropMain(props) {
   const {
     index0AnswerisCorrect,
     setindex0AnswerisCorrect,
+    index1AnswerisCorrect,
     setindex1AnswerisCorrect,
     setrerunRandomiseRequired,
     rerunRandomiseRequired,
@@ -47,7 +48,6 @@ function DragandDropMain(props) {
 
   const index = props.index;
   const isAlgebra = props.isAlgebra;
-
 
   // initial fuction to pass data and split question and statements from props and save in state
   useEffect(() => {
@@ -137,7 +137,6 @@ function DragandDropMain(props) {
 
     listofstatments.forEach((item, index) => {
       if (item.id == index) {
-       
         setCorrectStatementsNum((val) => val + 1);
       }
     });
@@ -159,7 +158,6 @@ function DragandDropMain(props) {
   useEffect(() => {
     if (correctstatementsnum == statements.length && itemsarerandom) {
       setAllCorrect((val) => true);
-      
     }
   }, [correctstatementsnum]);
 
@@ -195,10 +193,11 @@ function DragandDropMain(props) {
 
   return (
     <Wrapper>
-      <ScoreDragandDrop
+      <Score
+        scoreData={{ index0AnswerisCorrect, index1AnswerisCorrect }}
         totalMarksAvailable={totalMarksAvailable}
         index={index}
-      ></ScoreDragandDrop>
+      ></Score>
 
       <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
         <Question> {introduction[0]?.value}</Question>

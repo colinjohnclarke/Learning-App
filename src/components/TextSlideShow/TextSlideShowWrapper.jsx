@@ -54,7 +54,7 @@ function TextSlideShowWrapper({ data, length }) {
   );
 }
 
-export default TextSlideShowWrapper;
+export default React.memo(TextSlideShowWrapper);
 
 const Wrapper = styled.div`
   width: 100%;

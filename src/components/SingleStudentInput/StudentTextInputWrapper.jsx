@@ -37,4 +37,4 @@ function StudentTextInputWrapper(props) {
   });
 }
 
-export default StudentTextInputWrapper;
+export default React.memo(StudentTextInputWrapper);

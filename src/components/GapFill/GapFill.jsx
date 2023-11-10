@@ -1,117 +1,74 @@
-import React, { useState, useContext } from "react";
-import { GapFillContext } from "./GapFillContext";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { correctstyle } from "../../styles/colors";
 import HelpBtn from "../Buttons/HelpBtn";
-import ScoreGapFill from "../../components/Data/CurrentQuestionScores/ScoreGapFill";
+import Score from "../../components/Data/CurrentQuestionScores/Score";
 import "animate.css";
 import { myPortableTextComponents } from "../../config/sanity/portableText";
 import { PortableText } from "@portabletext/react";
 import { BiHelpCircle } from "react-icons/bi";
 
 function GapFill(props) {
-  const item = props.item;
-  const index = props.index;
-  const acceptable_missing_words = props.item.acceptable_missing_words;
-  const helphints = props.item.hint;
-  const totalMarksAvailable = props.item.total_marks_available;
+  const { item, index } = props;
+  const { acceptable_missing_words, hint, total_marks_available } = item;
 
-  const [inputfieldgapfill, setInputFieldGapFill1] = useState("");
-  const [helpneeded, setHelpNeeded] = useState(false);
-  let isCorrect = false;
-  const { setindex0AnswerisCorrect, setindex1AnswerisCorrect } =
-    useContext(GapFillContext);
+  const [inputFieldGapFill, setInputFieldGapFill] = useState("");
+  const [helpNeeded, setHelpNeeded] = useState(false);
 
-  const acceptable_missing_words_Arr = acceptable_missing_words.split(", ");
-  let compareAnswer;
+  const acceptableMissingWordsArr = acceptable_missing_words.split(", ");
+  const isCorrect = acceptableMissingWordsArr.includes(inputFieldGapFill);
 
-  compareAnswer = acceptable_missing_words_Arr.find(
-    (answer) => answer === inputfieldgapfill
-  );
-
-  if (compareAnswer === undefined && index === 0) {
-    isCorrect = false;
-  } else if (compareAnswer !== undefined && index === 0) {
-    isCorrect = true;
-    setindex0AnswerisCorrect((val) => true);
-  } else if (compareAnswer === undefined && index === 1) {
-    isCorrect = false;
-  } else if (compareAnswer !== undefined && index === 1) {
-    isCorrect = true;
-    setindex1AnswerisCorrect((val) => true);
-  }
-
-  const submithandler = (e) => {
-    e.preventDefault();
-    setInputFieldGapFill1(e.target.value);
+  const toggleHelp = () => {
+    setHelpNeeded(!helpNeeded);
   };
 
-  let style;
-
-  if (isCorrect) {
-    style = {
-      backgroundColor: correctstyle.backgroundColor,
-      color: correctstyle.color,
-    };
-  }
-
-  let hintstyle = {};
-
-  const helpBtnClickHandler = () => {
-    setHelpNeeded(!helpneeded);
-  };
-
-  const test = {
-    boxShadow:
-      "0 0 0 1px #6698cb inset, 0 0 0 2px rgba(255,255,255,0.15) inset, 0 8px 0 0 rgba(240, 137, 137, 0.34), 0 8px 0 1px rgba(220, 137, 137, 0.56),0 8px 8px 1px rgba(0,0,0,0.5)",
-    backgroundColor: "rgba(240, 137, 137, 0.34)",
-    display: "flex",
-  };
-
-  let hintAnimateClass = "";
-
-  hintstyle = { display: "none" };
-  if (helpneeded) {
-    hintstyle = { test };
-    hintAnimateClass = "animate__animated animate__bounceInLeft";
-  }
+  const hintAnimateClass = helpNeeded
+    ? "animate__animated animate__bounceInLeft"
+    : "";
 
   return (
     <Wrapper>
-      <Question> Fill in the gaps below!</Question>
-      <ScoreGapFill
-        totalMarksAvailable={totalMarksAvailable}
+      <Score
+        scoreData={{
+          index0AnswerisCorrect: isCorrect,
+          index1AnswerisCorrect: isCorrect,
+        }}
+        totalMarksAvailable={total_marks_available}
         index={index}
-      ></ScoreGapFill>
+      />
+      <Question> Fill in the gaps below!</Question>
       <Image>
         <PortableText
           value={item.picture}
           components={myPortableTextComponents}
-        ></PortableText>
+        />
       </Image>
 
       <Text>
         {item.initial_scentence}
         <Input
-          style={style}
+          style={{
+            backgroundColor: isCorrect ? correctstyle.backgroundColor : "",
+          }}
           className={
             isCorrect ? "animate__animated animate__bounce animate__faster" : ""
           }
           type="text"
-          onChange={submithandler}
-        ></Input>
+          onChange={(e) => setInputFieldGapFill(e.target.value)}
+        />
         {item.remainder}
       </Text>
-      <Hint className={hintAnimateClass} style={hintstyle}>
+      <Hint
+        className={hintAnimateClass}
+        style={helpNeeded ? {} : { display: "none" }}
+      >
         <BiHelpCircle style={{ width: "70px" }} />
-        {helphints}
+        {hint}
       </Hint>
       <HelpBtn
-        style={helpneeded ? { display: "none" } : { display: "flex" }}
-        onClick={() => {
-          helpBtnClickHandler();
-        }}
-      ></HelpBtn>
+        style={helpNeeded ? { display: "none" } : { display: "flex" }}
+        onClick={toggleHelp}
+      />
     </Wrapper>
   );
 }

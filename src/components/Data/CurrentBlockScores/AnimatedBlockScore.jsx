@@ -14,6 +14,7 @@ function AnimatedBlockScore() {
   let userScore = useSelector(
     (state) => state.currentblockprogressdata.userScore
   );
+  console.log("🚀 ~ file: AnimatedBlockScore.jsx:17 ~ userScore:", userScore)
 
   let totalAvailablePointsArr = useSelector(
     (state) => state.currentblockprogressdata.pointsAvaiableArr
