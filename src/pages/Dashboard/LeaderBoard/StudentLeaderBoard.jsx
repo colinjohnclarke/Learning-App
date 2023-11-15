@@ -4,15 +4,16 @@ import { LeaderBoardFakeData } from "./StudentLeaderBoardFakeData";
 import { rankData } from "./LeaderBoardRankData";
 import { device } from "../../../styles/breakpoints";
 import { useGetTop10UsersQuery } from "../../../features/api/UserData/userDataSlice";
+import "animate.css";
 
 function StudentLeaderBoard() {
   // console.log(useGetTop10UsersQuery);
 
   const { data, error, isLoading } = useGetTop10UsersQuery();
-  console.log(
-    "🚀 ~ file: StudentLeaderBoard.jsx:12 ~ StudentLeaderBoard ~ data:",
-    data
-  );
+
+  const newArr = data ? [...data] : [];
+
+  const filtered = data ? newArr?.sort((a, b) => b.totalXP - a.totalXP) : [];
 
   return (
     <Wrapper>
@@ -27,7 +28,7 @@ function StudentLeaderBoard() {
         </thead>
 
         <TableBody>
-          {data?.map((item, index) => {
+          {filtered?.map((item, index) => {
             let rankElement = <></>;
 
             if (rankData[index].display) {
@@ -86,7 +87,13 @@ function StudentLeaderBoard() {
                 : "0.5px solid rgba(200, 200, 200, 0.5)";
 
             return (
-              <tr>
+              <tr
+                style={{
+                  animationDelay: `${index / 20}s`,
+                  backgroundColor: "white",
+                }}
+                className=" animate__animated animate__fadeInUpBig"
+              >
                 <Td
                   style={{
                     display: "flex",

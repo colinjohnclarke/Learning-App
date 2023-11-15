@@ -21,7 +21,7 @@ function Score({ index, scoreData, totalMarksAvailable }) {
     additionalMark1,
     additionalMark2,
   } = scoreData;
-  console.log("🚀 ~ file: Score.jsx:24 ~ Score ~ scoreData:", scoreData);
+  // console.log("🚀 ~ file: Score.jsx:24 ~ Score ~ scoreData:", scoreData);
 
   const correctStyle = {
     backgroundColor: colors.correctColor,
@@ -38,12 +38,16 @@ function Score({ index, scoreData, totalMarksAvailable }) {
   const [indexMarkUpdated, setIndexMarkUpdated] = useState(
     Array(totalMarksAvailable).fill(false)
   );
+  console.log(
+    "🚀 ~ file: Score.jsx:41 ~ Score ~ indexMarkUpdated:",
+    indexMarkUpdated
+  );
 
   useEffect(() => {
     const handleCorrectAnswer = (isCorrect, updateMarkArrPosition) => {
       console.log("indexMarkUpdated", indexMarkUpdated);
       if (isCorrect) {
-        console.log(index);
+        // console.log(index);
         setScore((prevScore) => prevScore + 1);
         setAnimateClass("animate__animated animate__tada");
         setScoreStyle(correctStyle);
@@ -53,7 +57,7 @@ function Score({ index, scoreData, totalMarksAvailable }) {
 
         if (!indexMarkUpdated[updateMarkArrPosition]) {
           // if falsy
-          new Audio(correct).play();
+          // new Audio(correct).play();
 
           // set state value at that position to true so will not be played twice when function rerun
           setIndexMarkUpdated((prevState) => {

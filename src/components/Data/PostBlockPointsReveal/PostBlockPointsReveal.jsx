@@ -16,9 +16,9 @@ function PostBlockPointsReveal() {
   const [displaySummary, setDisplaySummary] = useState(false);
   // data to send to db from redux store
 
-const currentblockprogressdata = useSelector(
-  (state) => state.currentblockprogressdata
-);
+  const currentblockprogressdata = useSelector(
+    (state) => state.currentblockprogressdata
+  );
 
   let userScore = useSelector(
     (state) => state.currentblockprogressdata.userScore
@@ -31,7 +31,6 @@ const currentblockprogressdata = useSelector(
   let questionsAttempted = useSelector(
     (state) => state.currentblockprogressdata.questionsAttempted
   );
- 
 
   let blockCompleted = useSelector(
     (state) => state.currentblockprogressdata.blockCompleted
@@ -74,7 +73,6 @@ const currentblockprogressdata = useSelector(
       <AnimatedBlockScore></AnimatedBlockScore>
       <ContinueBtn
         onClick={() => {
-         
           setdisplayAnimateBlockScore((val) => !val);
           setDisplaySummary((val) => true);
           // updateUserDataFN();
@@ -93,13 +91,8 @@ const currentblockprogressdata = useSelector(
       }
     >
       <PointsSummary></PointsSummary>
-      <ContinueBtn
-        style={{ position: "relative", zIndex: "400", bottom: "10vh" }}
-        onClick={() => {
-          setDisplaySummary((val) => !val);
-    
-        }}
-      ></ContinueBtn>
+
+      <NativatetoDashBoard></NativatetoDashBoard>
     </Summary>
   );
 
@@ -107,7 +100,6 @@ const currentblockprogressdata = useSelector(
     <Wrapper>
       {blockCompleted && animatedBlockProgressScore}
       {displaySummary && summaryPointsReveal}
-      <NativatetoDashBoard></NativatetoDashBoard>
     </Wrapper>
   );
 }

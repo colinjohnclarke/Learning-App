@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import BlockText from "../../config/sanity/BlockText";
+import { useSelector } from "react-redux";
 
 function TextSectionDesktop({
   data,
@@ -10,6 +11,10 @@ function TextSectionDesktop({
   setCurrentSlide,
 }) {
   let translateStartPosition = index * 100;
+
+  const currentblockprogressdata = useSelector(
+    (state) => state.currentblockprogressdata
+  );
 
   translateStartPosition = (index - currentslide) * 100;
 
@@ -36,6 +41,8 @@ function TextSectionDesktop({
       >
         <BlockText data={data}></BlockText>
       </Wrapper>
+
+      {currentblockprogressdata.allSlidesSeen && <div></div>}
     </Wrapper>
   );
 }

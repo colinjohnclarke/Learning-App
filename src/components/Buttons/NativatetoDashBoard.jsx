@@ -1,15 +1,16 @@
 import React from "react";
 import styled from "styled-components";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { device } from "../../styles/breakpoints";
 
 function NativatetoDashBoard({ ...atributes }) {
   return (
     <div>
-      <NavLink to={"/dashboard"}>
+      <Link style={{ textDecoration: "none" }} to={"/dashboard"}>
         <Btn type="button" {...atributes}>
           Go to Dashboard
         </Btn>
-      </NavLink>
+      </Link>
     </div>
   );
 }
@@ -17,6 +18,9 @@ function NativatetoDashBoard({ ...atributes }) {
 export default NativatetoDashBoard;
 
 const Btn = styled.button`
+  position: relative;
+  z-index: 400;
+  bottom: 150px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -45,5 +49,9 @@ const Btn = styled.button`
 
   p {
     font-size: 15px;
+  }
+
+  @media ${device.tablet} {
+    height: 50px;
   }
 `;

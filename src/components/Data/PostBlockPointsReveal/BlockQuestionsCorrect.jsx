@@ -24,7 +24,7 @@ export default BlockQuestionsCorrect;
 
 const Wrapper = styled.div`
   height: 60px;
-  width: 300px;
+  width: 250px;
   border-radius: 4px;
   background-color: white;
   border: 1px solid;

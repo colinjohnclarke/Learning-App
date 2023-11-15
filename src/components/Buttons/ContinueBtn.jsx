@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { device } from "../../styles/breakpoints";
 
 function ContinueBtn({ children, ...atributes }) {
   return (
@@ -43,5 +44,9 @@ const Btn = styled.button`
 
   p {
     font-size: 15px;
+  }
+
+  @media ${device.tablet} {
+    height: 50px;
   }
 `;

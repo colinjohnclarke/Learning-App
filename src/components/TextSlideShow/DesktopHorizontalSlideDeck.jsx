@@ -135,7 +135,7 @@ const Main = styled.div`
 `;
 
 const Wrapper = styled.div`
-  height: 100vh;
+  height: 90vh;
   width: 100%;
   display: flex;
   flex-direction: row;

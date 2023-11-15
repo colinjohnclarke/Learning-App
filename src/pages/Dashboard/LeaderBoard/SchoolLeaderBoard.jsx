@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { schoolLeaderBoardFakeData } from "./SchoolLeaderBoardFakeData";
 import { rankData } from "./LeaderBoardRankData";
+import "animate.css";
 
 function SchoolLeaderBoard() {
   schoolLeaderBoardFakeData.sort(function (a, b) {
@@ -72,7 +73,13 @@ function SchoolLeaderBoard() {
                 : "0.5px solid rgba(200, 200, 200, 0.5)";
 
             return (
-              <tr>
+              <tr
+                className=" animate__animated animate__fadeInUpBig"
+                style={{
+                  animationDelay: `${index / 20}s`,
+                  backgroundColor: "white",
+                }}
+              >
                 <Td
                   style={{
                     display: "flex",

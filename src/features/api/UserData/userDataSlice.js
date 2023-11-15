@@ -3,7 +3,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const userDataSlice = createApi({
   reducerPath: "userDataSlice",
   baseQuery: fetchBaseQuery({
-    baseUrl: `https://sps-dev-deploy-test1.onrender.com`,
+    // baseUrl: `https://sps-dev-deploy-test1.onrender.com`,
+    baseUrl: `http://localhost:3600`,
   }),
   tagTypes: ["Users"],
   endpoints: (builder) => ({

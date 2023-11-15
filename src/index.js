@@ -10,18 +10,19 @@ import App from "./App";
 const domain = process.env.REACT_APP_AUTH0_DOMAIN;
 const clientId = process.env.REACT_APP_AUTH0_CLIENTID;
 
+// const AuthProvider = ({ domain, clientId, redirectUri }) => {
+//   const onRedirectCallback = (appState) => {
+//     // handle the redirect callback
+//   };
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Auth0Provider
       domain={domain}
       clientId={clientId}
-      redirectUri={
-        `https://spsdevtest2.netlify.app/`
-        // ||
-        // // "http://localhost:3001/dashboard" ||
-        // // "http://localhost:3002/dashboard"
-      }
+      redirectUri={"http://localhost:3000/"}
+      scope="openid email"
     >
       <Provider store={store}>
         <App />

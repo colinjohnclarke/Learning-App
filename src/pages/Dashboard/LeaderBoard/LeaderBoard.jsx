@@ -15,7 +15,6 @@ function LeaderBoard() {
 export default LeaderBoard;
 
 const Wrapper = styled.div`
-  margin: 7px;
-  width: 98%;
-
+  // margin: 7px;
+  width: 97.5%;
 `;

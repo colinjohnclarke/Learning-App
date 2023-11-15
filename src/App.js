@@ -14,9 +14,12 @@ import {
 export const UserContext = createContext();
 
 function App() {
-  const { isAuthenticated, user } = useAuth0();
+  const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
   console.log("🚀 ~ file: App.js:18 ~ App ~ user:", user);
   const { data } = useGetUserByEmailQuery(user?.email);
+  // const domain = process.env.REACT_APP_AUTH0_DOMAIN;
+
+  const [userMetadata, setUserMetadata] = useState(null);
 
   let createUserRequired = false;
   if (!data) {
@@ -24,6 +27,37 @@ function App() {
   }
   const [createUser, { isLoading, isSuccess, isError, error }] =
     useCreateUserMutation();
+
+  // useEffect(() => {
+  //   const getUserMetadata = async () => {
+  //     const domain = process.env.REACT_APP_AUTH0_DOMAIN;
+
+  //     try {
+  //       const accessToken = await getAccessTokenSilently({
+  //         authorizationParams: {
+  //           audience: `https://${domain}/api/v2/`,
+  //           scope: "read:current_user",
+  //         },
+  //       });
+
+  //       const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user.sub}`;
+
+  //       const metadataResponse = await fetch(userDetailsByIdUrl, {
+  //         headers: {
+  //           Authorization: `Bearer ${accessToken}`,
+  //         },
+  //       });
+
+  //       const { user_metadata } = await metadataResponse.json();
+
+  //       setUserMetadata(user_metadata);
+  //     } catch (e) {
+  //       console.log(e.message);
+  //     }
+  //   };
+
+  //   getUserMetadata();
+  // }, [getAccessTokenSilently, user?.sub]);
 
   useEffect(() => {
     if (createUserRequired && isAuthenticated) {

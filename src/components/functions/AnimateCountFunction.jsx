@@ -4,21 +4,29 @@ import "animate.css";
 function AnimateCountFunction(maxNumber) {
   const [points, setPoints] = useState(Math.floor(maxNumber));
   const [counter, setCounter] = useState(0);
-  const [counterinterval, setCounterInterval] = useState(50);
+  const [counterinterval, setCounterInterval] = useState(2);
 
   const [animateclass, setAnimateClass] = useState("");
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCounter((val) => val + 1);
+      if (points > 500) {
+        setCounter((val) => val + 10);
+      } else if (points > 500) {
+        setCounter((val) => val + 5);
+      } else if (points > 100) {
+        setCounter((val) => val + 1);
+      } else {
+        setCounter((val) => val + 1);
+      }
     }, counterinterval);
 
-    if (counter === points - 400) {
-      setCounterInterval((val) => 0.1);
+    if (counter === points - 1000) {
+      setCounterInterval((val) => 1);
     }
 
-    if (counter === points - 200) {
-      setCounterInterval((val) => 0.1);
+    if (counter === points - 50) {
+      setCounterInterval((val) => 20);
     }
 
     if (counter === points - 20) {

@@ -4,7 +4,7 @@ import AllTimeLearningTimeBox from "./Scores/AllTimeLearningTimeBox";
 import AllTimeQuestionsAnsweredBox from "./Scores/AllTimeQuestionsAnsweredBox";
 import AllTimeXPBox from "./Scores/AllTimeXPBox";
 import DashboardHeader from "./DashboardHeader";
-import RecentCourse from "./RecentCourse";
+import Courses from "./Courses";
 import LeaderBoard from "./LeaderBoard/LeaderBoard";
 import SearchCourse from "../../components/Search/SearchCourse";
 import "animate.css";
@@ -17,6 +17,7 @@ function Dashboard() {
   const [val, setVal] = useState(0);
   const [animateClass, setAnimateClass] = useState("");
   const { user } = useAuth0();
+  // console.log("🚀 ~ file: Dashboard.jsx:20 ~ Dashboard ~ user:", user);
 
   const { data, isLoading, isError, error } = useGetUserByEmailQuery(
     user?.email
@@ -43,6 +44,7 @@ function Dashboard() {
           <Welcome>
             Welcome {user.given_name}
             <img
+              referrerpolicy="no-referrer"
               className={animateClass}
               style={{
                 height: "60px",
@@ -56,15 +58,14 @@ function Dashboard() {
               }}
               alt="User Avatar"
               src={
-                user.picture ||
-                "https://gravatar.com/avatar/d4f9730f236a9c26d71d7d4ec267b7e4?s=400&d=robohash&r=x"
+                user.picture
+                  ? user.picture
+                  : "https://gravatar.com/avatar/0eba654f044a6227afcc0c943db3bbe1?s=400&d=robohash&r=x"
               }
             />
           </Welcome>
         </Greeting>
-
         {/* display user data */}
-
         <UserdataWrapper>
           <Box>
             <AllTimeLearningTimeBox data={data} />
@@ -76,12 +77,10 @@ function Dashboard() {
             <AllTimeXPBox data={data} />
           </Box>
         </UserdataWrapper>
-
         <SearchCourse />
-
         {/* display recent Courses */}
         <Course>
-          <RecentCourse data={data} />
+          <Courses data={data} />
         </Course>
         <LeaderBoard />
       </Main>
@@ -97,7 +96,6 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  // margin: 7px;
 `;
 
 const Main = styled.div`
@@ -130,12 +128,12 @@ const Welcome = styled.h1`
 `;
 
 const UserdataWrapper = styled.div`
-  width: 100%;
+  width: 98.7%;
   height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
-  // padding: 8px;
+  margin: 10px;
   // max-width: 500px;
 
   // @media ${device.tablet} {
@@ -159,7 +157,7 @@ const Box = styled.div`
 `;
 
 const Course = styled.div`
-  width: 100%;
+  width: 98%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

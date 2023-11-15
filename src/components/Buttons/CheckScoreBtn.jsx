@@ -1,5 +1,6 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
+import { device } from "../../styles/breakpoints";
 
 function CheckScoreBtn({ ...atributes }) {
   return (
@@ -60,5 +61,10 @@ const Wrapper = styled.button`
   &:active {
     transform: translateY(2px);
     transition: 0.3s;
+  }
+
+
+  @media ${device.tablet} {
+    height: 50px;
   }
 `;

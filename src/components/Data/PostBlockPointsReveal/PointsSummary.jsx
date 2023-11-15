@@ -16,7 +16,7 @@ function PointsSummary() {
       <PercentagePoints></PercentagePoints>
       <BlockQuestionsCorrect></BlockQuestionsCorrect>
       <ExperiencePoints></ExperiencePoints>
-      <SetGoalBtn> Set Goal</SetGoalBtn>
+      {/* <SetGoalBtn> Set Goal</SetGoalBtn> */}
     </PointsReveal>
   );
 }
