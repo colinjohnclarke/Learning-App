@@ -4,12 +4,16 @@ import styled from "styled-components";
 import { recentCourseList } from "./RecentCourseList";
 import { allCoursesList } from "./AllCoursesList";
 import { device } from "../../styles/breakpoints";
-
+import CourseFilter from "./CourseFilter/CourseFilter";
+import CourseFilterBtn from "../../components/Buttons/CourseFilterBtn";
+import { CourseFilterContext } from "./CourseFilter/CourseFilterContext";
 
 function Courses() {
   const [seeAllCoursesDisplayed, setSeeAllCoursesDisplayed] = useState(false);
-
   const [recentCoursesDisplayed, setRecentCoursesDisplayed] = useState(true);
+  const [displayFilter, setDisplayFilter] = useState(false);
+
+  const [dropDownClicked, setDropdownClicked] = useState(Array(6).fill(false));
 
   const handleSchoolLeaderBoardClick = () => {
     setSeeAllCoursesDisplayed((val) => !val);
@@ -77,67 +81,89 @@ function Courses() {
     );
   });
 
-  const allCourses = allCoursesList.map((item) => {
-    return (
-      <Link
-        style={{ display: "flex", width: "100%", textDecoration: "none" }}
-        to={"/courses/biology"}
-      >
-        <Box>
-          <Text>
-            {" "}
-            <p
-              style={{
-                fontSize: "12px",
-                listStyle: "none",
-                paddingLeft: "10px",
-                fontWeight: "600",
-              }}
-            >
-              {item.subject} :
-            </p>
-            <p
-              style={{
-                fontSize: "12px",
-                listStyle: "none",
-                paddingLeft: "10px",
-              }}
-            >
-              {item.courseName}
-            </p>
-          </Text>
+  const allCourses = (
+    <div style={{ height: "auto" }}>
+      {allCoursesList.map((item) => {
+        return (
+          <Link
+            style={{ display: "flex", width: "100%", textDecoration: "none" }}
+            to={"/courses/biology"}
+          >
+            <Box>
+              <Text>
+                {" "}
+                <p
+                  style={{
+                    fontSize: "12px",
+                    listStyle: "none",
+                    paddingLeft: "10px",
+                    fontWeight: "600",
+                  }}
+                >
+                  {item.subject} :
+                </p>
+                <p
+                  style={{
+                    fontSize: "12px",
+                    listStyle: "none",
+                    paddingLeft: "10px",
+                  }}
+                >
+                  {item.courseName}
+                </p>
+              </Text>
 
-          <Image src={item.imageUrl}></Image>
-        </Box>
-      </Link>
-    );
-  });
+              <Image src={item.imageUrl}></Image>
+            </Box>
+          </Link>
+        );
+      })}
+    </div>
+  );
 
   return (
     <Wrapper>
-      <Tags>
-        <Select
-          style={recentCoursesDisplayed ? selected : unselected}
-          onClick={handleSchoolLeaderBoardClick}
-        >
-          Recent Courses
-        </Select>
+      <CourseFilterContext.Provider
+        value={{
+          dropDownClicked,
+          setDropdownClicked,
+          displayFilter,
+          setDisplayFilter,
+        }}
+      >
+        <CourseFilter />
+        <Tags>
+          <Select
+            style={recentCoursesDisplayed ? selected : unselected}
+            onClick={handleSchoolLeaderBoardClick}
+          >
+            Recent Courses
+          </Select>
 
-        <Select
-          style={seeAllCoursesDisplayed ? selected : unselected}
-          onClick={handleStudentLeaderBoardClick}
-        >
-          See all Courses
-        </Select>
-      </Tags>
+          <Select
+            style={seeAllCoursesDisplayed ? selected : unselected}
+            onClick={handleStudentLeaderBoardClick}
+          >
+            {" "}
+            See all Courses
+            {seeAllCoursesDisplayed && (
+              <CourseFilterBtn
+                onClick={(e) => {
+                  e.preventDefault();
+                  setDisplayFilter((val) => !val);
+                }}
+              />
+            )}
+          </Select>
+        </Tags>
 
-      <SelectionBar
-        style={seeAllCoursesDisplayed ? selectionbarRight : selectionbarLeft}
-      ></SelectionBar>
+        <SelectionBar
+          style={seeAllCoursesDisplayed ? selectionbarRight : selectionbarLeft}
+        ></SelectionBar>
 
-      {recentCoursesDisplayed && recentCourses}
-
-      {seeAllCoursesDisplayed && allCourses}
+        {recentCoursesDisplayed && recentCourses}
+        {seeAllCoursesDisplayed && allCourses}
+      </CourseFilterContext.Provider>
     </Wrapper>
   );
 }
@@ -187,6 +213,7 @@ const Image = styled.img`
   width: 33.3%;
   border-radius: 5px;
   max-width: 100px;
+  min-width: 100px;
 `;
 
 const Header = styled.div`
@@ -230,8 +257,9 @@ const Select = styled.div`
   height: 100%;
   width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
+  justify-content: space-around;
   align-items: center;
   font-size: 12px;
   @media ${device.tablet} {
@@ -252,4 +280,13 @@ const SelectionBar = styled.div`
   @media ${device.tablet} {
     width: 25%;
   }
+`;
+
+const Filter = styled.div`
+  // display: flex;
+  // flex-direction: row;
+  // justify-content: space-around;
+  // align-items: center;
+  border: 1px solid;
+  width: 100%;
 `;

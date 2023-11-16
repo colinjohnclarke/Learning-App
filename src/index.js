@@ -21,7 +21,7 @@ root.render(
     <Auth0Provider
       domain={domain}
       clientId={clientId}
-      redirectUri={"http://localhost:3000/"}
+      redirectUri={"https://spsdevtest.netlify.app"}
       scope="openid email"
     >
       <Provider store={store}>

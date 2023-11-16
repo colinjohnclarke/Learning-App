@@ -1,5 +1,6 @@
 import "../App.css";
 import React, { useState, useEffect, useRef, useContext } from "react";
+import "animate.css";
 import { PortableText } from "@portabletext/react";
 import imageUrlBuilder from "@sanity/image-url";
 import sanityClient from "../createclient";
@@ -96,30 +97,30 @@ function Main() {
         />
       ),
     },
-    // {
-    //   component: <MCQ data={MCQ_INPUTS} />,
-    // },
-    // {
-    //   component: <StudentTextInputWrapper data={student_text_input} />,
-    // },
-    // {
-    //   component: <DualBoxSelectionWrapper data={slider} />,
-    // },
-    // {
-    //   component: (
-    //     <DragandDropWrapper data={order_items_drag_drop}></DragandDropWrapper>
-    //   ),
-    // },
-    // {
-    //   component: <GapFillWrapper data={gap_fill}></GapFillWrapper>,
-    // },
-    // {
-    //   component: (
-    //     <IncorrectWordWrapper
-    //       data={incorrect_words_from_text}
-    //     ></IncorrectWordWrapper>
-    //   ),
-    // },
+    {
+      component: <MCQ data={MCQ_INPUTS} />,
+    },
+    {
+      component: <StudentTextInputWrapper data={student_text_input} />,
+    },
+    {
+      component: <DualBoxSelectionWrapper data={slider} />,
+    },
+    {
+      component: (
+        <DragandDropWrapper data={order_items_drag_drop}></DragandDropWrapper>
+      ),
+    },
+    {
+      component: <GapFillWrapper data={gap_fill}></GapFillWrapper>,
+    },
+    {
+      component: (
+        <IncorrectWordWrapper
+          data={incorrect_words_from_text}
+        ></IncorrectWordWrapper>
+      ),
+    },
     {
       component: <FillMissingValuesTable data={table}></FillMissingValuesTable>,
     },
@@ -166,7 +167,7 @@ function Main() {
         alignToTop: true,
         behavior: "smooth",
       });
-    }, 50);
+    }, 0);
   };
 
   // when start quiz is clicked, state the displayed object Arr at position 1 to true so quiz startrs
