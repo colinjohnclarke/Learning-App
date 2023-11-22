@@ -4,9 +4,7 @@ import IncorrectWordText from "./IncorrectWordText";
 import { IncorrectWordContext } from "./IncorrectWordContext";
 import Score from "../Data/CurrentQuestionScores/Score";
 
-function IncorrectWordWrapper(props) {
-  const incorrect_words_from_text = props.data;
-
+function IncorrectWordWrapper({ data }) {
   const [index0word1selectioncorrect, setindex0Word1SelectionCorrect] =
     useState(false);
   const [index0mcq1selectioncorrect, setindex0MCQ1SelectionCorrect] =
@@ -20,8 +18,6 @@ function IncorrectWordWrapper(props) {
   const [index0mcq2selectionIncorrect, setindex0MCQ2SelectionInCorrect] =
     useState(false);
 
-
-    
   const contextObj = {
     index0word1selectioncorrect,
     setindex0Word1SelectionCorrect,
@@ -38,23 +34,20 @@ function IncorrectWordWrapper(props) {
   };
 
   return (
-    <Main>
-      {incorrect_words_from_text?.map((item, index) => {
-        return (
-          <IncorrectWordContext.Provider value={contextObj}>
-           
-            <IncorrectWordText
-              key={item._key}
-              data={item}
-              index={index}
-            ></IncorrectWordText>
-          </IncorrectWordContext.Provider>
-        );
-      })}
-    </Main>
+    data &&
+    Array.isArray(data) &&
+    data?.map((item, index) => {
+      return (
+        <IncorrectWordContext.Provider value={contextObj}>
+          <IncorrectWordText
+            key={item._key}
+            data={item}
+            index={index}
+          ></IncorrectWordText>
+        </IncorrectWordContext.Provider>
+      );
+    })
   );
 }
 
 export default React.memo(IncorrectWordWrapper);
-
-const Main = styled.div``;

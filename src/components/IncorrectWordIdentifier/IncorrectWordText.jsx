@@ -268,6 +268,12 @@ const Wrapper = styled.div`
 
 
   @media ${device.mobileL} {
+    height: 100%;
+
+  }
+
+
+  @media ${device.mobileL} {
     min-height: 400px;
 `;
 

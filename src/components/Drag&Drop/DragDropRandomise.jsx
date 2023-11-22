@@ -4,6 +4,7 @@ import ResetBtn from "../Buttons/ResetBtn";
 
 import DragandDropMain from "./DragandDropMain";
 import { DragandDropContext } from "./DragandDropContext";
+import { device } from "../../styles/breakpoints";
 
 function DragDropRandomise(props) {
   const [reset, setReset] = useState(false);
@@ -76,4 +77,8 @@ const Wrapper = styled.div`
   position: relative;
   padding-top: 40px;
   width: 100%;
+
+  @media ${device.mobileL} {
+    height: 100%;
+  }
 `;

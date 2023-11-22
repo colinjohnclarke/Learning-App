@@ -27,14 +27,12 @@ import { useGetUserByEmailQuery } from "../features/api/UserData/userDataSlice";
 import { UserContext } from "../App";
 import CheckScoreBtn from "../components/Buttons/CheckScoreBtn";
 import StartQuizBtn from "../components/Buttons/StartQuizBtn";
+import { device } from "../styles/breakpoints";
 
 function Main() {
-  const [data, setData] = useState({});
+  const [data, setData] = useState([]);
   const [showPointsSummary, setShowPointsSummary] = useState(false);
-  console.log(
-    "🚀 ~ file: Main.jsx:32 ~ Main ~ showPointsSummary:",
-    showPointsSummary
-  );
+  const [itemDisplayed, setItemDisplayed] = useState([]);
 
   const dispatch = useDispatch();
 
@@ -88,60 +86,143 @@ function Main() {
     data.textblock5,
   ];
 
-  const itemData = [
-    {
-      component: (
-        <TextSlideShowWrapper
-          length={slideShowDataArr.length}
-          data={slideShowDataArr}
-        />
-      ),
-    },
-    {
-      component: <MCQ data={MCQ_INPUTS} />,
-    },
-    {
-      component: <StudentTextInputWrapper data={student_text_input} />,
-    },
-    {
-      component: <DualBoxSelectionWrapper data={slider} />,
-    },
-    {
-      component: (
-        <DragandDropWrapper data={order_items_drag_drop}></DragandDropWrapper>
-      ),
-    },
-    {
-      component: <GapFillWrapper data={gap_fill}></GapFillWrapper>,
-    },
-    {
-      component: (
-        <IncorrectWordWrapper
-          data={incorrect_words_from_text}
-        ></IncorrectWordWrapper>
-      ),
-    },
-    {
-      component: <FillMissingValuesTable data={table}></FillMissingValuesTable>,
-    },
-    {
-      component: <MovingSliderWrapper data={slider} />,
-    },
-  ];
+  function objectToArray(obj) {
+    return Object.entries(obj).map(([key, value]) => {
+      if (typeof value === "object" && value !== null) {
+        return { key, children: objectToArray(value) };
+      } else {
+        return { key, value };
+      }
+    });
+  }
 
-  const itemDisplayedInitialState = [
-    true,
-    ...Array(itemData.length).fill(false),
-  ];
-  const [itemDisplayed, setItemDisplayed] = useState(itemDisplayedInitialState);
-  console.log("🚀 ~ file: Main.jsx:130 ~ Main ~ itemDisplayed:", itemDisplayed);
+  const arr = objectToArray(data);
 
-  const displayedItems = itemData.map((item, index) => ({
-    component: item.component,
+  const newData = arr.flatMap((item) => {
+    const type = item.key;
+    const position = item.children?.flatMap((subItem) => {
+      const positionVal = subItem.children
+        ?.filter((subsub) => subsub.key === "position")
+        ?.map((subsub) => subsub.value);
+
+      return { positionVal };
+    });
+
+    return item.children ? { type, position } : null;
+  });
+
+  const filterNullValues = newData
+    .filter(
+      (item) => item !== null && item.position && item.position.length !== 0
+    ) // Add null and position existence check
+    .sort((a, b) => a.position - b.position);
+
+  const GetVal = filterNullValues.flatMap((item) => ({
+    type: item.type,
+    position: item.position.map((item) => item.positionVal),
+  }));
+
+  const flat = GetVal.filter((item) =>
+    item.position.some((item) => item && item.length !== 0)
+  ).map((item) => ({ type: item.type, position: item.position.flat() }));
+
+  // console.log("🚀 ~ flat:", flat);
+
+  const testData = flat
+    .flatMap((item) => {
+      let type = item.type;
+
+      const mapcomp = item.position.map((subItem, index) => {
+        return {
+          position: subItem,
+          type,
+          index,
+        };
+      });
+
+      return mapcomp;
+    })
+    .sort((a, b) => {
+      return a.position - b.position;
+    });
+
+  const itemData = testData.map((item) => {
+    let component = null;
+
+    switch (item.type) {
+      case "MCQ_INPUTS":
+        component = <MCQ data={[MCQ_INPUTS[item.index]]} />;
+        break;
+      case "student_text_input":
+        component = (
+          <StudentTextInputWrapper data={[student_text_input[item.index]]} />
+        );
+        break;
+      case "table":
+        component = <FillMissingValuesTable data={[table[item.index]]} />;
+        break;
+      case "incorrect_words_from_text":
+        component = (
+          <IncorrectWordWrapper
+            data={[incorrect_words_from_text[item.index]]}
+          />
+        );
+        break;
+      case "gap_fill":
+        component = <GapFillWrapper data={[gap_fill[item.index]]} />;
+        break;
+      // case "slider":
+      //   component = <MovingSliderWrapper data={[slider[item.index]]} />;
+      //   break;
+      case "slider":
+        component = <DualBoxSelectionWrapper data={[slider[item.index]]} />;
+        break;
+      case "order_items_drag_drop":
+        component = (
+          <DragandDropWrapper data={[order_items_drag_drop[item.index]]} />
+        );
+        break;
+      default:
+        component = <></>;
+        break;
+    }
+
+    return component;
+  });
+
+  let itemDisplayedInitialState = null;
+
+  if (itemData) {
+    itemDisplayedInitialState = itemData.map((item) => false);
+  }
+
+  useEffect(() => {
+    setItemDisplayed(itemDisplayedInitialState);
+  }, [
+    itemDisplayedInitialState === null
+      ? null
+      : itemDisplayedInitialState.length,
+  ]);
+
+  let displayedItems = itemData.map((item, index) => ({
+    component: item,
     displayed: itemDisplayed[index],
   }));
 
+  console.log(
+    "🚀 ~ file: Main.jsx:281 ~ displayedItems ~ displayedItems:",
+    displayedItems
+  );
+
   const itemRefs = [
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
     useRef(null),
     useRef(null),
     useRef(null),
@@ -175,6 +256,7 @@ function Main() {
   useEffect(() => {
     if (currentblockprogressdata.startQuiz) {
       console.log("start quiz");
+
       setItemDisplayed((prevState) => {
         const newState = [...prevState];
         newState[1] = true;
@@ -183,59 +265,59 @@ function Main() {
     }
   }, [currentblockprogressdata.startQuiz]);
 
-  const renderedItems = displayedItems.map(
-    (item, index) =>
-      item.displayed && (
-        <Item ref={itemRefs[index]}>
-          <Container>
-            {item.component}
+  const renderedItems = [
+    <Item>
+      <Container>
+        <TextSlideShowWrapper
+          length={slideShowDataArr.length}
+          data={slideShowDataArr}
+        />
+        {currentblockprogressdata.allSlidesSeen && (
+          <StartQuizBtn
+            onClick={() => {
+              handleContinueBtnClicked(0);
+            }}
+          ></StartQuizBtn>
+        )}
+      </Container>
+    </Item>,
 
-            {currentblockprogressdata.allSlidesSeen && index === 0 && (
-              <StartQuizBtn
-                onClick={() => {
-                  handleContinueBtnClicked(index + 1);
-                }}
-              ></StartQuizBtn>
-            )}
+    ...displayedItems.map(
+      (item, index) =>
+        item.displayed && (
+          <Item ref={itemRefs[index]} key={index}>
+            <Container>
+              {item.component}
 
-            {index < itemData.length &&
-              index !== itemData.length - 1 &&
-              index !== 0 && (
+              {index < itemData.length && index !== itemData.length - 1 && (
                 <ContinueBtn
                   onClick={() => {
                     handleContinueBtnClicked(index + 1);
                   }}
                 />
               )}
-
-            {index === itemData.length - 1 && (
-              <CheckScoreBtn
-                onClick={() => {
-                  // slideVal++;
-                  setShowPointsSummary((val) => true);
-                  console.log("   setShowPointsSummary((val) => true);");
-                }}
-              />
-            )}
-          </Container>
-        </Item>
-      )
-  );
+            </Container>
+          </Item>
+        )
+    ),
+  ];
 
   // calculate current poistion in text Slideshow
 
   let slideVal = 0;
   let calculateProgress = 0;
-
   let numOfDisplayedItems = 0;
+  let totalLengthofCourse = null;
 
   if (currentblockprogressdata.allSlidesSeen) {
     slideVal = currentblockprogressdata.slideNumber;
     console.log("allslides Seen");
   } else slideVal = currentblockprogressdata.currentSlide;
 
-  let totalLengthofCourse =
-    itemDisplayed.length + currentblockprogressdata.slideNumber;
+  if (itemDisplayed.length) {
+    totalLengthofCourse =
+      itemDisplayed.length + currentblockprogressdata.slideNumber;
+  }
 
   displayedItems.forEach((item) => {
     if (item.displayed) {
@@ -280,7 +362,7 @@ function Main() {
       dispatch(updateBlockCompleted());
       elapsedTime = Date.now() - startTimeRef.current;
       updateUserDataFN();
-      console.log("updateUserDataFN();");
+      // console.log("updateUserDataFN();");
     }
   }, [showPointsSummary]);
 
@@ -307,6 +389,10 @@ const Container = styled.div`
   min-width: 300px;
   width: 100%;
   max-width: 1000px;
+
+  @media ${device.mobileL} {
+    min-height: 800px;
+  }
 `;
 
 const Item = styled.div`
@@ -318,6 +404,13 @@ const Item = styled.div`
   margin-bottom: 5px;
   border-radius: 4px;
   width: 100%;
+
+  @media ${device.mobileL} {
+    height: 100vh;
+    min-height: 800px;
+    scroll-margin: 8vh;
+    max-height: 1100px;
+  }
 `;
 
 const Wrapper = styled.div`

@@ -14,6 +14,7 @@ const clientId = process.env.REACT_APP_AUTH0_CLIENTID;
 //   const onRedirectCallback = (appState) => {
 //     // handle the redirect callback
 //   };
+// redirectUri={"https://spsdevtest.netlify.app"
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -21,7 +22,7 @@ root.render(
     <Auth0Provider
       domain={domain}
       clientId={clientId}
-      redirectUri={"https://spsdevtest.netlify.app"}
+      redirectUri={"http://localhost:3000"}
       scope="openid email"
     >
       <Provider store={store}>

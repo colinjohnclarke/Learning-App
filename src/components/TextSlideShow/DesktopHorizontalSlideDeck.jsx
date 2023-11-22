@@ -108,12 +108,6 @@ function DesktopHorizontalSlideDeck({
         <GrLinkNext />
       </SlideShowNavBtn>
 
-      {/* <StartQuizBtn
-        style={startquizbtnstyle}
-        onClick={() => {
-          dispatch(updateStartQuiz());
-        }}
-      /> */}
       <LocationSlider>
         {data.map((item, index) => {
           return <SlideLocator currentslide={currentslide} index={index} />;
@@ -135,7 +129,7 @@ const Main = styled.div`
 `;
 
 const Wrapper = styled.div`
-  height: 90vh;
+  height: 900px;
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -144,9 +138,9 @@ const Wrapper = styled.div`
 `;
 
 const LocationSlider = styled.div`
-  height: 39px;
+  // height: 39px;
   width: 140px;
-  margin-bottom: 30px;
+  // margin-bottom: 30px;
   display: flex;
   flex-direction: row;
   justify-content: space-around;

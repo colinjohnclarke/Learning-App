@@ -7,6 +7,7 @@ import "animate.css";
 import { myPortableTextComponents } from "../../config/sanity/portableText";
 import { PortableText } from "@portabletext/react";
 import { BiHelpCircle } from "react-icons/bi";
+import { device } from "../../styles/breakpoints";
 
 function GapFill(props) {
   const { item, index } = props;
@@ -84,6 +85,10 @@ const Wrapper = styled.div`
   position: relative;
   padding-top: 40px;
   width: 100%;
+
+  @media ${device.mobileL} {
+    height: 100%;
+  }
 `;
 
 const Hint = styled.p`

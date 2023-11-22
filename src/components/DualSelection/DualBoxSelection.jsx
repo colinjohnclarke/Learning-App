@@ -222,6 +222,10 @@ const Wrapper = styled.div`
   position: relative;
   padding-top: 20px;
   padding-bottom: 0px;
+
+  @media ${device.mobileL} {
+    height: 100%;
+  }
 `;
 
 const Question = styled.p`

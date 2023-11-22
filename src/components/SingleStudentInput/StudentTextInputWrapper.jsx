@@ -24,17 +24,21 @@ function StudentTextInputWrapper(props) {
     setIndex1AnswerisInCorrect,
   };
 
-  return data?.map((item, index) => {
-    return (
-      <TextInputContext.Provider value={contextObj}>
-        <StudentInputForm
-          key={item._key}
-          data={item}
-          index={index}
-        ></StudentInputForm>
-      </TextInputContext.Provider>
-    );
-  });
+  return (
+    data &&
+    Array.isArray(data) &&
+    data?.map((item, index) => {
+      return (
+        <TextInputContext.Provider value={contextObj}>
+          <StudentInputForm
+            key={item._key}
+            data={item}
+            index={index}
+          ></StudentInputForm>
+        </TextInputContext.Provider>
+      );
+    })
+  );
 }
 
 export default React.memo(StudentTextInputWrapper);

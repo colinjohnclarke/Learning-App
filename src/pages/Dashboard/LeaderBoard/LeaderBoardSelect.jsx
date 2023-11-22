@@ -102,7 +102,7 @@ const Select = styled.div`
   align-items: center;
   font-size: 12px;
   @media ${device.tablet} {
-    width: 25%;
+    width: 50%;
   }
 `;
 
@@ -117,7 +117,7 @@ const SelectionBar = styled.div`
   );
 
   @media ${device.tablet} {
-    width: 25%;
+    width: 50%;
   }
 `;
 

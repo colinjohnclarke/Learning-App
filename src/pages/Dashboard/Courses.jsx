@@ -137,7 +137,7 @@ function Courses() {
             style={recentCoursesDisplayed ? selected : unselected}
             onClick={handleSchoolLeaderBoardClick}
           >
-            Recent Courses
+            Your Courses
           </Select>
 
           <Select
@@ -145,7 +145,7 @@ function Courses() {
             onClick={handleStudentLeaderBoardClick}
           >
             {" "}
-            See all Courses
+            Add Course
             {seeAllCoursesDisplayed && (
               <CourseFilterBtn
                 onClick={(e) => {
@@ -263,7 +263,7 @@ const Select = styled.div`
   align-items: center;
   font-size: 12px;
   @media ${device.tablet} {
-    width: 25%;
+    width: 50%;
   }
 `;
 
@@ -278,7 +278,7 @@ const SelectionBar = styled.div`
   );
 
   @media ${device.tablet} {
-    width: 25%;
+    width: 50%;
   }
 `;
 

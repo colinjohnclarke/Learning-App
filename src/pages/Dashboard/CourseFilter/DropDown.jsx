@@ -4,22 +4,32 @@ import styled from "styled-components";
 import { CourseFilterContext } from "./CourseFilterContext";
 
 function DropDown({ data, index }) {
-  const [isSelected, setIsSelected] = useState(false);
+
+
+  const [isSelected, setIsSelected] = useState(true);
+  const [buttonColor, setButtonColor] = useState("white");
 
   useContext(CourseFilterContext);
 
   const { dropDownClicked, setDropdownClicked } =
     useContext(CourseFilterContext);
 
-  console.log(
-    "🚀 ~ file: DropDown.jsx:12 ~ DropDown ~ dropDownClicked:",
-    dropDownClicked
-  );
   const heightVal = data.options.length * 50;
+
+  const colorDnClick = () => {
+    console.log("clciked");
+
+    setButtonColor((val) => "rgb(0, 259, 250, 0.4)");
+
+    setTimeout(() => {
+      setButtonColor((val) => "white");
+    }, 200);
+  };
 
   return (
     <li
       onClick={() => {
+        colorDnClick();
         setIsSelected((val) => !val);
         setDropdownClicked((state) => {
           const newState = [...state];
@@ -31,38 +41,38 @@ function DropDown({ data, index }) {
         listStyle: "none",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "space-between",
         alignItems: "center",
         width: "100%",
+        // justifyContent: "center",
         // height: "100%",
-        height: isSelected ? `${heightVal}px` : "50px",
+        height: isSelected ? `${heightVal}px` : "40px",
         // minHeight: "60px",
         minWidth: "200px",
-        transition: "0.3s",
-        borderBottom: "0.3px solid light-grey",
-        backgroundColor: "white",
+
+        borderBottom: "0.3px solid rgb(192,192,192, 0.5)",
+        position: "relative",
       }}
     >
       <div
         style={{
-          //   listStyle: "none",
+          listStyle: "none",
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
           alignItems: "center",
-          width: "95%",
-          marginLeft: "20px",
-          marginRight: "10px",
+          width: "98%",
+          // marginLeft: "2px",
+          backgroundColor: buttonColor,
+          transition: "0.4s",
+          // marginRight: "10px",
         }}
       >
-        <p style={{ fontSize: "13px" }}>{data.name}</p>
+        <p style={{ fontSize: "13px", marginLeft: "10px" }}>{data.name}</p>
         <div
           style={{
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
-            justifyContent: "end",
-
             height: "100%",
             width: "30%",
           }}
@@ -73,7 +83,7 @@ function DropDown({ data, index }) {
           <GrNext
             style={{
               transform: isSelected ? "rotate(90deg)" : "rotate(0deg)",
-              transition: "0.3s",
+              transition: "0.4s",
             }}
           />
         </div>
@@ -84,6 +94,9 @@ function DropDown({ data, index }) {
           {data.options.map((subItem) => {
             return (
               <ListItem
+                onClick={() => {
+                  console.log("JDHSJHJD");
+                }}
                 style={{
                   width: "100%",
                 }}
@@ -108,7 +121,7 @@ function DropDown({ data, index }) {
 
 export default DropDown;
 
-const SubList = styled.div`
+const SubList = styled.form`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -120,11 +133,7 @@ const ListItem = styled.div`
   flex-direction: row;
   justify-content: start;
   align-items: center;
-  //   border-bottom: 1px solid;
-
-  //   transition: 0.3s;
-  //   height: 60px;
-  //   width: 60px;
+  transition: 0.4s;
 `;
 
 const ShowSelected = styled.div`

@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import Slider from "./Slider";
+import { device } from "../../styles/breakpoints";
 import styled from "styled-components";
 import Score from "../../components/Data/CurrentQuestionScores/Score";
 import { SliderContext } from "./SliderContext";
@@ -219,4 +220,8 @@ const Wrapper = styled.div`
   position: relative;
   padding-top: 40px;
   width: 100%;
+
+  @media ${device.mobileL} {
+    height: 100%;
+  }
 `;

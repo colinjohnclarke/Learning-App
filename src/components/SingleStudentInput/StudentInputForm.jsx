@@ -7,6 +7,7 @@ import Score from "../Data/CurrentQuestionScores/Score";
 import { TextInputContext } from "./TextInputContext";
 import { myPortableTextComponents } from "../../config/sanity/portableText";
 import "animate.css";
+import { device } from "../../styles/breakpoints";
 
 // sanity imports
 import sanityClient from "../../createclient";
@@ -330,6 +331,10 @@ const Wrapper = styled.div`
   flex-direction: column;
   position: relative;
   width: 100%;
+
+  @media ${device.mobileL} {
+    height: 100%;
+  }
 
   form {
     padding: 2%;
