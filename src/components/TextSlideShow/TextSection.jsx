@@ -49,7 +49,7 @@ function TextSection({
           overflow: "hidden",
         }}
       >
-        {index !== length - 1 && continueArrowButton}
+        {index !== length - 2 && continueArrowButton}
       </div>
     </Wrapper>
   );

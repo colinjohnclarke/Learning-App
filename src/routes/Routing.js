@@ -18,7 +18,10 @@ function Routing() {
         <Route path="/main" element={<Main />} />
         {/* <Route path="/maths" element={<Testmath />}></Route> */}
         <Route path="/maths" element={<Maths />} />
-        <Route path="/courses/biology" element={<Main />} />
+        <Route
+          path="/courses/:subject/:courseName/:blockName"
+          element={<Main />}
+        />
       </Routes>
     </div>
   );

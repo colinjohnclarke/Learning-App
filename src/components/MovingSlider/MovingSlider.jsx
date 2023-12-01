@@ -1,20 +1,8 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import Slider from "./Slider";
 import { device } from "../../styles/breakpoints";
 import styled from "styled-components";
 import Score from "../../components/Data/CurrentQuestionScores/Score";
-import { SliderContext } from "./SliderContext";
-import {
-  setslider0Incorrect,
-  setslider1Incorrect,
-  setslider2Incorrect,
-  setslider3Incorrect,
-  setfirstRenderCompleted,
-  setSecondRenderCompleted,
-  refreshRenderRequired,
-  resetRenderCompleted,
-  setAllSlidersCorrect,
-} from "../../features/Slider/sliderindex0slice";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -23,34 +11,37 @@ function MovingSlider({
   isAlgebra,
   sliderBool,
   sliderNumsArr,
-  index,
   slidersRandom,
+  updateStateFunctions,
 }) {
   const dispatch = useDispatch();
 
   const sliderCorrect = useSelector((state) => state.sliderSliceIndex0reducer);
   const sliderCorrectList = [];
 
+  const {
+    correctAnswerIsSelected,
+    setCorrectAnswerIsSelected,
+    incorrectAnswerIsSelected,
+    setIncorrectAnswerIsSelected,
+  } = updateStateFunctions;
+
   for (let i = 0; i < 4; i++) {
     sliderCorrectList.push(sliderCorrect[`slider${i}correct`]);
   }
 
   const sliderData = data;
-  console.log("🚀 ~ file: MovingSlider.jsx:38 ~ sliderData:", sliderData);
+  // console.log("🚀 ~ file: MovingSlider.jsx:38 ~ sliderData:", sliderData);
 
   const allcorrect =
     sliderCorrectList.filter((item) => item === true).length ===
     data.number_of_pairs_entered;
 
-  if (allcorrect) {
-    dispatch(setAllSlidersCorrect());
-  }
-
-  // setting values for score component so mark can be awarded
-  let index0AnswerisCorrect = allcorrect;
-
-  // no index so set to false
-  let index1AnswerisCorrect = false;
+  useEffect(() => {
+    if (allcorrect) {
+      setCorrectAnswerIsSelected((val) => true);
+    }
+  }, [allcorrect]);
 
   const {
     rightSlideIsHighlightedSlider0,
@@ -117,20 +108,17 @@ function MovingSlider({
   const sliderProps = {
     isAlgebra,
     slidersRandom,
-    allcorrect,
+    correctAnswerIsSelected,
     pairNumber: data.number_of_pairs_entered,
-    index,
   };
 
   return (
     <Wrapper>
-      <p>{data.Question}</p>
-
       <Score
-        index={index}
-        scoreData={{ index0AnswerisCorrect, index1AnswerisCorrect }}
+        scoreData={{ correctAnswerIsSelected }}
         totalMarksAvailable={data.total_marks_available}
       ></Score>
+
       <Slider
         {...sliderProps}
         initialBoolSlider={rightSlideIsHighlightedSlider0}

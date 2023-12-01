@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { correctstyle } from "../../styles/colors";
 import HelpBtn from "../Buttons/HelpBtn";
@@ -9,15 +9,15 @@ import { PortableText } from "@portabletext/react";
 import { BiHelpCircle } from "react-icons/bi";
 import { device } from "../../styles/breakpoints";
 
-function GapFill(props) {
-  const { item, index } = props;
-  const { acceptable_missing_words, hint, total_marks_available } = item;
-
+function GapFill({ index, data }) {
+  const [correctAnswerIsSelected, setCorrectAnswerIsSelected] = useState(false);
   const [inputFieldGapFill, setInputFieldGapFill] = useState("");
   const [helpNeeded, setHelpNeeded] = useState(false);
 
+  const { acceptable_missing_words, hint, total_marks_available } = data;
+
   const acceptableMissingWordsArr = acceptable_missing_words.split(", ");
-  const isCorrect = acceptableMissingWordsArr.includes(inputFieldGapFill);
+  let isCorrect = acceptableMissingWordsArr.includes(inputFieldGapFill);
 
   const toggleHelp = () => {
     setHelpNeeded(!helpNeeded);
@@ -27,12 +27,17 @@ function GapFill(props) {
     ? "animate__animated animate__bounceInLeft"
     : "";
 
+  useEffect(() => {
+    if (isCorrect) {
+      setCorrectAnswerIsSelected((val) => true);
+    }
+  }, [isCorrect]);
+
   return (
     <Wrapper>
       <Score
         scoreData={{
-          index0AnswerisCorrect: isCorrect,
-          index1AnswerisCorrect: isCorrect,
+          correctAnswerIsSelected,
         }}
         totalMarksAvailable={total_marks_available}
         index={index}
@@ -40,13 +45,13 @@ function GapFill(props) {
       <Question> Fill in the gaps below!</Question>
       <Image>
         <PortableText
-          value={item.picture}
+          value={data.picture}
           components={myPortableTextComponents}
         />
       </Image>
 
       <Text>
-        {item.initial_scentence}
+        {data.initial_scentence}
         <Input
           style={{
             backgroundColor: isCorrect ? correctstyle.backgroundColor : "",
@@ -55,9 +60,11 @@ function GapFill(props) {
             isCorrect ? "animate__animated animate__bounce animate__faster" : ""
           }
           type="text"
-          onChange={(e) => setInputFieldGapFill(e.target.value)}
+          onChange={(e) => {
+            setInputFieldGapFill(e.target.value);
+          }}
         />
-        {item.remainder}
+        {data.remainder}
       </Text>
       <Hint
         className={hintAnimateClass}

@@ -30,7 +30,6 @@ function TextSectionDesktop({
         width: "100%",
         transform: `translateX(${translateStartPosition}%)`,
         overflow: "hidden",
-       
 
         // padding: "40px",
       }}
@@ -53,5 +52,5 @@ const Wrapper = styled.section`
   // display: flex;
   // flex-direction: column;
   // overflow: hidden;
-  max-height: 700px;
+  // max-height: 700px;
 `;

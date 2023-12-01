@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import MCQAnswerButtons from "./MCQAnswerButtons";
 import ImagefromSanity from "../../config/sanity/ImagefromSanity";
+import styled from "styled-components";
 
 // function MCQblock(props) {
 //   const data = props.item;
@@ -93,12 +94,7 @@ function MCQblock({ item, index, updateStateFunctions }) {
   } = item;
 
   // Shuffle the answer options randomly
-  const shuffledOptions = [
-    distractor_1,
-    distractor_2,
-    distractor_3,
-    correct_answer,
-  ]
+  let options = [distractor_1, distractor_2, distractor_3, correct_answer]
     .map((value) => ({
       value,
       isCorrect: value === correct_answer,
@@ -106,8 +102,10 @@ function MCQblock({ item, index, updateStateFunctions }) {
     }))
     .sort((a, b) => b.number - a.number);
 
+  const [shuffledOptions, setShuffledOptions] = useState(options);
+
   return (
-    <div>
+    <Wrapper>
       <ImagefromSanity data={picture}></ImagefromSanity>
       {shuffledOptions.map((option, optionIndex) => (
         <MCQAnswerButtons
@@ -119,8 +117,14 @@ function MCQblock({ item, index, updateStateFunctions }) {
           text={option.value}
         />
       ))}
-    </div>
+    </Wrapper>
   );
 }
 
 export default React.memo(MCQblock);
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;

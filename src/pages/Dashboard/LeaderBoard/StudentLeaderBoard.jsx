@@ -19,12 +19,21 @@ function StudentLeaderBoard() {
     <Wrapper>
       <Main>
         <thead>
-          <tr>
-            <Rank style={{ position: "relative", right: "14.7%" }}>Rank</Rank>
+          <Tr>
+            <Rank
+              style={{
+                position: "relative",
+                // right: "14.7%",
+                fontWeight: "500",
+                fontSize: "15px",
+              }}
+            >
+              Rank
+            </Rank>
             <TableHead>Student</TableHead>
             <TableHead>Xp</TableHead>
             <TableHead>School</TableHead>
-          </tr>
+          </Tr>
         </thead>
 
         <TableBody>
@@ -87,7 +96,7 @@ function StudentLeaderBoard() {
                 : "0.5px solid rgba(200, 200, 200, 0.5)";
 
             return (
-              <tr
+              <Tr
                 style={{
                   animationDelay: `${index / 20}s`,
                   backgroundColor: "white",
@@ -106,15 +115,15 @@ function StudentLeaderBoard() {
                 >
                   {rankElement}
 
-                  {gifElement}
+                  <Gif>{gifElement}</Gif>
                 </Td>
 
                 <Td style={{ borderBottom: borderBottomStyle }}>
                   <p
                     style={{
-                      fontWeight: "700",
-                      fontSize: "10px",
-                      color: "darkblue",
+                      fontWeight: "600",
+                      fontSize: "13px",
+                      color: "blue",
                       textAlign: "left",
                     }}
                   >
@@ -130,7 +139,7 @@ function StudentLeaderBoard() {
                 <Td
                   style={{
                     fontWeight: "700",
-                    fontSize: "10px",
+                    fontSize: "13px",
                     color: "darkblue",
                     width: "100px",
                     borderBottom: borderBottomStyle,
@@ -141,13 +150,13 @@ function StudentLeaderBoard() {
                 <Td style={{ borderBottom: borderBottomStyle }}>
                   <p
                     style={{
-                      fontSize: "10px",
+                      fontSize: "13px",
                     }}
                   >
                     {item.schoolName}
                   </p>
                 </Td>
-              </tr>
+              </Tr>
             );
           })}
         </TableBody>
@@ -173,12 +182,17 @@ const Main = styled.table`
 
 const TableHead = styled.th`
   font-weight: 500;
+  font-size: 15px;
 `;
 
 const Rank = styled.th`
   padding: 10px;
-  width: 50%;
+  width: 20%;
   font-weight: 500;
+
+  @media ${device.mobileL} {
+    width: 30%;
+  }
 `;
 
 const TableBody = styled.tbody`
@@ -192,6 +206,15 @@ const TableBody = styled.tbody`
 const GifImg = styled.img``;
 
 const Td = styled.td`
-  // border-bottom: 0.5px solid lightgrey;
-  ]font-size: 10px;
+  min-height: 70px;
+`;
+
+const Tr = styled.tr``;
+
+const Gif = styled.div`
+  display: none;
+
+  @media ${device.mobileL} {
+    display: flex;
+  }
 `;

@@ -8,7 +8,7 @@ import SlideLocator from "./SlideLocator";
 import "animate.css";
 // import { updateStartQuiz } from "../../features/CurrentBlockProgressData/currentblockprogressdata";
 import SlideShowNavBtn from "../Buttons/SlideShowNavBtn";
-
+import { device } from "../../styles/breakpoints";
 import { useDispatch } from "react-redux";
 
 function DesktopHorizontalSlideDeck({
@@ -108,6 +108,12 @@ function DesktopHorizontalSlideDeck({
         <GrLinkNext />
       </SlideShowNavBtn>
 
+      {/* <StartQuizBtn
+        style={startquizbtnstyle}
+        onClick={() => {
+          dispatch(updateStartQuiz());
+        }}
+      /> */}
       <LocationSlider>
         {data.map((item, index) => {
           return <SlideLocator currentslide={currentslide} index={index} />;
@@ -126,6 +132,11 @@ const Main = styled.div`
   justify-content: space-around;
   align-items: center;
   position: relative;
+  padding-top: 40px;
+
+  @media ${device.mobileL} {
+    padding-top: 40px;
+  }
 `;
 
 const Wrapper = styled.div`
@@ -133,7 +144,7 @@ const Wrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
-  position: relative;
+  // position: relative;
   overflow: hidden;
 `;
 
@@ -146,6 +157,11 @@ const LocationSlider = styled.div`
   justify-content: space-around;
   align-items: center;
   transition: 0.5s;
+
+  @media ${device.mobileL} {
+    position: absolute;
+    bottom: 15%;
+  }
 `;
 
 const Position = styled.div`

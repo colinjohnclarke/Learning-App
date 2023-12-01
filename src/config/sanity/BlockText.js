@@ -8,7 +8,6 @@ import { PortableText } from "@portabletext/react";
 import Test from "../../components/Geogebra/Test";
 
 function BlockText({ data }) {
-
   const builder = imageUrlBuilder(sanityClient);
 
   const imgurlFor = (source) => {
@@ -43,7 +42,6 @@ function BlockText({ data }) {
 
   let content = [];
 
-
   if (dataBlock) {
     content = dataBlock.map((item) => {
       const { algebra, text, style, listItem, type, asset } = item;
@@ -53,7 +51,6 @@ function BlockText({ data }) {
         !listItem &&
         text.some((subItem) => subItem.marks.includes("code"))
       ) {
-       
         return (
           <div
             style={{
@@ -199,13 +196,19 @@ function BlockText({ data }) {
           <div
             style={{
               display: "flex",
+              flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
             }}
           >
             <img
               alt=""
-              style={{ width: "350px" }}
+              style={{
+                width: "auto",
+                height: "auto",
+                maxHeight: "350px",
+                maxWidth: "350px",
+              }}
               src={imgurlFor(asset._ref)}
             ></img>
           </div>

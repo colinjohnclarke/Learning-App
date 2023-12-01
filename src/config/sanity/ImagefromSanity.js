@@ -12,7 +12,7 @@ function ImagefromSanity({ data }) {
   const content = data ? (
     <img
       alt=""
-      style={{ width: "350px", padding: "20px" }}
+      style={{ maxWidth: "350px", maxHeight: "350px", padding: "20px" }}
       src={imgurlFor(data.asset._ref)}
     />
   ) : null;

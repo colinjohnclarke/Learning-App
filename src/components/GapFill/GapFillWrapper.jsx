@@ -3,7 +3,7 @@ import GapFill from "./GapFill";
 
 function GapFillWrapper({ data }) {
   return data?.map((item, index) => (
-    <GapFill key={item._key} index={index} item={item}></GapFill>
+    <GapFill key={item._key} index={index} data={item}></GapFill>
   ));
 }
 

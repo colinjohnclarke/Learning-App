@@ -28,13 +28,13 @@ const Wrapper = styled.p`
   display: flex;
   justify-content: center;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   flex-direction: column;
-  font-size: 12px;
+  font-size: 15px;
 `;
 
 const XP = styled.div`
   color: blue;
   font-weight: 700;
-  font-size: 12px;
+  font-size: 16px;
 `;

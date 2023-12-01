@@ -19,7 +19,7 @@ function Slider({
   slidersRandom,
   initialBoolSlider,
   position,
-  allcorrect,
+  correctAnswerIsSelected,
   sliderLeftIsCorrect,
   sliderRightIsCorrect,
   textleft,
@@ -45,7 +45,7 @@ function Slider({
       (leftisselected && sliderLeftIsCorrect) ||
       (rightisselected && sliderRightIsCorrect)
     ) {
-      dispatch(correctSliderDispatch());
+      // dispatch(correctSliderDispatch());
     }
     if (leftisselected !== sliderLeftIsCorrect) {
       const sliderInCorrectMap = {
@@ -55,7 +55,7 @@ function Slider({
         3: setslider3Incorrect,
       };
       const incorrectSliderDispatch = sliderInCorrectMap[position];
-      dispatch(incorrectSliderDispatch());
+      // dispatch(incorrectSliderDispatch());
     }
   }
 
@@ -104,7 +104,7 @@ function Slider({
   };
 
   const content = (
-    <Outer disabled={allcorrect} onClick={clickHandler}>
+    <Outer disabled={correctAnswerIsSelected} onClick={clickHandler}>
       <Box>
         {!isAlgebra ? (
           <TextLeft>
@@ -126,7 +126,7 @@ function Slider({
       </Box>
 
       <MovingBox
-        style={allcorrect ? correctstyle : generalStyle}
+        style={correctAnswerIsSelected ? correctstyle : generalStyle}
         className={
           rightisselected
             ? "moving_box_right_position"

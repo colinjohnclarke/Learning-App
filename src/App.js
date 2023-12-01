@@ -17,6 +17,7 @@ function App() {
   const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
   console.log("🚀 ~ file: App.js:18 ~ App ~ user:", user);
   const { data } = useGetUserByEmailQuery(user?.email);
+  console.log("🚀 ~ file: App.js:20 ~ App ~ data:", data);
   // const domain = process.env.REACT_APP_AUTH0_DOMAIN;
 
   const [userMetadata, setUserMetadata] = useState(null);

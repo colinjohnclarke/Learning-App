@@ -7,14 +7,25 @@ import { useSelector } from "react-redux";
 import { device } from "../../styles/breakpoints";
 
 function MCQ({ data }) {
-  console.log("🚀 ~ file: MCQ.jsx:9 ~ MCQ ~ data:", data);
-  const index0AnswerisCorrect = useSelector(
-    (state) => state.mcqslice.index0CorrectAnswerSelected
-  );
+  // console.log("🚀 ~ file: MCQ.jsx:9 ~ MCQ ~ data:", data);
+  // const index0AnswerisCorrect = useSelector(
+  //   (state) => state.mcqslice.index0CorrectAnswerSelected
+  // );
 
-  const index1AnswerisCorrect = useSelector(
-    (state) => state.mcqslice.index1CorrectAnswerSelected
-  );
+  // const index1AnswerisCorrect = useSelector(
+  //   (state) => state.mcqslice.index1CorrectAnswerSelected
+  // );
+
+  const [correctAnswerIsSelected, setCorrectAnswerIsSelected] = useState(false);
+  const [incorrectAnswerIsSelected, setIncorrectAnswerIsSelected] =
+    useState(false);
+
+  const updateStateFunctions = {
+    correctAnswerIsSelected,
+    setCorrectAnswerIsSelected,
+    incorrectAnswerIsSelected,
+    setIncorrectAnswerIsSelected,
+  };
 
   return (
     <Wrapper>
@@ -24,16 +35,20 @@ function MCQ({ data }) {
           <Main key={item._key}>
             <Score
               scoreData={{
-                index0AnswerisCorrect,
-                index1AnswerisCorrect,
+                correctAnswerIsSelected,
               }}
               totalMarksAvailable={item.total_marks_available}
               index={index}
             />
 
             <Question>{item.question}</Question>
-            <MCQblock item={item} index={index} />
-            <p>{JSON.stringify(data.correct_answer)}</p>
+
+            <MCQblock
+              updateStateFunctions={updateStateFunctions}
+              item={item}
+              index={index}
+            />
+
             <MCQTeacherResponse item={item} />
           </Main>
         ))}

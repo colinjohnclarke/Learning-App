@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { recentCourseList } from "./RecentCourseList";
 import { allCoursesList } from "./AllCoursesList";
@@ -7,6 +7,8 @@ import { device } from "../../styles/breakpoints";
 import CourseFilter from "./CourseFilter/CourseFilter";
 import CourseFilterBtn from "../../components/Buttons/CourseFilterBtn";
 import { CourseFilterContext } from "./CourseFilter/CourseFilterContext";
+import FetchCoursefromSanity from "./CourseFilter/FetchCoursefromSanity";
+import { defaultCoursesImages } from "./CourseFilter/DefaultCourseImages";
 
 function Courses() {
   const [seeAllCoursesDisplayed, setSeeAllCoursesDisplayed] = useState(false);
@@ -24,18 +26,32 @@ function Courses() {
     setRecentCoursesDisplayed((val) => !val);
     setSeeAllCoursesDisplayed((val) => !val);
   };
+  console.log(
+    "🚀 ~ file: Courses.jsx:12 ~ defaultCoursesImages:",
+    defaultCoursesImages
+  );
+
+  // const { type } = useParams();
+  // console.log("🚀 ~ file: Courses.jsx:35 ~ Courses ~ type:", type);
+
+  const { subject, courseName, blockName } = useParams();
+
+  console.group(subject, courseName, blockName);
+
+  const courses = FetchCoursefromSanity();
+  console.log("🚀 ~ file: Courses.jsx:30 ~ Courses ~ courses:", courses);
 
   const selected = {
-    fontWeight: "700",
+    fontWeight: "500",
     transition: "0.3s",
-    color: "black",
+    color: "rgb(78, 78, 78)",
+    // color: "red",
   };
   const unselected = {
-    fontWeight: "700",
+    fontWeight: "500",
     transition: "0.3s",
     color: "#D3D3D3",
   };
-
   const selectionbarLeft = {
     transition: "ease-in-out 0.3s",
   };
@@ -45,18 +61,24 @@ function Courses() {
     transition: " ease-in-out 0.3s",
   };
 
-  const recentCourses = recentCourseList.map((item) => {
+  const allCourses = courses.map((item) => {
+    console.log(item.subject);
+
+    let imgurl = defaultCoursesImages.find((subItem) => {
+      return subItem.subject === item.subject;
+    });
+
     return (
       <Link
         style={{ display: "flex", width: "100%", textDecoration: "none" }}
-        to={"/courses/biology"}
+        to={`/courses/${item.subject}/${item.courseName}/${item.blockName}`}
       >
         <Box>
           <Text>
             {" "}
             <p
               style={{
-                fontSize: "12px",
+                fontSize: "13px",
                 listStyle: "none",
                 paddingLeft: "10px",
                 fontWeight: "600",
@@ -66,61 +88,27 @@ function Courses() {
             </p>
             <p
               style={{
-                fontSize: "12px",
+                fontSize: "13px",
                 listStyle: "none",
                 paddingLeft: "10px",
               }}
             >
-              {item.courseName}
+              {item.blockName}
             </p>
           </Text>
 
-          <Image src={item.imageUrl}></Image>
+          <Image
+            src={
+              imgurl
+                ? imgurl.imageUrl
+                : "https://stpauls.fra1.digitaloceanspaces.com/wp-content/uploads/2022/04/28130914/SPS-logo-centred-POS.png"
+            }
+          ></Image>
         </Box>
       </Link>
     );
   });
-
-  const allCourses = (
-    <div style={{ height: "auto" }}>
-      {allCoursesList.map((item) => {
-        return (
-          <Link
-            style={{ display: "flex", width: "100%", textDecoration: "none" }}
-            to={"/courses/biology"}
-          >
-            <Box>
-              <Text>
-                {" "}
-                <p
-                  style={{
-                    fontSize: "12px",
-                    listStyle: "none",
-                    paddingLeft: "10px",
-                    fontWeight: "600",
-                  }}
-                >
-                  {item.subject} :
-                </p>
-                <p
-                  style={{
-                    fontSize: "12px",
-                    listStyle: "none",
-                    paddingLeft: "10px",
-                  }}
-                >
-                  {item.courseName}
-                </p>
-              </Text>
-
-              <Image src={item.imageUrl}></Image>
-            </Box>
-          </Link>
-        );
-      })}
-    </div>
-  );
-
+  const recentCourses = allCourses;
   return (
     <Wrapper>
       <CourseFilterContext.Provider
@@ -261,7 +249,7 @@ const Select = styled.div`
   justify-content: center;
   justify-content: space-around;
   align-items: center;
-  font-size: 12px;
+  font-size: 16px;
   @media ${device.tablet} {
     width: 50%;
   }

@@ -5,19 +5,14 @@ const initialState = {
   currentSlide: 0,
   allSlidesSeen: false,
   slideNumber: 0,
-  startQuiz: false,
   // set initial state for number of correct questions scored in a row
   userScore: 0,
   pointsAvaiableArr: [],
   //save array of scores in arr with object with block name and score
-  totalScore: [],
   blockCompleted: false,
   percentageScore: 0,
   questionsAttempted: 0,
-  displayAnimatedBlockScore: false,
-  diplayPostBlockPointsReveal: false,
 };
-
 
 export const currentblockprogressdata = createSlice({
   name: "currentblockprogressdata",
@@ -41,12 +36,7 @@ export const currentblockprogressdata = createSlice({
     updateQuestionsAttempted: (state, action) => {
       state.questionsAttempted += 1;
     },
-    updateDisplayAnimatedBlockScore: (state) => {
-      state.displayAnimatedBlockScore = !state.displayAnimatedBlockScore;
-    },
-    updateDisplayPostBlockPointsReveal: (state) => {
-      state.diplayPostBlockPointsReveal = !state.diplayPostBlockPointsReveal;
-    },
+
     updateBlockCompleted: (state) => {
       state.blockCompleted = true;
     },
@@ -59,8 +49,21 @@ export const currentblockprogressdata = createSlice({
     updateSlideNumber: (state, action) => {
       state.slideNumber = action.payload;
     },
-    updateStartQuiz: (state) => {
-      state.startQuiz = true;
+
+    resetUserScore: (state) => {
+      state.userScore = 0;
+    },
+    resetAllSlidesSeen: (state) => {
+      state.allSlidesSeen = false;
+    },
+    resetBlockedCompleted: (state) => {
+      state.blockCompleted = false;
+    },
+    resetPointsAvailableArr: (state) => {
+      state.pointsAvaiableArr = [];
+    },
+    resetSlideNumber: (state) => {
+      state.slideNumber = 0;
     },
   },
 });
@@ -82,6 +85,13 @@ export const {
   updateDisplayAnimatedBlockScore,
   updateDisplayPostBlockPointsReveal,
   updateBlockCompleted,
+
+  // reset State
+  resetUserScore,
+  resetAllSlidesSeen,
+  resetBlockedCompleted,
+  resetPointsAvailableArr,
+  resetSlideNumber,
 } = currentblockprogressdata.actions;
 
 export default currentblockprogressdata.reducer;

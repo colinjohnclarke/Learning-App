@@ -1,7 +1,5 @@
-import React, { useEffect, useState, useContext } from "react";
-import { IncorrectWordContext } from "./IncorrectWordContext";
+import React, { useState } from "react";
 import styled from "styled-components";
-
 import { colors } from "../../styles/colors";
 import MCQbtn from "../Buttons/MainActionBtn";
 import { TiTickOutline } from "react-icons/ti";
@@ -9,44 +7,20 @@ import { RxCross2 } from "react-icons/rx";
 import "animate.css";
 
 const IncorrectWordMCQ = (props) => {
+  const [buttonSelected, setButtonSelected] = useState(false);
+  const { setPointsScored, mcq1State, setMcq1State, mcq2State, setMcq2State } =
+    props.updateStateFunctions;
+
   let buttonstyle = {
     width: "250px",
     border: "none",
   };
 
-  let clickResponseText;
   let animateclass = "";
   let textstyle = {};
+  let buttonDisabled = false;
 
-  // const [correctbuttondisabled, setCorrectButtonDisabled] = useState(false);
-
-  // let correctbuttondisabled = false;
-  // const [correctbuttondisabled, setButtonDisabled] = useState(false);
-
-  let correctbuttondisabled = false;
-
-  const [buttonClicked, setButtonClicked] = useState(false);
-
-  // const [correctanswerSelected, setCorrectAnswerSelcted] = useState(false);
-
-  const {
-    setindex0MCQ1SelectionCorrect,
-    index0mcq1selectionIncorrect,
-    index0setMCQ1SelectionInCorrect,
-    setindex0MCQ2SelectionCorrect,
-    index0mcq2selectionIncorrect,
-    setindex0MCQ2SelectionInCorrect,
-  } = useContext(IncorrectWordContext);
-
-  // get props
-  const index = props.index;
-  const itemisCorrect = props.isCorrect;
-  const mcq = props.mcq;
-
-  // setindex0Word2SelectionCorrect,
-  // index0mcq2selectioncorrect,
-
-  let showcorrectAns = {
+  let showCorrectAnsStyle = {
     width: "250px",
     display: "flex",
     flexDirection: "row",
@@ -54,7 +28,9 @@ const IncorrectWordMCQ = (props) => {
     justifyContent: "space-between",
     color: "white",
     border: "none",
-    backgroundColor: colors.correctColor,
+    backgroundColor: props.isCorrect
+      ? colors.correctColor
+      : colors.incorrectColor,
   };
 
   const correctfontstyle = {
@@ -63,102 +39,109 @@ const IncorrectWordMCQ = (props) => {
   };
 
   const onPressed = () => {
-    setButtonClicked((val) => true);
-  };
+    setButtonSelected((val) => true);
 
-  if (buttonClicked) {
-    if (itemisCorrect && index === 0 && mcq === "mcq1") {
-      setindex0MCQ1SelectionCorrect((val) => true);
+    if (props.isCorrect && props.mcq === "mcq1") {
+      setPointsScored((val) => val + 1);
+      setMcq1State((val) => ({
+        correctAnswerSelected: true,
+        incorrectAnswerSelected: false,
+      }));
+      buttonDisabled = true;
       textstyle = correctfontstyle;
-    } else if (!itemisCorrect && index === 0 && mcq === "mcq1") {
-      index0setMCQ1SelectionInCorrect((prevVal) => true);
-    } else if (itemisCorrect && index === 0 && mcq === "mcq2") {
-      setindex0MCQ2SelectionCorrect((val) => true);
-      textstyle = correctfontstyle;
-    } else if (!itemisCorrect && index === 0 && mcq === "mcq2") {
-      setindex0MCQ2SelectionInCorrect((prevVal) => true);
+    } else if (!props.isCorrect && props.mcq === "mcq1") {
+      setMcq1State((val) => ({
+        correctAnswerSelected: false,
+        incorrectAnswerSelected: true,
+      }));
+      buttonDisabled = true;
     }
 
-    buttonstyle = {
-      border: "none",
-      width: "250px",
-      display: "flex",
-      flexDirection: "row",
-      position: "relative",
-      justifyContent: "space-between",
-      backgroundColor: itemisCorrect
-        ? colors.correctColor
-        : colors.incorrectColor,
-    };
+    if (props.isCorrect && props.mcq === "mcq2") {
+      setPointsScored((val) => val + 1);
+      setMcq2State((val) => ({
+        correctAnswerSelected: true,
+        incorrectAnswerSelected: false,
+      }));
+      textstyle = correctfontstyle;
+      buttonDisabled = true;
+    } else if (!props.isCorrect && props.mcq === "mcq2") {
+      setMcq2State((val) => ({
+        correctAnswerSelected: false,
+        incorrectAnswerSelected: true,
+      }));
+      buttonDisabled = true;
+    }
+  };
 
-    clickResponseText = itemisCorrect ? (
-      <TiTickOutline style={{ currentColor: "white" }} />
-    ) : (
-      <RxCross2 />
-    );
-  }
-
-  // MCQ Question 1
-
-  // Identify the correct answers if the incorrect answer was selected and reveal to user
-  // condense variables to a boolean if true
-
+  let icon;
+  // if incorrect answer selected show correct answer
   if (
-    itemisCorrect &&
-    index0mcq1selectionIncorrect &&
-    index === 0 &&
-    mcq === "mcq1"
+    props.isCorrect &&
+    props.mcq === "mcq1" &&
+    mcq1State.incorrectAnswerSelected
   ) {
-    buttonstyle = showcorrectAns;
-    clickResponseText = itemisCorrect ? <TiTickOutline /> : "";
-    textstyle = correctfontstyle;
-    correctbuttondisabled = true;
-
-    // disable correct buttons when selection is made
-  }
-
-  if (
-    itemisCorrect &&
-    index0mcq2selectionIncorrect &&
-    index === 0 &&
-    mcq === "mcq2"
-  ) {
-    buttonstyle = showcorrectAns;
-    clickResponseText = itemisCorrect ? <TiTickOutline /> : "";
-    textstyle = correctfontstyle;
-    correctbuttondisabled = true;
-
-    // disable correct buttons when selection is made
-  }
-
-  // index 0 contolling functions
-
-  if (
-    !itemisCorrect &&
-    index0mcq1selectionIncorrect &&
-    index === 0 &&
-    buttonClicked
-  ) {
-    animateclass = "animate__animated animate__wobble animate__faster";
-    correctbuttondisabled = true;
+    buttonstyle = showCorrectAnsStyle;
+    icon = <TiTickOutline />;
+    buttonDisabled = true;
   } else if (
-    !itemisCorrect &&
-    index0mcq2selectionIncorrect &&
-    index === 0 &&
-    buttonClicked
+    props.isCorrect &&
+    props.mcq === "mcq1" &&
+    mcq1State.correctAnswerSelected
   ) {
+    buttonstyle = showCorrectAnsStyle;
+    icon = <TiTickOutline />;
+    buttonDisabled = true;
+  }
+  // if incorrect answer selected show incorrect style
+  if (
+    !props.isCorrect &&
+    props.mcq === "mcq1" &&
+    mcq1State.incorrectAnswerSelected &&
+    buttonSelected
+  ) {
+    buttonstyle = showCorrectAnsStyle;
+    icon = <RxCross2 />;
     animateclass = "animate__animated animate__wobble animate__faster";
-    correctbuttondisabled = true;
+    buttonDisabled = true;
   }
 
-  // disable correct buttons when selection is made
+  // mcq 2 state
 
-  // MCQ Question 2
+  if (
+    props.isCorrect &&
+    props.mcq === "mcq2" &&
+    mcq2State.incorrectAnswerSelected
+  ) {
+    buttonstyle = showCorrectAnsStyle;
+    icon = <TiTickOutline />;
+    buttonDisabled = true;
+  } else if (
+    props.isCorrect &&
+    props.mcq === "mcq2" &&
+    mcq2State.correctAnswerSelected
+  ) {
+    buttonstyle = showCorrectAnsStyle;
+    icon = <TiTickOutline />;
+    buttonDisabled = true;
+  }
+  // if incorrect answer selected show incorrect style
+  if (
+    !props.isCorrect &&
+    props.mcq === "mcq2" &&
+    mcq2State.incorrectAnswerSelected &&
+    buttonSelected
+  ) {
+    buttonstyle = showCorrectAnsStyle;
+    icon = <RxCross2 />;
+    animateclass = "animate__animated animate__wobble animate__faster";
+    buttonDisabled = true;
+  }
 
   return (
     <Wrapper>
       <MCQbtn
-        disabled={correctbuttondisabled}
+        disabled={buttonDisabled}
         className={animateclass}
         style={buttonstyle}
         onClick={onPressed}
@@ -166,7 +149,7 @@ const IncorrectWordMCQ = (props) => {
         <Box></Box>
 
         <Answer style={textstyle}>{props.text}</Answer>
-        <ClickResponseText>{clickResponseText}</ClickResponseText>
+        <ClickResponseText>{icon}</ClickResponseText>
       </MCQbtn>
     </Wrapper>
   );

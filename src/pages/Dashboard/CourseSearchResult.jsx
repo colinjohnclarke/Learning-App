@@ -2,11 +2,16 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { device } from "../../styles/breakpoints";
+import { defaultCoursesImages } from "./CourseFilter/DefaultCourseImages";
 
 function CourseSearchResult({ data }) {
   const newArr = data ? [...data] : [];
 
   const searchResults = newArr?.map((item) => {
+    let imgurl = defaultCoursesImages.find((subItem) => {
+      return subItem.subject === item.subject;
+    });
+
     return (
       <Wrapper>
         <Link
@@ -17,7 +22,7 @@ function CourseSearchResult({ data }) {
             <Text>
               <p
                 style={{
-                  fontSize: "12px",
+                  fontSize: "13px",
                   listStyle: "none",
                   paddingLeft: "10px",
                   fontWeight: "600",
@@ -27,7 +32,7 @@ function CourseSearchResult({ data }) {
               </p>
               <p
                 style={{
-                  fontSize: "12px",
+                  fontSize: "13px",
                   listStyle: "none",
                   paddingLeft: "10px",
                 }}
@@ -36,7 +41,13 @@ function CourseSearchResult({ data }) {
               </p>
             </Text>
 
-            <Image src={item.imageUrl}></Image>
+            <Image
+              src={
+                imgurl
+                  ? imgurl.imageUrl
+                  : "https://stpauls.fra1.digitaloceanspaces.com/wp-content/uploads/2022/04/28130914/SPS-logo-centred-POS.png"
+              }
+            ></Image>
           </Box>
         </Link>
       </Wrapper>
@@ -54,7 +65,6 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  // border: 1px solid;
 `;
 
 const Box = styled.a`
@@ -88,10 +98,10 @@ const Text = styled.div`
 
 const Image = styled.img`
   height: 100%;
-
+  width: 33.3%;
   border-radius: 5px;
-  max-width: 70px;
-  min-width: 70px;
+  max-width: 100px;
+  min-width: 100px;
 
   @media ${device.mobileL} {
     max-width: 100px;

@@ -22,14 +22,17 @@ function LeaderBoardSelect() {
   };
 
   const selected = {
-    fontWeight: "700",
+    fontWeight: "500",
     transition: "0.3s",
-    color: "black",
+    color: "rgb(78, 78, 78)",
+    textAlign: "center",
+    // color: "red",
   };
   const unselected = {
-    fontWeight: "700",
+    fontWeight: "500",
     transition: "0.3s",
     color: "#D3D3D3",
+    textAlign: "center",
   };
 
   const selectionbarLeft = {
@@ -90,7 +93,6 @@ const Tags = styled.div`
   flex-direction: row;
   align-items: center;
   justifty-content: flex-start;
-
 `;
 
 const Select = styled.div`
@@ -100,7 +102,7 @@ const Select = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-size: 12px;
+  font-size: 16px;
   @media ${device.tablet} {
     width: 50%;
   }

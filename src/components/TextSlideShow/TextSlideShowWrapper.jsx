@@ -10,15 +10,21 @@ import {
 } from "../../features/CurrentBlockProgressData/currentblockprogressdata";
 
 function TextSlideShowWrapper({ data, length }) {
+  const filterEmptySlideContent = data.filter((item) => item !== null);
+  console.log(
+    "🚀 ~ file: TextSlideShowWrapper.jsx:19 ~ TextSlideShowWrapper ~ filterEmptySlideContent:",
+    filterEmptySlideContent
+  );
+
   const [currentslide, setCurrentSlide] = useState(0);
   const [width, setWidth] = useState(window.innerWidth);
   const dispatch = useDispatch();
 
-  if (data.length - 1 === currentslide) {
+  if (filterEmptySlideContent.length - 1 === currentslide) {
     dispatch(updateAllSlidesSeen());
   }
 
-  dispatch(updateSlideNumber(data.length));
+  dispatch(updateSlideNumber(filterEmptySlideContent.length));
   dispatch(updateCurrentSlide(currentslide));
 
   function handleResize() {
@@ -40,14 +46,14 @@ function TextSlideShowWrapper({ data, length }) {
           currentslide={currentslide}
           setCurrentSlide={setCurrentSlide}
           length={length}
-          data={data}
+          data={filterEmptySlideContent}
         />
       ) : (
         <DesktopHorizontalSlideDeck
           currentslide={currentslide}
           setCurrentSlide={setCurrentSlide}
           length={length}
-          data={data}
+          data={filterEmptySlideContent}
         />
       )}
     </Wrapper>
@@ -57,6 +63,7 @@ function TextSlideShowWrapper({ data, length }) {
 export default React.memo(TextSlideShowWrapper);
 
 const Wrapper = styled.div`
-  padding: 40px;
+  // padding: 40px;
   width: 100%;
+
 `;

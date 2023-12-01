@@ -7,10 +7,11 @@ function MCQ({
   wordIsSelected,
   incorrectWord,
   mcqCheckWord1Ref,
-  index,
+
   MCQoptionsforreplacementword,
   correctWord,
   mcq,
+  updateStateFunctions,
 }) {
   const [key0, setKey0] = useState([]);
   const [key1, setKey1] = useState([]);
@@ -19,35 +20,26 @@ function MCQ({
 
   //  randomise
 
-;
-
   // function to randomise the possible answers for the MCQ
 
-
-
   useEffect(() => {
-    const index0nu1 = Math.random();
-    const index0nu2 = Math.random();
-    const index0nu3 = Math.random();
-    const index0nu4 = Math.random();
-
     const index0random = [
       {
-        number: index0nu1,
+        number: Math.random(),
         value: MCQoptionsforreplacementword[0],
         isCorrect: false,
       },
       {
-        number: index0nu2,
+        number: Math.random(),
         value: MCQoptionsforreplacementword[1],
         isCorrect: false,
       },
       {
-        number: index0nu3,
+        number: Math.random(),
         value: MCQoptionsforreplacementword[2],
         isCorrect: false,
       },
-      { number: index0nu4, value: correctWord, isCorrect: true },
+      { number: Math.random(), value: correctWord, isCorrect: true },
     ];
 
     const sorted = index0random.sort((number1, number2) =>
@@ -82,26 +74,26 @@ function MCQ({
         ?
       </p>
       <IncorrectWordMCQ
+        updateStateFunctions={updateStateFunctions}
         mcq={mcq}
-        index={index}
         isCorrect={key0.isCorrect}
         text={key0.value}
       ></IncorrectWordMCQ>
       <IncorrectWordMCQ
+        updateStateFunctions={updateStateFunctions}
         mcq={mcq}
-        index={index}
         isCorrect={key1.isCorrect}
         text={key1.value}
       ></IncorrectWordMCQ>
       <IncorrectWordMCQ
+        updateStateFunctions={updateStateFunctions}
         mcq={mcq}
-        index={index}
         isCorrect={key2.isCorrect}
         text={key2.value}
       ></IncorrectWordMCQ>
       <IncorrectWordMCQ
+        updateStateFunctions={updateStateFunctions}
         mcq={mcq}
-        index={index}
         isCorrect={key3.isCorrect}
         text={key3.value}
       ></IncorrectWordMCQ>

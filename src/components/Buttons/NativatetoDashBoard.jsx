@@ -27,19 +27,21 @@ const Btn = styled.button`
   align-items: center;
   border: none;
   margin: 60px;
-  height: 40px;
-  width: 250px;
+  height: 50px;
+  width: 350px;
   border-radius: 4px;
   background-color: white;
+  border: 2px solid rgba(0, 200, 200, 0.8);
   box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
   transition: 0.3s;
-  background-color: rgba(0, 200, 200, 0.8);
-  color: white;
+  background-color: white;
+  color: rgba(0, 200, 200, 0.8);
   font-weight: 400;
 
   &:hover {
     transform: translateY(-2px);
     background-color: rgba(0, 200, 200, 1);
+    color: white;
   }
 
   &:active {

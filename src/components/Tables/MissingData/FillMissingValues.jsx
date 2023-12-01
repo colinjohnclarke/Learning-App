@@ -2,239 +2,205 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import parse from "html-react-parser";
 import { colors } from "../../../styles/colors";
-import { TableFillMissingValuesContext } from "./FillMissingValuesContext";
+
 import "animate.css";
 import Score from "../../Data/CurrentQuestionScores/Score";
 
 function FillMissingValuesTable({ data }) {
-  console.log(
-    "🚀 ~ file: FillMissingValues.jsx:10 ~ FillMissingValuesTable ~ data:",
-    data
-  );
-  const [predictedvalue, setPredictedValue] = useState("");
+  const [correctAnswerIsSelected, setCorrectAnswerIsSelected] = useState(false);
   const [predictedvaluerange, setPredictedValueRange] = useState([]);
-  const [predictedValueStyle, setPredictedValueStyle] = useState({});
-  const [predictedvalueiscorrect, setPredictedValueIsCorrect] = useState(false);
-  const [predictedinputstyle, setpredictedInputStyle] = useState({});
+  const [predictedValue, setPredictedValue] = useState("");
+  const [expectedAnswers, setExpectedAnswers] = useState([]);
+  const [style, setStyle] = useState({
+    transition: "0.3s",
+    textAlign: "center",
+    borderRadius: "0px",
+    // border: "none",
+    padding: "0px",
+    // outline: "none",
+    // borderRight: "none",
+    // bnorderBottom: "none",
+  });
 
-  const [calculatedvalue, setCalculatedValue] = useState();
-  const [anomalieselected, setAnomalieSelected] = useState(false);
-  const [anomalieStyle, setAnomalieStyle] = useState([]);
-  const [correctcalculatedvalue, setCorrectCalculateValue] = useState(0);
-  const [calculatedValueStyle, setcalculatedValueStyle] = useState({});
+  const [boxStyle, setBoxStyle] = useState({});
 
-  const [calculatedinputstyle, setCalculatedInputStyle] = useState([]);
-
-  // states in context
-  const [index0AnswerisCorrect, setindex0AnswerisCorrect] = useState(false);
-  const [index0AnswerisInCorrect, setindex0AnswerisInCorrect] = useState(false);
-  const [index1AnswerisCorrect, setindex1AnswerisCorrect] = useState(false);
-  const [index1AnswerisInCorrect, setindex1AnswerisInCorrect] = useState(false);
-  const [index2AnswerisCorrect, setindex2AnswerisCorrect] = useState(false);
-  const [index2AnswerisInCorrect, setindex2AnswerisInCorrect] = useState(false);
-
-  const contextObj = {
-    index0AnswerisCorrect,
-    setindex0AnswerisCorrect,
-    index0AnswerisInCorrect,
-    setindex0AnswerisInCorrect,
-    index1AnswerisCorrect,
-    setindex1AnswerisCorrect,
-    index1AnswerisInCorrect,
-    setindex1AnswerisInCorrect,
-    index2AnswerisCorrect,
-    setindex2AnswerisCorrect,
-    index2AnswerisInCorrect,
-    setindex2AnswerisInCorrect,
-  };
-
-  let additionalMark1 = index2AnswerisCorrect;
-
-  const calculate_valueHandler = (e) => {
-    setCalculatedValue(e.target.value);
-  };
-
-  const correctstyle = {
+  const correctStyle = {
     transition: "0.3s",
     color: "white",
     fontWeight: "600",
     textAlign: "center",
-    borderRadius: "0px",
     backgroundColor: colors.correctColor,
   };
 
-  const incorrectstyle = {
+  const correctBoxStyle = {
+    transition: "0.3s",
+    // color: "white",
+    fontWeight: "600",
+    textAlign: "center",
+    backgroundColor: colors.correctColor,
+  };
+
+  const incorrectStyle = {
     transition: "0.3s",
     fontWeight: "400",
     textAlign: "center",
     borderRadius: "0px",
-    border: "none",
     padding: "0px",
     outline: "none",
     backgroundColor: colors.incorrectColor,
   };
 
-  useEffect(() => {
-    if (calculatedvalue === correctcalculatedvalue) {
-      setcalculatedValueStyle((val) => correctstyle);
-      setindex0AnswerisCorrect((val) => true);
-      setCalculatedInputStyle((val) => correctstyle);
-    } else {
-      setcalculatedValueStyle((val) => incorrectstyle);
-      setCalculatedInputStyle((val) => incorrectstyle);
-    }
-  }, [calculatedvalue]);
+  const tableTypes = [
+    { value: "select_anomaly" },
+    { value: "predict_value" },
+    { value: "calculate_value" },
+  ];
 
-  const predictedValueHandler = (e) => {
-    setPredictedValue(e.target.value);
+  const calculateValueHandler = (e) => {
+    if (e.target.value === expectedAnswers) {
+      setCorrectAnswerIsSelected((val) => true);
+      setStyle((val) => correctStyle);
+      setBoxStyle((val) => correctBoxStyle);
+    } else {
+      setStyle((val) => incorrectStyle);
+      setBoxStyle((val) => incorrectStyle);
+    }
   };
 
   useEffect(() => {
-    if (
-      predictedvalue >= predictedvaluerange[0] &&
-      predictedvalue <= predictedvaluerange[1]
-    ) {
-      setindex2AnswerisCorrect((val) => true);
-      setPredictedValueIsCorrect((val) => true);
-      setpredictedInputStyle((val) => correctstyle);
-      setPredictedValueStyle((val) => correctstyle);
-    } else {
-      setpredictedInputStyle((val) => incorrectstyle);
-      setPredictedValueStyle((val) => incorrectstyle);
-    }
-  }, [predictedvalue]);
-
-  const select_anomalieHandler = () => {
-    setAnomalieSelected(true);
-  };
-
-  useEffect(() => {
-    if (anomalieselected) {
-      setindex1AnswerisCorrect((val) => true);
-      setAnomalieStyle((val) => correctstyle);
-    } else {
-      setAnomalieStyle({
-        transition: "0.3s",
+    if (!predictedValue) {
+      setStyle((val) => ({
         textAlign: "center",
-        borderRadius: "0px",
-        border: "none",
-        padding: "0px",
-        // width: "100%",
-        outline: "none",
-      });
+      }));
+      setBoxStyle((val) => {});
+    } else if (
+      predictedValue >= predictedvaluerange[0] &&
+      predictedValue <= predictedvaluerange[1] &&
+      predictedValue
+    ) {
+      setCorrectAnswerIsSelected((val) => true);
+      setStyle((val) => correctStyle);
+      setBoxStyle((val) => correctBoxStyle);
+    } else {
+      setStyle((val) => incorrectStyle);
+      setBoxStyle((val) => incorrectStyle);
     }
-  }, [anomalieselected]);
+  }, [predictedValue]);
+
+  const anomalySelectedHandler = () => {
+    setCorrectAnswerIsSelected((val) => true);
+    setStyle((val) => correctStyle);
+    setBoxStyle((val) => correctBoxStyle);
+  };
 
   return (
-    <TableFillMissingValuesContext.Provider value={contextObj}>
-      <Wrapper>
-        {data?.map((item, index) => {
-          return (
-            <div style={{ width: "100%" }}>
-              <Main key={item._key}>
-                <Score
-                  scoreData={{
-                    index0AnswerisCorrect,
-                    index1AnswerisCorrect,
-                    // additionalMark1,
-                  }}
-                  totalMarksAvailable={item.total_marks_available}
-                  index={index}
-                ></Score>
+    <Wrapper>
+      {data?.map((item, index) => {
+        return (
+          <div style={{ width: "100%" }}>
+            <Main key={item._key}>
+              <Score
+                scoreData={{
+                  correctAnswerIsSelected,
+                }}
+                totalMarksAvailable={item.total_marks_available}
+                index={index}
+              ></Score>
 
-                <Question
-                  style={{
-                    padding: "50px 10px 10px 10px",
-                    textAlign: "center",
-                  }}
-                >
-                  {item.question}
-                </Question>
+              <Question
+                style={{
+                  padding: "50px 10px 10px 10px",
+                  textAlign: "center",
+                }}
+              >
+                {item.question}
+               
+              </Question>
 
-                {parse(item.html_string, {
-                  replace: (domNode) => {
-                    if (
-                      domNode.attribs &&
-                      domNode.attribs.id === "predict_value"
-                    ) {
-                      return (
-                        <td style={predictedValueStyle}>
-                          <Input
-                            onChange={(e) => {
-                              predictedValueHandler(e);
+              {/* predict Value */}
+              {parse(item.html_string, {
+                replace: (domNode) => {
+                  if (
+                    domNode.attribs &&
+                    domNode.attribs.id === tableTypes[1].value
+                  ) {
+                    return (
+                      <td style={boxStyle}>
+                        <Input
+                          onChange={(e) => {
+                            setPredictedValue((val) => e.target.value);
+                            setPredictedValueRange((val) =>
+                              item.predicted_value_range.split("-")
+                            );
+                          }}
+                          style={style}
+                          maxLength="5"
+                          placeholder="?"
+                          type="text"
+                        ></Input>
+                      </td>
+                    );
+                  }
+                  //  calculate value
+                  if (
+                    domNode.attribs &&
+                    domNode.attribs.id === tableTypes[2].value
+                  ) {
+                    return (
+                      <td style={boxStyle}>
+                        <Input
+                          // className={
+                          //   index0AnswerisCorrect
+                          //     ? "animate__animated animate__rubberBand"
+                          //     : "animate__animated"
+                          // }
+                          style={style}
+                          placeholder="?"
+                          type="text"
+                          maxLength="5"
+                          onChange={(e) => {
+                            calculateValueHandler(e);
 
-                              if (item.predicted_value_range) {
-                                setPredictedValueRange((val) =>
-                                  item.predicted_value_range.split("-")
-                                );
-                              }
-                            }}
-                            style={predictedinputstyle}
-                            maxLength="5"
-                            placeholder="?"
-                            type="text"
-                          ></Input>
-                        </td>
-                      );
-                    }
+                            setExpectedAnswers(
+                              (val) => item.correct_expected_answers
+                            );
+                          }}
+                        ></Input>
+                      </td>
+                    );
+                  }
 
-                    if (
-                      domNode.attribs &&
-                      domNode.attribs.id === "calculate_value"
-                    ) {
-                      return (
-                        <td style={calculatedValueStyle}>
-                          <Input
-                            className={
-                              index0AnswerisCorrect
-                                ? "animate__animated animate__rubberBand"
-                                : "animate__animated"
-                            }
-                            style={calculatedinputstyle}
-                            placeholder="?"
-                            type="text"
-                            maxLength="5"
-                            onChange={(e) => {
-                              calculate_valueHandler(e);
-                              setCorrectCalculateValue(
-                                item.correct_expected_answers
-                              );
-                            }}
-                          ></Input>
-                        </td>
-                      );
-                    }
-                    if (
-                      domNode.attribs &&
-                      domNode.attribs.id === "select_anomaly"
-                    ) {
-                      return (
-                        <td style={anomalieStyle}>
-                          <Anomalie
-                            className={
-                              index1AnswerisCorrect
-                                ? "animate__animated animate__rubberBand"
-                                : "animate__animated"
-                            }
-                            style={anomalieStyle}
-                            placeholder="?"
-                            maxLength="5"
-                            type="text"
-                            onClick={select_anomalieHandler}
-                          >
-                            {item.correct_expected_answers}
-                          </Anomalie>
-                        </td>
-                      );
-                    }
-                  },
-                })}
-              </Main>
-            </div>
-          );
-        })}
-      </Wrapper>
-    </TableFillMissingValuesContext.Provider>
+                  // selected anomaly //
+                  if (
+                    domNode.attribs &&
+                    domNode.attribs.id === tableTypes[0].value
+                  ) {
+                    return (
+                      <td style={boxStyle}>
+                        <Anomalie
+                          // className={
+                          //   index1AnswerisCorrect
+                          //     ? "animate__animated animate__rubberBand"
+                          //     : "animate__animated"
+                          // }
+                          style={style}
+                          placeholder="?"
+                          maxLength="5"
+                          type="text"
+                          onClick={anomalySelectedHandler}
+                        >
+                          {item.correct_expected_answers}
+                        </Anomalie>
+                      </td>
+                    );
+                  }
+                },
+              })}
+            </Main>
+          </div>
+        );
+      })}
+    </Wrapper>
   );
 }
 
@@ -253,7 +219,6 @@ const Input = styled.input`
   transition: 0.5s;
   fontweight: bold;
   textalign: center;
-  borderradius: 0px;
   border: none;
   padding: 0px;
   width: 100%;

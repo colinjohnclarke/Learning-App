@@ -30,9 +30,10 @@ const Wrapper = styled.button`
   justify-content: center;
   align-items: center;
   border: none;
-  margin: 60px;
-  height: 40px;
-  width: 250px;
+  // margin: 150px;
+
+  height: 50px;
+  width: 350px;
   border-radius: 4px;
   color: white;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
@@ -63,7 +64,14 @@ const Wrapper = styled.button`
     transition: 0.3s;
   }
 
+  @media ${device.mobileL} {
+    position: absolute;
+    bottom: 10px;
+  }
+
   @media ${device.tablet} {
     height: 50px;
+    position: absolute;
+    bottom: 10px;
   }
 `;

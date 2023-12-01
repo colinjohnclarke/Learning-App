@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { schoolLeaderBoardFakeData } from "./SchoolLeaderBoardFakeData";
 import { rankData } from "./LeaderBoardRankData";
 import "animate.css";
+import { device } from "../../../styles/breakpoints";
 
 function SchoolLeaderBoard() {
   schoolLeaderBoardFakeData.sort(function (a, b) {
@@ -17,7 +18,6 @@ function SchoolLeaderBoard() {
         <thead>
           <tr>
             <Rank>Rank</Rank>
-            {/* <TableHead>Student</TableHead> */}
             <School>School</School>
             <TableHead>Xp</TableHead>
           </tr>
@@ -94,43 +94,35 @@ function SchoolLeaderBoard() {
                 </Td>
 
                 <Td style={{ borderBottom: borderBottomStyle }}>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                    }}
-                  >
+                  <SchoolDetails>
                     <div
                       style={{
                         display: "flex",
-                        flexDirection: "column",
+                        flexDirection: "row",
                         alignItems: "start",
-                        justifyContent: "center",
-                        height: "30px",
+                        // justifyContent: "space-around",
+                        height: "40px",
+                        width: "100%",
+                        // width: "250px",
+                        // padding: "5px",
+                        // border: "1px solid green",
                       }}
                     >
                       <p
                         style={{
                           fontWeight: "500",
-                          fontSize: "10px",
+                          fontSize: "13px",
+                          height: "0px",
                         }}
                       >
                         {item.name}
                       </p>
-                      <p
-                        style={{
-                          fontWeight: "200",
-                          fontSize: "10px",
-                        }}
-                      >
-                        {item.location}
-                      </p>
+
+                      <Location>{item.location}</Location>
                     </div>
 
-                    <div style={{ paddingRight: "30px" }}> {cartoon}</div>
-                  </div>
+                    <div style={{ paddingRight: "20px" }}> {cartoon}</div>
+                  </SchoolDetails>
                 </Td>
                 <Td
                   style={{
@@ -156,7 +148,6 @@ export default SchoolLeaderBoard;
 const Wrapper = styled.div`
   width: 100%;
   background-color: white;
-
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 1px 0px;
 `;
@@ -164,38 +155,63 @@ const Wrapper = styled.div`
 const Main = styled.table`
   width: 100%;
   text-align: center;
-  font-size: 12px;
+  font-size: 13px;
 `;
 
 const TableHead = styled.th`
   padding: 10px;
-  width: 25%;
+  width: 35%;
+  min-width: 60px;
   font-weight: 500;
+  font-size: 15px;
 `;
 
 const Rank = styled.th`
   padding: 10px;
   width: 20%;
   font-weight: 500;
+  font-size: 15px;
 `;
 
 const School = styled.th`
   padding: 10px;
-  width: 70%;
+  width: 100%;
   font-weight: 500;
+  font-size: 15px;
+  text-align: left;
+`;
+
+const SchoolDetails = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+
+  @media ${device.mobileL} {
+    justify-content: space-around;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 const TableBody = styled.tbody``;
 
-const GifImg = styled.img``;
-
-// const Td = styled.td`
-//   border-bottom: 2px solid lightgrey;
-//   font-size: 10px;
-//   height: 50px;
-// `;
-
 const Td = styled.td`
-  font-size: 10px;
+  font-size: 13px;
   height: 50px;
+`;
+
+const Location = styled.p`
+  font-weight: 200;
+  font-size: 11px;
+  display: none;
+  justify-content: start;
+  width: 200px;
+
+  @media ${device.tablet} {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `;

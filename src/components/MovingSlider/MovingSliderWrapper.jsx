@@ -1,19 +1,5 @@
 import React, { useState, useEffect } from "react";
 import MovingSlider from "./MovingSlider";
-import { SliderContext } from "./SliderContext";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  setslider0Incorrect,
-  setslider1Incorrect,
-  setslider2Incorrect,
-  setslider3Incorrect,
-  rerunRandomiseNOTRequired,
-  index0correctanswerselected,
-  index0correctanswerUNselected,
-  index0EmptyArr,
-  initialRenderCompleted,
-  rerunRandomiseRequired,
-} from "../../features/Slider/sliderindex0slice";
 
 function MovingSliderWrapper({ data }) {
   const [rerunFunction, setReRunFunction] = useState(0);
@@ -22,6 +8,18 @@ function MovingSliderWrapper({ data }) {
     slidersAreInitiallySettoCorrectPosition,
     setslidersAreInitiallySettoCorrectPosition,
   ] = useState(false);
+
+
+  const [correctAnswerIsSelected, setCorrectAnswerIsSelected] = useState(false);
+  const [incorrectAnswerIsSelected, setIncorrectAnswerIsSelected] =
+    useState(false);
+
+  const updateStateFunctions = {
+    correctAnswerIsSelected,
+    setCorrectAnswerIsSelected,
+    incorrectAnswerIsSelected,
+    setIncorrectAnswerIsSelected,
+  };
 
   // generate random vales to random ordering of the slider items on each refresh, in pairs, one pair for each slider, use these values to set which side recives the correct value and which incorrect  ( changes each time)
 
@@ -79,7 +77,6 @@ function MovingSliderWrapper({ data }) {
 
   useEffect(() => {
     setReRunFunction((val) => val + 1);
-
   }, [slidersAreInitiallySettoCorrectPosition]);
 
   return data?.map((item, index) => {
@@ -90,29 +87,26 @@ function MovingSliderWrapper({ data }) {
     }
 
     if (boolsCorrect === item.number_of_pairs_entered) {
-     
       setslidersAreInitiallySettoCorrectPosition((val) => !val);
       boolsCorrect = 0;
       slidersRandom = false;
     } else {
-     
       slidersRandom = true;
     }
 
     return (
-      <SliderContext.Provider index={index}>
-        <MovingSlider
-          isAlgebra={item.isAlgebra}
-          sliderBool={sliderBools}
-          slidersRandom={slidersRandom}
-          // setReRunFunction={setReRunFunction}
-          // rerunFunction={rerunFunction}
-          sliderNumsArr={sliderNumsArr}
-          key={item._key}
-          data={item}
-          index={index}
-        ></MovingSlider>
-      </SliderContext.Provider>
+      <MovingSlider
+      updateStateFunctions={updateStateFunctions}
+        isAlgebra={item.isAlgebra}
+        sliderBool={sliderBools}
+        slidersRandom={slidersRandom}
+        // setReRunFunction={setReRunFunction}
+        // rerunFunction={rerunFunction}
+        sliderNumsArr={sliderNumsArr}
+        key={item._key}
+        data={item}
+        index={index}
+      ></MovingSlider>
     );
   });
 }

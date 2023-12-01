@@ -1,33 +1,31 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import "animate.css";
 import { colors } from "../../../styles/colors";
 import correct from "../../../assets/correct.mp3";
-import { DragandDropContext } from "../../Drag&Drop/DragandDropContext";
 import { useDispatch } from "react-redux";
 import {
   updatePointsAvaiableArr,
   updateUserScore,
 } from "../../../features/CurrentBlockProgressData/currentblockprogressdata";
 
-function Score({ index, scoreData, totalMarksAvailable }) {
+function Score({ scoreData, totalMarksAvailable }) {
   const [score, setScore] = useState(0);
   const [scoreStyle, setScoreStyle] = useState({});
   const [animateclass, setAnimateClass] = useState("");
 
-  const {
-    index0AnswerisCorrect,
-    index1AnswerisCorrect,
-    additionalMark1,
-    additionalMark2,
-  } = scoreData;
-  // console.log("🚀 ~ file: Score.jsx:24 ~ Score ~ scoreData:", scoreData);
+  const { correctAnswerIsSelected, pointsScored } = scoreData;
 
   const correctStyle = {
     backgroundColor: colors.correctColor,
     color: "white",
   };
 
+  let isMultiplePointQuestion;
+
+  if (totalMarksAvailable !== 1) {
+    isMultiplePointQuestion = true;
+  }
   // uodate total points available arr
   const dispatch = useDispatch();
 
@@ -38,17 +36,16 @@ function Score({ index, scoreData, totalMarksAvailable }) {
   const [indexMarkUpdated, setIndexMarkUpdated] = useState(
     Array(totalMarksAvailable).fill(false)
   );
-  console.log(
-    "🚀 ~ file: Score.jsx:41 ~ Score ~ indexMarkUpdated:",
-    indexMarkUpdated
-  );
+
+  let allCorrect = totalMarksAvailable === pointsScored;
 
   useEffect(() => {
     const handleCorrectAnswer = (isCorrect, updateMarkArrPosition) => {
-      console.log("indexMarkUpdated", indexMarkUpdated);
       if (isCorrect) {
         // console.log(index);
+
         setScore((prevScore) => prevScore + 1);
+
         setAnimateClass("animate__animated animate__tada");
         setScoreStyle(correctStyle);
         dispatch(updateUserScore());
@@ -57,7 +54,7 @@ function Score({ index, scoreData, totalMarksAvailable }) {
 
         if (!indexMarkUpdated[updateMarkArrPosition]) {
           // if falsy
-          // new Audio(correct).play();
+          new Audio(correct).play();
 
           // set state value at that position to true so will not be played twice when function rerun
           setIndexMarkUpdated((prevState) => {
@@ -69,56 +66,13 @@ function Score({ index, scoreData, totalMarksAvailable }) {
       }
     };
 
-    if (index === 0) {
-      if (totalMarksAvailable === 1) {
-        handleCorrectAnswer(index0AnswerisCorrect, 0);
-        // components which have more that one mark per question handled here, Although index is same as we have had to name the value as index 1 to prevent making a new score component for question with Score data higher than 1
-      } else if (totalMarksAvailable === 4) {
-        if (!indexMarkUpdated[0]) {
-          // check to see if sound played as a log of correct mark assigned, pass the expeected position in indexMarkUpdated array
-          handleCorrectAnswer(index0AnswerisCorrect, 0);
-          console.log("check1");
-        } else if (!indexMarkUpdated[1]) {
-          handleCorrectAnswer(index1AnswerisCorrect, 1);
-          console.log("check2");
-        } else if (!indexMarkUpdated[2]) {
-          handleCorrectAnswer(additionalMark1, 2);
-          console.log("check3");
-        } else if (!indexMarkUpdated[3]) {
-          handleCorrectAnswer(additionalMark2, 3);
-          console.log("check4");
-        }
-      }
-    } else if (index === 1) {
-      if (totalMarksAvailable === 1) {
-        handleCorrectAnswer(index1AnswerisCorrect, 1);
-      }
-    } else if (index === 3) {
-      if (totalMarksAvailable === 1) {
-        handleCorrectAnswer(index1AnswerisCorrect, 2);
-      }
+    // if (index === 0) {
+    if (totalMarksAvailable === 1) {
+      handleCorrectAnswer(correctAnswerIsSelected, 0);
+    } else if (totalMarksAvailable === 4) {
+      handleCorrectAnswer(allCorrect, 0);
     }
-
-    // return () => {
-    //   if (index0AnswerisCorrect || index1AnswerisCorrect) {
-    //     setScore(0);
-    //     setScoreStyle({});
-    //     setIndexMarkUpdated((prevState) => {
-    //       const newState = [...prevState];
-    //       newState[0] = false;
-    //       newState[1] = false;
-    //       newState[2] = false;
-    //       newState[3] = false;
-    //       return newState;
-    //     });
-    //   }
-    // };
-  }, [
-    index0AnswerisCorrect,
-    index1AnswerisCorrect,
-    additionalMark1,
-    additionalMark2,
-  ]);
+  }, [correctAnswerIsSelected, pointsScored]);
 
   return (
     <Wrapper style={scoreStyle}>
@@ -134,7 +88,7 @@ function Score({ index, scoreData, totalMarksAvailable }) {
             fontSize: "16px",
           }}
         >
-          {score}
+          {isMultiplePointQuestion ? pointsScored : score}
         </sup>{" "}
         &#8260;
         <sub
@@ -171,7 +125,6 @@ const Wrapper = styled.div`
 
 const Text = styled.p`
   display: flex;
-
   justify-content: center;
   align-items: center;
 `;

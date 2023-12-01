@@ -1,17 +1,9 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
-import { TiTickOutline } from "react-icons/ti";
-import { RxCross2 } from "react-icons/rx";
+
 import { device } from "../../styles/breakpoints";
 import MathsMLfromString from "../../config/sanity/MathsMLfromString";
 import "animate.css";
-import {
-  correctAnswerSelectedIndex0,
-  correctAnswerUNSelectedIndex0,
-} from "../../features/DualSelection/dualselectionquestiondataSliceIndex0";
-
-import { useDispatch, useSelector } from "react-redux";
-import { DualSelectionContext } from "./DualSelectionContext";
 
 import {
   selectedbuttonstyle,
@@ -21,117 +13,60 @@ import {
   normalboxstyleHover,
 } from "../../styles/colors";
 
-function Textbox({ text, isCorrect, isSelected, index, isAlgebra }) {
-  const dispatch = useDispatch();
+function Textbox({
+  text,
+  isCorrect,
+  isSelected,
 
-  let index0currentSliderQuestionScore = useSelector(
-    (state) => state.sliderquestiondataSliceIndex0reducer.value
-  );
+  isAlgebra,
+  updateStateFunctions,
+}) {
+  const { correctAnswerIsSelected, setArrayOfBoolsFromCorrect } =
+    updateStateFunctions;
 
-  // context value functions to update score component
-
-  const { setIndex0AnswerisCorrect } = useContext(DualSelectionContext);
-
-  // slider index 0
   useEffect(() => {
-    if (index === 0 && isSelected && isCorrect) {
-      dispatch(correctAnswerSelectedIndex0());
-    } else if (index === 0 && !isSelected && isCorrect) {
-      dispatch(correctAnswerUNSelectedIndex0());
+    if (isSelected && isCorrect) {
+      setArrayOfBoolsFromCorrect((val) => {
+        const newState = [...val];
+        newState.push(true);
+        return newState;
+      });
+    } else if (!isSelected && isCorrect) {
+      setArrayOfBoolsFromCorrect((val) => {
+        const newState = [...val];
+        newState.shift();
+        return newState;
+      });
     }
   }, [isSelected]);
 
-  useEffect(() => {
-    if (index0currentSliderQuestionScore.length === 4) {
-      // set context value to true to update score component, this needs to be in use Effect or we get a set state error
-      setIndex0AnswerisCorrect((val) => true);
-    }
-
-    return () => {
-      setIndex0AnswerisCorrect((val) => false);
-    };
-  }, [index0currentSliderQuestionScore.length]);
-
   let style;
 
-  if (index === 0 && isSelected) {
+  if (isSelected) {
     style = selectedbuttonstyle;
-  } else if (index === 0 && !isSelected) {
+  } else {
     style = normalboxstyle;
   }
 
   let content;
 
-  if (
-    index === 0 &&
-    index0currentSliderQuestionScore.length === 4 &&
-    isCorrect
-  ) {
+  if (correctAnswerIsSelected && isCorrect) {
     style = correctstyle;
 
     content = <></>;
-
-    // <TiTickOutline style={{ height: "10px", color: "white" }} />;
-  } else if (
-    index === 0 &&
-    index0currentSliderQuestionScore.length === 4 &&
-    !isCorrect
-  ) {
+  } else if (correctAnswerIsSelected && !isCorrect) {
     style = incorrectstyle;
 
     content = <></>;
 
     // <RxCross2 style={{ height: "10px", color: "white" }} />;
-  } else if (index === 0 && index0currentSliderQuestionScore.length !== 4) {
+  } else if (!correctAnswerIsSelected) {
     content = <></>;
   }
 
   let styleindex1 = {
     color: "",
   };
-
-  // useEffect(() => {
-  //   if (index1currentSliderQuestionScore.length === 4)
-  //     // set context value to true to update score component, this needs to be in use Effect or we get a set state error
-  //     setIndex1AnswerisCorrect((val) => true);
-
-  //   return () => {
-  //     setIndex1AnswerisCorrect((val) => false);
-  //   };
-  // }, [isSelected]);
-
-  // // slider index 1
-  // useEffect(() => {
-  //   if (index === 1 && isSelected && isCorrect) {
-  //     dispatch(correctAnswerSelectedIndex1());
-  //   } else if (index === 1 && !isSelected && isCorrect) {
-  //     dispatch(correctAnswerUNSelectedIndex1());
-  //   }
-  // }, [isSelected]);
-
-  // if (index === 1 && isSelected) {
-  //   styleindex1 = selectedbuttonstyle;
-  // } else if (index === 1 && !isSelected) {
-  //   styleindex1 = normalboxstyle;
-  // }
-
-  // if (
-  //   index === 1 &&
-  //   index1currentSliderQuestionScore.length === 4 &&
-  //   isCorrect
-  // ) {
-  //   styleindex1 = correctstyle;
-  //   content = <TiTickOutline style={{ height: "10px", color: "green" }} />;
-  // } else if (
-  //   index === 1 &&
-  //   index1currentSliderQuestionScore.length === 4 &&
-  //   !isCorrect
-  // ) {
-  //   styleindex1 = incorrectstyle;
-  //   content = <RxCross2 style={{ height: "10px", color: "red" }} />;
-  // } else if (index === 1 && index1currentSliderQuestionScore.length !== 4) {
-  //   content = <></>;
-  // }
 
   const whiteText = {
     color: "white",
@@ -143,8 +78,9 @@ function Textbox({ text, isCorrect, isSelected, index, isAlgebra }) {
 
   return (
     <Box
+      disabled={correctAnswerIsSelected}
       className={
-        index0currentSliderQuestionScore.length === 4 && isCorrect
+        correctAnswerIsSelected && isCorrect
           ? "animate__animated animate__bounce"
           : "animate__animated"
       }
@@ -152,11 +88,7 @@ function Textbox({ text, isCorrect, isSelected, index, isAlgebra }) {
     >
       {!isAlgebra ? (
         <Text
-          style={
-            index0currentSliderQuestionScore.length === 4 || isSelected
-              ? whiteText
-              : normalText
-          }
+          style={correctAnswerIsSelected || isSelected ? whiteText : normalText}
         >
           {text}
         </Text>
@@ -171,7 +103,7 @@ function Textbox({ text, isCorrect, isSelected, index, isAlgebra }) {
 
 export default Textbox;
 
-const Box = styled.p`
+const Box = styled.button`
   transition: 0.3s;
   text-align: center;
   box-shadow: rgba(0, 200, 200, 0.39) 0px 2px 4px inset,
@@ -189,6 +121,8 @@ const Box = styled.p`
   flex-direction: column;
   max-width: 700px;
   border-radius: 20px;
+  background-color: white;
+  border: none;
 
   &:hover {
     background-color: rgba(0, 200, 200, 0.29);
@@ -196,8 +130,13 @@ const Box = styled.p`
 `;
 
 const Text = styled.p`
-  font-size: 15px;
-  padding: 5px 10px 0px 5px;
+  font-size: 14px;
+
+  @media ${device.mobileL} {
+    p {
+      font-size: 16px;
+    }
+  }
 `;
 
 //   @media ${(device.mobileS, device.mobileM, device.mobileL)} {

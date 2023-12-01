@@ -24,7 +24,16 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 
-function DragandDropMain(props) {
+function DragandDropMain({
+  randomisedorderitemsarr,
+  isAlgebra,
+  updateStateFunctions,
+  totalMarksAvailable,
+}) {
+  console.log(
+    "🚀 ~ file: DragandDropMain.jsx:33 ~ totalMarksAvailable:",
+    totalMarksAvailable
+  );
   const [introduction, setIntroduction] = useState([]);
   const [statements, setStatements] = useState([]);
   const [helpneeded, setHelpNeeded] = useState(false);
@@ -33,21 +42,16 @@ function DragandDropMain(props) {
   const [correctstatementsnum, setCorrectStatementsNum] = useState(0);
   const [allcorrect, setAllCorrect] = useState(false);
   const [dataobj, setDataObj] = useState([]);
-  const totalMarksAvailable = props.totalMarksAvailable;
 
   const {
-    index0AnswerisCorrect,
-    setindex0AnswerisCorrect,
-    index1AnswerisCorrect,
-    setindex1AnswerisCorrect,
-    setrerunRandomiseRequired,
     rerunRandomiseRequired,
-  } = useContext(DragandDropContext);
+    setrerunRandomiseRequired,
+    correctAnswerIsSelected,
+    setCorrectAnswerSelected,
+  } = updateStateFunctions;
 
-  const data = props.randomisedorderitemsarr;
-
-  const index = props.index;
-  const isAlgebra = props.isAlgebra;
+  // create random nu
+  const data = randomisedorderitemsarr;
 
   // initial fuction to pass data and split question and statements from props and save in state
   useEffect(() => {
@@ -164,27 +168,10 @@ function DragandDropMain(props) {
   //
 
   useEffect(() => {
-    if (allcorrect && index === 0) {
+    if (allcorrect) {
       // confim index 0 drag and drop is correct
-      setindex0AnswerisCorrect((val) => true);
+      setCorrectAnswerSelected((val) => true);
     }
-
-    //   // return () => {
-    //   //   setindex0AnswerisCorrect((val) => false);
-    //   // };
-  }, [allcorrect]);
-
-  // index 1
-
-  useEffect(() => {
-    //   // check initial render for all times being in correct order at index 1
-    if (allcorrect && index === 1) {
-      setindex1AnswerisCorrect((val) => true);
-    }
-
-    //   // return () => {
-    //   //   setindex1AnswerisCorrect((val) => false);
-    //   // };
   }, [allcorrect]);
 
   const handleHelpneededBtnClicked = () => {
@@ -194,13 +181,13 @@ function DragandDropMain(props) {
   return (
     <Wrapper>
       <Score
-        scoreData={{ index0AnswerisCorrect, index1AnswerisCorrect }}
+        scoreData={{ correctAnswerIsSelected }}
         totalMarksAvailable={totalMarksAvailable}
-        index={index}
       ></Score>
 
       <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
         <Question> {introduction[0]?.value}</Question>
+
         <NumWrapper>
           {statements.map((item, index) => {
             return <NumBorder>{<Num>{index + 1}</Num>}</NumBorder>;

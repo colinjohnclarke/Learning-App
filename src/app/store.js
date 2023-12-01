@@ -8,7 +8,7 @@ import sliderSliceIndex0reducer from "../features/Slider/sliderindex0slice";
 import progressbarreducer from "../features/ProgressBar/ProgressBar";
 import drawerSlice from "../features/Drawer/DrawerSlice";
 import currentblockprogressdata from "../features/CurrentBlockProgressData/currentblockprogressdata";
-import mcqslice from "../features/MCQ/MCQslice";
+
 import mathsMCQSlice from "../features/MCQ/mathsMCQSlice";
 
 import { userDataSlice } from "../features/api/UserData/userDataSlice";
@@ -22,7 +22,6 @@ export const store = configureStore({
     progressbarreducer,
     drawerSlice,
     currentblockprogressdata,
-    mcqslice,
     mathsMCQSlice,
     [userDataSlice.reducerPath]: userDataSlice.reducer,
   },

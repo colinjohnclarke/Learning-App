@@ -1,33 +1,39 @@
-import React, { useState } from "react";
-import { DualSelectionContext } from "./DualSelectionContext";
+import React, { useEffect, useState } from "react";
+
 import DualBoxSelection from "./DualBoxSelection";
 
-
 function DualSelectionWrapper({ data }) {
-  const [index0AnswerisCorrect, setIndex0AnswerisCorrect] = useState(false);
-  const [index0AnswerisInCorrect, setIndex0AnswerisInCorrect] = useState(false);
-  const [index1AnswerisCorrect, setIndex1AnswerisCorrect] = useState(false);
-  const [index1AnswerisInCorrect, setIndex1AnswerisInCorrect] = useState(false);
+  const [correctAnswerIsSelected, setCorrectAnswerIsSelected] = useState(false);
+  const [incorrectAnswerIsSelected, setIncorrectAnswerIsSelected] =
+    useState(false);
 
-  const contextObj = {
-    index0AnswerisCorrect,
-    setIndex0AnswerisCorrect,
-    index0AnswerisInCorrect,
-    setIndex0AnswerisInCorrect,
-    index1AnswerisCorrect,
-    setIndex1AnswerisCorrect,
-    index1AnswerisInCorrect,
-    setIndex1AnswerisInCorrect,
+  // store bools in array when a correct box is selected and measure length to check if all are correct
+  const [arrayOfBoolsFromCorrect, setArrayOfBoolsFromCorrect] = useState([]);
+  //
+
+  const updateStateFunctions = {
+    correctAnswerIsSelected,
+    setCorrectAnswerIsSelected,
+    incorrectAnswerIsSelected,
+    setIncorrectAnswerIsSelected,
+    arrayOfBoolsFromCorrect,
+    setArrayOfBoolsFromCorrect,
   };
 
-
-  
+  useEffect(() => {
+    if (arrayOfBoolsFromCorrect.length === data[0].number_of_pairs_entered) {
+      setCorrectAnswerIsSelected((val) => true);
+    }
+  }, [arrayOfBoolsFromCorrect.length]);
 
   return data?.map((item, index) => {
     return (
-      <DualSelectionContext.Provider value={contextObj}>
-        <DualBoxSelection key={item._key} index={index} data={item} />
-      </DualSelectionContext.Provider>
+      <DualBoxSelection
+        updateStateFunctions={updateStateFunctions}
+        key={item._key}
+        index={index}
+        data={item}
+      />
     );
   });
 }

@@ -5,6 +5,7 @@ import AnimateCountFunction from "../../../components/functions/AnimateCountFunc
 function AllTimeLearningTimeBox({ data }) {
   let allTimeLearningTime = data?.user.totalTimeElapsed / 1000 / 60;
 
+  // let allTimeLearningTime = data?.user.totalTimeElapsed;
   // let allTimeLearningTime = 300;
 
   let counter = 0;
@@ -35,11 +36,11 @@ const Wrapper = styled.p`
   align-items: center;
   justify-content: space-around;
   flex-direction: column;
-  font-size: 12px;
+  font-size: 15px;
 `;
 
 const Points = styled.div`
   color: rgb(0, 255, 0);
   font-weight: 700;
-  font-size: 12px;
+  font-size: 16px;
 `;

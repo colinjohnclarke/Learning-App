@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { BsSearch } from "react-icons/bs";
 import { AiOutlineClose } from "react-icons/ai";
@@ -6,13 +6,33 @@ import { device } from "../../styles/breakpoints";
 import { allCoursesList } from "../../pages/Dashboard/AllCoursesList";
 import CourseSearchResult from "../../pages/Dashboard/CourseSearchResult";
 import { Link } from "react-router-dom";
+import sanityClient from "../../createclient";
+import FetchCoursefromSanity from "../../pages/Dashboard/CourseFilter/FetchCoursefromSanity";
 
 function SearchCourse() {
   const [searchedResult, setSearchedResult] = useState({});
   const [displaySearchResults, setDisplaySearchResult] = useState(false);
 
+  const coursesfromSanity = FetchCoursefromSanity();
+  console.log(
+    "🚀 ~ file: SearchCourse.jsx:17 ~ SearchCourse ~ coursesfromSanity:",
+    coursesfromSanity
+  );
+
+  // let contentNameFromSanity = "biology_blocks";
+  // let blockName = "photosynthesis_required_practical";
+
+  // useEffect(() => {
+  //   sanityClient
+  //     .fetch(`*[_type == "${contentNameFromSanity}"  ] {name}`)
+  //     .then((result) => setQueryResult((res) => result))
+  //     .catch(console.error);
+  // }, []);
+
+  // console.log("queryResult", queryResult);
+
   const searchCourse = (val) => {
-    let result = allCoursesList.filter(
+    let result = coursesfromSanity.filter(
       (course) =>
         course.subject.toLowerCase().includes(val) ||
         course.blockName.toLowerCase().includes(val) ||
@@ -24,7 +44,7 @@ function SearchCourse() {
 
   let searchBoxHeight = searchedResult.length * 60 + 60;
 
-  console.log("searchedResult", searchedResult);
+  // console.log("searchedResult", searchedResult);
   return (
     <Outer
       style={{
@@ -61,7 +81,7 @@ function SearchCourse() {
               }}
             >
               <div>
-                <p
+                <NoResultDesktop
                   style={{
                     height: "60px",
                     width: "150px",
@@ -69,8 +89,20 @@ function SearchCourse() {
                     textAlign: "center",
                   }}
                 >
-                  Sorry... no search result can i suggest
-                </p>
+                  {" "}
+                  Sorry, no search result can i suggest this...
+                </NoResultDesktop>
+
+                <NoResultMobile
+                  style={{
+                    height: "60px",
+                    width: "150px",
+                    fontSize: "13px",
+                    textAlign: "center",
+                  }}
+                >
+                  Sorry... no search result
+                </NoResultMobile>
               </div>
 
               <SuggestedCourse>
@@ -150,6 +182,7 @@ const Input = styled.input`
   outline: none;
   padding-left: 10px;
   transition: all 0.2s ease;
+  font-size: 16px;
 `;
 
 const Main = styled.div`
@@ -188,8 +221,10 @@ const Box = styled.a`
 const SuggestedCourse = styled.div`
   display: none;
 
-  @media ${device.mobileL} {
+  @media (min-width: 550px) {
     display: flex;
+    justify-content: center;
+    align-items: center;
   }
 `;
 
@@ -211,6 +246,26 @@ const SuggestCourseMobile = styled.div`
   display: flex;
 
   @media ${device.mobileL} {
+    display: none;
+  }
+`;
+
+const NoResultDesktop = styled.div`
+  display: none;
+
+  @media (min-width: 550px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+`;
+
+const NoResultMobile = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @media (min-width: 550px) {
     display: none;
   }
 `;

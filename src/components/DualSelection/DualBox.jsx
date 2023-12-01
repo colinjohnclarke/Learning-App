@@ -14,49 +14,31 @@ function DualBox({
   isAlgebra,
   textleft,
   textright,
-  resetselected,
+
   boxnum,
   displayBox,
+  updateStateFunctions,
 }) {
   const [leftselected, setLeftSelected] = useState(false);
   const [rightselected, setRightSelected] = useState(false);
 
-  const dispatch = useDispatch();
-
-  // // reset btn selected when resetbtn selected
-  // useEffect(() => {
-  //   if (index === 0) {
-  //     setRightSelected(false);
-  //     setLeftSelected(false);
-  //     dispatch(resetSliderSelectionIndex0());
-  //   } else if (index === 1) {
-  //     setRightSelected(false);
-  //     setLeftSelected(false);
-  //     dispatch(resetSliderSelectionIndex1());
-  //   }
-  // }, [resetselected]);
+  const { correctAnswerIsSelected } = updateStateFunctions;
 
   // set opposite box to opposite state so only one box can be selected at one time in one slider line
   useEffect(() => {
     if (leftselected) {
       setRightSelected(false);
+      // setUserHasInteracted((val) => true);
     }
   }, [leftselected]);
 
   useEffect(() => {
     if (rightselected) {
       setLeftSelected(false);
+      // setUserHasInteracted((val) => true);
     }
   }, [rightselected]);
 
-  let index0currentSliderQuestionScore = useSelector(
-    (state) => state.sliderquestiondataSliceIndex0reducer.value
-  );
-  let inactivateSelection = false;
-
-  if (index0currentSliderQuestionScore.length === 4) {
-    inactivateSelection = true;
-  }
   let style = {};
   if (!displayBox) {
     style = { display: "none" };
@@ -68,12 +50,13 @@ function DualBox({
       {/* left */}
       <LeftBox
         onClick={() => {
-          if (!inactivateSelection) {
+          if (!correctAnswerIsSelected) {
             setLeftSelected(!leftselected);
           }
         }}
       >
         <Textbox
+          updateStateFunctions={updateStateFunctions}
           isAlgebra={isAlgebra}
           index={index}
           isSelected={leftselected}
@@ -85,12 +68,13 @@ function DualBox({
 
       <RightBox
         onClick={() => {
-          if (!inactivateSelection) {
+          if (!correctAnswerIsSelected) {
             setRightSelected(!rightselected);
           }
         }}
       >
         <Textbox
+          updateStateFunctions={updateStateFunctions}
           isAlgebra={isAlgebra}
           index={index}
           isSelected={rightselected}

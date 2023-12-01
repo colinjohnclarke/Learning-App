@@ -4,8 +4,7 @@ import styled from "styled-components";
 function SlideLocator({ index, currentslide }) {
   const unSelected = {
     backgroundColor: "rgb(0, 255, 255, 0.3)",
-    boxShadow:
-      "rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;",
+    boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
     height: "13px",
     width: "13px",
     transition: "0.5s",
@@ -15,7 +14,7 @@ function SlideLocator({ index, currentslide }) {
 
   const selected = {
     backgroundColor: "rgb(0, 255, 255, 1)",
-    boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+    boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 10px",
     height: "18px",
     width: "18px",
     transition: "0.5s",

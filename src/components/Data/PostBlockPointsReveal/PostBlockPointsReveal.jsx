@@ -7,7 +7,6 @@ import AnimatedBlockScore from "../CurrentBlockScores/AnimatedBlockScore";
 import PointsSummary from "./PointsSummary";
 import "animate.css";
 import NativatetoDashBoard from "../../Buttons/NativatetoDashBoard";
-import { useUpdateUserDataMutation } from "../../../features/api/UserData/userDataSlice";
 
 function PostBlockPointsReveal() {
   const [displayAnimateBlockScore, setdisplayAnimateBlockScore] =
@@ -16,51 +15,14 @@ function PostBlockPointsReveal() {
   const [displaySummary, setDisplaySummary] = useState(false);
   // data to send to db from redux store
 
-  const currentblockprogressdata = useSelector(
-    (state) => state.currentblockprogressdata
-  );
-
-  let userScore = useSelector(
-    (state) => state.currentblockprogressdata.userScore
-  );
-
-  let percentageScore = useSelector(
-    (state) => state.currentblockprogressdata.percentageScore
-  );
-
-  let questionsAttempted = useSelector(
-    (state) => state.currentblockprogressdata.questionsAttempted
-  );
-
   let blockCompleted = useSelector(
     (state) => state.currentblockprogressdata.blockCompleted
   );
-
-  // const [updateUserData] = useUpdateUserDataMutation();
-
-  // const updateUserDataFN = async () => {
-  //   console.log("updateUserDataFN");
-  //   await updateUserData({
-  //     id: "6543b0cf130f12a64f88eb22",
-  //     quizScores: [
-  //       {
-  //         updateQuizId: "Ccolin22223",
-  //         updateScore: userScore,
-  //         updateCompletionStatus: blockCompleted,
-  //         // updateQuestionsAttempted: "3",
-  //         updatePercentageScore: percentageScore,
-  //       },
-  //     ],
-  //   });
-  // };
-
-  // const displayAnimatedBlockScore = useSelector(
-  //   (state) => state.currentblockprogressdata.displayAnimatedBlockScore
-  // );
-
-  // const diplayPostBlockPointsReveal = useSelector(
-  //   (state) => state.currentblockprogressdata.diplayPostBlockPointsReveal
-  // );
+  console.log(
+    "🚀 ~ file: PostBlockPointsReveal.jsx:21 ~ PostBlockPointsReveal ~ blockCompleted:",
+    blockCompleted
+  );
+  // console.log("🚀 ~ file: PostBlockPointsReveal.jsx:21 ~ PostBlockPointsReveal ~ blockCompleted:", blockCompleted)
 
   const animatedBlockProgressScore = (
     <PercentageScoreRevealAnimate

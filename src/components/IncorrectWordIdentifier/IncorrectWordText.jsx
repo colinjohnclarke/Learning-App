@@ -1,4 +1,4 @@
-import React, { useRef, useContext } from "react";
+import React, { useRef, useState } from "react";
 import { IncorrectWordContext } from "./IncorrectWordContext";
 import styled from "styled-components";
 // import IncorrectWordMCQ from "./IncorrectWordMCQ";
@@ -10,9 +10,11 @@ import Score from "../Data/CurrentQuestionScores/Score";
 import { colors } from "../../styles/colors";
 import MCQ from "./MCQ";
 
-function IncorrectWordText({ data, index }) {
-  let word1selected = false;
-  let word2selected = false;
+function IncorrectWordText({ data, index, updateStateFunctions }) {
+
+
+  const [word1selected, setWord1selected] = useState(false);
+  const [word2selected, setWord2selected] = useState(false);
 
   const mcqCheckWord1Ref = useRef(false);
   const mcqCheckWord2Ref = useRef(false);
@@ -22,26 +24,13 @@ function IncorrectWordText({ data, index }) {
   let showReminder = false;
 
   const {
-    index0word1selectioncorrect,
-    setindex0Word1SelectionCorrect,
-    index0mcq1selectioncorrect,
-    setindex0MCQ1SelectionCorrect,
-    index0mcq1selectionIncorrect,
-    index0setMCQ1SelectionInCorrect,
-    index0word2selectioncorrect,
-    setindex0Word2SelectionCorrect,
-    index0mcq2selectioncorrect,
-    setindex0MCQ2SelectionCorrect,
-    index0mcq2selectionIncorrect,
-    setindex0MCQ2SelectionInCorrect,
-  } = useContext(IncorrectWordContext);
+  
+    pointsScored,
+    setPointsScored,
+  
+  } = updateStateFunctions;
 
   // reassign these context values to pass to score component with correct name
-  let index0AnswerisCorrect = index0word1selectioncorrect;
-  let index1AnswerisCorrect = index0word2selectioncorrect;
-
-  let additionalMark1 = index0mcq1selectioncorrect;
-  let additionalMark2 = index0mcq2selectioncorrect;
 
   const totalMarksAvailable = data.total_marks_available;
 
@@ -56,11 +45,11 @@ function IncorrectWordText({ data, index }) {
     data.MCQ_option_for_replacement_word_2.split(", ");
 
   // before words correctly clicked set to hidden
-  let word1mcqstyle = { display: "none" };
-  let word2mcqstyle = { display: "none" };
+  let word1McqStyle = { display: "none" };
+  let word2McqStyle = { display: "none" };
 
   // words correctly clicked display
-  const displaymcqStyle = {
+  const displayMcqStyle = {
     display: "block",
     transition: "2.5s",
     backgroundColor: "rgba(0, 200, 200, 0.3)",
@@ -90,23 +79,10 @@ function IncorrectWordText({ data, index }) {
     });
   };
 
-  const handleWordSelection = (elementRef, isWord1) => {
-    if (isWord1) {
-      setindex0Word1SelectionCorrect(true);
-      setTimeout(() => {
-        scrolltoFn(elementRef);
-      }, 700);
-    } else {
-      setindex0Word2SelectionCorrect(true);
-      setTimeout(() => {
-        scrolltoFn(elementRef);
-      }, 300);
-    }
-  };
-
   // click handler first word
   const incorrectAnswer1Clicked = (elementRef) => {
-    setindex0Word1SelectionCorrect((val) => true);
+    setWord1selected((val) => true);
+    setPointsScored((val) => val + 1);
     setTimeout(() => {
       scrolltoFn(elementRef);
     }, 700);
@@ -115,21 +91,20 @@ function IncorrectWordText({ data, index }) {
 
   // click handler second word
   const incorrectAnswer2Clicked = (elementRef) => {
-    setindex0Word2SelectionCorrect((val) => true);
+    setWord2selected((val) => true);
+    setPointsScored((val) => val + 1);
     setTimeout(() => {
       scrolltoFn(elementRef);
     }, 300);
     //   scrolltoFn(mcqCheckWord1Ref);
   };
 
-  if (index0word1selectioncorrect) {
-    word1selected = true;
-    word1mcqstyle = displaymcqStyle;
+  if (word1selected) {
+    word1McqStyle = displayMcqStyle;
   }
 
-  if (index0word2selectioncorrect) {
-    word2selected = true;
-    word2mcqstyle = displaymcqStyle;
+  if (word2selected) {
+    word2McqStyle = displayMcqStyle;
   }
 
   // function to reduce the count of remaining words after incorrect word correctly selected
@@ -143,15 +118,16 @@ function IncorrectWordText({ data, index }) {
   // setAnimateNum("animate__animated animate__jackInTheBox");
   else if (word1selected && !word2selected) {
     showReminder = true;
-  } else if (word1selected && word2selected) {
+  } else if (word2selected && word2selected) {
     showReminder = false;
   }
 
   const mcq1 = (
     <MCQ
+      updateStateFunctions={updateStateFunctions}
       MCQoptionsforreplacementword={MCQ_option_for_replacement_word1Arr}
       data={data}
-      style={word1mcqstyle}
+      style={word1McqStyle}
       wordIsSelected={word1selected}
       mcqCheckWord1Ref={mcqCheckWord1Ref}
       index={index}
@@ -163,9 +139,10 @@ function IncorrectWordText({ data, index }) {
 
   const mcq2 = (
     <MCQ
+      updateStateFunctions={updateStateFunctions}
       MCQoptionsforreplacementword={MCQ_option_for_replacement_word2Arr}
       data={data}
-      style={word2mcqstyle}
+      style={word2McqStyle}
       wordIsSelected={word2selected}
       mcqCheckWord1Ref={mcqCheckWord2Ref}
       index={index}
@@ -179,14 +156,11 @@ function IncorrectWordText({ data, index }) {
     <Wrapper>
       <Score
         scoreData={{
-          index0AnswerisCorrect,
-          index1AnswerisCorrect,
-          additionalMark1,
-          additionalMark2,
+          pointsScored,
         }}
         totalMarksAvailable={totalMarksAvailable}
-        index={index}
       ></Score>
+      {pointsScored}
       <Question style={{ textAlign: "center" }}>
         There are{" "}
         <div style={{ display: "inline" }} className={animatenum}>
@@ -212,7 +186,11 @@ function IncorrectWordText({ data, index }) {
         {data.initial_leading_scentence_word1}
         <IncorrectWord
           style={word1selected ? correctstyle : normalTextStyle}
-          onClick={() => incorrectAnswer1Clicked(mcqCheckWord1Ref)}
+          onClick={() => {
+            if (!word1selected) {
+              incorrectAnswer1Clicked(mcqCheckWord1Ref);
+            }
+          }}
         >
           {" "}
           {data.incorrect_word_1}{" "}
@@ -221,7 +199,9 @@ function IncorrectWordText({ data, index }) {
         {data.initial_leading_scentence_word2}
         <IncorrectWord
           style={word2selected ? correctstyle : normalTextStyle}
-          onClick={() => incorrectAnswer2Clicked(mcqCheckWord2Ref)}
+          onClick={() => {
+            if (!word2selected) incorrectAnswer2Clicked(mcqCheckWord2Ref);
+          }}
         >
           {" "}
           {data.incorrect_word_2}{" "}

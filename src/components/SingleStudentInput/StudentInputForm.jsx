@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { colors } from "../../styles/colors";
 import MainActionBtn from "../Buttons/MainActionBtn";
 import { BiHelpCircle } from "react-icons/bi";
 import Score from "../Data/CurrentQuestionScores/Score";
-import { TextInputContext } from "./TextInputContext";
+
 import { myPortableTextComponents } from "../../config/sanity/portableText";
 import "animate.css";
 import { device } from "../../styles/breakpoints";
@@ -15,37 +15,26 @@ import { PortableText } from "@portabletext/react";
 import imageUrlBuilder from "@sanity/image-url";
 import HelpBtn from "../Buttons/HelpBtn";
 
-function StudentInputForm(props) {
+function StudentInputForm({ updateStateFunctions, data, index }) {
   const [helpneeded, setHelpNeeded] = useState(false);
-
-  const index = props.index;
-
-  const totalMarksAvailable = props.data.total_marks_available;
-
-  //constants
-
-  // context varibles
-
-  const {
-    index0AnswerisCorrect,
-    setIndex0AnswerisCorrect,
-    index0AnswerisInCorrect,
-    setIndex0AnswerisInCorrect,
-    index1AnswerisCorrect,
-    setIndex1AnswerisCorrect,
-    index1AnswerisInCorrect,
-    setIndex1AnswerisInCorrect,
-  } = useContext(TextInputContext);
-
   // user input state
-
   const [input, setInput] = useState("");
   const [inputfocused, setInputFocused] = useState(false);
   const [answerSubmitted, setAnswerSubmitted] = useState(false);
+  const totalMarksAvailable = data.total_marks_available;
+
+  //constants
+
+  const {
+    correctAnswerIsSelected,
+    setCorrectAnswerIsSelected,
+    incorrectAnswerIsSelected,
+    setIncorrectAnswerIsSelected,
+  } = updateStateFunctions;
+
   const inputlength = input.length;
   let selectedInputColor;
   let textfieldLabel = "What's your answer?";
-
   let animate = "";
   let animateIncorrect = "animate__animated animate__wobble animate__faster";
   let animateCorrect = "animate__animated  animate__bounce animate__faster";
@@ -102,12 +91,11 @@ function StudentInputForm(props) {
 
   // gather data from passed from from API fetched via get data component
 
-  const correct_expected_answers_list =
-    props.data.correct_expected_answers_list;
+  const correct_expected_answers_list = data.correct_expected_answers_list;
 
-  const hint = props.data.hint;
-  const question = props.data.question;
-  const image = props.data.image;
+  const hint = data.hint;
+  const question = data.question;
+  const image = data.image;
   // pass in acceptable answers from props and check to see if user input matches
 
   const correct_expected_answers_listArr1 =
@@ -136,50 +124,26 @@ function StudentInputForm(props) {
 
       // update text field responses as state depending on correct answer being provided, text response provided and colors of box highlight correct or not
 
-      if (check_answer === undefined && index === 0) {
+      if (check_answer === undefined) {
         // set new context value for Score to update if incorrect
-
-        setIndex0AnswerisInCorrect((val) => true);
+        setIncorrectAnswerIsSelected((val) => true);
       } else if (check_answer && index === 0) {
         // set new context value for Score to update if Correct
-        setIndex0AnswerisCorrect((val) => true);
-      } else if (check_answer === undefined && index === 1) {
-        // set new context value for Score to update if incorrect
-        setIndex1AnswerisInCorrect((val) => true);
-      } else if (check_answer && index === 1) {
-        // set new context value for Score to update if Correct
-        setIndex1AnswerisCorrect((val) => true);
+        setCorrectAnswerIsSelected((val) => true);
       }
     }
   };
 
-  if (answerSubmitted) {
-    if (index0AnswerisCorrect && index === 0) {
-      selectedInputColor = colors.correctColor;
-      textfieldLabel = "Correct! Great work :) ";
-      animate = animateCorrect;
-      spanStyle = spanStyleCorrect;
-    } else if (index0AnswerisInCorrect && index === 0) {
-      selectedInputColor = colors.incorrectColor;
-      textfieldLabel = "Not right keep trying!";
-
-      animate = animateIncorrect;
-      spanStyle = spanStyleIncorrect;
-    } else if (index1AnswerisCorrect && index === 1) {
-      selectedInputColor = colors.correctColor;
-      textfieldLabel = "Correct! Great work :) ";
-      animate = animateCorrect;
-      spanStyle = spanStyleCorrect;
-    } else if (index1AnswerisInCorrect && index === 1) {
-      selectedInputColor = colors.incorrectColor;
-      textfieldLabel = "Not right keep trying!";
-      animate = animateIncorrect;
-      spanStyle = spanStyleIncorrect;
-    } else {
-      spanStyle = spanStyleNormal;
-      selectedInputColor = colors.normalInputColor;
-      textfieldLabel = "Whats your answer?";
-    }
+  if (correctAnswerIsSelected) {
+    selectedInputColor = colors.correctColor;
+    textfieldLabel = "Correct! Great work :) ";
+    animate = animateCorrect;
+    spanStyle = spanStyleCorrect;
+  } else if (incorrectAnswerIsSelected) {
+    selectedInputColor = colors.incorrectColor;
+    textfieldLabel = "Not right keep trying!";
+    animate = animateIncorrect;
+    spanStyle = spanStyleIncorrect;
   }
 
   // remove the feedback comments and input box colour as user types in input field
@@ -199,31 +163,6 @@ function StudentInputForm(props) {
     }
   };
 
-  // const check_answer = correct_expected_answers_listArr.find(
-  //   (element) => element === input
-  // );
-
-  // if (check_answer === undefined) {
-  //   spanStyle = spanStyleNormal;
-  //   selectedInputColor = colors.normalInputColor;
-  //   textfieldLabel = "Whats your answer?";
-  // }
-
-  // useEffect(() => {
-  //   selectedInputColor = colors.normalInputColor;
-  //   textfieldLabel = "Whats your answer?";
-  // }, [input]);
-
-  // selectedInputColor = colors.normalInputColor;
-  // textfieldLabel = "Whats your answer?";
-
-  // functions to render text and image from image blocks from sanity
-
-  // initiated Sanity url builder
-  const builder = imageUrlBuilder(sanityClient);
-
-  let hintstyle = {};
-
   const helpBtnClickHandler = () => {
     setHelpNeeded(!helpneeded);
 
@@ -242,12 +181,13 @@ function StudentInputForm(props) {
 
   if (inputfocused && !answerSubmitted) {
     spanStyle = spanStyleNormal;
+    selectedInputColor = colors.normalInputColor;
   }
 
   return (
     <Wrapper>
       <Score
-        scoreData={{ index0AnswerisCorrect, index1AnswerisCorrect }}
+        scoreData={{ correctAnswerIsSelected }}
         totalMarksAvailable={totalMarksAvailable}
         index={index}
       ></Score>

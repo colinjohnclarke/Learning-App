@@ -10,31 +10,21 @@ import SearchCourse from "../../components/Search/SearchCourse";
 import "animate.css";
 import { device } from "../../styles/breakpoints";
 import { useAuth0 } from "@auth0/auth0-react";
+import sanityClient from "../../createclient";
 
 import { useGetUserByEmailQuery } from "../../features/api/UserData/userDataSlice";
 
 function Dashboard() {
-  const [val, setVal] = useState(0);
-  const [animateClass, setAnimateClass] = useState("");
+  const [queryResult, setQueryResult] = useState({});
   const { user } = useAuth0();
   // console.log("🚀 ~ file: Dashboard.jsx:20 ~ Dashboard ~ user:", user);
+
+
+  
 
   const { data, isLoading, isError, error } = useGetUserByEmailQuery(
     user?.email
   );
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setVal((val) => val + 1);
-      if (val % 2 === 0) {
-        setAnimateClass((val) => " animate__animated animate__swing  ");
-      } else if (val % 2 !== 0) {
-        setAnimateClass((val) => "animate__animated animate__wobble");
-      }
-    }, 3000);
-
-    return () => clearInterval(timer);
-  }, [val]);
 
   return (
     <Wrapper>
@@ -42,10 +32,9 @@ function Dashboard() {
       <Main>
         <Greeting>
           <Welcome>
-            Welcome {user.given_name}
+            <h3>Welcome back, {user.given_name}</h3>
             <img
               referrerpolicy="no-referrer"
-              className={animateClass}
               style={{
                 height: "60px",
                 width: "60px",
@@ -109,27 +98,30 @@ const Main = styled.div`
 
 const Greeting = styled.div`
   padding-top: 40px;
-  height: 80px;
-  width: 250px;
+  height: 100px;
+  width: 350px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
 `;
 
-const Welcome = styled.h1`
+const Welcome = styled.div`
   font-size: 20px;
+  width: 100%;
+  height: 10vh;
   padding-top: 30px;
   padding-bottom: 30px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  font-weight: 500;
 `;
 
 const UserdataWrapper = styled.div`
   width: 98.7%;
-  height: 50px;
+  height: 70px;
   display: flex;
   justify-content: center;
   align-items: center;

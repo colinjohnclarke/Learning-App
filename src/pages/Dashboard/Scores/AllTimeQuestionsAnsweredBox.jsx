@@ -14,7 +14,7 @@ function AllTimeQuestionsAnsweredBox({ data }) {
 
   return (
     <Wrapper>
-      <Points>{counter}</Points> Questions Correct
+      <Points>{counter}</Points> Questions
     </Wrapper>
   );
 }
@@ -27,13 +27,13 @@ const Wrapper = styled.p`
   display: flex;
   justify-content: center;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   flex-direction: column;
-  font-size: 12px;
+  font-size: 15px;
 `;
 
 const Points = styled.div`
   color: rgb(0, 255, 255);
   font-weight: 700;
-  font-size: 12px;
+  font-size: 16px;
 `;

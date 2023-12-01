@@ -1,43 +1,34 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import DualBox from "./DualBox";
 import ResetBtn from "../Buttons/ResetBtn";
 import Score from "../Data/CurrentQuestionScores/Score";
 import { device } from "../../styles/breakpoints";
-import { DualSelectionContext } from "./DualSelectionContext";
-import { useSelector } from "react-redux";
 
-function DualBoxSelection({ index, data }) {
+function DualBoxSelection({ index, data, updateStateFunctions }) {
   const [resetselected, setResetSelected] = useState(false);
 
-  //not using context here to identify if correct score as causes re render when update function is used, use redux store instead
-  // let index0currentSliderQuestionScore = useSelector(
-  //   (state) => state.sliderquestiondataSliceIndex0reducer.value
-  // );
+  const [num1a, setNum1a] = useState(null);
+  const [num1b, setNum1b] = useState(null);
+  const [num2a, setNum2a] = useState(null);
+  const [num2b, setNum2b] = useState(null);
+  const [num3a, setNum3a] = useState(null);
+  const [num3b, setNum3b] = useState(null);
+  const [num4a, setNum4a] = useState(null);
+  const [num4b, setNum4b] = useState(null);
 
-  // let index0AnswerisCorrect = false;
-  // let index1AnswerisCorrect = false;
-  // if (index0currentSliderQuestionScore.length === 4) {
-  //   index0AnswerisCorrect = true;
-  // }
+  const { correctAnswerIsSelected } = updateStateFunctions;
 
-  const {
-    index0AnswerisCorrect,
-    setIndex0AnswerisCorrect,
-    index1AnswerisCorrect,
-    setIndex1AnswerisCorrect,
-  } = useContext(DualSelectionContext);
-
-  const totalMarksAvailable = data.total_marks_available;
-
-  const num1a = Math.random();
-  const num1b = Math.random();
-  const num2a = Math.random();
-  const num2b = Math.random();
-  const num3a = Math.random();
-  const num3b = Math.random();
-  const num4a = Math.random();
-  const num4b = Math.random();
+  useEffect(() => {
+    setNum1a(Math.random());
+    setNum1b(Math.random());
+    setNum2a(Math.random());
+    setNum2b(Math.random());
+    setNum3a(Math.random());
+    setNum3b(Math.random());
+    setNum4a(Math.random());
+    setNum4b(Math.random());
+  }, []);
 
   const slider0leftIsCorrect = num1a > num1b ? true : false;
   const slider0rightIsCorrect = num1a < num1b ? true : false;
@@ -83,24 +74,19 @@ function DualBoxSelection({ index, data }) {
       break;
   }
 
-  // <NumWrapper>
-  //   {list.map((item, index) => {
-  //     return <NumBorder>{<Num>{index + 1}</Num>}</NumBorder>;
-  //   })}
-  // </NumWrapper>;
-
   return (
     <Wrapper>
       <Question>{data.Question}</Question>
-
       <Score
-        scoreData={{ index0AnswerisCorrect, index1AnswerisCorrect }}
-        totalMarksAvailable={totalMarksAvailable}
+        scoreData={{ correctAnswerIsSelected }}
+        totalMarksAvailable={data.total_marks_available}
         index={index}
       ></Score>
 
       <Pair>
         <DualBox
+          numberOfPairs={data.number_of_pairs_entered}
+          updateStateFunctions={updateStateFunctions}
           boxnum={1}
           isAlgebra={data.isAlgebra}
           displayBox={displayBox1}
@@ -123,6 +109,8 @@ function DualBoxSelection({ index, data }) {
 
       <Pair>
         <DualBox
+          numberOfPairs={data.number_of_pairs_entered}
+          updateStateFunctions={updateStateFunctions}
           boxnum={2}
           isAlgebra={data.isAlgebra}
           displayBox={displayBox2}
@@ -145,6 +133,8 @@ function DualBoxSelection({ index, data }) {
 
       <Pair>
         <DualBox
+          numberOfPairs={data.number_of_pairs_entered}
+          updateStateFunctions={updateStateFunctions}
           boxnum={3}
           isAlgebra={data.isAlgebra}
           displayBox={displayBox3}
@@ -167,6 +157,8 @@ function DualBoxSelection({ index, data }) {
 
       <Pair>
         <DualBox
+          numberOfPairs={data.number_of_pairs_entered}
+          updateStateFunctions={updateStateFunctions}
           boxnum={4}
           isAlgebra={data.isAlgebra}
           displayBox={displayBox4}

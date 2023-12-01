@@ -1,25 +1,21 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ResetBtn from "../Buttons/ResetBtn";
-
 import DragandDropMain from "./DragandDropMain";
-import { DragandDropContext } from "./DragandDropContext";
 import { device } from "../../styles/breakpoints";
 
-function DragDropRandomise(props) {
+function DragDropRandomise({ data, updateStateFunctions }) {
+  console.log("🚀 ~ file: DragDropRandomise.jsx:8 ~ DragDropRandomise ~ data:", data)
   const [reset, setReset] = useState(false);
-
   const [sorted, setSorted] = useState([]);
 
   const {
-    setindex0AnswerisCorrect,
-    setindex1AnswerisCorrect,
     rerunRandomiseRequired,
-  } = useContext(DragandDropContext);
+    setrerunRandomiseRequired,
+    correctAnswerIsSelected,
+    setCorrectAnswerSelected,
+  } = updateStateFunctions;
 
-  const data = props.data;
-  const index = props.index;
-  const totalMarksAvailable = data.total_marks_available;
 
   // create random nums
 
@@ -40,7 +36,6 @@ function DragDropRandomise(props) {
 
     // remove empty input fields
     const removeblanks = obj?.filter((item) => item.value !== undefined);
-
     const sortedarr = removeblanks.sort((a, b) => a.number - b.number);
 
     setSorted(sortedarr);
@@ -51,9 +46,9 @@ function DragDropRandomise(props) {
   return (
     <Wrapper>
       <DragandDropMain
+        updateStateFunctions={updateStateFunctions}
         isAlgebra={data.isAlgebra}
-        totalMarksAvailable={totalMarksAvailable}
-        index={index}
+        totalMarksAvailable={data.total_marks_available}
         reset={reset}
         randomisedorderitemsarr={sorted}
       ></DragandDropMain>

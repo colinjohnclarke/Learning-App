@@ -1,5 +1,6 @@
 import "../App.css";
 import React, { useState, useEffect, useRef, useContext } from "react";
+import { useParams } from "react-router-dom";
 import "animate.css";
 import { PortableText } from "@portabletext/react";
 import imageUrlBuilder from "@sanity/image-url";
@@ -21,7 +22,15 @@ import TextSlideShowWrapper from "../components/TextSlideShow/TextSlideShowWrapp
 import { useSelector, useDispatch } from "react-redux";
 import { updateProgressPercentage } from "../features/ProgressBar/ProgressBar";
 import PostBlockPointsReveal from "../components/Data/PostBlockPointsReveal/PostBlockPointsReveal";
-import { updateBlockCompleted } from "../features/CurrentBlockProgressData/currentblockprogressdata";
+import { GrNext } from "react-icons/gr";
+import {
+  updateBlockCompleted,
+  resetUserScore,
+  resetAllSlidesSeen,
+  resetBlockedCompleted,
+  resetPointsAvailableArr,
+  resetSlideNumber,
+} from "../features/CurrentBlockProgressData/currentblockprogressdata";
 import { useUpdateUserDataMutation } from "../features/api/UserData/userDataSlice";
 import { useGetUserByEmailQuery } from "../features/api/UserData/userDataSlice";
 import { UserContext } from "../App";
@@ -33,6 +42,7 @@ function Main() {
   const [data, setData] = useState([]);
   const [showPointsSummary, setShowPointsSummary] = useState(false);
   const [itemDisplayed, setItemDisplayed] = useState([]);
+  const [blockDataSubmittedtoDB, setBlockDataSubmittedtoDB] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -40,9 +50,8 @@ function Main() {
     (state) => state.currentblockprogressdata
   );
 
-  let content_from_api = "biology_blocks";
-  let content_name = "photosynthesis_required_practical";
-  // let content_name = "kinetic_energy";
+  /// use params from search function
+  const { subject, courseName, blockName } = useParams();
 
   const startTimeRef = useRef(Date.now());
 
@@ -51,10 +60,10 @@ function Main() {
   useEffect(() => {
     sanityClient
       .fetch(
-        `*[_type == "${content_from_api}" && name == "${content_name}" ] 
-        { subject_skills[]->, slider, incorrect_words_from_text, order_items_drag_drop, 
-                    name, tags, textblock1, textblock2, textblock3, textblock4, textblock5,  hint, problem_keywords[]->,  example_problem, MCQ_INPUTS, MCQ_MATH_INPUTS,  student_text_input, gap_fill, incorrect_words_from_text, table, line_graph_data, 
-                    standard_tables,standard_table_variable_names 
+        `*[_type == "${subject}" && name == "${blockName}" ]
+        { subject_skills[]->, slider, incorrect_words_from_text, order_items_drag_drop,
+                    name, tags, textblock1, textblock2, textblock3, textblock4, textblock5,  hint, problem_keywords[]->,  example_problem, MCQ_INPUTS, MCQ_MATH_INPUTS,  student_text_input, gap_fill, incorrect_words_from_text, table, line_graph_data,
+                    standard_tables,standard_table_variable_names
                     }`
       )
       .then((result) => setData(result[0]))
@@ -125,8 +134,6 @@ function Main() {
   const flat = GetVal.filter((item) =>
     item.position.some((item) => item && item.length !== 0)
   ).map((item) => ({ type: item.type, position: item.position.flat() }));
-
-  // console.log("🚀 ~ flat:", flat);
 
   const testData = flat
     .flatMap((item) => {
@@ -209,11 +216,6 @@ function Main() {
     displayed: itemDisplayed[index],
   }));
 
-  console.log(
-    "🚀 ~ file: Main.jsx:281 ~ displayedItems ~ displayedItems:",
-    displayedItems
-  );
-
   const itemRefs = [
     useRef(null),
     useRef(null),
@@ -266,21 +268,43 @@ function Main() {
   }, [currentblockprogressdata.startQuiz]);
 
   const renderedItems = [
-    <Item>
-      <Container>
-        <TextSlideShowWrapper
-          length={slideShowDataArr.length}
-          data={slideShowDataArr}
-        />
-        {currentblockprogressdata.allSlidesSeen && (
-          <StartQuizBtn
-            onClick={() => {
-              handleContinueBtnClicked(0);
-            }}
-          ></StartQuizBtn>
-        )}
-      </Container>
-    </Item>,
+    <CourseDetails>
+      <Box></Box>
+      <p style={{ padding: "5px", margin: "5px", fontSize: "14px" }}>
+        {subject}
+      </p>{" "}
+      <GrNext style={{}} />
+      <p style={{ padding: "5px", margin: "5px", fontSize: "14px" }}>
+        {courseName}{" "}
+      </p>
+      <GrNext style={{}} />
+      <p
+        style={{
+          padding: "5px",
+          fontWeight: "500",
+          margin: "10px",
+          fontSize: "14px",
+        }}
+      >
+        {blockName}
+      </p>
+    </CourseDetails>,
+
+    <Container>
+      <TextSlideShowWrapper
+        length={slideShowDataArr.length}
+        data={slideShowDataArr}
+      />
+      {currentblockprogressdata.allSlidesSeen && (
+        <StartQuizBtn
+          onClick={() => {
+            handleContinueBtnClicked(0);
+          }}
+        ></StartQuizBtn>
+      )}
+    </Container>,
+
+    <Box> </Box>,
 
     ...displayedItems.map(
       (item, index) =>
@@ -296,22 +320,29 @@ function Main() {
                   }}
                 />
               )}
+
+              {index === itemData.length - 1 && (
+                <CheckScoreBtn
+                  onClick={() => {
+                    setShowPointsSummary(true);
+                  }}
+                />
+              )}
             </Container>
           </Item>
         )
     ),
   ];
 
-  // calculate current poistion in text Slideshow
-
   let slideVal = 0;
   let calculateProgress = 0;
   let numOfDisplayedItems = 0;
   let totalLengthofCourse = null;
 
+  // calculate current poistion in text Slideshow
+
   if (currentblockprogressdata.allSlidesSeen) {
     slideVal = currentblockprogressdata.slideNumber;
-    console.log("allslides Seen");
   } else slideVal = currentblockprogressdata.currentSlide;
 
   if (itemDisplayed.length) {
@@ -325,13 +356,16 @@ function Main() {
     }
   });
 
-  let currentPositioninCourse =
-    numOfDisplayedItems + slideVal + (showPointsSummary ? 1 : 0);
-  // calculating length of component list and pass to context for access to the progress bar
+  let currentPositioninCourse = numOfDisplayedItems + slideVal;
+  console.log(
+    "🚀 ~ file: Main.jsx:355 ~ Main ~ currentPositioninCourse:",
+    currentPositioninCourse
+  );
 
-  let blockCompleted = false;
-
-  calculateProgress = (currentPositioninCourse / totalLengthofCourse) * 100;
+  if (!showPointsSummary) {
+    calculateProgress =
+      ((currentPositioninCourse - 1) / totalLengthofCourse) * 100;
+  } else calculateProgress = 100;
 
   dispatch(updateProgressPercentage({ payload: { calculateProgress } }));
 
@@ -345,9 +379,9 @@ function Main() {
         updateTimeElapsed: elapsedTime,
         quizScores: [
           {
-            updateQuizId: "Ccolin22223",
+            updateQuizId: blockName,
             updateScore: currentblockprogressdata.userScore,
-            updateCompletionStatus: blockCompleted,
+            updateCompletionStatus: showPointsSummary,
             updateQuestionsAttempted:
               currentblockprogressdata.questionsAttempted,
             updatePercentageScore: currentblockprogressdata.percentageScore,
@@ -359,24 +393,47 @@ function Main() {
     let elapsedTime = 0;
 
     if (calculateProgress === 100) {
+      setShowPointsSummary((val) => true);
       dispatch(updateBlockCompleted());
       elapsedTime = Date.now() - startTimeRef.current;
       updateUserDataFN();
-      // console.log("updateUserDataFN();");
+      setBlockDataSubmittedtoDB((val) => true);
     }
-  }, [showPointsSummary]);
+  }, [calculateProgress]);
+
+  useEffect(() => {
+    if (blockDataSubmittedtoDB) {
+      dispatch(resetUserScore());
+      dispatch(resetAllSlidesSeen());
+      // dispatch(resetBlockedCompleted());
+      dispatch(resetPointsAvailableArr());
+      dispatch(resetSlideNumber());
+
+      console.log("reset vakues");
+    }
+  }, [blockDataSubmittedtoDB]);
 
   return (
     <Wrapper>
-      {calculateProgress === 100 ? (
-        <PostBlockPointsReveal></PostBlockPointsReveal>
-      ) : (
-        renderedItems
-      )}
+      {renderedItems}
+      {showPointsSummary && <PostBlockPointsReveal></PostBlockPointsReveal>}
     </Wrapper>
   );
 }
+
 export default Main;
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const SlideWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 const Container = styled.div`
   display: flex;
@@ -386,12 +443,12 @@ const Container = styled.div`
   border-radius: 4px;
   background-color: rgb(255, 255, 255);
   box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
-  min-width: 300px;
   width: 100%;
-  max-width: 1000px;
 
   @media ${device.mobileL} {
-    min-height: 800px;
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
   }
 `;
 
@@ -405,26 +462,41 @@ const Item = styled.div`
   border-radius: 4px;
   width: 100%;
 
-  @media ${device.mobileL} {
-    height: 100vh;
-    min-height: 800px;
+  // min-height: 700px;
+
+  @media ${device.laptop} {
+    height: 1000px;
     scroll-margin: 8vh;
-    max-height: 1100px;
+    transition: 0.4s;
+    min-height: auto;
+    position: relative;
   }
 `;
 
-const Wrapper = styled.div`
-  // // padding: 4px;
-  // display: flex;
-  // flex-direction: column;
-  // // align-items: center;
-  // // position: absolute;
+const Box = styled.div`
+  margin-bottom: 5px;
+
+  @media ${device.mobileL} {
+    height: 10vh;
+    width: 5vw;
+  }
 `;
 
-const PortableTextWrapper = styled.div`
-  margin: 5px;
+const CourseDetails = styled.div`
+  padding-top: 40px;
+  margin: 4px;
+  height: 10%;
+  min-height: 100px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  border-radius: 4px;
+  background-color: rgb(255, 255, 255);
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
+  max-width: 1000px;
 `;
-
 /* <ClickIncorrectWord
         click_incorrect_words_text={click_incorrect_words_text}
         click_incorrect_words_text_body={click_incorrect_words_text_body}
