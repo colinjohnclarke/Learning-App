@@ -51,6 +51,6 @@ export default TextSectionDesktop;
 const Wrapper = styled.section`
   // display: flex;
   // flex-direction: column;
-  // overflow: hidden;
+  overflow: hidden;
   // max-height: 700px;
 `;

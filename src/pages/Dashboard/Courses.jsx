@@ -84,7 +84,7 @@ function Courses() {
                 fontWeight: "600",
               }}
             >
-              {item.subject} :
+              {item.subject}
             </p>
             <p
               style={{

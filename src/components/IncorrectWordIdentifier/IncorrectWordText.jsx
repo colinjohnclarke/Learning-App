@@ -12,7 +12,6 @@ import MCQ from "./MCQ";
 
 function IncorrectWordText({ data, index, updateStateFunctions }) {
 
-
   const [word1selected, setWord1selected] = useState(false);
   const [word2selected, setWord2selected] = useState(false);
 

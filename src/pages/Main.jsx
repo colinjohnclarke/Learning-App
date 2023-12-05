@@ -53,6 +53,8 @@ function Main() {
   /// use params from search function
   const { subject, courseName, blockName } = useParams();
 
+  console.log("params", subject, courseName, blockName);
+
   const startTimeRef = useRef(Date.now());
 
   const userData = useContext(UserContext);

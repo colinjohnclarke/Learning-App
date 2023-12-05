@@ -133,6 +133,7 @@ const Main = styled.div`
   align-items: center;
   position: relative;
   padding-top: 40px;
+  overflow: hidden;
 
   @media ${device.mobileL} {
     padding-top: 40px;

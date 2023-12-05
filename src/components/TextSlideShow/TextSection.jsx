@@ -62,7 +62,7 @@ const Wrapper = styled.section`
   border-bottom: 0.5px solid grey;
   display: flex;
   flex-direction: column;
-  // overflow: hidden;
+  overflow: hidden;
 `;
 
 // <StartQuizBtn
