@@ -23,6 +23,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { updateProgressPercentage } from "../features/ProgressBar/ProgressBar";
 import PostBlockPointsReveal from "../components/Data/PostBlockPointsReveal/PostBlockPointsReveal";
 import { GrNext } from "react-icons/gr";
+import GridLoader from "react-spinners/GridLoader";
+import ImagefromSanity from "../config/sanity/ImagefromSanity";
+
 import {
   updateBlockCompleted,
   resetUserScore,
@@ -37,9 +40,11 @@ import { UserContext } from "../App";
 import CheckScoreBtn from "../components/Buttons/CheckScoreBtn";
 import StartQuizBtn from "../components/Buttons/StartQuizBtn";
 import { device } from "../styles/breakpoints";
+import CourseDetails from "../components/CourseDetails/CourseDetails";
 
 function Main() {
   const [data, setData] = useState([]);
+  console.log("🚀 ~ file: Main.jsx:45 ~ Main ~ data:", data);
   const [showPointsSummary, setShowPointsSummary] = useState(false);
   const [itemDisplayed, setItemDisplayed] = useState([]);
   const [blockDataSubmittedtoDB, setBlockDataSubmittedtoDB] = useState(false);
@@ -63,7 +68,7 @@ function Main() {
     sanityClient
       .fetch(
         `*[_type == "${subject}" && name == "${blockName}" ]
-        { subject_skills[]->, slider, incorrect_words_from_text, order_items_drag_drop,
+        { subject_skills[]->, coverImage, slider, incorrect_words_from_text, order_items_drag_drop,
                     name, tags, textblock1, textblock2, textblock3, textblock4, textblock5,  hint, problem_keywords[]->,  example_problem, MCQ_INPUTS, MCQ_MATH_INPUTS,  student_text_input, gap_fill, incorrect_words_from_text, table, line_graph_data,
                     standard_tables,standard_table_variable_names
                     }`
@@ -183,6 +188,7 @@ function Main() {
       // case "slider":
       //   component = <MovingSliderWrapper data={[slider[item.index]]} />;
       //   break;
+
       case "slider":
         component = <DualBoxSelectionWrapper data={[slider[item.index]]} />;
         break;
@@ -270,29 +276,15 @@ function Main() {
   }, [currentblockprogressdata.startQuiz]);
 
   const renderedItems = [
-    <CourseDetails>
-      <Box></Box>
-      <p style={{ padding: "5px", margin: "5px", fontSize: "14px" }}>
-        {subject}
-      </p>{" "}
-      <GrNext style={{}} />
-      <p style={{ padding: "5px", margin: "5px", fontSize: "14px" }}>
-        {courseName}{" "}
-      </p>
-      <GrNext style={{}} />
-      <p
-        style={{
-          padding: "5px",
-          fontWeight: "500",
-          margin: "10px",
-          fontSize: "14px",
-        }}
-      >
-        {blockName}
-      </p>
-    </CourseDetails>,
+    <CourseDetails
+      className="animate__animated animate__fadeIn"
+      data={data.coverImage}
+      subject={subject}
+      courseName={courseName}
+      blockName={blockName}
+    />,
 
-    <Container>
+    <Container className="animate__animated animate__fadeIn">
       <TextSlideShowWrapper
         length={slideShowDataArr.length}
         data={slideShowDataArr}
@@ -311,8 +303,11 @@ function Main() {
     ...displayedItems.map(
       (item, index) =>
         item.displayed && (
-          <Item ref={itemRefs[index]} key={index}>
-            <Container>
+          <Item key={index} className="animate__animated animate__fadeIn ">
+            <Container
+              ref={itemRefs[index]}
+              className="animate__animated animate__fadeIn "
+            >
               {item.component}
 
               {index < itemData.length && index !== itemData.length - 1 && (
@@ -359,10 +354,6 @@ function Main() {
   });
 
   let currentPositioninCourse = numOfDisplayedItems + slideVal;
-  console.log(
-    "🚀 ~ file: Main.jsx:355 ~ Main ~ currentPositioninCourse:",
-    currentPositioninCourse
-  );
 
   if (!showPointsSummary) {
     calculateProgress =
@@ -415,8 +406,21 @@ function Main() {
     }
   }, [blockDataSubmittedtoDB]);
 
+  const loader = (
+    <Loader>
+      <GridLoader
+        color={"rgb(0, 250, 250, 0.5)"}
+        // loading={loading}
+        // cssOverride={override}
+        size={25}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+    </Loader>
+  );
   return (
     <Wrapper>
+      {data.length === 0 && loader}
       {renderedItems}
       {showPointsSummary && <PostBlockPointsReveal></PostBlockPointsReveal>}
     </Wrapper>
@@ -437,6 +441,18 @@ const SlideWrapper = styled.div`
   align-items: center;
 `;
 
+const Loader = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: 100;
+  background-color: rgba(239, 239, 249, 1);
+`;
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -446,6 +462,8 @@ const Container = styled.div`
   background-color: rgb(255, 255, 255);
   box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
   width: 100%;
+  scroll-padding: 100px;
+  scroll-margin: 45px;
 
   @media ${device.mobileL} {
     position: relative;
@@ -455,8 +473,8 @@ const Container = styled.div`
 `;
 
 const Item = styled.div`
-  scroll-padding: 100px;
-  scroll-margin: 45px;
+  // scroll-padding: 100px;
+  // scroll-margin: 45px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -484,21 +502,6 @@ const Box = styled.div`
   }
 `;
 
-const CourseDetails = styled.div`
-  padding-top: 40px;
-  margin: 4px;
-  height: 10%;
-  min-height: 100px;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: start;
-  align-items: center;
-  border-radius: 4px;
-  background-color: rgb(255, 255, 255);
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
-  max-width: 1000px;
-`;
 /* <ClickIncorrectWord
         click_incorrect_words_text={click_incorrect_words_text}
         click_incorrect_words_text_body={click_incorrect_words_text_body}

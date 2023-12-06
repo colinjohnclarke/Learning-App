@@ -10,14 +10,19 @@ const LoginBtn = () => {
       <div
         style={{
           display: "flex",
-          width: "100%",
-          height: "100%",
-          justifyContent: "center",
+          flexDirection: "column",
+          width: "100vw",
+          height: "100vh",
+
           alignItems: "center",
+          justifyContent: "center",
         }}
       >
         {" "}
-        <MainActionBtn onClick={() => loginWithRedirect()}>
+        <MainActionBtn
+          style={{ width: "350px", height: "50px" }}
+          onClick={() => loginWithRedirect()}
+        >
           Sign in
         </MainActionBtn>
       </div>

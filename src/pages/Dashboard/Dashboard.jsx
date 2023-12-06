@@ -11,6 +11,7 @@ import "animate.css";
 import { device } from "../../styles/breakpoints";
 import { useAuth0 } from "@auth0/auth0-react";
 import sanityClient from "../../createclient";
+import GridLoader from "react-spinners/GridLoader";
 
 import { useGetUserByEmailQuery } from "../../features/api/UserData/userDataSlice";
 
@@ -19,16 +20,27 @@ function Dashboard() {
   const { user } = useAuth0();
   // console.log("🚀 ~ file: Dashboard.jsx:20 ~ Dashboard ~ user:", user);
 
-
-  
-
   const { data, isLoading, isError, error } = useGetUserByEmailQuery(
     user?.email
+  );
+
+  const loader = (
+    <Loader>
+      <GridLoader
+        color={"rgb(0, 250, 250, 0.5)"}
+        size={25}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+    </Loader>
   );
 
   return (
     <Wrapper>
       <DashboardHeader />
+
+      {isLoading && loader}
+
       <Main>
         <Greeting>
           <Welcome>
@@ -66,11 +78,14 @@ function Dashboard() {
             <AllTimeXPBox data={data} />
           </Box>
         </UserdataWrapper>
+        <div style={{ height: "10px" }}></div>
         <SearchCourse />
+        <div style={{ height: "10px" }}></div>
         {/* display recent Courses */}
         <Course>
           <Courses data={data} />
         </Course>
+        <div style={{ height: "10px" }}></div>
         <LeaderBoard />
       </Main>
     </Wrapper>
@@ -155,4 +170,16 @@ const Course = styled.div`
   justify-content: space-between;
   align-items: center;
   // margin: 7px;
+`;
+
+const Loader = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: 100;
+  background-color: rgba(239, 239, 249);
 `;

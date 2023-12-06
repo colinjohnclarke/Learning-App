@@ -27,7 +27,7 @@ function TextSection({
 
   if (index <= currentslide) {
     textStyle = { padding: "flex", transition: "0.3s" };
-    animateSection = "animate__animated animate__fadeInLeftBig animate__fast";
+    animateSection = "animate__animated animate__fadeIn";
   }
 
   const continueArrowButton = (
@@ -49,7 +49,7 @@ function TextSection({
           overflow: "hidden",
         }}
       >
-        {index !== length - 2 && continueArrowButton}
+        {index + 2 !== length && continueArrowButton}
       </div>
     </Wrapper>
   );

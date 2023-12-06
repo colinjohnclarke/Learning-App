@@ -9,6 +9,10 @@ import CourseFilterBtn from "../../components/Buttons/CourseFilterBtn";
 import { CourseFilterContext } from "./CourseFilter/CourseFilterContext";
 import FetchCoursefromSanity from "./CourseFilter/FetchCoursefromSanity";
 import { defaultCoursesImages } from "./CourseFilter/DefaultCourseImages";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import sanityClient from "../../createclient";
+import imageUrlBuilder from "@sanity/image-url";
 
 function Courses() {
   const [seeAllCoursesDisplayed, setSeeAllCoursesDisplayed] = useState(false);
@@ -30,6 +34,12 @@ function Courses() {
     "🚀 ~ file: Courses.jsx:12 ~ defaultCoursesImages:",
     defaultCoursesImages
   );
+
+  const builder = imageUrlBuilder(sanityClient);
+
+  const imgurlFor = (source) => {
+    return builder.image(source);
+  };
 
   // const { type } = useParams();
   // console.log("🚀 ~ file: Courses.jsx:35 ~ Courses ~ type:", type);
@@ -64,6 +74,17 @@ function Courses() {
   const allCourses = courses.map((item) => {
     console.log(item.subject);
 
+    const content = item.coverImage ? (
+      <img
+        alt=""
+        style={{
+          height: "100px",
+          width: "100px",
+        }}
+        src={imgurlFor(item.coverImage.asset._ref)}
+      />
+    ) : null;
+
     let imgurl = defaultCoursesImages.find((subItem) => {
       return subItem.subject === item.subject;
     });
@@ -97,13 +118,17 @@ function Courses() {
             </p>
           </Text>
 
-          <Image
-            src={
-              imgurl
-                ? imgurl.imageUrl
-                : "https://stpauls.fra1.digitaloceanspaces.com/wp-content/uploads/2022/04/28130914/SPS-logo-centred-POS.png"
-            }
-          ></Image>
+          {content ? (
+            <Image>{content}</Image>
+          ) : (
+            <Img
+              src={
+                imgurl
+                  ? imgurl.imageUrl
+                  : "https://stpauls.fra1.digitaloceanspaces.com/wp-content/uploads/2022/04/28130914/SPS-logo-centred-POS.png"
+              }
+            ></Img>
+          )}
         </Box>
       </Link>
     );
@@ -149,8 +174,12 @@ function Courses() {
           style={seeAllCoursesDisplayed ? selectionbarRight : selectionbarLeft}
         ></SelectionBar>
 
-        {recentCoursesDisplayed && recentCourses}
-        {seeAllCoursesDisplayed && allCourses}
+        {recentCoursesDisplayed &&
+          (recentCourses || <Skeleton height={60} count={3} />)}
+        {seeAllCoursesDisplayed && (allCourses || <Skeleton count={3} />)}
+
+        {/* {<Skeleton height={50} count={3} />}
+        {seeAllCoursesDisplayed && (allCourses || <Skeleton count={3} />)} */}
       </CourseFilterContext.Provider>
     </Wrapper>
   );
@@ -196,12 +225,13 @@ const Text = styled.div`
   align-items: center;
 `;
 
-const Image = styled.img`
+const Img = styled.img`
   height: 100%;
   width: 33.3%;
   border-radius: 5px;
   max-width: 100px;
   min-width: 100px;
+  clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 25% 100%, 0% 50%);
 `;
 
 const Header = styled.div`
@@ -277,4 +307,13 @@ const Filter = styled.div`
   // align-items: center;
   border: 1px solid;
   width: 100%;
+`;
+
+const Image = styled.div`
+  height: 100%;
+
+  clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 25% 100%, 0% 50%);
+
+  @media ${device.mobileL} {
+  }
 `;

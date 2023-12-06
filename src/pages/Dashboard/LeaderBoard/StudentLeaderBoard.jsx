@@ -5,6 +5,8 @@ import { rankData } from "./LeaderBoardRankData";
 import { device } from "../../../styles/breakpoints";
 import { useGetTop10UsersQuery } from "../../../features/api/UserData/userDataSlice";
 import "animate.css";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 function StudentLeaderBoard() {
   // console.log(useGetTop10UsersQuery);
@@ -15,152 +17,156 @@ function StudentLeaderBoard() {
 
   const filtered = data ? newArr?.sort((a, b) => b.totalXP - a.totalXP) : [];
 
-  return (
-    <Wrapper>
-      <Main>
-        <thead>
-          <Tr>
-            <Rank
-              style={{
-                position: "relative",
-                // right: "14.7%",
-                fontWeight: "500",
-                fontSize: "15px",
-              }}
-            >
-              Rank
-            </Rank>
-            <TableHead>Student</TableHead>
-            <TableHead>Xp</TableHead>
-            <TableHead>School</TableHead>
-          </Tr>
-        </thead>
+  const mainContent = (
+    <Main>
+      <thead>
+        <Tr>
+          <Rank
+            style={{
+              position: "relative",
+              // right: "14.7%",
+              fontWeight: "500",
+              fontSize: "15px",
+            }}
+          >
+            Rank
+          </Rank>
+          <TableHead>Student</TableHead>
+          <TableHead>Xp</TableHead>
+          <TableHead>School</TableHead>
+        </Tr>
+      </thead>
 
-        <TableBody>
-          {filtered?.map((item, index) => {
-            let rankElement = <></>;
+      <TableBody>
+        {filtered?.map((item, index) => {
+          let rankElement = <></>;
 
-            if (rankData[index].display) {
-              rankElement = (
-                <img
-                  style={{
-                    height: "30px",
-                    position: "relative",
-                    right: "1.3%",
-                  }}
-                  src={rankData[index].display}
-                  alt={rankData[index].position}
-                />
-              );
-            } else {
-              rankElement = (
-                <div
-                  style={{
-                    height: "30px",
-                    width: "30px",
-                    borderRadius: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    boxShadow: "rgba(0, 0, 0, 0.15) 0px 3px 1px 0px",
-                    position: "relative",
-                    right: "1.3%",
-                  }}
-                >
-                  {rankData[index].position}
-                </div>
-              );
-            }
-
-            const gifElement = (
-              <GifImg
+          if (rankData[index].display) {
+            rankElement = (
+              <img
                 style={{
-                  height: "50px",
-                  width: "60px",
+                  height: "30px",
+                  position: "relative",
+                  right: "1.3%",
+                }}
+                src={rankData[index].display}
+                alt={rankData[index].position}
+              />
+            );
+          } else {
+            rankElement = (
+              <div
+                style={{
+                  height: "30px",
+                  width: "30px",
+                  borderRadius: "100%",
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
-                  boxShadow: "rgba(0, 0, 0, 0.15) 0px 1px 1px 0px",
-                  maxWidth: "100px",
-                  maxHeight: "100px",
-                  // display: "none",
+                  boxShadow: "rgba(0, 0, 0, 0.15) 0px 3px 1px 0px",
+                  position: "relative",
+                  right: "1.3%",
                 }}
-                alt={rankData[index].position}
-                src={rankData[index].gif}
-              ></GifImg>
-            );
-
-            const borderBottomStyle =
-              index === 2
-                ? "2px solid rgba(0, 200, 200, 0.5)"
-                : "0.5px solid rgba(200, 200, 200, 0.5)";
-
-            return (
-              <Tr
-                style={{
-                  animationDelay: `${index / 20}s`,
-                  backgroundColor: "white",
-                }}
-                className=" animate__animated animate__fadeInUpBig"
               >
-                <Td
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-around",
-                    alignItems: "center",
-                    width: "100%",
-                    fontWeight: "700",
-                    borderBottom: borderBottomStyle,
-                  }}
-                >
-                  {rankElement}
-
-                  <Gif>{gifElement}</Gif>
-                </Td>
-
-                <Td style={{ borderBottom: borderBottomStyle }}>
-                  <p
-                    style={{
-                      fontWeight: "600",
-                      fontSize: "13px",
-                      color: "blue",
-                      textAlign: "left",
-                    }}
-                  >
-                    {item.firstName ? (
-                      <span>
-                        {item.firstName} {item.lastName}
-                      </span>
-                    ) : (
-                      <span>{item.email}</span>
-                    )}
-                  </p>
-                </Td>
-                <Td
-                  style={{
-                    fontWeight: "700",
-                    fontSize: "13px",
-                    color: "darkblue",
-                    width: "100px",
-                    borderBottom: borderBottomStyle,
-                  }}
-                >
-                  {item.totalXP}
-                </Td>
-                <Td style={{ borderBottom: borderBottomStyle }}>
-                  <p
-                    style={{
-                      fontSize: "13px",
-                    }}
-                  >
-                    {item.schoolName}
-                  </p>
-                </Td>
-              </Tr>
+                {rankData[index].position}
+              </div>
             );
-          })}
-        </TableBody>
-      </Main>
+          }
+
+          const gifElement = (
+            <GifImg
+              style={{
+                height: "50px",
+                width: "60px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                boxShadow: "rgba(0, 0, 0, 0.15) 0px 1px 1px 0px",
+                maxWidth: "100px",
+                maxHeight: "100px",
+                // display: "none",
+              }}
+              alt={rankData[index].position}
+              src={rankData[index].gif}
+            ></GifImg>
+          );
+
+          const borderBottomStyle =
+            index === 2
+              ? "2px solid rgba(0, 200, 200, 0.5)"
+              : "0.5px solid rgba(200, 200, 200, 0.5)";
+
+          return (
+            <Tr
+              style={{
+                animationDelay: `${index / 20}s`,
+                backgroundColor: "white",
+              }}
+              className=" animate__animated animate__fadeInUpBig"
+            >
+              <Td
+                style={{
+                  display: "flex",
+                  justifyContent: "space-around",
+                  alignItems: "center",
+                  width: "100%",
+                  fontWeight: "700",
+                  borderBottom: borderBottomStyle,
+                }}
+              >
+                {rankElement}
+
+                <Gif>{gifElement}</Gif>
+              </Td>
+
+              <Td style={{ borderBottom: borderBottomStyle }}>
+                <p
+                  style={{
+                    fontWeight: "600",
+                    fontSize: "13px",
+                    color: "blue",
+                    textAlign: "left",
+                  }}
+                >
+                  {item.firstName ? (
+                    <span>
+                      {item.firstName} {item.lastName}
+                    </span>
+                  ) : (
+                    <span>{item.email}</span>
+                  )}
+                </p>
+              </Td>
+              <Td
+                style={{
+                  fontWeight: "700",
+                  fontSize: "13px",
+                  color: "darkblue",
+                  width: "100px",
+                  borderBottom: borderBottomStyle,
+                }}
+              >
+                {item.totalXP}
+              </Td>
+              <Td style={{ borderBottom: borderBottomStyle }}>
+                <p
+                  style={{
+                    fontSize: "13px",
+                  }}
+                >
+                  {item.schoolName}
+                </p>
+              </Td>
+            </Tr>
+          );
+        })}
+      </TableBody>
+    </Main>
+  );
+
+  return (
+    <Wrapper>
+      {isLoading ? <Skeleton height={60} count={10} /> : mainContent}
     </Wrapper>
   );
 }

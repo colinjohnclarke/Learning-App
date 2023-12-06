@@ -10,6 +10,7 @@ import {
   useGetUserByEmailQuery,
   useCreateUserMutation,
 } from "./features/api/UserData/userDataSlice";
+import NavigationBarMobile from "./components/Navigation/NavigationBarMobile";
 
 export const UserContext = createContext();
 
@@ -94,11 +95,14 @@ function App() {
       {!isAuthenticated ? (
         <Login></Login>
       ) : (
+        // <h1>djshj</h1>
         <BrowserRouter>
           <Drawer />
           <Header></Header>
           <UserContext.Provider value={data}>
             <Routing />
+
+            <NavigationBarMobile />
           </UserContext.Provider>
         </BrowserRouter>
       )}

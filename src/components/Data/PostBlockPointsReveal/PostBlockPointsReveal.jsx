@@ -72,6 +72,7 @@ const Wrapper = styled.div`
   height: 100vh;
   width: 100vw;
   background-color: rgba(250, 250, 250, 0.9);
+
   z-index: 300;
   position: fixed;
   display: flex;

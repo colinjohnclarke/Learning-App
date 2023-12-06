@@ -193,6 +193,7 @@ function DragandDropMain({
             return <NumBorder>{<Num>{index + 1}</Num>}</NumBorder>;
           })}
         </NumWrapper>
+        <div style={{ height: "10px" }}></div>
         <SortableContext
           disabled={allcorrect}
           strategy={verticalListSortingStrategy}
@@ -241,7 +242,7 @@ const NumWrapper = styled.div`
     // border: 1px solid;
     position: absolute;
     display: flex;
-    top: 110px;
+    top: 120px;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -329,6 +330,7 @@ const Question = styled.p`
   max-height: 20px;
   font-weight: 400;
   padding: 10px;
+
   text-align: center;
 `;
 

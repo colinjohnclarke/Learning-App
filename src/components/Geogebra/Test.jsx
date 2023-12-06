@@ -41,7 +41,7 @@ function Test({ material_id, id }) {
     <div
       style={{
         maxWidth: "96.5vw",
-        // width: "100%",
+        width: "100%",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
