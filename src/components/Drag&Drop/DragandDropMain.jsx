@@ -7,7 +7,6 @@ import DragandDropItem from "./DragandDropItem";
 import { device } from "../../styles/breakpoints";
 import HelpBtn from "../Buttons/HelpBtn";
 import Score from "../Data/CurrentQuestionScores/Score";
-import { DragandDropContext } from "./DragandDropContext";
 
 import {
   DndContext,
@@ -30,10 +29,6 @@ function DragandDropMain({
   updateStateFunctions,
   totalMarksAvailable,
 }) {
-  console.log(
-    "🚀 ~ file: DragandDropMain.jsx:33 ~ totalMarksAvailable:",
-    totalMarksAvailable
-  );
   const [introduction, setIntroduction] = useState([]);
   const [statements, setStatements] = useState([]);
   const [helpneeded, setHelpNeeded] = useState(false);

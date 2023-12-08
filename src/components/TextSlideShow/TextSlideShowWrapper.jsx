@@ -11,10 +11,7 @@ import {
 
 function TextSlideShowWrapper({ data, length }) {
   const filterEmptySlideContent = data.filter((item) => item !== null);
-  console.log(
-    "🚀 ~ file: TextSlideShowWrapper.jsx:19 ~ TextSlideShowWrapper ~ filterEmptySlideContent:",
-    filterEmptySlideContent
-  );
+
 
   const [currentslide, setCurrentSlide] = useState(0);
   const [width, setWidth] = useState(window.innerWidth);

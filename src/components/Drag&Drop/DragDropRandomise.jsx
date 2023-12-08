@@ -5,7 +5,7 @@ import DragandDropMain from "./DragandDropMain";
 import { device } from "../../styles/breakpoints";
 
 function DragDropRandomise({ data, updateStateFunctions }) {
-  console.log("🚀 ~ file: DragDropRandomise.jsx:8 ~ DragDropRandomise ~ data:", data)
+
   const [reset, setReset] = useState(false);
   const [sorted, setSorted] = useState([]);
 

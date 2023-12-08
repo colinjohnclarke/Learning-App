@@ -5,8 +5,9 @@ import { colors } from "../../../styles/colors";
 import correct from "../../../assets/correct.mp3";
 import { useDispatch } from "react-redux";
 import {
-  updatePointsAvaiableArr,
+  updatePointsAvailable,
   updateUserScore,
+  reverseUpdatePointsAvailable,
 } from "../../../features/CurrentBlockProgressData/currentblockprogressdata";
 
 function Score({ scoreData, totalMarksAvailable }) {
@@ -30,9 +31,13 @@ function Score({ scoreData, totalMarksAvailable }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(updatePointsAvaiableArr({ totalMarksAvailable }));
-  }, []);
+    dispatch(updatePointsAvailable(totalMarksAvailable));
+    return () => {
+      dispatch(reverseUpdatePointsAvailable(totalMarksAvailable));
+    };
+  }, [totalMarksAvailable]);
 
+  
   const [indexMarkUpdated, setIndexMarkUpdated] = useState(
     Array(totalMarksAvailable).fill(false)
   );

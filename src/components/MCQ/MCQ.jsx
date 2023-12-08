@@ -7,14 +7,7 @@ import { useSelector } from "react-redux";
 import { device } from "../../styles/breakpoints";
 
 function MCQ({ data }) {
-  // console.log("🚀 ~ file: MCQ.jsx:9 ~ MCQ ~ data:", data);
-  // const index0AnswerisCorrect = useSelector(
-  //   (state) => state.mcqslice.index0CorrectAnswerSelected
-  // );
 
-  // const index1AnswerisCorrect = useSelector(
-  //   (state) => state.mcqslice.index1CorrectAnswerSelected
-  // );
 
   const [correctAnswerIsSelected, setCorrectAnswerIsSelected] = useState(false);
   const [incorrectAnswerIsSelected, setIncorrectAnswerIsSelected] =

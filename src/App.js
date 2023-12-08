@@ -11,14 +11,15 @@ import {
   useCreateUserMutation,
 } from "./features/api/UserData/userDataSlice";
 import NavigationBarMobile from "./components/Navigation/NavigationBarMobile";
+import AnimatedPercentageScore from "./pages/Dashboard/AnimatedPercentageScore";
 
 export const UserContext = createContext();
 
 function App() {
   const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
-  console.log("🚀 ~ file: App.js:18 ~ App ~ user:", user);
+
   const { data } = useGetUserByEmailQuery(user?.email);
-  console.log("🚀 ~ file: App.js:20 ~ App ~ data:", data);
+
   // const domain = process.env.REACT_APP_AUTH0_DOMAIN;
 
   const [userMetadata, setUserMetadata] = useState(null);
@@ -76,15 +77,12 @@ function App() {
           });
           return response;
         } catch (error) {
-          // // Handle any error that occurs during user creation
-          // console.log("Error creating user:", error);
           return null; // Return null if there's an error
         }
       };
 
       const newlyCreatedUser = createNewUser();
       newlyCreatedUser.then((response) => {
-        // console.log("Response from createUser:", response);
         // Handle the response object here
       });
     }

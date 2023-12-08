@@ -18,11 +18,6 @@ function PostBlockPointsReveal() {
   let blockCompleted = useSelector(
     (state) => state.currentblockprogressdata.blockCompleted
   );
-  console.log(
-    "🚀 ~ file: PostBlockPointsReveal.jsx:21 ~ PostBlockPointsReveal ~ blockCompleted:",
-    blockCompleted
-  );
-  // console.log("🚀 ~ file: PostBlockPointsReveal.jsx:21 ~ PostBlockPointsReveal ~ blockCompleted:", blockCompleted)
 
   const animatedBlockProgressScore = (
     <PercentageScoreRevealAnimate

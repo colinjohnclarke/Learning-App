@@ -60,7 +60,6 @@ function CourseFilter() {
           <Back
             onClick={() => {
               setDisplayFilter((val) => !val);
-              console.log("clicked");
             }}
           >
             {" "}

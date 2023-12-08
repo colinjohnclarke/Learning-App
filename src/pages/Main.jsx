@@ -33,6 +33,7 @@ import {
   resetBlockedCompleted,
   resetPointsAvailableArr,
   resetSlideNumber,
+  updatePercentage,
 } from "../features/CurrentBlockProgressData/currentblockprogressdata";
 import { useUpdateUserDataMutation } from "../features/api/UserData/userDataSlice";
 import { useGetUserByEmailQuery } from "../features/api/UserData/userDataSlice";
@@ -57,8 +58,6 @@ function Main() {
 
   /// use params from search function
   const { subject, courseName, blockName } = useParams();
-
-  console.log("params", subject, courseName, blockName);
 
   const startTimeRef = useRef(Date.now());
 
@@ -360,11 +359,17 @@ function Main() {
       ((currentPositioninCourse - 1) / totalLengthofCourse) * 100;
   } else calculateProgress = 100;
 
-  dispatch(updateProgressPercentage({ payload: { calculateProgress } }));
-
   const [updateUserData] = useUpdateUserDataMutation();
 
   useEffect(() => {
+    dispatch(
+      updatePercentage(
+        (currentblockprogressdata.userScore /
+          currentblockprogressdata.pointsAvailable) *
+          100
+      )
+    );
+
     const updateUserDataFN = async () => {
       // console.log("updateUserDataFN");
       await updateUserData({
@@ -373,11 +378,16 @@ function Main() {
         quizScores: [
           {
             updateQuizId: blockName,
+            updateSubject: subject,
+            updateCourseName: courseName,
             updateScore: currentblockprogressdata.userScore,
             updateCompletionStatus: showPointsSummary,
             updateQuestionsAttempted:
               currentblockprogressdata.questionsAttempted,
-            updatePercentageScore: currentblockprogressdata.percentageScore,
+            updatePercentageScore:
+              (currentblockprogressdata.userScore /
+                currentblockprogressdata.pointsAvailable) *
+              100,
           },
         ],
       });
@@ -401,8 +411,6 @@ function Main() {
       // dispatch(resetBlockedCompleted());
       dispatch(resetPointsAvailableArr());
       dispatch(resetSlideNumber());
-
-      console.log("reset vakues");
     }
   }, [blockDataSubmittedtoDB]);
 

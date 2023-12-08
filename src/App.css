@@ -18,6 +18,7 @@ body {
   width: 100%; */
   /* margin: 5px; */
   background-color: rgba(239, 239, 249, 0.413);
+
   overscroll-behavior: none;
   margin: 0;
   padding: 0;

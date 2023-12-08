@@ -18,11 +18,13 @@ import { useGetUserByEmailQuery } from "../../features/api/UserData/userDataSlic
 function Dashboard() {
   const [queryResult, setQueryResult] = useState({});
   const { user } = useAuth0();
-  // console.log("🚀 ~ file: Dashboard.jsx:20 ~ Dashboard ~ user:", user);
+
 
   const { data, isLoading, isError, error } = useGetUserByEmailQuery(
     user?.email
   );
+
+  console.log("🚀 ~ file: Dashboard.jsx:24 ~ Dashboard ~ data:", data);
 
   const loader = (
     <Loader>

@@ -4,7 +4,7 @@ import "animate.css";
 import { colors, correctstyle } from "../../../styles/colors";
 import correct from "../../../assets/correct.mp3";
 import {
-  updatePointsAvaiableArr,
+  updatePointsAvaiable,
   updateUserScore,
 } from "../../../features/CurrentBlockProgressData/currentblockprogressdata";
 
@@ -13,7 +13,6 @@ import { useDispatch, useSelector } from "react-redux";
 function ScoreMCQMaths(props) {
   const totalMarksAvailable = props.totalMarksAvailable;
   const index = props.index;
-
 
   const index0SelectionCorrect = useSelector(
     (state) => state.mathsMCQSlice.index0CorrectAnswerSelected
@@ -43,7 +42,7 @@ function ScoreMCQMaths(props) {
 
   // update total marks available in redux store
 
-  dispatch(updatePointsAvaiableArr({ totalMarksAvailable }));
+  dispatch(updatePointsAvaiable({ totalMarksAvailable }));
 
   let index0SoundPlayed = false;
   let index1SoundPlayed = false;

@@ -13,13 +13,17 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import sanityClient from "../../createclient";
 import imageUrlBuilder from "@sanity/image-url";
+import AnimatedPercentageScore from "./AnimatedPercentageScore";
 
-function Courses() {
+function Courses({ data }) {
+  console.log("🚀 ~ file: Courses.jsx:19 ~ Courses ~ data:", data);
   const [seeAllCoursesDisplayed, setSeeAllCoursesDisplayed] = useState(false);
   const [recentCoursesDisplayed, setRecentCoursesDisplayed] = useState(true);
   const [displayFilter, setDisplayFilter] = useState(false);
 
   const [dropDownClicked, setDropdownClicked] = useState(Array(6).fill(false));
+
+  const blocksCompleted = data?.user.blocksCompleted || undefined;
 
   const handleSchoolLeaderBoardClick = () => {
     setSeeAllCoursesDisplayed((val) => !val);
@@ -30,10 +34,6 @@ function Courses() {
     setRecentCoursesDisplayed((val) => !val);
     setSeeAllCoursesDisplayed((val) => !val);
   };
-  console.log(
-    "🚀 ~ file: Courses.jsx:12 ~ defaultCoursesImages:",
-    defaultCoursesImages
-  );
 
   const builder = imageUrlBuilder(sanityClient);
 
@@ -41,15 +41,11 @@ function Courses() {
     return builder.image(source);
   };
 
-  // const { type } = useParams();
-  // console.log("🚀 ~ file: Courses.jsx:35 ~ Courses ~ type:", type);
-
   const { subject, courseName, blockName } = useParams();
 
-  console.group(subject, courseName, blockName);
+  console.log(subject, courseName, blockName);
 
   const courses = FetchCoursefromSanity();
-  console.log("🚀 ~ file: Courses.jsx:30 ~ Courses ~ courses:", courses);
 
   const selected = {
     fontWeight: "500",
@@ -72,8 +68,6 @@ function Courses() {
   };
 
   const allCourses = courses.map((item) => {
-    console.log(item.subject);
-
     const content = item.coverImage ? (
       <img
         alt=""
@@ -88,6 +82,18 @@ function Courses() {
     let imgurl = defaultCoursesImages.find((subItem) => {
       return subItem.subject === item.subject;
     });
+
+    const filterCompletedBlocks = blocksCompleted?.filter(
+      (subItem) => subItem.blockName === item.blockName
+    );
+
+    let highestPercentageScore;
+
+    if (filterCompletedBlocks) {
+      highestPercentageScore = Math.round(
+        filterCompletedBlocks[0]?.PercentageScores
+      );
+    }
 
     return (
       <Link
@@ -117,6 +123,15 @@ function Courses() {
               {item.blockName}
             </p>
           </Text>
+
+          {highestPercentageScore ? (
+            <AnimatedPercentageScore
+              // percentage={Math.round(highestPercentageScore)}
+              percentage={highestPercentageScore}
+            />
+          ) : (
+            <></>
+          )}
 
           {content ? (
             <Image>{content}</Image>
@@ -210,8 +225,8 @@ const Box = styled.a`
   transition: 0.4s;
 
   &:hover {
-    transform: translateY(-2px);
-    background-color: rgba(0, 200, 200, 0.3);
+    // transform: translateY(-2px);
+    background-color: rgba(0, 200, 200, 0.8);
     transition: 0.4s;
   }
 `;

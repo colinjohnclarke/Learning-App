@@ -6,7 +6,7 @@ import { GrNext } from "react-icons/gr";
 import { device } from "../../styles/breakpoints";
 
 function CourseDetails({ data, subject, courseName, blockName }) {
-  console.log("details", subject, courseName, blockName);
+
 
   const builder = imageUrlBuilder(sanityClient);
 

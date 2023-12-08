@@ -14,10 +14,7 @@ function SearchCourse() {
   const [displaySearchResults, setDisplaySearchResult] = useState(false);
 
   const coursesfromSanity = FetchCoursefromSanity();
-  console.log(
-    "🚀 ~ file: SearchCourse.jsx:17 ~ SearchCourse ~ coursesfromSanity:",
-    coursesfromSanity
-  );
+
 
   // let contentNameFromSanity = "biology_blocks";
   // let blockName = "photosynthesis_required_practical";
@@ -44,7 +41,7 @@ function SearchCourse() {
 
   let searchBoxHeight = searchedResult.length * 60 + 60;
 
-  // console.log("searchedResult", searchedResult);
+ 
   return (
     <Outer
       style={{

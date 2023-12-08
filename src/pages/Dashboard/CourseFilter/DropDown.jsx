@@ -4,8 +4,6 @@ import styled from "styled-components";
 import { CourseFilterContext } from "./CourseFilterContext";
 
 function DropDown({ data, index }) {
-
-
   const [isSelected, setIsSelected] = useState(true);
   const [buttonColor, setButtonColor] = useState("white");
 
@@ -94,9 +92,6 @@ function DropDown({ data, index }) {
           {data.options.map((subItem) => {
             return (
               <ListItem
-                onClick={() => {
-                  console.log("JDHSJHJD");
-                }}
                 style={{
                   width: "100%",
                 }}

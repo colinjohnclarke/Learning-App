@@ -7,7 +7,7 @@ const initialState = {
   slideNumber: 0,
   // set initial state for number of correct questions scored in a row
   userScore: 0,
-  pointsAvaiableArr: [],
+  pointsAvailable: 0,
   //save array of scores in arr with object with block name and score
   blockCompleted: false,
   percentageScore: 0,
@@ -26,10 +26,19 @@ export const currentblockprogressdata = createSlice({
 
       // need to update action
     },
-    updatePointsAvaiableArr: (state, action) => {
-      state.pointsAvaiableArr.push(action.payload);
-      // create array of all the marks available for each question this will mean that if there are 3 MCQ questions in a row for then 3 potential points will be added to the array
+    updatePointsAvailable: (state, action) => {
+      return {
+        ...state,
+        pointsAvailable: state.pointsAvailable + action.payload,
+      };
     },
+    reverseUpdatePointsAvailable: (state, action) => {
+      return {
+        ...state,
+        pointsAvailable: state.pointsAvailable - action.payload,
+      };
+    },
+
     updatePercentage: (state, action) => {
       state.percentageScore = action.payload;
     },
@@ -78,9 +87,10 @@ export const {
   //
   userScore,
   updateUserScore,
-  updatePointsAvaiableArr,
+  updatePointsAvailable,
   totalScore,
   updatePercentage,
+  reverseUpdatePointsAvailable,
   updateQuestionsAttempted,
   updateDisplayAnimatedBlockScore,
   updateDisplayPostBlockPointsReveal,
