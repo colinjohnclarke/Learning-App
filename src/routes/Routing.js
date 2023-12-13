@@ -7,6 +7,10 @@ import Login from "../pages/Login";
 import Testmath from "../pages/TestMath";
 import Maths from "../pages/Maths";
 import Biology from "../pages/Main";
+import Courses from "../pages/Courses/Courses";
+import Settings from "../pages/Settings";
+import Profile from "../pages/Dashboard/Profile";
+import CourseDetailedView from "../pages/Courses/CourseDetailedView";
 
 function Routing() {
   return (
@@ -14,13 +18,23 @@ function Routing() {
       <Routes>
         <Route index path="/" element={<Dashboard />} />
         <Route path="login" element={<Login />} />
+
         <Route path="/dashboard" element={<Dashboard />} />
+
+        <Route path="/courses" element={<Courses />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/settings" element={<Settings />} />
         <Route path="/main" element={<Main />} />
         {/* <Route path="/maths" element={<Testmath />}></Route> */}
         <Route path="/maths" element={<Maths />} />
         <Route
           path="/courses/:subject/:courseName/:blockName"
           element={<Main />}
+        />
+
+        <Route
+          path="/courses/:subject/:courseName"
+          element={<CourseDetailedView />}
         />
       </Routes>
     </div>

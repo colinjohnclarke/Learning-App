@@ -1,5 +1,9 @@
 * {
   font-family: Montserrat;
+  /* font-family: Arial; */
+  /* font-family: Roboto, sans-serif;
+  font-family: 'Roboto', sans-serif; */
+  /* font-family: Manrope, sans-serif; */
   color: rgb(58, 57, 57);
   font-weight: 300;
   overscroll-behavior: none;
@@ -114,4 +118,9 @@ body {
 .whiteIcon {
   color: rgb(235, 245, 250);
   fill: aliceblue;
+}
+
+.reacticon {
+  color: red;
+  /* fill: red; */
 }

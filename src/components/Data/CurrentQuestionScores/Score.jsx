@@ -37,7 +37,6 @@ function Score({ scoreData, totalMarksAvailable }) {
     };
   }, [totalMarksAvailable]);
 
-  
   const [indexMarkUpdated, setIndexMarkUpdated] = useState(
     Array(totalMarksAvailable).fill(false)
   );

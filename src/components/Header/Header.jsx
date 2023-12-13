@@ -4,6 +4,7 @@ import ProgressBar from "../ProgressBar/ProgressBar";
 import OpenDrawerBtn from "../Drawer/OpenDrawerBtn";
 import Signup from "../Buttons/Signup";
 import LogoutBtn from "../Login/LogoutBtn";
+import { device } from "../../styles/breakpoints";
 
 function Header() {
   return (
@@ -11,7 +12,7 @@ function Header() {
       <OpenDrawerBtn></OpenDrawerBtn>
       <ProgressBar></ProgressBar>
       {/* <Signup></Signup> */}
-      <LogoutBtn ></LogoutBtn>
+      <LogoutBtn></LogoutBtn>
     </Wrapper>
   );
 }
@@ -19,8 +20,7 @@ function Header() {
 export default Header;
 
 const Wrapper = styled.div`
-  max-height: 40px;
-  min-height: 30px;
+  height: 50px;
   background-color: white;
   width: 100vw;
   display: flex;
@@ -31,4 +31,8 @@ const Wrapper = styled.div`
   box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
   position: fixed;
   z-index: 100;
+
+  @media ${device.tablet} {
+    height: 60px;
+  }
 `;

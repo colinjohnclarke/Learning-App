@@ -15,7 +15,6 @@ function SearchCourse() {
 
   const coursesfromSanity = FetchCoursefromSanity();
 
-
   // let contentNameFromSanity = "biology_blocks";
   // let blockName = "photosynthesis_required_practical";
 
@@ -41,7 +40,6 @@ function SearchCourse() {
 
   let searchBoxHeight = searchedResult.length * 60 + 60;
 
- 
   return (
     <Outer
       style={{

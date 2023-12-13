@@ -29,12 +29,11 @@ function OpenDrawerBtn() {
 
   const handleClick = () => {
     dispatch(setDrawerIsOpen());
-   
   };
 
   return (
-    <OpenDrawer>
-      <RxHamburgerMenu style={style} onClick={handleClick}></RxHamburgerMenu>
+    <OpenDrawer onClick={handleClick}>
+      <RxHamburgerMenu style={style}></RxHamburgerMenu>
     </OpenDrawer>
   );
 }
@@ -48,6 +47,7 @@ const OpenDrawer = styled.button`
   height: 7%;
   background-color: white;
   width: 60px;
+  height: 50px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -55,6 +55,7 @@ const OpenDrawer = styled.button`
   border-radius: 4px;
   background-color: rgb(255, 255, 255);
 
+  border-radius: 50%;
   text-size: 15px;
   text-align: center;
   transition: 0.3s;

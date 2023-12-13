@@ -17,7 +17,7 @@ export const myPortableTextComponents = {
           alignItems: "center",
         }}
       >
-        <img src={imgurlFor(props.value.asset).width(300)} alt="" />
+        <img src={imgurlFor(props.value.asset).maxWidth(300)} alt="" />
       </div>
     ),
     marks: {

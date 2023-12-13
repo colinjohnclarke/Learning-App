@@ -4,11 +4,9 @@ import OpenDrawerBtn from "../../components/Drawer/OpenDrawerBtn";
 import Signup from "../../components/Buttons/Signup";
 import { useAuth0 } from "@auth0/auth0-react";
 import LogoutBtn from "../../components/Login/LogoutBtn";
-
+import { device } from "../../styles/breakpoints";
 function DashboardHeader() {
   // const { user } = useAuth0();
-
-
 
   return (
     <Wrapper>
@@ -22,8 +20,7 @@ function DashboardHeader() {
 export default DashboardHeader;
 
 const Wrapper = styled.div`
-  max-height: 40px;
-  min-height: 30px;
+  height: 50px;
   background-color: white;
   width: 100vw;
   display: flex;
@@ -34,4 +31,10 @@ const Wrapper = styled.div`
   background-color: rgb(255, 255, 255);
   position: fixed;
   z-index: 100;
+
+  box-shadow: 0px -4px 4px -5px rgba(0, 0, 0, 0.75);
+
+  @media ${device.tablet} {
+    height: 60px;
+  }
 `;

@@ -13,14 +13,13 @@ function CourseFilterButton({ children, ...atributes }) {
 export default CourseFilterButton;
 
 const Wrapper = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 25px;
   width: 25px;
   border-radius: 4px;
   border: none;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 1px 0px;
-  background: linear-gradient(
-    225deg,
-    rgba(39, 106, 245, 0.5) 0%,
-    rgba(0, 200, 200, 0.5) 100%
-  );
+  background-color: rgba(0, 250, 245, 0.5);
 `;

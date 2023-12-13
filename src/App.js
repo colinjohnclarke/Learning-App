@@ -22,14 +22,19 @@ function App() {
 
   // const domain = process.env.REACT_APP_AUTH0_DOMAIN;
 
-  const [userMetadata, setUserMetadata] = useState(null);
-
   let createUserRequired = false;
   if (!data) {
     createUserRequired = true; // Remove the 'let' here to update the existing variable
   }
   const [createUser, { isLoading, isSuccess, isError, error }] =
     useCreateUserMutation();
+
+  const [selectedNav, setSelectedNav] = useState({
+    Dashboard: "true",
+    Courses: "false",
+    Profile: "false",
+    Settings: "false",
+  });
 
   // useEffect(() => {
   //   const getUserMetadata = async () => {
@@ -98,9 +103,8 @@ function App() {
           <Drawer />
           <Header></Header>
           <UserContext.Provider value={data}>
-            <Routing />
-
-            <NavigationBarMobile />
+            <Routing navState={{ selectedNav, setSelectedNav }} />
+            <NavigationBarMobile navState={{ selectedNav, setSelectedNav }} />
           </UserContext.Provider>
         </BrowserRouter>
       )}

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext } from "react";
+import { UserContext } from "../../App";
 import styled from "styled-components";
 import AllTimeLearningTimeBox from "./Scores/AllTimeLearningTimeBox";
 import AllTimeQuestionsAnsweredBox from "./Scores/AllTimeQuestionsAnsweredBox";
@@ -12,19 +13,17 @@ import { device } from "../../styles/breakpoints";
 import { useAuth0 } from "@auth0/auth0-react";
 import sanityClient from "../../createclient";
 import GridLoader from "react-spinners/GridLoader";
+import Weekday from "../../components/Weekday";
 
 import { useGetUserByEmailQuery } from "../../features/api/UserData/userDataSlice";
 
 function Dashboard() {
-  const [queryResult, setQueryResult] = useState({});
   const { user } = useAuth0();
+  const data = useContext(UserContext);
 
-
-  const { data, isLoading, isError, error } = useGetUserByEmailQuery(
-    user?.email
-  );
-
-  console.log("🚀 ~ file: Dashboard.jsx:24 ~ Dashboard ~ data:", data);
+  // const { data, isLoading, isError, error } = useGetUserByEmailQuery(
+  //   user?.email
+  // );
 
   const loader = (
     <Loader>
@@ -41,12 +40,14 @@ function Dashboard() {
     <Wrapper>
       <DashboardHeader />
 
-      {isLoading && loader}
+      {/* {!data && loader} */}
 
       <Main>
         <Greeting>
           <Welcome>
-            <h3>Welcome back, {user.given_name}</h3>
+            <h3 style={{ color: "white" }}>
+              Welcome back, {data?.user.firstName}!
+            </h3>
             <img
               referrerpolicy="no-referrer"
               style={{
@@ -55,7 +56,7 @@ function Dashboard() {
                 borderRadius: "20px",
                 objectFit: "fill",
                 margin: "10px",
-                border: "2px solid",
+                // border: "2px solid",
                 boxShadow:
                   "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
               }}
@@ -67,7 +68,9 @@ function Dashboard() {
               }
             />
           </Welcome>
+          <Weekday />
         </Greeting>
+
         {/* display user data */}
         <UserdataWrapper>
           <Box>
@@ -111,22 +114,39 @@ const Main = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 30px;
+  @media ${device.tablet} {
+    margin-top: 60px;
+  }
 `;
 
 const Greeting = styled.div`
-  padding-top: 40px;
-  height: 100px;
-  width: 350px;
+  padding-top: 20px;
+  height: 180px;
+  width: 98%;
+  margin: 4px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  background: linear-gradient(
+    225deg,
+    rgba(0, 200, 200, 1) 0%,
+    rgba(0, 200, 200, 1) 30%,
+    rgba(39, 106, 245, 1) 100%
+  );
+
+  @media ${device.tablet} {
+    height: 20vh;
+  }
+
+  border-radius: 4px;
 `;
 
 const Welcome = styled.div`
   font-size: 20px;
   width: 100%;
-  height: 10vh;
+  height: 3vh;
   padding-top: 30px;
   padding-bottom: 30px;
   display: flex;
@@ -137,6 +157,7 @@ const Welcome = styled.div`
 `;
 
 const UserdataWrapper = styled.div`
+  padding-top: 70px;
   width: 98.7%;
   height: 70px;
   display: flex;

@@ -1,17 +1,13 @@
 import React, { useRef, useState } from "react";
-import { IncorrectWordContext } from "./IncorrectWordContext";
 import styled from "styled-components";
-// import IncorrectWordMCQ from "./IncorrectWordMCQ";
-import { myPortableTextComponents } from "../../config/sanity/portableText";
-import { PortableText } from "@portabletext/react";
 import "animate.css";
 import { device } from "../../styles/breakpoints";
 import Score from "../Data/CurrentQuestionScores/Score";
 import { colors } from "../../styles/colors";
 import MCQ from "./MCQ";
+import ImagefromSanity from "../../config/sanity/ImagefromSanity";
 
 function IncorrectWordText({ data, index, updateStateFunctions }) {
-
   const [word1selected, setWord1selected] = useState(false);
   const [word2selected, setWord2selected] = useState(false);
 
@@ -22,12 +18,7 @@ function IncorrectWordText({ data, index, updateStateFunctions }) {
   let animatenum = "";
   let showReminder = false;
 
-  const {
-  
-    pointsScored,
-    setPointsScored,
-  
-  } = updateStateFunctions;
+  const { pointsScored, setPointsScored } = updateStateFunctions;
 
   // reassign these context values to pass to score component with correct name
 
@@ -176,10 +167,7 @@ function IncorrectWordText({ data, index, updateStateFunctions }) {
         incorrect words in the text below, find them and click!
       </Question>
       <Main>
-        <PortableText
-          value={data.picture}
-          components={myPortableTextComponents}
-        ></PortableText>
+        <ImagefromSanity data={data.picture} />
       </Main>
       <Text ref={mcqCheckWord1Ref}>
         {data.initial_leading_scentence_word1}
