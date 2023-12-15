@@ -2,7 +2,7 @@ import React from "react";
 import styled, { keyframes } from "styled-components";
 import "animate.css";
 
-function AnimatedPercentageScore({ percentage }) {
+function AnimatedPercentageScore({ percentage, color, fontColor }) {
   const offset = 2 * Math.PI * 23;
   const current = (percentage / 100) * offset;
 
@@ -24,7 +24,15 @@ function AnimatedPercentageScore({ percentage }) {
     <Wrapper className="animate__animated animate__fadeIn ">
       <Outer>
         <Inner>
-          <p style={{ fontSize: "13px", fontWeight: "500" }}>{percentage} % </p>
+          <p
+            style={{
+              fontSize: "13px",
+              fontWeight: "500",
+              color: `${fontColor}`,
+            }}
+          >
+            {percentage} %{" "}
+          </p>
         </Inner>
       </Outer>
 
@@ -37,12 +45,10 @@ function AnimatedPercentageScore({ percentage }) {
         >
           <defs>
             <linearGradient id="GradientColor">
-              <stop offset="0%" stop-color="rgba(39, 106, 245, 0.5)" />
-              <stop offset="50%" stop-color="rgba(0,200,200,1)" />
-              <stop offset="100%" stop-color="rgba(0,200,200,1)" />
+              <stop offset="100%" stop-color={`${color}`} />
             </linearGradient>
           </defs>
-          <Circle cx="80" cy="80" r="23" stroke-linecap="round" />
+          <Circle cx="80" cy="79" r="23" stroke-linecap="round" />
         </Svg>
       </div>
     </Wrapper>
@@ -69,12 +75,13 @@ const Outer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 50px;
-  width: 50px;
+  height: 49px;
+  width: 49px;
   border-radius: 50%;
   box-shadow: -6px -6px -10px -1px rgba(255, 255, 255, 0.7);
   box-shadow: 6px 6px 10px 1px rgba(0, 0, 0, 0.15);
   border-top: 1.4px white solid;
+  background-color: white;
 `;
 
 const Inner = styled.div`
@@ -89,7 +96,7 @@ const Inner = styled.div`
   box-shadow: inset 4px 4px 2px 1px rgba(0, 0, 0, 0.15),
     inset -4px -4px 6px -1px rgba(255, 255, 255, 0.7),
     -0.5px -0.5px 0px rgba(255, 255, 255, 1);
-  background-color: rgba(0, 0, 0, 0.04);
+  background-color: white;
 `;
 
 const breatheAnimation = keyframes`
@@ -101,6 +108,7 @@ const breatheAnimation = keyframes`
 
 const Svg = styled.svg`
   position: relative;
+
   //   z-index: 100;
   top: 3px;
   //   left: 20px;

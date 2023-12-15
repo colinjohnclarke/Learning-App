@@ -65,25 +65,29 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  transition: 1s;
 `;
-
 const Box = styled.a`
-  height: 60px;
+  height: 50px;
   width: 100%;
   min-width: 290px;
+  padding: 4px;
+  margin: 3px;
+  border-radius: 5px;
   text-decoration: none;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  border-radius: 4px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 1px 0px;
   background-color: rgb(255, 255, 255);
   transition: 0.4s;
 
   &:hover {
-    transform: translateY(-2px);
-    background-color: rgba(0, 200, 200);
-    transition: 0.4s;
+    transition: 0.2s;
+    box-shadow: rgb(0, 255, 255) 0px 0px 2px 1px,
+      rgb(39, 106, 245, 0.7) 2px 2px 2px 1px;
+    background-color: rgb(39, 106, 245, 0.01);
   }
 `;
 

@@ -119,13 +119,13 @@ function Courses({ data }) {
                 fontWeight: "600",
               }}
             >
-              {item.subject}
+              {item.subject} &nbsp;
             </p>
             <p
               style={{
                 fontSize: "13px",
                 listStyle: "none",
-                padding: "12px",
+                // padding: "12px",
               }}
             >
               {item.blockName}
@@ -134,6 +134,7 @@ function Courses({ data }) {
 
           {highestPercentageScore ? (
             <AnimatedPercentageScore
+              color={"rgb(0, 230, 250, 0.8)"}
               // percentage={Math.round(highestPercentageScore)}
               percentage={highestPercentageScore}
             />
@@ -264,6 +265,8 @@ function Courses({ data }) {
           flexDirection: "row",
           backgroundColor: "white",
           alignItems: "center",
+          borderRadius: "5px",
+          boxShadow: "0px 0px 30px 4px rgba(174, 196, 216, 0.25)",
         }}
       >
         <div
@@ -274,6 +277,8 @@ function Courses({ data }) {
             backgroundColor: "white",
             alignItems: "center",
             fontWeight: "500",
+            borderRadius: "5px",
+            boxShadow: "0px 0px 30px 4px rgba(174, 196, 216, 0.25)",
           }}
         >
           <img
@@ -350,17 +355,15 @@ function Courses({ data }) {
 export default Courses;
 
 const Wrapper = styled.div`
-  // display: flex;
-  // flex-direction: column;
-  // align-items: center;
   width: 100%;
 `;
 
 const Box = styled.a`
-  height: 60px;
+  height: 50px;
   width: 100%;
   min-width: 290px;
-  margin: 2px;
+  margin-top: 3px;
+  margin-bottom: 3px;
   border-radius: 5px;
   text-decoration: none;
   display: flex;
@@ -369,12 +372,14 @@ const Box = styled.a`
   align-items: center;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 1px 0px;
   background-color: rgb(255, 255, 255);
-  transition: 0.4s;
+  transition: 0s;
+  box-shadow: 0px 0px 30px 4px rgba(174, 196, 216, 0.25);
 
   &:hover {
-    // transform: translateY(-2px);
-    background-color: rgba(0, 200, 200, 0.8);
-    transition: 0.4s;
+    transition: 0s;
+    box-shadow: rgb(0, 255, 255) 0px 0px 2px 1px,
+      rgb(39, 106, 245, 0.7) 2px 2px 2px 1px;
+    // background-color: rgb(39, 106, 245, 0.01);
   }
 `;
 
@@ -385,6 +390,9 @@ const Text = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
+
+
+  }
 `;
 
 const Img = styled.img`
@@ -453,8 +461,10 @@ const SelectionBar = styled.div`
   width: 50%;
   background: linear-gradient(
     225deg,
-    rgba(39, 106, 245, 1) 0%,
-    rgba(0, 200, 200, 1) 100%
+    rgba(0, 200, 200, 0.2) 0%,
+    rgba(0, 200, 200, 0.5) 20%,
+    rgba(0, 200, 200, 0.4) 60%,
+    rgba(39, 106, 245, 0.7) 100%
   );
 
   @media ${device.tablet} {

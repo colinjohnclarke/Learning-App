@@ -3,7 +3,7 @@ import styled from "styled-components";
 import AnimateCountFunction from "../../../components/functions/AnimateCountFunction";
 
 function AllTimeQuestionsAnsweredBox({ data }) {
-  const questionAttempted = data?.user.totalQuestionsAttempted;
+  const questionAttempted = data;
   let counter = 0;
 
   if (questionAttempted) {

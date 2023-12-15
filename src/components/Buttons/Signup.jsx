@@ -24,7 +24,7 @@ const Wrapper = styled.button`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-radius: 4px;
+  border-radius: 5px;
   background-color: rgb(255, 255, 255);
   box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 3px;
   box-shadow: rgba(0, 200, 200, 0.15) 0px 1px 2px 3px;

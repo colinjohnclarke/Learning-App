@@ -34,7 +34,7 @@ const Wrapper = styled.button`
 
   height: 50px;
   width: 350px;
-  border-radius: 4px;
+  border-radius: 5px;
   color: white;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
   box-shadow: rgba(0, 0, 0, 0.1) 2px 4px 1px;

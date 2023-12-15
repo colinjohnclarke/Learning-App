@@ -389,7 +389,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-radius: 4px;
+  border-radius: 5px;
   background-color: rgb(255, 255, 255);
   box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
   min-width: 300px;
@@ -405,7 +405,7 @@ const Item = styled.div`
   align-items: center;
   margin-top: 5px;
   margin-bottom: 5px;
-  border-radius: 4px;
+  border-radius: 5px;
   width: 100%;
 `;
 

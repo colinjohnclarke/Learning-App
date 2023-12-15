@@ -177,7 +177,7 @@ const Wrapper = styled.div`
   width: 100%;
   background-color: white;
   border-radius: 5px;
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 1px 0px;
+  box-shadow: 0px 0px 30px 4px rgba(174, 196, 216, 0.25);
 `;
 
 const Main = styled.table`

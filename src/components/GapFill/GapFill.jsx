@@ -105,7 +105,7 @@ const Hint = styled.p`
   align-items: center;
   transition: 0.3s;
   background-color: rgb(128, 48, 192);
-  border-radius: 4px;
+  border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
   color: black;
   width: 90%;

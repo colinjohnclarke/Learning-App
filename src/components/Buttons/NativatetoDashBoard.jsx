@@ -29,7 +29,7 @@ const Btn = styled.button`
   margin: 60px;
   height: 50px;
   width: 350px;
-  border-radius: 4px;
+  border-radius: 5px;
   background-color: white;
   border: 2px solid rgba(0, 200, 200, 0.8);
   box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;

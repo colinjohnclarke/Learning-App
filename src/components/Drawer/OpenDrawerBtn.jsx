@@ -52,7 +52,7 @@ const OpenDrawer = styled.button`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-radius: 4px;
+  border-radius: 5px;
   background-color: rgb(255, 255, 255);
 
   border-radius: 50%;

@@ -12,6 +12,9 @@ import {
 } from "./features/api/UserData/userDataSlice";
 import NavigationBarMobile from "./components/Navigation/NavigationBarMobile";
 import AnimatedPercentageScore from "./pages/Dashboard/AnimatedPercentageScore";
+import spslogo from "./assets/images/spslogo.png";
+import styled from "styled-components";
+import { device } from "./styles/breakpoints";
 
 export const UserContext = createContext();
 
@@ -96,9 +99,21 @@ function App() {
   return (
     <div>
       {!isAuthenticated ? (
-        <Login></Login>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          {" "}
+          <h1 style={{ fontWeight: "500", color: "rgb(0, 240, 240)" }}>
+            SPS online
+          </h1>
+          <img style={{ height: "230px" }} src={spslogo} alt="" />
+          <Login></Login>
+        </div>
       ) : (
-        // <h1>djshj</h1>
         <BrowserRouter>
           <Drawer />
           <Header></Header>

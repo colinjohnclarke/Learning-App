@@ -3,7 +3,7 @@ import styled from "styled-components";
 import AnimateCountFunction from "../../../components/functions/AnimateCountFunction";
 
 function AllTimeLearningTimeBox({ data }) {
-  let allTimeLearningTime = data?.user.totalTimeElapsed / 1000 / 60;
+  let allTimeLearningTime = data / 1000 / 60;
 
   // let allTimeLearningTime = data?.user.totalTimeElapsed;
   // let allTimeLearningTime = 300;
@@ -21,7 +21,7 @@ function AllTimeLearningTimeBox({ data }) {
 
   return (
     <Wrapper>
-      <Points>{counter} mins </Points> total time
+      <Points>{counter} mins </Points> learning
     </Wrapper>
   );
 }

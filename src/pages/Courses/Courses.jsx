@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import DashboardHeader from "../Dashboard/DashboardHeader";
-import creator from "../../assets/images/creator.jpg";
+import bookshelf from "../../assets/images/bookshelf.png";
 import SearchCourse from "../../components/Search/SearchCourse";
 import FetchCoursefromSanity from "../Dashboard/CourseFilter/FetchCoursefromSanity";
 import { device } from "../../styles/breakpoints";
@@ -159,25 +159,28 @@ function Courses() {
       <Main>
         <div
           style={{
-            margin: "30px",
+            margin: "10px",
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-around",
             backgroundColor: "white",
             alignItems: "center",
             fontWeight: "500",
-            padding: "4px",
-            height: "400px",
+            height: "300px",
             width: "100%",
-            paddingTop: "20px",
+            marginTop: "70px",
+            borderRadius: "5px",
+            boxShadow: "0px 0px 30px 4px rgba(174, 196, 216, 0.25)",
           }}
         >
           <img
             style={{ height: "200px", width: "200px" }}
-            src={creator}
+            src={bookshelf}
             alt="workinganimatedimage"
           />
-          No courses yet! Search Courses..
+          <p style={{ fontWeight: "400" }}>
+            Hmm no courses yet! Search our courses..
+          </p>
         </div>
         <div
           style={{
@@ -226,10 +229,7 @@ function Courses() {
 export default Courses;
 
 const Wrapper = styled.div`
-  // position: absolute;
-  // z-index: 100;
   width: 100%;
-  // height: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -239,15 +239,21 @@ const Main = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  width: 98%;
   max-width: 900px;
+
+  @media ${device.desktop} {
+    width: 100%;
+  }
 `;
 
 const Box = styled.a`
-  height: 60px;
+  height: 50px;
   width: 100%;
   min-width: 290px;
-  margin: 2px;
+  // padding: 4px;
+  margin-top: 3px;
+  margin-bottom: 3px;
   border-radius: 5px;
   text-decoration: none;
   display: flex;
@@ -256,12 +262,14 @@ const Box = styled.a`
   align-items: center;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 1px 0px;
   background-color: rgb(255, 255, 255);
-  transition: 0.4s;
+  transition: 0s;
+  box-shadow: 0px 0px 30px 4px rgba(174, 196, 216, 0.25);
 
   &:hover {
-    // transform: translateY(-2px);
-    background-color: rgba(0, 200, 200, 0.8);
-    transition: 0.4s;
+    transition: 0s;
+    box-shadow: rgb(0, 255, 255) 0px 0px 2px 1px,
+      rgb(39, 106, 245, 0.7) 2px 2px 2px 1px;
+    // background-color: rgb(39, 106, 245, 0.01);
   }
 `;
 

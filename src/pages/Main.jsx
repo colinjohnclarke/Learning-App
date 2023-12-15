@@ -466,9 +466,10 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-radius: 4px;
+  border-radius: 5px;
   background-color: rgb(255, 255, 255);
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
+
+  box-shadow: 0px 0px 30px 4px rgba(174, 196, 216, 0.25);
   width: 100%;
   scroll-padding: 100px;
   scroll-margin: 45px;
@@ -487,7 +488,7 @@ const Item = styled.div`
   flex-direction: column;
   align-items: center;
   margin-bottom: 5px;
-  border-radius: 4px;
+  border-radius: 5px;
   width: 100%;
 
   // min-height: 700px;

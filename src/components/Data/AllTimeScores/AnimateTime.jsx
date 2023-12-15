@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import AnimateCountFunction from "../../../components/functions/AnimateCountFunction";
+import AnimateCountFunction from "../../functions/AnimateCountFunction";
 
-function AllTimeXPBox({ data }) {
-  const totalXP = data;
+function AnimateTime({data}) {
+
+  let allTimeLearningTime = data?.user.totalTimeElapsed / 1000 / 60;
+
+  const totalXP = data?.user.totalXP;
 
   let counter = 0;
 
@@ -15,13 +18,12 @@ function AllTimeXPBox({ data }) {
 
   return (
     <Wrapper>
-      <XP>{counter}</XP> XP
-      
+      <Time>{counter}</Time> All time XP
     </Wrapper>
   );
 }
 
-export default AllTimeXPBox;
+export default AnimateTime;
 
 const Wrapper = styled.p`
   height: 100%;
@@ -34,7 +36,7 @@ const Wrapper = styled.p`
   font-size: 15px;
 `;
 
-const XP = styled.div`
+const Time = styled.div`
   color: blue;
   font-weight: 700;
   font-size: 16px;
