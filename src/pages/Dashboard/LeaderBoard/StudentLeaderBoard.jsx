@@ -102,7 +102,7 @@ function StudentLeaderBoard() {
                 animationDelay: `${index / 20}s`,
                 backgroundColor: "white",
               }}
-              className=" animate__animated animate__fadeInUpBig"
+              className=" animate__animated animate__fadeIn"
             >
               <Td
                 style={{

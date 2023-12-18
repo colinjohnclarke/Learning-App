@@ -20,7 +20,7 @@ const rotate = keyframes`
   19%  { transform: scale(1,1)      translateY(-3px); }
   24%  { transform: scale(1,1)      translateY(0); }
   33% { transform: scale(1,1)      translateY(0); }
-  50%{ background-color: rgba(0,200,200,1) }
+  50%{ background-color: rgba(0,240,240,1) }
   100%{  background-color: rgba(39, 106, 245, 1)}
 `;
 
@@ -52,7 +52,7 @@ const Wrapper = styled.button`
 
   &:hover {
     transform: translateY(-2px);
-    background-color: rgba(0, 200, 200, 1);
+    background-color: rgba(0, 240, 240, 1);
 
     box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
       rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;

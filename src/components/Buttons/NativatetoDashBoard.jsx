@@ -31,11 +31,11 @@ const Btn = styled.button`
   width: 350px;
   border-radius: 5px;
   background-color: white;
-  border: 2px solid rgba(0, 200, 200, 0.8);
+  border: 2px solid rgba(0, 240, 240, 0.8);
   box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
   transition: 0.3s;
   background-color: white;
-  color: rgba(0, 200, 200, 0.8);
+  color: rgba(0, 240, 240, 0.8);
   font-weight: 400;
 
   &:hover {
@@ -46,7 +46,7 @@ const Btn = styled.button`
 
   &:active {
     transform: translateY(-2px);
-    background-color: rgba(0, 200, 200, 1);
+    background-color: rgba(0, 240, 240, 1);
   }
 
   p {

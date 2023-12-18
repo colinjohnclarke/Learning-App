@@ -74,7 +74,7 @@ function SchoolLeaderBoard() {
 
             return (
               <tr
-                className=" animate__animated animate__fadeInUpBig"
+                className=" animate__animated animate__fadeIn"
                 style={{
                   animationDelay: `${index / 20}s`,
                   backgroundColor: "white",

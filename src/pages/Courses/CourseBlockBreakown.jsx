@@ -44,27 +44,31 @@ function CourseBlockBreakown({ data, controllers }) {
       // <div style={{ height: "10px", width: "100%" }}></div>
     );
   });
-
-  <Wrapper>
-    <OverView> Overview of course...</OverView>
-    <Outline>
-      {/* <OverView> Text </OverView>
+  return (
+    <Wrapper>
+      <OverView> Overview of course...</OverView>
+      <Outline>
+        {/* <OverView> Text </OverView>
         <OverView> Text </OverView> */}
-    </Outline>
-    {blocks}
-  </Wrapper>;
+      </Outline>
+      {blocks}
+    </Wrapper>
+  );
 }
 
 export default CourseBlockBreakown;
 
 const Wrapper = styled.div`
   transition: 0.3s;
+  display: none;
+  position: relative;
+  z-index: 10;
 
   @media ${device.tablet} {
     padding: 10px;
-    width: 400px;
+    display: flex;
+    width: 350px;
     padding-top: 50px;
-    // display: ${(props) => (props.breakdownDisplayed ? "flex" : "none")};
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -131,6 +135,7 @@ const OverView = styled.div`
   min-height: 50px;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 1px 0px;
   padding: 4px;
+  margin-top: 50px;
   display: flex;
   flex-direction: row;
   align-items: center;

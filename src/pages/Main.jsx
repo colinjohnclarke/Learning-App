@@ -471,13 +471,14 @@ const Container = styled.div`
 
   box-shadow: 0px 0px 30px 4px rgba(174, 196, 216, 0.25);
   width: 100%;
-  scroll-padding: 100px;
-  scroll-margin: 45px;
+  scroll-padding: 120px;
+  scroll-margin: 47px;
 
   @media ${device.mobileL} {
     position: relative;
     width: 100%;
     max-width: 1000px;
+    scroll-margin: 75px;
   }
 `;
 

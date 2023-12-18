@@ -6,8 +6,6 @@ import { GrNext } from "react-icons/gr";
 import { device } from "../../styles/breakpoints";
 
 function CourseDetails({ data, subject, courseName, blockName }) {
-
-
   const builder = imageUrlBuilder(sanityClient);
 
   const imgurlFor = (source) => {
@@ -60,7 +58,7 @@ export default CourseDetails;
 
 const Details = styled.div`
   margin-bottom: 4px;
-  padding-top: 40px;
+  padding-top: 50px;
   min-height: 100px;
   width: 100%;
   display: flex;
@@ -69,8 +67,11 @@ const Details = styled.div`
   align-items: center;
   border-radius: 5px;
   background-color: rgb(255, 255, 255);
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
+  box-shadow: 0px 0px 30px 4px rgba(174, 196, 216, 0.25);
   max-width: 1000px;
+  @media ${device.mobileL} {
+    margin-bottom: 10px;
+  }
 `;
 
 const CourseName = styled.div`
@@ -83,6 +84,7 @@ const Image = styled.div`
   clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 25% 100%, 0% 50%);
   position: relative;
   top: 4px;
+  border-radius: 5px;
 
   @media ${device.mobileL} {
   }

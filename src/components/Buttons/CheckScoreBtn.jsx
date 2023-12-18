@@ -52,7 +52,7 @@ const Wrapper = styled.button`
 
   &:hover {
     transform: translateY(-2px);
-    background-color: rgba(0, 200, 200, 1);
+    background-color: rgba(0, 245, 245, 1);
 
     box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
       rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;

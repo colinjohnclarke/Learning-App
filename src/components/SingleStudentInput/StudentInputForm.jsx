@@ -232,7 +232,7 @@ function StudentInputForm({ updateStateFunctions, data, index }) {
               width: "200px",
               padding: "10px",
               backgroundColor: selectedInputColor,
-              border: "3.5px solid rgb(0, 200, 200, 0.5)",
+              border: "3.5px solid rgb(0, 240, 240, 0.5)",
               borderRadius: "5px",
               display: "flex",
               position: "relative",
@@ -250,7 +250,7 @@ function StudentInputForm({ updateStateFunctions, data, index }) {
         </div>
 
         <MainActionBtn
-          style={{ backgroundColor: "rgb(00, 200, 200)", color: "white" }}
+          style={{ backgroundColor: "rgb(00, 240, 240)", color: "white" }}
           type="submit"
         >
           {" "}

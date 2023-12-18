@@ -23,12 +23,12 @@ const Btn = styled.button`
 
   &:hover {
     transform: translateY(-2px);
-    background-color: rgba(0, 200, 200, 0.29);
+    background-color: rgba(0, 240, 240, 0.29);
   }
 
   &:active {
     transform: translateY(-2px);
-    background-color: rgba(0, 200, 200, 0.29);
+    background-color: rgba(0, 240, 240, 0.29);
   }
 
   p {

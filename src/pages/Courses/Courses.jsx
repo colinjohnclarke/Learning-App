@@ -33,14 +33,20 @@ function Courses() {
     filteredData
   );
 
-  const courseslist = filteredData.map((item) => {
+  const courseslist = filteredData.map((item, index) => {
     let imgurl = defaultCoursesImages.find((subItem) => {
       return subItem.subject === item.subject;
     });
 
     return (
       <Link
-        style={{ display: "flex", width: "100%", textDecoration: "none" }}
+        className="animate__animated animate__fadeIn"
+        style={{
+          display: "flex",
+          width: "100%",
+          textDecoration: "none",
+          animationDelay: `${index / 20}s`,
+        }}
         to={`/courses/${item.subject}/${item.courseName}`}
       >
         <Box>
@@ -79,7 +85,7 @@ function Courses() {
     );
   });
 
-  const allBlocks = courses.map((item) => {
+  const allBlocks = courses.map((item, index) => {
     const content = item.coverImage ? (
       <img
         alt=""
@@ -109,7 +115,13 @@ function Courses() {
 
     return (
       <Link
-        style={{ display: "flex", width: "100%", textDecoration: "none" }}
+        className="animate__animated animate__fadeIn"
+        style={{
+          display: "flex",
+          width: "100%",
+          textDecoration: "none",
+          animationDelay: `${index / 20}s`,
+        }}
         to={`/courses/${item.subject}/${item.courseName}/${item.blockName}`}
       >
         <Box>
@@ -156,8 +168,9 @@ function Courses() {
     <Wrapper>
       {/* <CourseFilter /> */}
       <DashboardHeader />
+
       <Main>
-        <div
+        <Top
           style={{
             margin: "10px",
             display: "flex",
@@ -181,12 +194,12 @@ function Courses() {
           <p style={{ fontWeight: "400" }}>
             Hmm no courses yet! Search our courses..
           </p>
-        </div>
+        </Top>
         <div
           style={{
             display: "flex",
             flexDirection: "column",
-            width: "102%",
+            width: "100%",
             alignItems: "center",
           }}
         >
@@ -374,3 +387,5 @@ const Image = styled.div`
   @media ${device.mobileL} {
   }
 `;
+
+const Top = styled.div``;

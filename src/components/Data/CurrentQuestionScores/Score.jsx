@@ -121,10 +121,9 @@ const Wrapper = styled.div`
   z-index: 10;
   top: 0px;
   right: 0px;
-  background-color: rgba(0, 200, 200, 0.29);
+  background-color: rgba(0, 240, 240, 1);
   border-radius: 0px 0px 0px 40px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
-    rgba(0, 0, 0, 0.3) 0px 1px 3px;
+  box-shadow: 0px 0px 20px 4px rgba(174, 196, 216, 0.25);
 `;
 
 const Text = styled.p`
