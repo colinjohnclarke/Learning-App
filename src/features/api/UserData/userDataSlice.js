@@ -37,6 +37,15 @@ export const userDataSlice = createApi({
       }),
       invalidatesTags: ["Users"],
     }),
+
+    // addEnrolledCourse: builder.mutation({
+    //   query: (course) => ({
+    //     url: "/getenrolledcoursedata",
+    //     method: "POST",
+    //     body: course,
+    //   }),
+    //   invalidatesTags: ["Users"],
+    // }),
   }),
 });
 
@@ -46,4 +55,5 @@ export const {
   useGetUserByEmailQuery,
   useCreateUserMutation,
   useUpdateUserDataMutation,
+  // useAddEnrolledCourseMutation
 } = userDataSlice;

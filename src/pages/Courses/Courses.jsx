@@ -11,6 +11,8 @@ import sanityClient from "../../createclient";
 import imageUrlBuilder from "@sanity/image-url";
 import CourseFilter from "../Dashboard/CourseFilter/CourseFilter";
 import CourseFilterButton from "../../components/Buttons/CourseFilterBtn";
+import PlaceHolderImg from "./PlaceHolderImg";
+import RecentCourses from "./RecentCourses";
 
 function Courses() {
   const courses = FetchCoursefromSanity();
@@ -28,10 +30,6 @@ function Courses() {
   const filteredData = allCoursesSorted.filter((item, index, arr) => {
     return index === arr.findIndex((obj) => obj.courseName === item.courseName);
   });
-  console.log(
-    "🚀 ~ file: Courses.jsx:33 ~ filteredData ~ filteredData:",
-    filteredData
-  );
 
   const courseslist = filteredData.map((item, index) => {
     let imgurl = defaultCoursesImages.find((subItem) => {
@@ -164,37 +162,24 @@ function Courses() {
     );
   });
 
+  const flexStyle = {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-around",
+    width: "100%",
+  };
   return (
     <Wrapper>
       {/* <CourseFilter /> */}
       <DashboardHeader />
 
       <Main>
-        <Top
-          style={{
-            margin: "10px",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-around",
-            backgroundColor: "white",
-            alignItems: "center",
-            fontWeight: "500",
-            height: "300px",
-            width: "100%",
-            marginTop: "70px",
-            borderRadius: "5px",
-            boxShadow: "0px 0px 30px 4px rgba(174, 196, 216, 0.25)",
-          }}
-        >
-          <img
-            style={{ height: "200px", width: "200px" }}
-            src={bookshelf}
-            alt="workinganimatedimage"
-          />
-          <p style={{ fontWeight: "400" }}>
-            Hmm no courses yet! Search our courses..
-          </p>
-        </Top>
+        {/* {!recentCourses ? (
+          <PlaceHolderImg img={bookshelf} />
+        ) : ( */}
+        <RecentCourses />
+
         <div
           style={{
             display: "flex",
@@ -205,31 +190,13 @@ function Courses() {
         >
           <SearchCourse />
         </div>
-
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-around",
-            width: "100%",
-          }}
-        >
+        <div style={flexStyle}>
           <p style={{ fontWeight: "500" }}> All Courses </p>
 
           <CourseFilterButton />
         </div>
         {courseslist}
-
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-around",
-            width: "100%",
-          }}
-        >
+        <div style={flexStyle}>
           <p style={{ fontWeight: "500" }}> All Blocks</p>
           <CourseFilterButton />
         </div>
@@ -388,4 +355,4 @@ const Image = styled.div`
   }
 `;
 
-const Top = styled.div``;
+const PlaceholderImg = styled.div``;

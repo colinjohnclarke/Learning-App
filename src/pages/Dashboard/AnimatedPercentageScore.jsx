@@ -14,7 +14,7 @@ function AnimatedPercentageScore({ percentage, color, fontColor }) {
   const Circle = styled.circle`
     fill: none;
     stroke: url(#GradientColor);
-    stroke-width: 6px;
+    stroke-width: 5px;
     stroke-dasharray: ${offset};
     stroke-dashoffset: ${offset};
     animation: ${anim} 0.4s linear forwards;

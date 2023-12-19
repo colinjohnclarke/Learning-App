@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import FetchCoursefromSanity from "../Dashboard/CourseFilter/FetchCoursefromSanity";
 import CourseBlockBreakown from "./CourseBlockBreakown";
@@ -16,13 +16,79 @@ import { IoChevronBack } from "react-icons/io5";
 import SearchCourse from "../../components/Search/SearchCourse";
 import LeaderBoard from "../Dashboard/LeaderBoard/LeaderBoard";
 import MainActionBtn from "../../components/Buttons/MainActionBtn";
+import {
+  useGetAllEnrolledCoursesData,
+  useGetEnrolledCourseData,
+  useAddEnrolledCourseMutation,
+  useDeleteEnrolledCourse,
+} from "../../features/api/UserData/enrolledCourseDataSlice";
+import {
+  useGetAllUsersQuery,
+  useGetTop10UsersQuery,
+  useGetUserByEmailQuery,
+  useCreateUserMutation,
+  useUpdateUserDataMutation,
+} from "../../features/api/UserData/userDataSlice";
+import { UserContext } from "../../App";
 
 function CourseDetailedView() {
   const [breakdownDisplayed, setBreakdownIsDisplayed] = useState(true);
   const { subject, courseName } = useParams();
+  const [buttonContent, setButtonContent] = useState("Start Learning");
+  const navigate = useNavigate();
+  const [addCourseBtnClicked, setAddCourseBtnClicked] = useState(false);
+
+  const [addEnrolledCourse] = useAddEnrolledCourseMutation();
 
   const [width, setWidth] = useState(window.innerWidth);
   const builder = imageUrlBuilder(sanityClient);
+
+  const user = useContext(UserContext);
+
+  const id = user.user._id;
+
+  // useEffect(() => {
+  //   if (createUserRequired && isAuthenticated) {
+  //     // Check 'createUserRequired'
+
+  //     const createNewUser = async () => {
+  //       try {
+  //         const response = await createUser({
+  //           firstName: user.given_name,
+  //           lastName: user.family_name,
+  //           email: user.email,
+  //           emailVerified: user.email_verified,
+  //           // password: user.password,
+  //         });
+  //         return response;
+  //       } catch (error) {
+  //         return null; // Return null if there's an error
+  //       }
+  //     };
+
+  //     const newlyCreatedUser = createNewUser();
+  //     newlyCreatedUser.then((response) => {
+  //       // Handle the response object here
+  //     });
+  //   }
+  // }, [createUserRequired, isAuthenticated, data]);
+
+  useEffect(() => {
+    const addCourse = async () => {
+      const course = { subject, courseName, id };
+      try {
+        const buttonContent = await addEnrolledCourse(course);
+        setButtonContent((val) => "Start...");
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    if (addCourseBtnClicked) {
+      console.log("addCourseBtnClicked", addCourseBtnClicked);
+      addCourse();
+    }
+  }, [addCourseBtnClicked]);
 
   const imgurlFor = (source) => {
     return builder.image(source);
@@ -30,20 +96,13 @@ function CourseDetailedView() {
 
   const course = FetchCoursefromSanity();
 
-  // const img = (
-  //   <img
-  //     alt=""
-  //     style={{
-  //       height: "100px",
-  //       width: "100px",
-  //     }}
-  //     src={imgurlFor(item.coverImage.asset._ref)}
-  //   />
-  // );
-
   const blocks = course.filter((course) => {
     return course.courseName === courseName;
   });
+  console.log(
+    "🚀 ~ file: CourseDetailedView.jsx:97 ~ blocks ~ blocks:",
+    blocks
+  );
 
   const courseStarted = false;
 
@@ -217,10 +276,28 @@ function CourseDetailedView() {
                       {" "}
                       Not started yet!
                     </h2>
-                    <MainActionBtn style={{ width: "200px" }}>
-                      {" "}
-                      Start Learning
-                    </MainActionBtn>
+                    {!addCourseBtnClicked ? (
+                      <MainActionBtn
+                        onClick={() => {
+                          setAddCourseBtnClicked((val) => true);
+                        }}
+                        style={{ width: "200px" }}
+                      >
+                        {" "}
+                        {buttonContent}
+                      </MainActionBtn>
+                    ) : (
+                      <MainActionBtn
+                        onClick={() => {
+                          navigate(
+                            `/courses/${subject}/${courseName}/${blocks[0].blockName}`
+                          );
+                        }}
+                        style={{ width: "200px" }}
+                      >
+                        {buttonContent}
+                      </MainActionBtn>
+                    )}
                   </div>
                 )}
               </div>

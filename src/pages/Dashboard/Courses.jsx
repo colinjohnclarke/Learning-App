@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { recentCourseList } from "./RecentCourseList";
@@ -16,12 +16,16 @@ import imageUrlBuilder from "@sanity/image-url";
 import AnimatedPercentageScore from "./AnimatedPercentageScore";
 import working from "../../assets/images/working.jpg";
 import AddCourseBtn from "../../components/Buttons/AddCourseBtn";
+import { UserContext } from "../../App";
 
 function Courses({ data }) {
   console.log("🚀 ~ file: Courses.jsx:19 ~ Courses ~ data:", data);
   const [seeAllCoursesDisplayed, setSeeAllCoursesDisplayed] = useState(false);
   const [recentCoursesDisplayed, setRecentCoursesDisplayed] = useState(true);
   const [displayFilter, setDisplayFilter] = useState(false);
+
+
+
 
   const [dropDownClicked, setDropdownClicked] = useState(Array(6).fill(false));
 

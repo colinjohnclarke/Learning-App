@@ -12,6 +12,7 @@ import currentblockprogressdata from "../features/CurrentBlockProgressData/curre
 import mathsMCQSlice from "../features/MCQ/mathsMCQSlice";
 
 import { userDataSlice } from "../features/api/UserData/userDataSlice";
+import { enrolledCourseDataSlice } from "../features/api/UserData/enrolledCourseDataSlice";
 
 export const store = configureStore({
   reducer: {
@@ -24,7 +25,11 @@ export const store = configureStore({
     currentblockprogressdata,
     mathsMCQSlice,
     [userDataSlice.reducerPath]: userDataSlice.reducer,
+    [enrolledCourseDataSlice.reducerPath]: enrolledCourseDataSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(userDataSlice.middleware),
+    getDefaultMiddleware().concat(
+      userDataSlice.middleware,
+      enrolledCourseDataSlice.middleware
+    ),
 });
