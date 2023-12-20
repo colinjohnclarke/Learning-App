@@ -11,34 +11,19 @@ import imageUrlBuilder from "@sanity/image-url";
 import Header from "../../components/Header/Header";
 import exam from "../../assets/images/exam.png";
 
-function RecentCourses() {
-  const user = useContext(UserContext);
+function RecentCourses({ data }) {
   const courses = FetchCoursefromSanity();
-  console.log(
-    "🚀 ~ file: RecentCourses.jsx:12 ~ RecentCourses ~ courses:",
-    courses
-  );
-
-  const enrolledCourses = user.user.enrolledCourses;
-  console.log(
-    "🚀 ~ file: RecentCourses.jsx:14 ~ RecentCourses ~ enrolledCourses:",
-    enrolledCourses
-  );
-
+  const enrolledCourses = data?.user.enrolledCourses;
   const builder = imageUrlBuilder(sanityClient);
 
   const imgurlFor = (source) => {
     return builder.image(source);
   };
 
-  const list = enrolledCourses.map((item, index) => {
+  const list = enrolledCourses?.map((item, index) => {
     const result = courses.find((subItem) => {
       return subItem.courseName === item.courseName;
     });
-    console.log(
-      "🚀 ~ file: RecentCourses.jsx:28 ~ imgurl ~ RESULTimgurl:",
-      result
-    );
 
     const content = result?.coverImage ? (
       <img
@@ -52,103 +37,157 @@ function RecentCourses() {
     ) : null;
 
     return (
-      <Link
+      <LinkWrapper
         className="animate__animated animate__fadeIn"
         style={{
-          display: "flex",
-          width: "100%",
           textDecoration: "none",
           animationDelay: `${index / 20}s`,
         }}
-        to={`/courses/${item.subject}/${item.courseName}/${item.blockName}`}
       >
-        <Box>
-          <Text>
-            {" "}
-            <p
-              style={{
-                fontSize: "13px",
-                listStyle: "none",
-                paddingLeft: "10px",
-                fontWeight: "600",
-              }}
-            >
-              {item.Subject}
-            </p>
-            <p
-              style={{
-                fontSize: "13px",
-                listStyle: "none",
-                padding: "12px",
-              }}
-            >
-              {item.courseName}
-            </p>
-            <p
-              style={{
-                fontSize: "13px",
-                listStyle: "none",
-                padding: "12px",
-              }}
-            >
-              {item.XPForCurrentCourse} Xp Scored
-            </p>
-          </Text>
-          <AnimatedPercentageScore
-            color="rgb(39, 106, 245, 1)"
-            percentage={item.percentageProgress}
-          />
+        <Link
+          style={{
+            textDecoration: "none",
+          }}
+          to={`/courses/${item.Subject}/${item.courseName}`}
+        >
+          <Box>
+            <Text>
+              {" "}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "start",
+                  justifyContent: "center",
+                  padding: "10px",
+                }}
+              >
+                {" "}
+                <p
+                  style={{
+                    fontSize: "13px",
+                    listStyle: "none",
+                    // paddingLeft: "10px",
+                    fontWeight: "600",
+                  }}
+                >
+                  {item.Subject}
+                </p>
+                <p
+                  style={{
+                    fontSize: "13px",
+                    listStyle: "none",
+                    // padding: "12px",
+                  }}
+                >
+                  {item.courseName}
+                </p>
+              </div>
+              <p
+                style={{
+                  fontSize: "13px",
+                  listStyle: "none",
+                  padding: "12px",
+                }}
+              >
+                {item.XPForCurrentCourse} Xp Scored
+              </p>
+            </Text>
+            <AnimatedPercentageScore
+              color="rgb(39, 106, 245, 1)"
+              percentage={item.percentageProgress}
+            />
 
-          {content ? (
-            <Image>{content}</Image>
-          ) : (
-            <Img
-              src={
-                "https://stpauls.fra1.digitaloceanspaces.com/wp-content/uploads/2022/04/28130914/SPS-logo-centred-POS.png"
-              }
-            ></Img>
-          )}
-        </Box>
-      </Link>
+            {content ? (
+              <Image>{content}</Image>
+            ) : (
+              <Img
+                src={
+                  "https://stpauls.fra1.digitaloceanspaces.com/wp-content/uploads/2022/04/28130914/SPS-logo-centred-POS.png"
+                }
+              ></Img>
+            )}
+          </Box>
+        </Link>
+      </LinkWrapper>
     );
   });
 
   return (
-    <div
+    <Main
       style={{
         margin: "10px",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-around",
-        backgroundColor: "white",
+        // display: "flex",
+        // flexDirection: "column",
+        // justifyContent: "space-around",
+        // backgroundColor: "white",
         alignItems: "center",
         fontWeight: "500",
         // height: "300px",
         width: "100%",
         marginTop: "70px",
         borderRadius: "5px",
-        boxShadow: "0px 0px 30px 4px rgba(174, 196, 216, 0.25)",
+        // boxShadow: "0px 0px 30px 4px rgba(174, 196, 216, 0.25)",
       }}
     >
       <HeaderContent>
         <h2
           style={{
             fontWeight: "500",
-            fontSize: "1.5rem",
+            fontSize: "1rem",
             color: "white",
+            margin: "10px",
           }}
         >
           Your recent Courses
         </h2>
-      </HeaderContent>
-      <img style={{ height: "200px" }} src={exam} alt="student taking exam" />
+        <img
+          style={{
+            borderRadius: "5px",
+            height: "120px",
 
-      {list}
-    </div>
+            margin: "10px",
+          }}
+          src={exam}
+          alt="student taking exam"
+        />
+      </HeaderContent>
+      <Grid> {list}</Grid>
+    </Main>
   );
 }
 
 export default RecentCourses;
+
+const Main = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+
+  @media ${device.tablet} {
+  }
+`;
+
+const Grid = styled.div`
+  padding-top: 10px;
+  width: 100%;
+  //   display: flex;
+  //   align-items: center;
+  //   flex-direction: column;
+  //   justify-content: center;
+
+  @media ${device.tablet} {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+`;
+
+const LinkWrapper = styled.div`
+  width: 100%;
+  padding-top: 10px;
+`;
 
 const Box = styled.a`
   height: 80px;
@@ -208,8 +247,9 @@ const HeaderContent = styled.div`
   position: relative;
   z-index: 10;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
+  justify-content: space-between;
 
   transition: 0.3s;
   background: linear-gradient(

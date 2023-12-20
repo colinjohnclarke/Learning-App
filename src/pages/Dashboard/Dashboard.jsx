@@ -14,12 +14,14 @@ import { useAuth0 } from "@auth0/auth0-react";
 import sanityClient from "../../createclient";
 import GridLoader from "react-spinners/GridLoader";
 import Weekday from "../../components/Weekday";
+import { useGetAllEnrolledCoursesDataQuery } from "../../features/api/UserData/enrolledCourseDataSlice";
 
 import { useGetUserByEmailQuery } from "../../features/api/UserData/userDataSlice";
 
 function Dashboard() {
   const { user } = useAuth0();
-  const data = useContext(UserContext);
+  const userData = useContext(UserContext);
+  const { data } = useGetAllEnrolledCoursesDataQuery(user?.user._id);
 
   // const { data, isLoading, isError, error } = useGetUserByEmailQuery(
   //   user?.email
@@ -46,7 +48,7 @@ function Dashboard() {
           <Greeting>
             <Welcome>
               <h3 style={{ color: "white" }}>
-                Welcome {data?.user.firstName}!
+                Welcome {userData?.user.firstName}!
               </h3>
               <img
                 referrerpolicy="no-referrer"
@@ -74,15 +76,15 @@ function Dashboard() {
           {/* display user data */}
           <UserdataWrapper>
             <Box style={{ marginRight: "5px" }}>
-              <AllTimeLearningTimeBox data={data?.user.totalTimeElapsed} />
+              <AllTimeLearningTimeBox data={userData?.user.totalTimeElapsed} />
             </Box>
             <Box style={{ margin: "5px 5px" }}>
               <AllTimeQuestionsAnsweredBox
-                data={data?.user.totalQuestionsAttempted}
+                data={userData?.user.totalQuestionsAttempted}
               />
             </Box>
             <Box style={{ marginLeft: "5px" }}>
-              <AllTimeXPBox data={data?.user.totalXP} />
+              <AllTimeXPBox data={userData?.user.totalXP} />
             </Box>
           </UserdataWrapper>
           <div style={{ height: "5px" }}></div>
@@ -90,7 +92,7 @@ function Dashboard() {
           <div style={{ height: "5px" }}></div>
           {/* display recent Courses */}
 
-          <Courses data={data} />
+          <Courses data={userData} />
 
           <div style={{ height: "10px" }}></div>
           <LeaderBoard />

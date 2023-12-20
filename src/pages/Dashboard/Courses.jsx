@@ -19,14 +19,9 @@ import AddCourseBtn from "../../components/Buttons/AddCourseBtn";
 import { UserContext } from "../../App";
 
 function Courses({ data }) {
-  console.log("🚀 ~ file: Courses.jsx:19 ~ Courses ~ data:", data);
   const [seeAllCoursesDisplayed, setSeeAllCoursesDisplayed] = useState(false);
   const [recentCoursesDisplayed, setRecentCoursesDisplayed] = useState(true);
   const [displayFilter, setDisplayFilter] = useState(false);
-
-
-
-
   const [dropDownClicked, setDropdownClicked] = useState(Array(6).fill(false));
 
   const blocksCompleted = data?.user.blocksCompleted || undefined;
@@ -52,10 +47,6 @@ function Courses({ data }) {
   console.log(subject, courseName, blockName);
 
   const courses = FetchCoursefromSanity();
-  console.log(
-    "🚀 ~ file: Courses.jsx:49 ~ Courses from sanity ~ courses:",
-    courses
-  );
 
   const selected = {
     fontWeight: "500",
@@ -166,10 +157,6 @@ function Courses({ data }) {
 
   const filterAttemptedCourses = blocksCompleted?.filter(
     (course) => course.PercentageScores !== 0
-  );
-  console.log(
-    "🚀 ~ file: Courses.jsx:163 ~ Courses ~ filterAttemptedCourses:",
-    filterAttemptedCourses
   );
 
   const recentCourses = filterAttemptedCourses?.map((item) => {
@@ -328,7 +315,7 @@ function Courses({ data }) {
             onClick={handleStudentLeaderBoardClick}
           >
             {" "}
-            Add Course
+            Blocks for you
             {seeAllCoursesDisplayed && (
               <CourseFilterBtn
                 onClick={(e) => {

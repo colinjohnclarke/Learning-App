@@ -8,13 +8,18 @@ export const enrolledCourseDataSlice = createApi({
   tagTypes: ["EnrolledCourses"],
   endpoints: (builder) => ({
     getAllEnrolledCoursesData: builder.query({
-      query: () => "/getallenrolledcourses",
+      query: (id) => `/getallenrolledcourses?id=${id}`,
       providesTags: ["EnrolledCourses"],
     }),
-    // getEnrolledCourseData: builder.query({
-    //   query: () => "/getenrolledcoursedata",
-    //   providesTags: ["EnrolledCourses"],
-    // }),
+
+    // builder.query is defined to accept only a single argument.
+
+    getEnrolledCourseData: builder.query({
+      query: ({id, courseName}) =>
+        `/getenrolledcoursedata?id=${id}&courseName=${courseName}`,
+
+      providesTags: ["EnrolledCourses"],
+    }),
     addEnrolledCourse: builder.mutation({
       query: (course) => ({
         url: "/addenrolledcourse",
@@ -36,7 +41,8 @@ export const enrolledCourseDataSlice = createApi({
 
 export const {
   useGetAllEnrolledCoursesDataQuery,
-  // useGetEnrolledCourseData,
+
+  useGetEnrolledCourseDataQuery,
   useAddEnrolledCourseMutation,
   // useDeleteEnrolledCourse,
 } = enrolledCourseDataSlice;

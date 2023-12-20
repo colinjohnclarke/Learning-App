@@ -17,18 +17,12 @@ import SearchCourse from "../../components/Search/SearchCourse";
 import LeaderBoard from "../Dashboard/LeaderBoard/LeaderBoard";
 import MainActionBtn from "../../components/Buttons/MainActionBtn";
 import {
-  useGetAllEnrolledCoursesData,
-  useGetEnrolledCourseData,
+  useGetEnrolledCourseDataQuery,
+  useGetAllEnrolledCoursesDataQuery,
   useAddEnrolledCourseMutation,
   useDeleteEnrolledCourse,
 } from "../../features/api/UserData/enrolledCourseDataSlice";
-import {
-  useGetAllUsersQuery,
-  useGetTop10UsersQuery,
-  useGetUserByEmailQuery,
-  useCreateUserMutation,
-  useUpdateUserDataMutation,
-} from "../../features/api/UserData/userDataSlice";
+
 import { UserContext } from "../../App";
 
 function CourseDetailedView() {
@@ -37,7 +31,6 @@ function CourseDetailedView() {
   const [buttonContent, setButtonContent] = useState("Start Learning");
   const navigate = useNavigate();
   const [addCourseBtnClicked, setAddCourseBtnClicked] = useState(false);
-
   const [addEnrolledCourse] = useAddEnrolledCourseMutation();
 
   const [width, setWidth] = useState(window.innerWidth);
@@ -47,31 +40,9 @@ function CourseDetailedView() {
 
   const id = user.user._id;
 
-  // useEffect(() => {
-  //   if (createUserRequired && isAuthenticated) {
-  //     // Check 'createUserRequired'
+  const { data } = useGetEnrolledCourseDataQuery({ courseName, id });
 
-  //     const createNewUser = async () => {
-  //       try {
-  //         const response = await createUser({
-  //           firstName: user.given_name,
-  //           lastName: user.family_name,
-  //           email: user.email,
-  //           emailVerified: user.email_verified,
-  //           // password: user.password,
-  //         });
-  //         return response;
-  //       } catch (error) {
-  //         return null; // Return null if there's an error
-  //       }
-  //     };
-
-  //     const newlyCreatedUser = createNewUser();
-  //     newlyCreatedUser.then((response) => {
-  //       // Handle the response object here
-  //     });
-  //   }
-  // }, [createUserRequired, isAuthenticated, data]);
+  const courseDetails = data?.courseData;
 
   useEffect(() => {
     const addCourse = async () => {
@@ -99,10 +70,6 @@ function CourseDetailedView() {
   const blocks = course.filter((course) => {
     return course.courseName === courseName;
   });
-  console.log(
-    "🚀 ~ file: CourseDetailedView.jsx:97 ~ blocks ~ blocks:",
-    blocks
-  );
 
   const courseStarted = false;
 
@@ -214,8 +181,6 @@ function CourseDetailedView() {
                   flexDirection: "column",
                   alignItems: "center",
                   justifyContent: "space-between",
-
-                  padding: "20px",
                 }}
               >
                 <h2
@@ -228,10 +193,11 @@ function CourseDetailedView() {
                   {subject} : {courseName}
                 </h2>
 
-                {courseStarted ? (
+                {courseDetails ? (
                   <div
                     style={{
                       padding: "10px",
+                      width: "100%",
                       display: "flex",
                       flexDirection: "row",
                       alignItems: "center",
@@ -239,18 +205,19 @@ function CourseDetailedView() {
                     }}
                   >
                     {" "}
-                    <h2
+                    <MainActionBtn
                       style={{
-                        fontWeight: "400",
-                        fontSize: "1.2rem",
-                        color: "white",
+                        height: "50px",
+                        width: "200px",
+                        display: "flex",
+                        alignItems: "center",
                       }}
                     >
-                      You have completed
-                    </h2>
+                      Continue
+                    </MainActionBtn>
                     <AnimatedPercentageScore
                       color="rgb(39, 106, 245, 1)"
-                      percentage={96}
+                      percentage={data?.courseData?.percentageProgress || 0}
                       fontColor=""
                     />
                   </div>
@@ -304,24 +271,29 @@ function CourseDetailedView() {
 
               <UserdataWrapper>
                 <Box>
-                  <AllTimeLearningTimeBox data={122222} />
+                  <AllTimeLearningTimeBox
+                    data={data?.courseData?.XPForCurrentCourse || 0}
+                  />
                 </Box>
+                {/* <Box>
+                  {" "}
+                  <AllTimeQuestionsAnsweredBox data={data.courseData} />
+                </Box> */}
                 <Box>
                   {" "}
-                  <AllTimeQuestionsAnsweredBox data={15} />
-                </Box>
-                <Box>
-                  {" "}
-                  <AllTimeXPBox data={200} />
+                  <AllTimeXPBox
+                    data={data?.courseData?.timeElapsedForCurrentCourse || 0}
+                  />
                 </Box>
               </UserdataWrapper>
               {/* <SearchCourse /> */}
             </HeaderContent>
           </Header>
         </Wrapper>
-        <div style={{ height: "20px" }}></div>
+        <div style={{ height: "50px" }}></div>
 
         <SearchCourse />
+        <div style={{ height: "30px" }}></div>
         <LeaderBoard />
       </div>
     </Main>

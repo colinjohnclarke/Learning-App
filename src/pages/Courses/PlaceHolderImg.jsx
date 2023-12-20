@@ -23,7 +23,7 @@ function PlaceHolderImg({ img }) {
         src={img}
         alt="workinganimatedimage"
       />
-      <p style={{ fontWeight: "400" }}>
+      <p style={{ fontWeight: "400", padding: "10px" }}>
         Hmm no courses yet! Search our courses..
       </p>
     </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import styled from "styled-components";
 import DashboardHeader from "../Dashboard/DashboardHeader";
 import bookshelf from "../../assets/images/bookshelf.png";
@@ -13,11 +13,23 @@ import CourseFilter from "../Dashboard/CourseFilter/CourseFilter";
 import CourseFilterButton from "../../components/Buttons/CourseFilterBtn";
 import PlaceHolderImg from "./PlaceHolderImg";
 import RecentCourses from "./RecentCourses";
+import { UserContext } from "../../App";
+import {
+  useGetAllEnrolledCoursesDataQuery,
+  useAddEnrolledCourseMutation,
+  useGetUserByEmailQuery,
+} from "../../features/api/UserData/enrolledCourseDataSlice";
 
 function Courses() {
   const courses = FetchCoursefromSanity();
-
+  const user = useContext(UserContext);
+  console.log("🚀 ~ file: Courses.jsx:21 ~ Courses ~ userCOLIN:", user);
   const builder = imageUrlBuilder(sanityClient);
+  const enrolledCourses = user.user.enrolledCourses;
+
+  // const [addEnrolledCourse] = useAddEnrolledCourseMutation();
+  const { data } = useGetAllEnrolledCoursesDataQuery(user?.user._id);
+  useEffect(() => {}, []);
 
   const imgurlFor = (source) => {
     return builder.image(source);
@@ -175,10 +187,11 @@ function Courses() {
       <DashboardHeader />
 
       <Main>
-        {/* {!recentCourses ? (
+        {!enrolledCourses.length ? (
           <PlaceHolderImg img={bookshelf} />
-        ) : ( */}
-        <RecentCourses />
+        ) : (
+          <RecentCourses data={data} />
+        )}
 
         <div
           style={{
