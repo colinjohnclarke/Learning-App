@@ -6,14 +6,20 @@ import FetchCoursefromSanity from "../Dashboard/CourseFilter/FetchCoursefromSani
 import DashboardHeader from "../Dashboard/DashboardHeader";
 import { device } from "../../styles/breakpoints";
 import "animate.css";
+import AnimatedPercentageScore from "../Dashboard/AnimatedPercentageScore";
 
 import sanityClient from "../../createclient";
 import imageUrlBuilder from "@sanity/image-url";
 
-function CourseBlockBreakown({ data, controllers }) {
+function CourseBlockBreakown({
+  data,
+  controllers,
+  completedBlocks,
+  blocksRemaining,
+}) {
   const { breakdownDisplayed, setBreakdownIsDisplayed } = controllers;
 
-  console.log("data TEST", data);
+  console.log("COMPLETED", completedBlocks);
 
   const builder = imageUrlBuilder(sanityClient);
 
@@ -21,7 +27,14 @@ function CourseBlockBreakown({ data, controllers }) {
     return builder.image(source);
   };
 
-  const blocks = data.map((block, index) => {
+  const allBlocksinCourse = data?.map((block, index) => {
+    const findBlock = completedBlocks?.find((subBlock) => {
+      return subBlock.blockName === block.blockName;
+    });
+    console.log(
+      "🚀 ~ file: CourseBlockBreakown.jsx:31 ~ findBlock ~ findBlock:",
+      findBlock
+    );
     const content = block.coverImage ? (
       <img
         alt=""
@@ -39,6 +52,16 @@ function CourseBlockBreakown({ data, controllers }) {
         <Text style={{ fontSize: "12px", fontWeight: "500" }}>
           Part&nbsp; {index + 1}) &nbsp;{block.blockName}
         </Text>
+        {findBlock ? (
+          <AnimatedPercentageScore
+            color="rgb(0, 240, 245, 1)"
+            percentage={findBlock?.PercentageScores}
+            fontColor=""
+          />
+        ) : (
+          <></>
+        )}
+
         <Image>{content}</Image>
       </Box>
       // <div style={{ height: "10px", width: "100%" }}></div>
@@ -51,7 +74,7 @@ function CourseBlockBreakown({ data, controllers }) {
         {/* <OverView> Text </OverView>
         <OverView> Text </OverView> */}
       </Outline>
-      {blocks}
+      {allBlocksinCourse}
     </Wrapper>
   );
 }

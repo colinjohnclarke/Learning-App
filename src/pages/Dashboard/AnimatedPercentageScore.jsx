@@ -31,7 +31,7 @@ function AnimatedPercentageScore({ percentage, color, fontColor }) {
               color: `${fontColor}`,
             }}
           >
-            {percentage} %{" "}
+            {Math.floor(percentage)} %{" "}
           </p>
         </Inner>
       </Outer>

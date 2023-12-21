@@ -23,12 +23,14 @@ import {
 function Courses() {
   const courses = FetchCoursefromSanity();
   const user = useContext(UserContext);
+
   console.log("🚀 ~ file: Courses.jsx:21 ~ Courses ~ userCOLIN:", user);
   const builder = imageUrlBuilder(sanityClient);
-  const enrolledCourses = user.user.enrolledCourses;
 
   // const [addEnrolledCourse] = useAddEnrolledCourseMutation();
   const { data } = useGetAllEnrolledCoursesDataQuery(user?.user._id);
+
+  // const data = [];
   useEffect(() => {}, []);
 
   const imgurlFor = (source) => {
@@ -187,11 +189,8 @@ function Courses() {
       <DashboardHeader />
 
       <Main>
-        {!enrolledCourses.length ? (
-          <PlaceHolderImg img={bookshelf} />
-        ) : (
-          <RecentCourses data={data} />
-        )}
+        <div style={{ height: "50px" }}></div>
+        <RecentCourses />
 
         <div
           style={{

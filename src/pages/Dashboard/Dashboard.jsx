@@ -5,7 +5,7 @@ import AllTimeLearningTimeBox from "./Scores/AllTimeLearningTimeBox";
 import AllTimeQuestionsAnsweredBox from "./Scores/AllTimeQuestionsAnsweredBox";
 import AllTimeXPBox from "./Scores/AllTimeXPBox";
 import DashboardHeader from "./DashboardHeader";
-import Courses from "./Courses";
+import CoursesDashBoard from "./CoursesDashBoard";
 import LeaderBoard from "./LeaderBoard/LeaderBoard";
 import SearchCourse from "../../components/Search/SearchCourse";
 import "animate.css";
@@ -21,7 +21,12 @@ import { useGetUserByEmailQuery } from "../../features/api/UserData/userDataSlic
 function Dashboard() {
   const { user } = useAuth0();
   const userData = useContext(UserContext);
-  const { data } = useGetAllEnrolledCoursesDataQuery(user?.user._id);
+  console.log(
+    "🚀 ~ file: Dashboard.jsx:24 ~ Dashboard ~ userData TEST@!!!:",
+    userData
+  );
+
+
 
   // const { data, isLoading, isError, error } = useGetUserByEmailQuery(
   //   user?.email
@@ -64,9 +69,8 @@ function Dashboard() {
                 }}
                 alt="User Avatar"
                 src={
-                  user.picture
-                    ? user.picture
-                    : "https://gravatar.com/avatar/0eba654f044a6227afcc0c943db3bbe1?s=400&d=robohash&r=x"
+                  user.picture ||
+                  "https://gravatar.com/avatar/0eba654f044a6227afcc0c943db3bbe1?s=400&d=robohash&r=x"
                 }
               />
             </Welcome>
@@ -92,7 +96,7 @@ function Dashboard() {
           <div style={{ height: "5px" }}></div>
           {/* display recent Courses */}
 
-          <Courses data={userData} />
+          <CoursesDashBoard  />
 
           <div style={{ height: "10px" }}></div>
           <LeaderBoard />

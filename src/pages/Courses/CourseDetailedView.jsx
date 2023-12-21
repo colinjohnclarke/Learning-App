@@ -32,16 +32,14 @@ function CourseDetailedView() {
   const navigate = useNavigate();
   const [addCourseBtnClicked, setAddCourseBtnClicked] = useState(false);
   const [addEnrolledCourse] = useAddEnrolledCourseMutation();
-
+  const course = FetchCoursefromSanity();
   const [width, setWidth] = useState(window.innerWidth);
   const builder = imageUrlBuilder(sanityClient);
-
   const user = useContext(UserContext);
 
   const id = user.user._id;
-
+  // get the course overview data from mongodb for animated user data display
   const { data } = useGetEnrolledCourseDataQuery({ courseName, id });
-
   const courseDetails = data?.courseData;
 
   useEffect(() => {
@@ -65,57 +63,28 @@ function CourseDetailedView() {
     return builder.image(source);
   };
 
-  const course = FetchCoursefromSanity();
+  const blocks = course
+    .filter((course) => {
+      return course.courseName === courseName;
+    })
+    .sort((a, b) => {
+      return a.blockPositioninCourse - b.blockPositioninCourse;
+    });
 
-  const blocks = course.filter((course) => {
-    return course.courseName === courseName;
+  // find which blocks user has completed and update continue button to start next block
+  const blocksCompleted = user?.user.blocksCompleted;
+  console.log(
+    "🚀 ~ file: CourseDetailedView.jsx:76 ~ CourseDetailedView ~ blocksCompleted:",
+    blocksCompleted
+  );
+
+  const completedBlocks = blocksCompleted.filter((block) => {
+    return block.courseName === courseName && block.Subject === subject;
   });
 
-  const courseStarted = false;
-
-  const buttonPositionOpen = {
-    position: "relative",
-    top: "0px",
-    right: "24px",
-    justifyContent: "center",
-  };
-
-  const buttonPositionClosed = {
-    position: "relative",
-    top: "0px",
-    right: "28px",
-    zIndex: "200",
-    justifyContent: "start",
-    transform: "rotate(180deg)",
-  };
-
-  const panelStyleClosed = {
-    position: "absolute",
-    left: "-380px",
-    transition: "0.3s",
-    zIndex: "20",
-  };
-
-  const panelStyleOpen = {
-    position: "absolute",
-    left: "0px",
-    transition: "0.3s",
-    zIndex: "20",
-  };
-
-  const bufferPannelOpen = {
-    position: "relative",
-    left: "0px",
-    transition: "0.3s",
-    width: "600px",
-  };
-  const bufferPannelClosed = {
-    position: "absolute",
-    left: "-390px",
-    transition: "0.3s",
-    width: "400px",
-    display: "none",
-  };
+  const blocksRemaining = blocks.filter((block) => {
+    return !completedBlocks.some((obj2) => obj2.blockName === block.blockName);
+  });
 
   function handleResize() {
     setWidth((width) => window.innerWidth);
@@ -166,6 +135,8 @@ function CourseDetailedView() {
 
             <CourseBlockBreakown
               controllers={{ breakdownDisplayed, setBreakdownIsDisplayed }}
+              completedBlocks={completedBlocks}
+              blocksRemaining={blocksRemaining}
               data={blocks}
             ></CourseBlockBreakown>
           </SidePanel>
@@ -181,6 +152,7 @@ function CourseDetailedView() {
                   flexDirection: "column",
                   alignItems: "center",
                   justifyContent: "space-between",
+                  margin: "10px",
                 }}
               >
                 <h2
@@ -196,25 +168,51 @@ function CourseDetailedView() {
                 {courseDetails ? (
                   <div
                     style={{
-                      padding: "10px",
-                      width: "100%",
+                      margin: "10px",
+                      // width: "100%",
                       display: "flex",
-                      flexDirection: "row",
+                      flexDirection: "column",
                       alignItems: "center",
-                      justifyContent: "space-between",
+                      // justifyContent: "space-between",
                     }}
                   >
-                    {" "}
-                    <MainActionBtn
+                    <div
                       style={{
-                        height: "50px",
-                        width: "200px",
+                        padding: "10px",
+                        width: "100%",
                         display: "flex",
+                        flexDirection: "row",
                         alignItems: "center",
+                        justifyContent: "space-between",
                       }}
                     >
-                      Continue
-                    </MainActionBtn>
+                      {" "}
+                      <h3
+                        style={{
+                          fontWeight: "500",
+                          fontSize: "1.4rem",
+                          color: "white",
+                        }}
+                      >
+                        {" "}
+                        Next Section: {blocksRemaining[0]?.blockName}
+                      </h3>
+                      <MainActionBtn
+                        onClick={() => {
+                          navigate(
+                            `/courses/${subject}/${courseName}/${blocksRemaining[0].blockName}`
+                          );
+                        }}
+                        style={{
+                          height: "50px",
+                          width: "60%",
+                          display: "flex",
+                          alignItems: "center",
+                        }}
+                      >
+                        Continue!
+                      </MainActionBtn>
+                    </div>
                     <AnimatedPercentageScore
                       color="rgb(39, 106, 245, 1)"
                       percentage={data?.courseData?.percentageProgress || 0}
@@ -302,6 +300,50 @@ function CourseDetailedView() {
 
 export default CourseDetailedView;
 
+const buttonPositionOpen = {
+  position: "relative",
+  top: "0px",
+  right: "24px",
+  justifyContent: "center",
+};
+
+const buttonPositionClosed = {
+  position: "relative",
+  top: "0px",
+  right: "28px",
+  zIndex: "200",
+  justifyContent: "start",
+  transform: "rotate(180deg)",
+};
+
+const panelStyleClosed = {
+  position: "absolute",
+  left: "-380px",
+  transition: "0.3s",
+  zIndex: "20",
+};
+
+const panelStyleOpen = {
+  position: "absolute",
+  left: "0px",
+  transition: "0.3s",
+  zIndex: "20",
+};
+
+const bufferPannelOpen = {
+  position: "relative",
+  left: "0px",
+  transition: "0.3s",
+  width: "600px",
+};
+const bufferPannelClosed = {
+  position: "absolute",
+  left: "-390px",
+  transition: "0.3s",
+  width: "400px",
+  display: "none",
+};
+
 const SidePanel = styled.div`
   display: flex;
   flex-direction: row-reverse;
@@ -335,10 +377,10 @@ const HeaderContent = styled.div`
 
   transition: 0.3s;
   background: linear-gradient(
-    225deg,
-    rgba(0, 200, 200, 0.2) 0%,
-    rgba(0, 200, 200, 0.7) 20%,
-    rgba(0, 200, 200, 1) 60%,
+    -225deg,
+    rgb(115, 46, 255, 0.6) 0%,
+    rgba(0, 200, 200, 0.7) 70%,
+    rgba(0, 200, 200, 1) 80%,
     rgba(39, 106, 245, 0.7) 100%
   );
   border-radius: 5px;

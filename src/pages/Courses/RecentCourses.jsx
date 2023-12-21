@@ -10,17 +10,20 @@ import sanityClient from "../../createclient";
 import imageUrlBuilder from "@sanity/image-url";
 import Header from "../../components/Header/Header";
 import exam from "../../assets/images/exam.png";
+import { useGetAllEnrolledCoursesDataQuery } from "../../features/api/UserData/enrolledCourseDataSlice";
+import { useAuth0 } from "@auth0/auth0-react";
 
-function RecentCourses({ data }) {
+function RecentCourses() {
   const courses = FetchCoursefromSanity();
-  const enrolledCourses = data?.user.enrolledCourses;
   const builder = imageUrlBuilder(sanityClient);
+  const userdata = useContext(UserContext);
+  const { data } = useGetAllEnrolledCoursesDataQuery(userdata?.user._id);
 
   const imgurlFor = (source) => {
     return builder.image(source);
   };
 
-  const list = enrolledCourses?.map((item, index) => {
+  const list = data?.enrolledCourses?.map((item, index) => {
     const result = courses.find((subItem) => {
       return subItem.courseName === item.courseName;
     });
@@ -55,11 +58,7 @@ function RecentCourses({ data }) {
               {" "}
               <div
                 style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "start",
-                  justifyContent: "center",
-                  padding: "10px",
+                  padding: "12px",
                 }}
               >
                 {" "}
@@ -116,7 +115,8 @@ function RecentCourses({ data }) {
   return (
     <Main
       style={{
-        margin: "10px",
+        marginTop: "5px",
+        // margin: "10px",
         // display: "flex",
         // flexDirection: "column",
         // justifyContent: "space-around",
@@ -125,34 +125,27 @@ function RecentCourses({ data }) {
         fontWeight: "500",
         // height: "300px",
         width: "100%",
-        marginTop: "70px",
+
+        // marginTop: "70px",
         borderRadius: "5px",
         // boxShadow: "0px 0px 30px 4px rgba(174, 196, 216, 0.25)",
       }}
     >
+      <PaddingBox />
       <HeaderContent>
         <h2
           style={{
             fontWeight: "500",
             fontSize: "1rem",
             color: "white",
-            margin: "10px",
+            margin: "30px",
           }}
         >
           Your recent Courses
         </h2>
-        <img
-          style={{
-            borderRadius: "5px",
-            height: "120px",
-
-            margin: "10px",
-          }}
-          src={exam}
-          alt="student taking exam"
-        />
       </HeaderContent>
       <Grid> {list}</Grid>
+      <PaddingBox />
     </Main>
   );
 }
@@ -252,13 +245,28 @@ const HeaderContent = styled.div`
   justify-content: space-between;
 
   transition: 0.3s;
-  background: linear-gradient(
-    225deg,
-    rgba(0, 200, 200, 0.2) 0%,
-    rgba(0, 200, 200, 0.7) 20%,
-    rgba(0, 200, 200, 1) 60%,
-    rgba(39, 106, 245, 0.7) 100%
+  //   background: linear-gradient(
+  //     225deg,
+  //     rgba(0, 200, 211, 0.2) 0%,
+  //     rgba(0, 200, 200, 0.7) 20%,
+  //     rgba(0, 200, 200, 1) 50%,
+  //     rgba(148, 0, 200, 0.6) 100%
+  //   );
+
+  background-image: linear-gradient(
+    -225deg,
+    rgb(142, 45, 226, 0.5) 0%,
+    rgb(74, 0, 224, 0.5) 20%,
+    rgb(74, 0, 224, 0.5) 30%,
+    rgba(0, 200, 200, 0.7) 100%
   );
+  //   background-image: linear-gradient(to right, #fc5c7d, #6a82fb);
+  //   background-image: linear-gradient(-20deg, #00cdac 0%, #8ddad5 100%);
+  //   background-image: linear-gradient(
+  //     225deg,
+  //     rgba(156, 240, 248, 0.7) 11.2%,
+  //     rgba(110, 123, 251, 0.7) 91.1%
+  //   );
   border-radius: 5px;
   // margin: 5px;
 
@@ -266,5 +274,10 @@ const HeaderContent = styled.div`
 
   @media ${device.tablet} {
     width: 100%;
+  }
+`;
+const PaddingBox = styled.div`
+  @media ${device.tablet} {
+    height: 20px;
   }
 `;
