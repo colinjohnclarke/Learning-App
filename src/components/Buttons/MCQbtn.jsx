@@ -22,7 +22,9 @@ const Btn = styled.button`
   width: 250px;
   border-radius: 5px;
   background-color: white;
-  box-shadow: rgba(0, 200, 200, 0.5) 0px 0px 5px 0px;
+  box-shadow: rgba(0, 240, 240, 0.5) 0px 0px 5px 0px;
+  box-shadow: 0px 0px 30px 4px rgba(174, 196, 216, 0.15),
+    rgba(0, 200, 200, 0.5) 0px 0px 5px 0px;
   transition: 0.3s;
 
   &:hover {

@@ -19,21 +19,19 @@ import { GoPersonFill } from "react-icons/go";
 import { BsPerson } from "react-icons/bs";
 
 function NavigationBarMobile({ navState }) {
-  const [scrollDistance, setScrollDistance] = useState(0);
+  // const [scrollDistance, setScrollDistance] = useState(0);
   const [navHeight, setNavHeight] = useState(50);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const distance = window.pageYOffset || 0;
-      setScrollDistance((val) => distance);
-      setNavHeight(Math.max(50 - distance * 0.5));
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    // const handleScroll = () => {
+    //   const distance = window.pageYOffset || 0;
+    //   setScrollDistance((val) => distance);
+    //   setNavHeight(Math.max(50 - distance * 0.5));
+    // };
+    // window.addEventListener("scroll", handleScroll);
+    // return () => {
+    //   window.removeEventListener("scroll", handleScroll);
+    // };
   }, []);
 
   const { selectedNav, setSelectedNav } = navState;
@@ -62,20 +60,23 @@ function NavigationBarMobile({ navState }) {
   };
   const transition = { transition: "0.3s" };
 
-  let selectorPosition = "7%";
+  let selectorPosition = "7.5%";
 
   if (selectedNav.Dasboard) {
-    selectorPosition = "7%";
+    selectorPosition = "7.5%";
   } else if (selectedNav.Courses) {
-    selectorPosition = "32%";
+    selectorPosition = "32.5%";
   } else if (selectedNav.Profile) {
-    selectorPosition = "58%";
+    selectorPosition = "57.5%";
   } else if (selectedNav.Settings) {
-    selectorPosition = "83%";
+    selectorPosition = "82.5%";
   }
 
   return (
-    <Wrapper style={{ height: `${navHeight}px` }}>
+    <Wrapper
+      // style={{ height: `${navHeight}px` }}
+
+    >
       <Selector
         style={{ transiton: "0.3s", left: selectorPosition }}
       ></Selector>

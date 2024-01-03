@@ -15,6 +15,7 @@ import AnimatedPercentageScore from "./pages/Dashboard/AnimatedPercentageScore";
 import spslogo from "./assets/images/spslogo.png";
 import styled from "styled-components";
 import { device } from "./styles/breakpoints";
+import { GiCorkHat } from "react-icons/gi";
 
 export const UserContext = createContext();
 
@@ -37,7 +38,9 @@ function App() {
     Courses: "false",
     Profile: "false",
     Settings: "false",
+    courseView: "false",
   });
+  console.log("🚀 ~ file: App.js:43 ~ App ~ selectedNav:", selectedNav);
 
   // useEffect(() => {
   //   const getUserMetadata = async () => {

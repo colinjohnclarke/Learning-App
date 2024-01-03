@@ -72,6 +72,10 @@ const Details = styled.div`
   @media ${device.mobileL} {
     margin-bottom: 10px;
   }
+
+  @media ${device.tablet} {
+    padding-top: 60px;
+  }
 `;
 
 const CourseName = styled.div`

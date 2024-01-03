@@ -43,6 +43,7 @@ function CourseBlockBreakown({
           width: "80px",
           position: "realative",
           top: "10px",
+     
         }}
         src={imgurlFor(block.coverImage.asset._ref)}
       />

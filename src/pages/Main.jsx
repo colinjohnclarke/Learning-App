@@ -44,8 +44,9 @@ import { device } from "../styles/breakpoints";
 import CourseDetails from "../components/CourseDetails/CourseDetails";
 
 function Main() {
+  // console.log("🚀 ~ file: Main.jsx:47 ~ Main ~ navState:", navState);
   const [data, setData] = useState([]);
-  console.log("🚀 ~ file: Main.jsx:45 ~ Main ~ data:", data);
+
   const [showPointsSummary, setShowPointsSummary] = useState(false);
   const [itemDisplayed, setItemDisplayed] = useState([]);
   const [blockDataSubmittedtoDB, setBlockDataSubmittedtoDB] = useState(false);
@@ -63,18 +64,28 @@ function Main() {
 
   const userData = useContext(UserContext);
 
+  // const { selectedNav, setSelectedNav } = navState;
+
   useEffect(() => {
     sanityClient
       .fetch(
         `*[_type == "${subject}" && name == "${blockName}" ]
         { subject_skills[]->, coverImage, slider, incorrect_words_from_text, order_items_drag_drop,
                     name, tags, textblock1, textblock2, textblock3, textblock4, textblock5,  hint, problem_keywords[]->,  example_problem, MCQ_INPUTS, MCQ_MATH_INPUTS,  student_text_input, gap_fill, incorrect_words_from_text, table, line_graph_data,
-                    standard_tables,standard_table_variable_names
+                    standard_tables, standard_table_variable_names
                     }`
       )
       .then((result) => setData(result[0]))
       .catch(console.error);
   }, []);
+
+  // useEffect(() => {
+  //   setSelectedNav((prevState) => ({ courseView: "true" }));
+
+  //   console.log("COLINSSSS", selectedNav);
+  // }, []);
+
+  // console.log("selectedNav", selectedNav);
 
   const {
     subject_skills,
@@ -277,7 +288,7 @@ function Main() {
   const renderedItems = [
     <CourseDetails
       className="animate__animated animate__fadeIn"
-      data={data.coverImage}
+      data={data.coverImage || ""}
       subject={subject}
       courseName={courseName}
       blockName={blockName}
@@ -405,6 +416,7 @@ function Main() {
   }, [calculateProgress]);
 
   useEffect(() => {
+    // setSelectedNav((prevState) => ({ courseView: "false" }));
     if (blockDataSubmittedtoDB) {
       dispatch(resetUserScore());
       dispatch(resetAllSlidesSeen());

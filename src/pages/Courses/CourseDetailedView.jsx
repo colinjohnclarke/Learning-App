@@ -4,6 +4,7 @@ import styled from "styled-components";
 import FetchCoursefromSanity from "../Dashboard/CourseFilter/FetchCoursefromSanity";
 import CourseBlockBreakown from "./CourseBlockBreakown";
 import DashboardHeader from "../Dashboard/DashboardHeader";
+import completedAnimation from "../../assets/images/completedAnimation.gif";
 
 import sanityClient from "../../createclient";
 import imageUrlBuilder from "@sanity/image-url";
@@ -37,7 +38,7 @@ function CourseDetailedView() {
   const builder = imageUrlBuilder(sanityClient);
   const user = useContext(UserContext);
 
-  const id = user.user._id;
+  const id = user?.user._id;
   // get the course overview data from mongodb for animated user data display
   const { data } = useGetEnrolledCourseDataQuery({ courseName, id });
   const courseDetails = data?.courseData;
@@ -54,7 +55,6 @@ function CourseDetailedView() {
     };
 
     if (addCourseBtnClicked) {
-      console.log("addCourseBtnClicked", addCourseBtnClicked);
       addCourse();
     }
   }, [addCourseBtnClicked]);
@@ -73,16 +73,12 @@ function CourseDetailedView() {
 
   // find which blocks user has completed and update continue button to start next block
   const blocksCompleted = user?.user.blocksCompleted;
-  console.log(
-    "🚀 ~ file: CourseDetailedView.jsx:76 ~ CourseDetailedView ~ blocksCompleted:",
-    blocksCompleted
-  );
 
-  const completedBlocks = blocksCompleted.filter((block) => {
+  const completedBlocks = blocksCompleted?.filter((block) => {
     return block.courseName === courseName && block.Subject === subject;
   });
 
-  const blocksRemaining = blocks.filter((block) => {
+  const blocksRemaining = blocks?.filter((block) => {
     return !completedBlocks.some((obj2) => obj2.blockName === block.blockName);
   });
 
@@ -104,6 +100,125 @@ function CourseDetailedView() {
       window.removeEventListener("resize", handleResize);
     };
   }, [width]);
+
+  let headerBannerContent;
+
+  if (blocksRemaining.length && blocksCompleted.length) {
+    headerBannerContent = (
+      <div
+        style={{
+          margin: "10px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <div
+          style={{
+            padding: "10px",
+            width: "100%",
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <h3
+            style={{
+              fontWeight: "500",
+              fontSize: "1.4rem",
+              color: "white",
+            }}
+          >
+            Next Section: {blocksRemaining[0]?.blockName}
+          </h3>
+          <MainActionBtn
+            onClick={() => {
+              navigate(
+                `/courses/${subject}/${courseName}/${blocksRemaining[0].blockName}`
+              );
+            }}
+            style={{
+              height: "50px",
+              width: "60%",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            Continue!
+          </MainActionBtn>
+        </div>
+        <AnimatedPercentageScore
+          color="rgb(39, 106, 245, 1)"
+          percentage={data?.courseData?.percentageProgress || 0}
+          fontColor=""
+        />
+      </div>
+    );
+  } else if (blocksRemaining.length === 0) {
+    headerBannerContent = (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+          boxShadow: "0px 0px 30px 4px rgba(174, 196, 216, 0.25)",
+        }}
+      >
+        <h1 style={{ color: "white" }}>completed!!</h1>
+        <img
+          style={{ height: "200px", width: "200px", borderRadius: "5px" }}
+          src={completedAnimation}
+          alt=""
+        />
+      </div>
+    );
+  } else {
+    headerBannerContent = (
+      <div
+        style={{
+          padding: "10px",
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          color: "white",
+        }}
+      >
+        <h2
+          style={{
+            color: "white",
+            fontWeight: "400",
+            fontSize: "1.2rem",
+          }}
+        >
+          Not started yet!
+        </h2>
+        {!addCourseBtnClicked ? (
+          <MainActionBtn
+            onClick={() => {
+              setAddCourseBtnClicked((val) => true);
+            }}
+            style={{ width: "200px" }}
+          >
+            {buttonContent}
+          </MainActionBtn>
+        ) : (
+          <MainActionBtn
+            onClick={() => {
+              navigate(
+                `/courses/${subject}/${courseName}/${blocks[0].blockName}`
+              );
+            }}
+            style={{ width: "200px" }}
+          >
+            {buttonContent}
+          </MainActionBtn>
+        )}
+      </div>
+    );
+  }
 
   return (
     <Main>
@@ -165,106 +280,7 @@ function CourseDetailedView() {
                   {subject} : {courseName}
                 </h2>
 
-                {courseDetails ? (
-                  <div
-                    style={{
-                      margin: "10px",
-                      // width: "100%",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      // justifyContent: "space-between",
-                    }}
-                  >
-                    <div
-                      style={{
-                        padding: "10px",
-                        width: "100%",
-                        display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      {" "}
-                      <h3
-                        style={{
-                          fontWeight: "500",
-                          fontSize: "1.4rem",
-                          color: "white",
-                        }}
-                      >
-                        {" "}
-                        Next Section: {blocksRemaining[0]?.blockName}
-                      </h3>
-                      <MainActionBtn
-                        onClick={() => {
-                          navigate(
-                            `/courses/${subject}/${courseName}/${blocksRemaining[0].blockName}`
-                          );
-                        }}
-                        style={{
-                          height: "50px",
-                          width: "60%",
-                          display: "flex",
-                          alignItems: "center",
-                        }}
-                      >
-                        Continue!
-                      </MainActionBtn>
-                    </div>
-                    <AnimatedPercentageScore
-                      color="rgb(39, 106, 245, 1)"
-                      percentage={data?.courseData?.percentageProgress || 0}
-                      fontColor=""
-                    />
-                  </div>
-                ) : (
-                  <div
-                    style={{
-                      padding: "10px",
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      color: "white",
-                    }}
-                  >
-                    <h2
-                      style={{
-                        color: "white",
-                        // paddingLeft: "10px",
-                        fontWeight: "400",
-                        fontSize: "1.2rem",
-                      }}
-                    >
-                      {" "}
-                      Not started yet!
-                    </h2>
-                    {!addCourseBtnClicked ? (
-                      <MainActionBtn
-                        onClick={() => {
-                          setAddCourseBtnClicked((val) => true);
-                        }}
-                        style={{ width: "200px" }}
-                      >
-                        {" "}
-                        {buttonContent}
-                      </MainActionBtn>
-                    ) : (
-                      <MainActionBtn
-                        onClick={() => {
-                          navigate(
-                            `/courses/${subject}/${courseName}/${blocks[0].blockName}`
-                          );
-                        }}
-                        style={{ width: "200px" }}
-                      >
-                        {buttonContent}
-                      </MainActionBtn>
-                    )}
-                  </div>
-                )}
+                {headerBannerContent}
               </div>
 
               <UserdataWrapper>

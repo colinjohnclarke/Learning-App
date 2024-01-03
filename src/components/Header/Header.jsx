@@ -12,7 +12,9 @@ function Header() {
       <OpenDrawerBtn></OpenDrawerBtn>
       <ProgressBar></ProgressBar>
       {/* <Signup></Signup> */}
-      <LogoutBtn></LogoutBtn>
+      {/* <LogoutBtn></LogoutBtn>
+
+      <div>hdjshjs</div> */}
     </Wrapper>
   );
 }

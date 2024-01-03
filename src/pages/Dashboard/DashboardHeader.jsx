@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import OpenDrawerBtn from "../../components/Drawer/OpenDrawerBtn";
 import Signup from "../../components/Buttons/Signup";
@@ -6,6 +6,9 @@ import { useAuth0 } from "@auth0/auth0-react";
 import LogoutBtn from "../../components/Login/LogoutBtn";
 import { device } from "../../styles/breakpoints";
 import spslogo from "../../assets/images/spslogo.png";
+import { UserContext } from "../../App";
+import NavigationBarDesktop from "../../components/Navigation/NavigationBarDesktop";
+
 function DashboardHeader() {
   // const { user } = useAuth0();
 
@@ -27,7 +30,9 @@ function DashboardHeader() {
         <img style={{ height: "40px" }} src={spslogo} alt="" />
       </div>
 
-      <LogoutBtn> Logout</LogoutBtn>
+      {/* <LogoutBtn> Logout</LogoutBtn> */}
+      <div></div>
+      <NavigationBarDesktop />
       {/* <Signup /> */}
     </Wrapper>
   );
