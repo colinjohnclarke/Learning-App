@@ -6,7 +6,7 @@ import { UserContext } from "../../App";
 import { IoIosArrowDropdown } from "react-icons/io";
 
 function NavigationBarDesktop() {
-  const user = useContext(UserContext);
+  const { userData } = useContext(UserContext);
   const [color, setColor] = useState("");
 
   let selectedFontColor = "rgb(0, 250, 250)";
@@ -22,22 +22,23 @@ function NavigationBarDesktop() {
   return (
     <Wrapper>
       {" "}
-      <Link style={{ textDecoration: "none" }}>
+      <Link to={"/dashboard"} style={{ textDecoration: "none" }}>
         <DashLink>
           <P>Dashboard</P>
         </DashLink>
       </Link>
-      <Link style={{ textDecoration: "none" }}>
+      <Link to={"/courses"} style={{ textDecoration: "none" }}>
         <DashLink>
           <P>Courses</P>
         </DashLink>
       </Link>
-      <Link style={{ textDecoration: "none" }}>
+      <Link to={"/profile"} style={{ textDecoration: "none" }}>
         <DashLink>
           <P>Profile</P>
         </DashLink>
       </Link>
       <Link
+        to={"/settings"}
         style={{
           textDecoration: "none",
         }}
@@ -52,7 +53,7 @@ function NavigationBarDesktop() {
               alignItems: "center",
             }}
           >
-            <P>{user?.user.firstName}</P>
+            <P>{userData?.user.firstName}</P>
             <IoIosArrowDropdown fill={color} />
           </div>
         </DashLink>

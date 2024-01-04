@@ -22,13 +22,12 @@ import {
 
 function Courses() {
   const courses = FetchCoursefromSanity();
-  const user = useContext(UserContext);
+  const { userData } = useContext(UserContext);
 
-  console.log("🚀 ~ file: Courses.jsx:21 ~ Courses ~ userCOLIN:", user);
   const builder = imageUrlBuilder(sanityClient);
 
   // const [addEnrolledCourse] = useAddEnrolledCourseMutation();
-  const { data } = useGetAllEnrolledCoursesDataQuery(user?.user._id);
+  const { data } = useGetAllEnrolledCoursesDataQuery(userData?.user._id);
 
   // const data = [];
   useEffect(() => {}, []);

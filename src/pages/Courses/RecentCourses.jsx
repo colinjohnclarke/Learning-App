@@ -16,8 +16,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 function RecentCourses() {
   const courses = FetchCoursefromSanity();
   const builder = imageUrlBuilder(sanityClient);
-  const userdata = useContext(UserContext);
-  const { data } = useGetAllEnrolledCoursesDataQuery(userdata?.user._id);
+  const { userData } = useContext(UserContext);
+  const { data } = useGetAllEnrolledCoursesDataQuery(userData?.user._id);
 
   const imgurlFor = (source) => {
     return builder.image(source);

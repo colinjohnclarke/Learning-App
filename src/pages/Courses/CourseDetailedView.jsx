@@ -23,6 +23,8 @@ import {
   useAddEnrolledCourseMutation,
   useDeleteEnrolledCourse,
 } from "../../features/api/UserData/enrolledCourseDataSlice";
+import CourseBlockBreakdownMobile from "./CourseBlockBreakdownMobile";
+import { ThemeStyles } from "../../styles/ThemeStyles";
 
 import { UserContext } from "../../App";
 
@@ -36,9 +38,10 @@ function CourseDetailedView() {
   const course = FetchCoursefromSanity();
   const [width, setWidth] = useState(window.innerWidth);
   const builder = imageUrlBuilder(sanityClient);
-  const user = useContext(UserContext);
+  const { userData, darkThemeActive } = useContext(UserContext);
 
-  const id = user?.user._id;
+  const id = userData?.user._id;
+
   // get the course overview data from mongodb for animated user data display
   const { data } = useGetEnrolledCourseDataQuery({ courseName, id });
   const courseDetails = data?.courseData;
@@ -55,6 +58,7 @@ function CourseDetailedView() {
     };
 
     if (addCourseBtnClicked) {
+      console.log("addCourseBtnClicked", addCourseBtnClicked);
       addCourse();
     }
   }, [addCourseBtnClicked]);
@@ -72,7 +76,7 @@ function CourseDetailedView() {
     });
 
   // find which blocks user has completed and update continue button to start next block
-  const blocksCompleted = user?.user.blocksCompleted;
+  const blocksCompleted = userData?.user.blocksCompleted;
 
   const completedBlocks = blocksCompleted?.filter((block) => {
     return block.courseName === courseName && block.Subject === subject;
@@ -115,7 +119,6 @@ function CourseDetailedView() {
       >
         <div
           style={{
-            padding: "10px",
             width: "100%",
             display: "flex",
             flexDirection: "row",
@@ -126,7 +129,7 @@ function CourseDetailedView() {
           <h3
             style={{
               fontWeight: "500",
-              fontSize: "1.4rem",
+              fontSize: "1.2rem",
               color: "white",
             }}
           >
@@ -145,7 +148,14 @@ function CourseDetailedView() {
               alignItems: "center",
             }}
           >
-            Continue!
+            <p
+              style={{
+                fontSize: "16px",
+                color: "rgb(0, 250, 250)",
+              }}
+            >
+              Continue!
+            </p>
           </MainActionBtn>
         </div>
         <AnimatedPercentageScore
@@ -221,17 +231,16 @@ function CourseDetailedView() {
   }
 
   return (
-    <Main>
+    <Main darkThemeActive={darkThemeActive}>
       <DashboardHeader></DashboardHeader>
       <div
         style={{
-          maxWidth: "1000px",
+          maxWidth: "900px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
           width: "98%",
-          marginTop: "10px",
         }}
       >
         <Wrapper>
@@ -267,13 +276,12 @@ function CourseDetailedView() {
                   flexDirection: "column",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  margin: "10px",
                 }}
               >
                 <h2
                   style={{
                     fontWeight: "500",
-                    fontSize: "1.5rem",
+                    fontSize: "1.4rem",
                     color: "white",
                   }}
                 >
@@ -300,14 +308,18 @@ function CourseDetailedView() {
                   />
                 </Box>
               </UserdataWrapper>
-              {/* <SearchCourse /> */}
             </HeaderContent>
           </Header>
         </Wrapper>
-        <div style={{ height: "50px" }}></div>
-
+        <div style={{ height: "10px" }}></div>
         <SearchCourse />
-        <div style={{ height: "30px" }}></div>
+        <CourseBlockBreakdownMobile
+          controllers={{ breakdownDisplayed, setBreakdownIsDisplayed }}
+          completedBlocks={completedBlocks}
+          blocksRemaining={blocksRemaining}
+          data={blocks}
+        />
+
         <LeaderBoard />
       </div>
     </Main>
@@ -385,8 +397,6 @@ const PanelBuffer = styled.div`
 `;
 
 const HeaderContent = styled.div`
-  position: relative;
-  z-index: 10;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -396,13 +406,13 @@ const HeaderContent = styled.div`
     -225deg,
     rgb(115, 46, 255, 0.6) 0%,
     rgba(0, 200, 200, 0.7) 70%,
-    rgba(0, 200, 200, 1) 80%,
-    rgba(39, 106, 245, 0.7) 100%
+    rgba(0, 200, 200, 0.6) 80%,
+    rgba(39, 106, 245, 0.5) 100%
   );
   border-radius: 5px;
-  // margin: 5px;
 
   width: 100%;
+  padding-bottom: 10px;
 
   @media ${device.tablet} {
     width: 100%;
@@ -432,10 +442,15 @@ const Main = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemeSecondaryBackgroundColor};
 `;
 
 const Header = styled.div`
-  height: 100%;
+
+
   position: relative: 
   // width: 100%;
   display: flex;
@@ -446,7 +461,9 @@ const Header = styled.div`
   width: 100%; 
   // // margin: 8px;
   box-shadow: 0px 0px 30px 4px rgba(174, 196, 216, 0.25);
-  marginTop: 10px;
+  marginTop: 5px;
+ 
+
 
   @media ${device.laptop} {
     marginTop: 80px
@@ -459,8 +476,9 @@ const Header = styled.div`
 const Box = styled.div`
   height: 100%;
   width: 100%;
+
   margin: 3px;
-  max-width: 300px;
+  max-width: 200px;
   // padding: 5px;
   display: flex;
   flex-direction: column;
@@ -475,7 +493,7 @@ const UserdataWrapper = styled.div`
   // padding-top: 10px;
   width: 96%;
   height: 70px;
-  padding: 20px;
+  // padding: 20px;
 
   display: flex;
   justify-content: center;

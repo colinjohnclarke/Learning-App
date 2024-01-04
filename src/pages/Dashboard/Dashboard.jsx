@@ -17,16 +17,17 @@ import Weekday from "../../components/Weekday";
 import { useGetAllEnrolledCoursesDataQuery } from "../../features/api/UserData/enrolledCourseDataSlice";
 
 import { useGetUserByEmailQuery } from "../../features/api/UserData/userDataSlice";
+import {
+  lightThemePrimaryBackgroundColor,
+  ThemeStyles,
+} from "../../styles/ThemeStyles";
 
 function Dashboard() {
-  const { user } = useAuth0();
-  const userData = useContext(UserContext);
-  console.log(
-    "🚀 ~ file: Dashboard.jsx:24 ~ Dashboard ~ userData TEST@!!!:",
-    userData
-  );
+  const { userData, darkThemeActive } = useContext(UserContext);
+  console.log("🚀 ~ file: Dashboard.jsx:23 ~ Dashboard ~ userData:", userData);
 
-
+  const user = useAuth0();
+  console.log("🚀 ~ file: Dashboard.jsx:26 ~ Dashboard ~ user:", user);
 
   // const { data, isLoading, isError, error } = useGetUserByEmailQuery(
   //   user?.email
@@ -44,16 +45,15 @@ function Dashboard() {
   );
 
   return (
-    <Wrapper>
+    <Wrapper darkThemeActive={darkThemeActive}>
       <DashboardHeader />
       <Padding>
         {/* {!data && loader} */}
-
         <Main>
           <Greeting>
             <Welcome>
               <h3 style={{ color: "white" }}>
-                Welcome {userData?.user.firstName}!
+                Welcome {userData?.user.firstName}
               </h3>
               <img
                 referrerpolicy="no-referrer"
@@ -69,7 +69,7 @@ function Dashboard() {
                 }}
                 alt="User Avatar"
                 src={
-                  user.picture ||
+                  user?.user.picture ||
                   "https://gravatar.com/avatar/0eba654f044a6227afcc0c943db3bbe1?s=400&d=robohash&r=x"
                 }
               />
@@ -96,7 +96,7 @@ function Dashboard() {
           <div style={{ height: "5px" }}></div>
           {/* display recent Courses */}
 
-          <CoursesDashBoard  />
+          <CoursesDashBoard />
 
           <div style={{ height: "10px" }}></div>
           <LeaderBoard />
@@ -114,6 +114,10 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
 `;
 
 const Padding = styled.div`

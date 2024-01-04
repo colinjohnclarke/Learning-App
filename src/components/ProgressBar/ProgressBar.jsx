@@ -9,8 +9,6 @@ function ProgressBar() {
     (state) => state.progressbarreducer.value
   );
 
-  
-
   useEffect(() => {
     setProgress((val) => getCurrentpercentage?.payload?.calculateProgress);
   }, [getCurrentpercentage]);
@@ -33,6 +31,8 @@ function ProgressBar() {
 export default ProgressBar;
 
 const Wrapper = styled.div`
+  position: relative;
+  z-index: 0;
   max-width: 60vw;
   width: 60vw;
   height: 8px;

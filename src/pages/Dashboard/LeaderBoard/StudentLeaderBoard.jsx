@@ -15,7 +15,9 @@ function StudentLeaderBoard() {
 
   const newArr = data ? [...data] : [];
 
-  const filtered = data ? newArr?.sort((a, b) => b.totalXP - a.totalXP) : [];
+  const filterUsersWithNoXP = newArr.filter((user) => user.totalXP);
+
+  const sorted = filterUsersWithNoXP?.sort((a, b) => b.totalXP - a.totalXP);
 
   const mainContent = (
     <Main>
@@ -38,7 +40,7 @@ function StudentLeaderBoard() {
       </thead>
 
       <TableBody>
-        {filtered?.map((item, index) => {
+        {sorted?.map((item, index) => {
           let rankElement = <></>;
 
           if (rankData[index].display) {

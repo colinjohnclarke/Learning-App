@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
-import FetchCoursefromSanity from "../Dashboard/CourseFilter/FetchCoursefromSanity";
-// import CourseBlockBreakown from "./CourseBlockBreakown";
-import DashboardHeader from "../Dashboard/DashboardHeader";
 import { device } from "../../styles/breakpoints";
 import "animate.css";
 import AnimatedPercentageScore from "../Dashboard/AnimatedPercentageScore";
@@ -11,16 +8,11 @@ import AnimatedPercentageScore from "../Dashboard/AnimatedPercentageScore";
 import sanityClient from "../../createclient";
 import imageUrlBuilder from "@sanity/image-url";
 
-function CourseBlockBreakown({
+function CourseBlockBreakdownMobile({
   data,
-  controllers,
   completedBlocks,
   blocksRemaining,
 }) {
-  const { breakdownDisplayed, setBreakdownIsDisplayed } = controllers;
-
-  console.log("COMPLETED", completedBlocks);
-
   const builder = imageUrlBuilder(sanityClient);
 
   const imgurlFor = (source) => {
@@ -28,75 +20,87 @@ function CourseBlockBreakown({
   };
 
   const allBlocksinCourse = data?.map((block, index) => {
+    console.log(
+      "🚀 ~ file: CourseBlockBreakdownMobile.jsx:23 ~ allBlocksinCourse ~ block:",
+      block
+    );
+
     const findBlock = completedBlocks?.find((subBlock) => {
       return subBlock.blockName === block.blockName;
     });
-    console.log(
-      "🚀 ~ file: CourseBlockBreakown.jsx:31 ~ findBlock ~ findBlock:",
-      findBlock
-    );
+
     const content = block.coverImage ? (
       <img
         alt=""
         style={{
-          height: "100px",
-          width: "80px",
-          position: "realative",
-          top: "10px",
+          height: "60px",
+          width: "100px",
+          position: "relative",
+          borderRadius: "5px",
+          //   top: "10px",
         }}
         src={imgurlFor(block.coverImage.asset._ref)}
       />
     ) : null;
     return (
-      <Box>
-        <Text style={{ fontSize: "12px", fontWeight: "500" }}>
-          Part&nbsp; {index + 1}) &nbsp;{block.blockName}
-        </Text>
-        {findBlock ? (
-          <AnimatedPercentageScore
-            color="rgb(0, 240, 245, 1)"
-            percentage={findBlock?.PercentageScores}
-            fontColor=""
-          />
-        ) : (
-          <></>
-        )}
-
-        <Image>{content}</Image>
-      </Box>
-      // <div style={{ height: "10px", width: "100%" }}></div>
+      <Link
+        style={{
+          width: "100%",
+          height: "60px",
+          margin: "5px",
+          textDecoration: "none",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          boxShadow: "0px 0px 30px 4px rgba(174, 196, 216, 0.25)",
+          backgroundColor: "rgb(255, 255, 255)",
+          borderRadius: "5px",
+        }}
+        to={`/courses/${block.subject}/${block.courseName}/${block.blockName}`}
+      >
+        <Box>
+          {" "}
+          <Text style={{ fontSize: "12px", fontWeight: "500" }}>
+            Part&nbsp; {index + 1}) &nbsp;{block.blockName}
+          </Text>
+          {findBlock ? (
+            <AnimatedPercentageScore
+              color="rgb(0, 240, 245)"
+              percentage={findBlock?.PercentageScores}
+            />
+          ) : (
+            <></>
+          )}
+          <Image>{content}</Image>
+        </Box>
+      </Link>
     );
   });
   return (
     <Wrapper>
       <OverView> Overview of course...</OverView>
-      <Outline>
-        {/* <OverView> Text </OverView>
-        <OverView> Text </OverView> */}
-      </Outline>
       {allBlocksinCourse}
     </Wrapper>
   );
 }
 
-export default CourseBlockBreakown;
+export default CourseBlockBreakdownMobile;
 
 const Wrapper = styled.div`
-  display: none;
+  padding-bottom: 20px;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: 0.3s;
+  //   background-color: white;
+  //   box-shadow: 0px 0px 30px 4px rgba(174, 196, 216, 0.25);
+  border-radius: 5px;
 
   @media ${device.tablet} {
-    padding: 10px;
-    display: flex;
-    width: 350px;
-    padding-top: 50px;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    transition: 0.3s;
-    background-color: white;
-    box-shadow: 0px 0px 30px 4px rgba(174, 196, 216, 0.25);
-    border-radius: 5px;
-    padding: 15px;
+    display: none;
   }
 `;
 
@@ -111,22 +115,12 @@ const Text = styled.div`
   padding: 10px;
 `;
 
-const Outline = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+const Box = styled.a`
   height: 100%;
   width: 100%;
-  width: 96%;
-`;
-
-const Box = styled.a`
-  height: 50px;
-  width: 100%;
   min-width: 290px;
-  padding: 4px;
-  margin: 3px;
+  //   padding: 4px;
+
   border-radius: 5px;
   text-decoration: none;
   display: flex;
@@ -152,10 +146,9 @@ const Image = styled.div`
 `;
 
 const OverView = styled.div`
+  color: white;
   min-height: 50px;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 1px 0px;
-  padding: 4px;
-  margin-top: 50px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -163,9 +156,14 @@ const OverView = styled.div`
   width: 100%;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
   border-radius: 5px;
-  box-shadow: rgb(0, 255, 255) 0px 0px 2px 1px,
-    rgb(39, 106, 245, 0.7) 2px 2px 2px 1px;
-
-  // color: white;
+  box-shadow: 0px 0px 30px 4px rgba(174, 196, 216, 0.25);
   font-weight: 500;
+  //   background-color: rgb(255, 255, 255);
+  background: linear-gradient(
+    225deg,
+    rgba(39, 106, 245, 0.5) 0%,
+    rgba(0, 200, 200, 1) 100%
+  );
+  margin-bottom: 10px;
+  margin-top: 10px;
 `;

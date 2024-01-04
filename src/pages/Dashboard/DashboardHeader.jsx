@@ -8,12 +8,14 @@ import { device } from "../../styles/breakpoints";
 import spslogo from "../../assets/images/spslogo.png";
 import { UserContext } from "../../App";
 import NavigationBarDesktop from "../../components/Navigation/NavigationBarDesktop";
+import { ThemeStyles } from "../../styles/ThemeStyles";
 
 function DashboardHeader() {
+  const { darkThemeActive } = useContext(UserContext);
   // const { user } = useAuth0();
 
   return (
-    <Wrapper>
+    <Wrapper darkThemeActive={darkThemeActive}>
       <OpenDrawerBtn />
 
       <div
@@ -42,14 +44,17 @@ export default DashboardHeader;
 
 const Wrapper = styled.div`
   height: 50px;
-  background-color: white;
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemeSecondaryBackgroundColor};
   width: 100vw;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   border-radius: 5px;
-  background-color: rgb(255, 255, 255);
+
   position: fixed;
   top: 0px;
   z-index: 100;

@@ -25,6 +25,7 @@ import PostBlockPointsReveal from "../components/Data/PostBlockPointsReveal/Post
 import { GrNext } from "react-icons/gr";
 import GridLoader from "react-spinners/GridLoader";
 import ImagefromSanity from "../config/sanity/ImagefromSanity";
+import { ThemeStyles } from "../styles/ThemeStyles";
 
 import {
   updateBlockCompleted,
@@ -62,7 +63,7 @@ function Main() {
 
   const startTimeRef = useRef(Date.now());
 
-  const userData = useContext(UserContext);
+  const { userData, darkThemeActive } = useContext(UserContext);
 
   // const { selectedNav, setSelectedNav } = navState;
 
@@ -294,7 +295,10 @@ function Main() {
       blockName={blockName}
     />,
 
-    <Container className="animate__animated animate__fadeIn">
+    <Container
+      darkThemeActive={darkThemeActive}
+      className="animate__animated animate__fadeIn"
+    >
       <TextSlideShowWrapper
         length={slideShowDataArr.length}
         data={slideShowDataArr}
@@ -315,6 +319,7 @@ function Main() {
         item.displayed && (
           <Item key={index} className="animate__animated animate__fadeIn ">
             <Container
+              darkThemeActive={darkThemeActive}
               ref={itemRefs[index]}
               className="animate__animated animate__fadeIn "
             >
@@ -439,7 +444,7 @@ function Main() {
     </Loader>
   );
   return (
-    <Wrapper>
+    <Wrapper darkThemeActive={darkThemeActive}>
       {data.length === 0 && loader}
       {renderedItems}
       {showPointsSummary && <PostBlockPointsReveal></PostBlockPointsReveal>}
@@ -453,6 +458,10 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
 `;
 
 const SlideWrapper = styled.div`
@@ -479,12 +488,30 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 5px;
-  background-color: rgb(255, 255, 255);
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemeSecondaryBackgroundColor};
 
   box-shadow: 0px 0px 30px 4px rgba(174, 196, 216, 0.25);
   width: 100%;
   scroll-padding: 120px;
   scroll-margin: 47px;
+
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  div,
+  strong {
+    color: ${(props) =>
+      props.darkThemeActive
+        ? ThemeStyles.lightThemePrimaryFrontColor
+        : ThemeStyles.darkThemePrimaryFontColor};
+  }
 
   @media ${device.mobileL} {
     position: relative;

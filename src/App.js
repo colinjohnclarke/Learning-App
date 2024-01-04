@@ -24,6 +24,13 @@ function App() {
 
   const { data } = useGetUserByEmailQuery(user?.email);
 
+  let userData;
+
+  if (data) {
+    userData = data;
+    console.log("🚀 ~ file: App.js:31 ~ App ~ userData121:", userData);
+  }
+
   // const domain = process.env.REACT_APP_AUTH0_DOMAIN;
 
   let createUserRequired = false;
@@ -41,6 +48,9 @@ function App() {
     courseView: "false",
   });
   console.log("🚀 ~ file: App.js:43 ~ App ~ selectedNav:", selectedNav);
+
+  const [darkThemeActive, setDarkThemeActive] = useState(false);
+  const [silentModeActive, setSilentModeActive] = useState(false);
 
   // useEffect(() => {
   //   const getUserMetadata = async () => {
@@ -99,6 +109,16 @@ function App() {
     }
   }, [createUserRequired, isAuthenticated, data]);
 
+  const userContextValues = {
+    userData,
+    darkThemeActive,
+    setDarkThemeActive,
+  };
+  console.log(
+    "🚀 ~ file: App.js:117 ~ App ~ userContextValues.darkThemeActive:",
+    userContextValues.darkThemeActive
+  );
+
   return (
     <div>
       {!isAuthenticated ? (
@@ -119,8 +139,9 @@ function App() {
       ) : (
         <BrowserRouter>
           <Drawer />
-          <Header></Header>
-          <UserContext.Provider value={data}>
+
+          <UserContext.Provider value={userContextValues}>
+            <Header></Header>
             <Routing navState={{ selectedNav, setSelectedNav }} />
             <NavigationBarMobile navState={{ selectedNav, setSelectedNav }} />
           </UserContext.Provider>
