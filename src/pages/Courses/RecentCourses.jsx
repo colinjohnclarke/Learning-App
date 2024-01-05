@@ -12,11 +12,12 @@ import Header from "../../components/Header/Header";
 import exam from "../../assets/images/exam.png";
 import { useGetAllEnrolledCoursesDataQuery } from "../../features/api/UserData/enrolledCourseDataSlice";
 import { useAuth0 } from "@auth0/auth0-react";
+import { ThemeStyles } from "../../styles/ThemeStyles";
 
 function RecentCourses() {
   const courses = FetchCoursefromSanity();
   const builder = imageUrlBuilder(sanityClient);
-  const { userData } = useContext(UserContext);
+  const { userData, darkThemeActive } = useContext(UserContext);
   const { data } = useGetAllEnrolledCoursesDataQuery(userData?.user._id);
 
   const imgurlFor = (source) => {
@@ -53,7 +54,7 @@ function RecentCourses() {
           }}
           to={`/courses/${item.Subject}/${item.courseName}`}
         >
-          <Box>
+          <Box darkThemeActive={darkThemeActive}>
             <Text>
               {" "}
               <div
@@ -206,6 +207,30 @@ const Box = styled.a`
       rgb(39, 106, 245, 0.7) 2px 2px 2px 1px;
     // background-color: rgb(39, 106, 245, 0.01);
   }
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  div,
+  strong {
+    color: ${(props) =>
+      props.darkThemeActive
+        ? ThemeStyles.lightThemePrimaryFrontColor
+        : ThemeStyles.darkThemePrimaryFontColor};
+  }
+
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
+
+  box-shadow: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemeMainBoxShadow
+      : ThemeStyles.darkThemeMainBoxShadow};
 `;
 
 const Text = styled.div`

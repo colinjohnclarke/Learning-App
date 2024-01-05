@@ -74,9 +74,11 @@ const Wrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  // background-color: rgb(255, 255, 255);
-  // background-color: red;
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
+
+  box-shadow: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemeMainBoxShadow
+      : ThemeStyles.darkThemeMainBoxShadow};
   position: fixed;
   z-index: 100;
 

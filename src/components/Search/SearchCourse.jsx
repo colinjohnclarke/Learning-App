@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { BsSearch } from "react-icons/bs";
 import { AiOutlineClose } from "react-icons/ai";
@@ -8,12 +8,16 @@ import CourseSearchResult from "../../pages/Dashboard/CourseSearchResult";
 import { Link } from "react-router-dom";
 import sanityClient from "../../createclient";
 import FetchCoursefromSanity from "../../pages/Dashboard/CourseFilter/FetchCoursefromSanity";
+import { ThemeStyles } from "../../styles/ThemeStyles";
+import { UserContext } from "../../App";
 
 function SearchCourse() {
   const [searchedResult, setSearchedResult] = useState({});
   const [displaySearchResults, setDisplaySearchResult] = useState(false);
 
   const coursesfromSanity = FetchCoursefromSanity();
+
+  const { darkThemeActive } = useContext(UserContext);
 
   // let contentNameFromSanity = "biology_blocks";
   // let blockName = "photosynthesis_required_practical";
@@ -42,16 +46,18 @@ function SearchCourse() {
 
   return (
     <Outer
+      darkThemeActive={darkThemeActive}
       style={{
         height: displaySearchResults ? `${searchBoxHeight}px` : "60px",
       }}
     >
-      <Main>
-        <Wrapper>
+      <Main darkThemeActive={darkThemeActive}>
+        <Wrapper darkThemeActive={darkThemeActive}>
           <div>
             <BsSearch />
           </div>
           <Input
+            darkThemeActive={darkThemeActive}
             onChange={(e) => {
               searchCourse(e.target.value.toLowerCase());
               if (e.target.value) {
@@ -158,7 +164,11 @@ const Wrapper = styled.form`
   height: 30px;
   width: 94.5%;
   // max-width: 880px;
-  background-color: white;
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
+
   border-radius: 5px;
   margin: 6px;
   padding: 8px;
@@ -167,7 +177,6 @@ const Wrapper = styled.form`
   // justify-content: ;
   align-items: center;
   font-size: 12px;
-  transition: all 1s ease;
 `;
 
 const Input = styled.input`
@@ -176,8 +185,18 @@ const Input = styled.input`
   border: none;
   outline: none;
   padding-left: 10px;
-  transition: all 0.2s ease;
+
   font-size: 16px;
+
+  color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryFrontColor
+      : ThemeStyles.darkThemePrimaryFontColor};
+
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
 `;
 
 const Main = styled.div`
@@ -188,7 +207,11 @@ const Main = styled.div`
   align-items: center;
   background-color: white;
   border-radius: 5px;
-  transition: all 0.2s ease;
+
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
 `;
 
 const Box = styled.a`
@@ -205,10 +228,13 @@ const Box = styled.a`
   align-items: center;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 1px 0px;
   background-color: rgb(255, 255, 255);
-  transition: 0.4s;
+
+  color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryFrontColor
+      : ThemeStyles.darkThemePrimaryFontColor};
 
   &:hover {
-    transition: 0.2s;
     box-shadow: rgb(0, 255, 255) 0px 0px 2px 1px,
       rgb(39, 106, 245, 0.7) 2px 2px 2px 1px;
     background-color: rgb(39, 106, 245, 0.01);
@@ -217,7 +243,6 @@ const Box = styled.a`
 
 const SuggestedCourse = styled.div`
   display: none;
-
   @media (min-width: 550px) {
     display: flex;
     justify-content: center;
@@ -235,6 +260,16 @@ const Outer = styled.div`
   box-shadow: 0px 0px 30px 4px rgba(174, 196, 216, 0.25);
   background-color: rgb(255, 255, 255);
   border-radius: 5px;
+
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
+
+  box-shadow: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemeMainBoxShadow
+      : ThemeStyles.darkThemeMainBoxShadow};
 
   @media ${device.desktop} {
     width: 100%;
@@ -254,6 +289,11 @@ const SuggestCourseMobile = styled.div`
 const NoResultDesktop = styled.div`
   display: none;
 
+  color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryFrontColor
+      : ThemeStyles.darkThemePrimaryFontColor};
+
   @media (min-width: 550px) {
     display: flex;
     justify-content: center;
@@ -265,6 +305,11 @@ const NoResultMobile = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryFrontColor
+      : ThemeStyles.darkThemePrimaryFontColor};
 
   @media (min-width: 550px) {
     display: none;

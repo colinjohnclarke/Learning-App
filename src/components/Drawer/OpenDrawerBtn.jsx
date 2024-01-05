@@ -1,24 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
-import { AiOutlineMenuFold } from "react-icons/ai";
-import { GiCook, GiMuscleUp, GiNewspaper } from "react-icons/gi";
-import { FiSettings } from "react-icons/fi";
-import { AiOutlineHome } from "react-icons/ai";
-
 import { RxHamburgerMenu } from "react-icons/rx";
-import { RiMenuFoldLine } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { setDrawerIsOpen } from "../../features/Drawer/DrawerSlice";
+import { UserContext } from "../../App";
+
+import { ThemeStyles } from "../../styles/ThemeStyles";
+
+import { IoIosMenu } from "react-icons/io";
 
 function OpenDrawerBtn() {
   const dispatch = useDispatch();
+
+  const { darkThemeActive } = useContext(UserContext);
 
   const isOpen = useSelector((state) => state.drawerSlice.value);
 
   const openStyle = {
     transform: "rotate(180deg)",
-    transition: "0.6s",
+    transition: "0.5s",
     padding: "10px",
+    height: "40px",
   };
 
   let style = {};
@@ -32,8 +34,15 @@ function OpenDrawerBtn() {
   };
 
   return (
-    <OpenDrawer onClick={handleClick}>
-      <RxHamburgerMenu style={style}></RxHamburgerMenu>
+    <OpenDrawer darkThemeActive={darkThemeActive} onClick={handleClick}>
+      <IoIosMenu
+        fill={
+          darkThemeActive
+            ? ThemeStyles.lightThemePrimaryFrontColor
+            : ThemeStyles.darkThemePrimaryFontColor
+        }
+        style={style}
+      ></IoIosMenu>
     </OpenDrawer>
   );
 }
@@ -41,11 +50,9 @@ function OpenDrawerBtn() {
 export default OpenDrawerBtn;
 
 const OpenDrawer = styled.button`
-  color: blue;
   border: none;
   min-height: 30px;
   height: 7%;
-  background-color: white;
   width: 60px;
   height: 50px;
   display: flex;
@@ -53,12 +60,16 @@ const OpenDrawer = styled.button`
   justify-content: center;
   align-items: center;
   border-radius: 5px;
-  background-color: rgb(255, 255, 255);
+
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
 
   border-radius: 50%;
   text-size: 15px;
   text-align: center;
-  transition: 0.3s;
+
   // margin: 2px;
 
   &:hover {

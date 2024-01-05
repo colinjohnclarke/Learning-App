@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { LeaderBoardFakeData } from "./StudentLeaderBoardFakeData";
 import { rankData } from "./LeaderBoardRankData";
@@ -7,9 +7,13 @@ import { useGetTop10UsersQuery } from "../../../features/api/UserData/userDataSl
 import "animate.css";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { ThemeStyles } from "../../../styles/ThemeStyles";
+import { UserContext } from "../../../App";
 
 function StudentLeaderBoard() {
   // console.log(useGetTop10UsersQuery);
+
+  const { darkThemeActive } = useContext(UserContext);
 
   const { data, error, isLoading } = useGetTop10UsersQuery();
 
@@ -20,10 +24,11 @@ function StudentLeaderBoard() {
   const sorted = filterUsersWithNoXP?.sort((a, b) => b.totalXP - a.totalXP);
 
   const mainContent = (
-    <Main>
+    <Main darkThemeActive={darkThemeActive}>
       <thead>
-        <Tr>
+        <Tr darkThemeActive={darkThemeActive}>
           <Rank
+            darkThemeActive={darkThemeActive}
             style={{
               position: "relative",
               // right: "14.7%",
@@ -39,9 +44,14 @@ function StudentLeaderBoard() {
         </Tr>
       </thead>
 
-      <TableBody>
+      <TableBody darkThemeActive={darkThemeActive}>
         {sorted?.map((item, index) => {
           let rankElement = <></>;
+
+          const borderBottomStyle =
+            index === 2
+              ? `1px solid ${ThemeStyles.highlightPrimaryColor}`
+              : `0.2px solid ${ThemeStyles.highlightTertiaryColor}`;
 
           if (rankData[index].display) {
             rankElement = (
@@ -86,6 +96,7 @@ function StudentLeaderBoard() {
                 boxShadow: "rgba(0, 0, 0, 0.15) 0px 1px 1px 0px",
                 maxWidth: "100px",
                 maxHeight: "100px",
+
                 // display: "none",
               }}
               alt={rankData[index].position}
@@ -93,20 +104,16 @@ function StudentLeaderBoard() {
             ></GifImg>
           );
 
-          const borderBottomStyle =
-            index === 2
-              ? "2px solid rgba(0, 200, 200, 0.5)"
-              : "0.5px solid rgba(200, 200, 200, 0.5)";
-
           return (
             <Tr
+              darkThemeActive={darkThemeActive}
               style={{
                 animationDelay: `${index / 20}s`,
-                backgroundColor: "white",
               }}
               className=" animate__animated animate__fadeIn"
             >
               <Td
+                darkThemeActive={darkThemeActive}
                 style={{
                   display: "flex",
                   justifyContent: "space-around",
@@ -121,36 +128,42 @@ function StudentLeaderBoard() {
                 <Gif>{gifElement}</Gif>
               </Td>
 
-              <Td style={{ borderBottom: borderBottomStyle }}>
-                <p
+              <Td
+                darkThemeActive={darkThemeActive}
+                style={{ borderBottom: borderBottomStyle }}
+              >
+                {/* <p
                   style={{
                     fontWeight: "600",
                     fontSize: "13px",
                     color: "blue",
                     textAlign: "left",
                   }}
-                >
-                  {item.firstName ? (
-                    <span>
-                      {item.firstName} {item.lastName}
-                    </span>
-                  ) : (
-                    <span>{item.email}</span>
-                  )}
-                </p>
+                > */}
+                {item.firstName ? (
+                  <span>
+                    {item.firstName} {item.lastName}
+                  </span>
+                ) : (
+                  <span>{item.email}</span>
+                )}
+                {/* </p> */}
               </Td>
               <Td
+                darkThemeActive={darkThemeActive}
                 style={{
                   fontWeight: "700",
                   fontSize: "13px",
-                  color: "darkblue",
                   width: "100px",
                   borderBottom: borderBottomStyle,
                 }}
               >
-                {item.totalXP}
+                <p>{item.totalXP}</p>
               </Td>
-              <Td style={{ borderBottom: borderBottomStyle }}>
+              <Td
+                darkThemeActive={darkThemeActive}
+                style={{ borderBottom: borderBottomStyle }}
+              >
                 <p
                   style={{
                     fontSize: "13px",
@@ -179,24 +192,45 @@ const Wrapper = styled.div`
   width: 100%;
   background-color: white;
   border-radius: 5px;
-  box-shadow: 0px 0px 30px 4px rgba(174, 196, 216, 0.25);
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
+  box-shadow: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemeMainBoxShadow
+      : ThemeStyles.darkThemeMainBoxShadow};
 `;
 
 const Main = styled.table`
   width: 100%;
   text-align: center;
   font-size: 12px;
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
 `;
 
 const TableHead = styled.th`
   font-weight: 500;
   font-size: 15px;
+
+  color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryFrontColor
+      : ThemeStyles.darkThemePrimaryFontColor};
 `;
 
 const Rank = styled.th`
   padding: 10px;
   width: 20%;
   font-weight: 500;
+
+  color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryFrontColor
+      : ThemeStyles.darkThemePrimaryFontColor};
 
   @media ${device.mobileL} {
     width: 30%;
@@ -206,18 +240,28 @@ const Rank = styled.th`
 const TableBody = styled.tbody`
   border: 1px solid;
 `;
-// const Td = styled.td`
-//   border-bottom: 0.5px solid lightgrey;
-//   font-size: 10px;
-// `;
 
 const GifImg = styled.img``;
 
 const Td = styled.td`
   min-height: 70px;
+
+  p,
+  span {
+    font-size: 13px;
+    color: ${(props) =>
+      props.darkThemeActive
+        ? ThemeStyles.lightThemePrimaryFrontColor
+        : ThemeStyles.darkThemePrimaryFontColor};
+  }
 `;
 
-const Tr = styled.tr``;
+const Tr = styled.tr`
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
+`;
 
 const Gif = styled.div`
   display: none;

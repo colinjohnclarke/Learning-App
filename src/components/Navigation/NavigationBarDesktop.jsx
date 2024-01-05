@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { device } from "../../styles/breakpoints";
 import { UserContext } from "../../App";
 import { IoIosArrowDropdown } from "react-icons/io";
+import SettingsBtnHeaderBar from "../Settings/SettingsBtnHeaderBar/SettingsBtnHeaderBar";
 
 function NavigationBarDesktop() {
   const { userData } = useContext(UserContext);
@@ -37,7 +38,7 @@ function NavigationBarDesktop() {
           <P>Profile</P>
         </DashLink>
       </Link>
-      <Link
+      {/* <Link
         to={"/settings"}
         style={{
           textDecoration: "none",
@@ -53,11 +54,11 @@ function NavigationBarDesktop() {
               alignItems: "center",
             }}
           >
-            <P>{userData?.user.firstName}</P>
-            <IoIosArrowDropdown fill={color} />
+    
           </div>
         </DashLink>
-      </Link>
+      </Link> */}
+      <SettingsBtnHeaderBar />
     </Wrapper>
   );
 }

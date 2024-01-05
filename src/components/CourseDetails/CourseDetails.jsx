@@ -4,8 +4,15 @@ import imageUrlBuilder from "@sanity/image-url";
 import styled from "styled-components";
 import { GrNext } from "react-icons/gr";
 import { device } from "../../styles/breakpoints";
+import { ThemeStyles } from "../../styles/ThemeStyles";
 
-function CourseDetails({ data, subject, courseName, blockName }) {
+function CourseDetails({
+  data,
+  subject,
+  courseName,
+  blockName,
+  darkThemeActive,
+}) {
   const builder = imageUrlBuilder(sanityClient);
 
   const imgurlFor = (source) => {
@@ -24,7 +31,7 @@ function CourseDetails({ data, subject, courseName, blockName }) {
   ) : null;
 
   const main = (
-    <Details>
+    <Details darkThemeActive={darkThemeActive}>
       {/* <Box></Box> */}
       <Box>
         <p style={{ padding: "3px", margin: "3px", fontSize: "14px" }}>
@@ -66,9 +73,34 @@ const Details = styled.div`
   justify-content: space-between;
   align-items: center;
   border-radius: 5px;
-  background-color: rgb(255, 255, 255);
-  box-shadow: 0px 0px 30px 4px rgba(174, 196, 216, 0.25);
+
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  div,
+  strong {
+    color: ${(props) =>
+      props.darkThemeActive
+        ? ThemeStyles.lightThemePrimaryFrontColor
+        : ThemeStyles.darkThemePrimaryFontColor};
+  }
+
   max-width: 1000px;
+
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemeSecondaryBackgroundColor};
+
+  box-shadow: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemeMainBoxShadow
+      : ThemeStyles.darkThemeMainBoxShadow};
+
   @media ${device.mobileL} {
     margin-bottom: 10px;
   }

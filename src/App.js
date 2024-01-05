@@ -49,8 +49,8 @@ function App() {
   });
   console.log("🚀 ~ file: App.js:43 ~ App ~ selectedNav:", selectedNav);
 
-  const [darkThemeActive, setDarkThemeActive] = useState(false);
-  const [silentModeActive, setSilentModeActive] = useState(false);
+  const [darkThemeActive, setDarkThemeActive] = useState(true);
+  const [silentModeActive, setSilentModeActive] = useState(true);
 
   // useEffect(() => {
   //   const getUserMetadata = async () => {

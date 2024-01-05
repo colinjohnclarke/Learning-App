@@ -50,7 +50,7 @@ function Dashboard() {
       <Padding>
         {/* {!data && loader} */}
         <Main>
-          <Greeting>
+          <Greeting darkThemeActive={darkThemeActive}>
             <Welcome>
               <h3 style={{ color: "white" }}>
                 Welcome {userData?.user.firstName}
@@ -79,15 +79,24 @@ function Dashboard() {
 
           {/* display user data */}
           <UserdataWrapper>
-            <Box style={{ marginRight: "5px" }}>
+            <Box
+              darkThemeActive={darkThemeActive}
+              style={{ marginRight: "5px" }}
+            >
               <AllTimeLearningTimeBox data={userData?.user.totalTimeElapsed} />
             </Box>
-            <Box style={{ margin: "5px 5px" }}>
+            <Box
+              darkThemeActive={darkThemeActive}
+              style={{ margin: "5px 5px" }}
+            >
               <AllTimeQuestionsAnsweredBox
                 data={userData?.user.totalQuestionsAttempted}
               />
             </Box>
-            <Box style={{ marginLeft: "5px" }}>
+            <Box
+              darkThemeActive={darkThemeActive}
+              style={{ marginLeft: "5px" }}
+            >
               <AllTimeXPBox data={userData?.user.totalXP} />
             </Box>
           </UserdataWrapper>
@@ -159,7 +168,10 @@ const Greeting = styled.div`
     rgba(0, 200, 200, 1) 60%,
     rgba(39, 106, 245, 0.7) 100%
   );
-  box-shadow: 0px 0px 30px 4px rgba(174, 196, 216, 0.25);
+  box-shadow: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemeMainBoxShadow
+      : ThemeStyles.darkThemeMainBoxShadow};
 
   @media ${device.tablet} {
     height: 20vh;
@@ -203,14 +215,27 @@ const UserdataWrapper = styled.div`
 const Box = styled.div`
   height: 100%;
   width: 100%;
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  background-color: white;
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
+
   border-radius: 5px;
-  box-shadow: 0px 0px 30px 4px rgba(174, 196, 216, 0.25);
+  box-shadow: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemeMainBoxShadow
+      : ThemeStyles.darkThemeMainBoxShadow};
+
+  p {
+    color: ${(props) =>
+      props.darkThemeActive
+        ? ThemeStyles.lightThemePrimaryFrontColor
+        : ThemeStyles.darkThemePrimaryFontColor};
+  }
 `;
 
 // const Course = styled.div`

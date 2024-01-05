@@ -19,10 +19,11 @@ import {
   useAddEnrolledCourseMutation,
   useGetUserByEmailQuery,
 } from "../../features/api/UserData/enrolledCourseDataSlice";
+import { ThemeStyles } from "../../styles/ThemeStyles";
 
 function Courses() {
   const courses = FetchCoursefromSanity();
-  const { userData } = useContext(UserContext);
+  const { userData, darkThemeActive } = useContext(UserContext);
 
   const builder = imageUrlBuilder(sanityClient);
 
@@ -60,7 +61,7 @@ function Courses() {
         }}
         to={`/courses/${item.subject}/${item.courseName}`}
       >
-        <Box>
+        <Box darkThemeActive={darkThemeActive}>
           <Text>
             {" "}
             <p
@@ -135,7 +136,7 @@ function Courses() {
         }}
         to={`/courses/${item.subject}/${item.courseName}/${item.blockName}`}
       >
-        <Box>
+        <Box darkThemeActive={darkThemeActive}>
           <Text>
             {" "}
             <p
@@ -183,7 +184,7 @@ function Courses() {
     width: "100%",
   };
   return (
-    <Wrapper>
+    <Wrapper darkThemeActive={darkThemeActive}>
       {/* <CourseFilter /> */}
       <DashboardHeader />
 
@@ -224,6 +225,28 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 100%;
+
+
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  div,
+  strong {
+    color: ${(props) =>
+      props.darkThemeActive
+        ? ThemeStyles.lightThemePrimaryFrontColor
+        : ThemeStyles.darkThemePrimaryFontColor};
+  }
+
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
 `;
 
 const Main = styled.div`
@@ -232,6 +255,7 @@ const Main = styled.div`
   align-items: center;
   width: 98%;
   max-width: 900px;
+  height: 100%;
 
   @media ${device.desktop} {
     width: 100%;
@@ -262,6 +286,31 @@ const Box = styled.a`
       rgb(39, 106, 245, 0.7) 2px 2px 2px 1px;
     // background-color: rgb(39, 106, 245, 0.01);
   }
+
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  div,
+  strong {
+    color: ${(props) =>
+      props.darkThemeActive
+        ? ThemeStyles.lightThemePrimaryFrontColor
+        : ThemeStyles.darkThemePrimaryFontColor};
+  }
+
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
+
+  box-shadow: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemeMainBoxShadow
+      : ThemeStyles.darkThemeMainBoxShadow};
 `;
 
 const Text = styled.div`

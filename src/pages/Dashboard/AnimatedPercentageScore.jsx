@@ -60,7 +60,7 @@ export default AnimatedPercentageScore;
 const Wrapper = styled.div`
   padding: 10px;
   position: relative;
-  z-index: 300;
+  z-index: 10;
   //   height: 100%;
   //   width: 100%;
   display: flex;

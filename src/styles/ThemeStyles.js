@@ -4,15 +4,21 @@ export const lightThemePrimaryBackgroundColor = "rgba(254, 253, 255)";
 
 // dark theme
 export const darkThemePrimaryFontColor = "rgb(200, 200, 200)";
-export const darkThemePrimaryBackgroundColor = "#1c2541";
-export const darkThemeSecondaryBackgroundColor = "rgb(61, 77, 125)";
-export const darkThemeTertiaryBackgroundColor = "rgb(58, 80, 107)";
+export const darkThemePrimaryBackgroundColor = "#0b132b";
+export const darkThemeSecondaryBackgroundColor = "#1c2541";
+export const darkThemeTertiaryBackgroundColor = "rgb(58,80,107)";
 
 // general theme colors
 
 export const highlightPrimaryColor = "#6fffe9";
 export const highlightSecondaryColor = "#5bc0be";
+
 export const highlightTertiaryColor = "rgb(58, 80, 107)";
+
+export const lightThemeMainBoxShadow =
+  "0px 0px 30px 4px rgba(174, 196, 216, 0.25)";
+export const darkThemeMainBoxShadow =
+  "0px 0px 5px 2px rgba(174, 196, 216, 0.1)";
 
 export const ThemeStyles = {
   darkThemePrimaryFontColor,
@@ -23,4 +29,7 @@ export const ThemeStyles = {
   highlightTertiaryColor,
   darkThemePrimaryBackgroundColor,
   darkThemeSecondaryBackgroundColor,
+  darkThemeTertiaryBackgroundColor,
+  lightThemeMainBoxShadow,
+  darkThemeMainBoxShadow,
 };

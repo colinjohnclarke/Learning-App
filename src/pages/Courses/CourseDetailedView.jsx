@@ -23,7 +23,7 @@ import {
   useAddEnrolledCourseMutation,
   useDeleteEnrolledCourse,
 } from "../../features/api/UserData/enrolledCourseDataSlice";
-import CourseBlockBreakdownMobile from "./CourseBlockBreakdownMobile";
+
 import { ThemeStyles } from "../../styles/ThemeStyles";
 
 import { UserContext } from "../../App";
@@ -172,13 +172,17 @@ function CourseDetailedView() {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          flexDirection: "column",
-          boxShadow: "0px 0px 30px 4px rgba(174, 196, 216, 0.25)",
+          flexDirection: "row",
         }}
       >
         <h1 style={{ color: "white" }}>completed!!</h1>
         <img
-          style={{ height: "200px", width: "200px", borderRadius: "5px" }}
+          style={{
+            height: "100px",
+            width: "100px",
+            borderRadius: "5px",
+            margin: "10px",
+          }}
           src={completedAnimation}
           alt=""
         />
@@ -244,31 +248,7 @@ function CourseDetailedView() {
         }}
       >
         <Wrapper>
-          <SidePanel
-            className=""
-            style={breakdownDisplayed ? panelStyleOpen : panelStyleClosed}
-          >
-            <Button
-              onClick={() => setBreakdownIsDisplayed((val) => !val)}
-              style={
-                breakdownDisplayed ? buttonPositionOpen : buttonPositionClosed
-              }
-            >
-              <IoChevronBack size={20} />
-            </Button>
-
-            <CourseBlockBreakown
-              controllers={{ breakdownDisplayed, setBreakdownIsDisplayed }}
-              completedBlocks={completedBlocks}
-              blocksRemaining={blocksRemaining}
-              data={blocks}
-            ></CourseBlockBreakown>
-          </SidePanel>
-          <Header>
-            <PanelBuffer
-              style={breakdownDisplayed ? bufferPannelOpen : bufferPannelClosed}
-            ></PanelBuffer>
-
+          <Header darkThemeActive={darkThemeActive}>
             <HeaderContent>
               <div
                 style={{
@@ -292,16 +272,16 @@ function CourseDetailedView() {
               </div>
 
               <UserdataWrapper>
-                <Box>
+                <Box darkThemeActive={darkThemeActive}>
                   <AllTimeLearningTimeBox
                     data={data?.courseData?.XPForCurrentCourse || 0}
                   />
                 </Box>
-                {/* <Box>
+                {/* <Box darkThemeActive={darkThemeActive}>
                   {" "}
                   <AllTimeQuestionsAnsweredBox data={data.courseData} />
                 </Box> */}
-                <Box>
+                <Box darkThemeActive={darkThemeActive}>
                   {" "}
                   <AllTimeXPBox
                     data={data?.courseData?.timeElapsedForCurrentCourse || 0}
@@ -310,16 +290,17 @@ function CourseDetailedView() {
               </UserdataWrapper>
             </HeaderContent>
           </Header>
+
+          <CourseBlockBreakown
+            controllers={{ breakdownDisplayed, setBreakdownIsDisplayed }}
+            completedBlocks={completedBlocks}
+            blocksRemaining={blocksRemaining}
+            data={blocks}
+          ></CourseBlockBreakown>
         </Wrapper>
         <div style={{ height: "10px" }}></div>
         <SearchCourse />
-        <CourseBlockBreakdownMobile
-          controllers={{ breakdownDisplayed, setBreakdownIsDisplayed }}
-          completedBlocks={completedBlocks}
-          blocksRemaining={blocksRemaining}
-          data={blocks}
-        />
-
+        <div style={{ height: "20px" }}></div>
         <LeaderBoard />
       </div>
     </Main>
@@ -327,74 +308,6 @@ function CourseDetailedView() {
 }
 
 export default CourseDetailedView;
-
-const buttonPositionOpen = {
-  position: "relative",
-  top: "0px",
-  right: "24px",
-  justifyContent: "center",
-};
-
-const buttonPositionClosed = {
-  position: "relative",
-  top: "0px",
-  right: "28px",
-  zIndex: "200",
-  justifyContent: "start",
-  transform: "rotate(180deg)",
-};
-
-const panelStyleClosed = {
-  position: "absolute",
-  left: "-380px",
-  transition: "0.3s",
-  zIndex: "20",
-};
-
-const panelStyleOpen = {
-  position: "absolute",
-  left: "0px",
-  transition: "0.3s",
-  zIndex: "20",
-};
-
-const bufferPannelOpen = {
-  position: "relative",
-  left: "0px",
-  transition: "0.3s",
-  width: "600px",
-};
-const bufferPannelClosed = {
-  position: "absolute",
-  left: "-390px",
-  transition: "0.3s",
-  width: "400px",
-  display: "none",
-};
-
-const SidePanel = styled.div`
-  display: flex;
-  flex-direction: row-reverse;
-  height: 100%;
-  width: 520px;
-  max-width: 520px;
-  justify-content: start;
-  align-items: center;
-  transition: 0.3s;
-  // border: 1px solid green;
-`;
-
-const PanelBuffer = styled.div`
-  display: flex;
-  flex-direction: row-reverse;
-  height: 100%;
-  width: 520px;
-  justify-content: center;
-  align-items: center;
-  transition: 0.3s;
-  // margin: 20px;
-  z-index: 10;
-`;
 
 const HeaderContent = styled.div`
   display: flex;
@@ -404,10 +317,10 @@ const HeaderContent = styled.div`
   transition: 0.3s;
   background: linear-gradient(
     -225deg,
-    rgb(115, 46, 255, 0.6) 0%,
-    rgba(0, 200, 200, 0.7) 70%,
-    rgba(0, 200, 200, 0.6) 80%,
-    rgba(39, 106, 245, 0.5) 100%
+    rgb(115, 46, 255, 1) 0%,
+    rgba(0, 200, 200, 1) 70%,
+    rgba(0, 200, 200, 1) 80%,
+    rgba(39, 106, 245, 1) 100%
   );
   border-radius: 5px;
 
@@ -445,12 +358,11 @@ const Main = styled.div`
   background-color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor
-      : ThemeStyles.darkThemeSecondaryBackgroundColor};
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
 `;
 
 const Header = styled.div`
-
-
+margin-top: 10px; 
   position: relative: 
   // width: 100%;
   display: flex;
@@ -459,9 +371,12 @@ const Header = styled.div`
   transition: 0.3s;
   border-radius: 5px;
   width: 100%; 
-  // // margin: 8px;
-  box-shadow: 0px 0px 30px 4px rgba(174, 196, 216, 0.25);
-  marginTop: 5px;
+
+
+
+
+
+
  
 
 
@@ -476,17 +391,25 @@ const Header = styled.div`
 const Box = styled.div`
   height: 100%;
   width: 100%;
-
-  margin: 3px;
+  margin: 4px;
   max-width: 200px;
-  // padding: 5px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   background-color: white;
   border-radius: 5px;
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 1px 0px;
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
+
+  p {
+    color: ${(props) =>
+      props.darkThemeActive
+        ? ThemeStyles.lightThemePrimaryFrontColor
+        : ThemeStyles.darkThemePrimaryFontColor};
+  }
 `;
 
 const UserdataWrapper = styled.div`

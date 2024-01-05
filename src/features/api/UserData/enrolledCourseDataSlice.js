@@ -1,9 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
+// baseUrl: `https://sps-dev-deploy-test1.onrender.com`,
 export const enrolledCourseDataSlice = createApi({
   reducerPath: "enrolledCourseDataSlice",
   baseQuery: fetchBaseQuery({
-    baseUrl: `http://localhost:3600`,
+    // baseUrl: `http://localhost:3600`,
+    baseUrl: `https://sps-dev-deploy-test1.onrender.com`,
   }),
   tagTypes: ["EnrolledCourses"],
   endpoints: (builder) => ({
@@ -15,7 +17,7 @@ export const enrolledCourseDataSlice = createApi({
     // builder.query is defined to accept only a single argument.
 
     getEnrolledCourseData: builder.query({
-      query: ({id, courseName}) =>
+      query: ({ id, courseName }) =>
         `/getenrolledcoursedata?id=${id}&courseName=${courseName}`,
 
       providesTags: ["EnrolledCourses"],

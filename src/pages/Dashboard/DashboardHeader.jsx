@@ -1,14 +1,13 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 import OpenDrawerBtn from "../../components/Drawer/OpenDrawerBtn";
-import Signup from "../../components/Buttons/Signup";
-import { useAuth0 } from "@auth0/auth0-react";
-import LogoutBtn from "../../components/Login/LogoutBtn";
+
 import { device } from "../../styles/breakpoints";
 import spslogo from "../../assets/images/spslogo.png";
 import { UserContext } from "../../App";
 import NavigationBarDesktop from "../../components/Navigation/NavigationBarDesktop";
 import { ThemeStyles } from "../../styles/ThemeStyles";
+import SettingsBtnHeaderBar from "../../components/Settings/SettingsBtnHeaderBar/SettingsBtnHeaderBar";
 
 function DashboardHeader() {
   const { darkThemeActive } = useContext(UserContext);
@@ -33,8 +32,9 @@ function DashboardHeader() {
       </div>
 
       {/* <LogoutBtn> Logout</LogoutBtn> */}
-      <div></div>
+
       <NavigationBarDesktop />
+      <SettingsBtnHeaderBar />
       {/* <Signup /> */}
     </Wrapper>
   );
@@ -47,7 +47,7 @@ const Wrapper = styled.div`
   background-color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor
-      : ThemeStyles.darkThemeSecondaryBackgroundColor};
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
   width: 100vw;
   display: flex;
   flex-direction: row;
@@ -59,7 +59,12 @@ const Wrapper = styled.div`
   top: 0px;
   z-index: 100;
 
-  box-shadow: 0px -4px 4px -5px rgba(0, 0, 0, 0.75);
+  p {
+    color: ${(props) =>
+      props.darkThemeActive
+        ? ThemeStyles.lightThemePrimaryFrontColor
+        : ThemeStyles.darkThemePrimaryFontColor};
+  }
 
   @media ${device.tablet} {
     height: 60px;

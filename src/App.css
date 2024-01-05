@@ -5,11 +5,11 @@
   /* font-family: 'Roboto', sans-serif;   */
   /* font-family: Manrope, sans-serif; */
 
-  font-family: "Roboto", sans-serif;
+  /* font-family: "Roboto", sans-serif; */
   /* 
   font-family: Manrope, sans-serif; */
 
-  /* font-family: Montserrat; */
+  font-family: Montserrat;
   color: rgb(58, 57, 57);
   font-weight: 300;
   overscroll-behavior: none;
@@ -42,9 +42,10 @@ body {
 .tg td {
   width: 30px;
   height: 20px;
+
   /* border-color: black; */
   border-style: solid;
-  border-width: 1px;
+  /* border-width: 1px; */
   font-size: 14px;
   overflow: hidden;
   padding: 4px 5px;
@@ -52,9 +53,10 @@ body {
 }
 .tg th {
   width: 30px;
+  border: none;
   /* border-color: black; */
   border-style: solid;
-  border-width: 1px;
+  /* border-width: 1px; */
   font-size: 14px;
   font-weight: normal;
   overflow: hidden;
@@ -125,9 +127,4 @@ body {
 .whiteIcon {
   color: rgb(235, 245, 250);
   fill: aliceblue;
-}
-
-.reacticon {
-  color: red;
-  /* fill: red; */
 }

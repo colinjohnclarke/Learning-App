@@ -288,6 +288,7 @@ function Main() {
 
   const renderedItems = [
     <CourseDetails
+      darkThemeActive={darkThemeActive}
       className="animate__animated animate__fadeIn"
       data={data.coverImage || ""}
       subject={subject}
@@ -493,7 +494,10 @@ const Container = styled.div`
       ? ThemeStyles.lightThemePrimaryBackgroundColor
       : ThemeStyles.darkThemeSecondaryBackgroundColor};
 
-  box-shadow: 0px 0px 30px 4px rgba(174, 196, 216, 0.25);
+  box-shadow: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemeMainBoxShadow
+      : ThemeStyles.darkThemeMainBoxShadow};
   width: 100%;
   scroll-padding: 120px;
   scroll-margin: 47px;
@@ -512,6 +516,7 @@ const Container = styled.div`
         ? ThemeStyles.lightThemePrimaryFrontColor
         : ThemeStyles.darkThemePrimaryFontColor};
   }
+
 
   @media ${device.mobileL} {
     position: relative;

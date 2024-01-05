@@ -32,10 +32,13 @@ const Wrapper = styled.p`
   justify-content: space-between;
   flex-direction: column;
   font-size: 15px;
+
+
 `;
 
 const XP = styled.div`
   color: blue;
   font-weight: 700;
   font-size: 16px;
+  
 `;
