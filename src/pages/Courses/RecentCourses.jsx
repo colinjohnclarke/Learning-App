@@ -13,11 +13,16 @@ import exam from "../../assets/images/exam.png";
 import { useGetAllEnrolledCoursesDataQuery } from "../../features/api/UserData/enrolledCourseDataSlice";
 import { useAuth0 } from "@auth0/auth0-react";
 import { ThemeStyles } from "../../styles/ThemeStyles";
+import CoursePercentageCompletion from "../../components/functions/CoursePercentageCompletion";
 
 function RecentCourses() {
   const courses = FetchCoursefromSanity();
   const builder = imageUrlBuilder(sanityClient);
   const { userData, darkThemeActive } = useContext(UserContext);
+  console.log(
+    "🚀 ~ file: RecentCourses.jsx:21 ~ RecentCourses ~ userData:",
+    userData
+  );
   const { data } = useGetAllEnrolledCoursesDataQuery(userData?.user._id);
 
   const imgurlFor = (source) => {
@@ -95,7 +100,7 @@ function RecentCourses() {
             </Text>
             <AnimatedPercentageScore
               color="rgb(39, 106, 245, 1)"
-              percentage={item.percentageProgress}
+              // percentage={}
             />
 
             {content ? (
@@ -132,14 +137,14 @@ function RecentCourses() {
         // boxShadow: "0px 0px 30px 4px rgba(174, 196, 216, 0.25)",
       }}
     >
-      <PaddingBox />
+      {/* <PaddingBox /> */}
       <HeaderContent>
         <h2
           style={{
             fontWeight: "500",
             fontSize: "1rem",
             color: "white",
-            margin: "30px",
+            margin: "20px",
           }}
         >
           Your recent Courses
@@ -270,13 +275,6 @@ const HeaderContent = styled.div`
   justify-content: space-between;
 
   transition: 0.3s;
-  //   background: linear-gradient(
-  //     225deg,
-  //     rgba(0, 200, 211, 0.2) 0%,
-  //     rgba(0, 200, 200, 0.7) 20%,
-  //     rgba(0, 200, 200, 1) 50%,
-  //     rgba(148, 0, 200, 0.6) 100%
-  //   );
 
   background-image: linear-gradient(
     -225deg,
@@ -285,13 +283,7 @@ const HeaderContent = styled.div`
     rgb(74, 0, 224, 0.5) 30%,
     rgba(0, 200, 200, 0.7) 100%
   );
-  //   background-image: linear-gradient(to right, #fc5c7d, #6a82fb);
-  //   background-image: linear-gradient(-20deg, #00cdac 0%, #8ddad5 100%);
-  //   background-image: linear-gradient(
-  //     225deg,
-  //     rgba(156, 240, 248, 0.7) 11.2%,
-  //     rgba(110, 123, 251, 0.7) 91.1%
-  //   );
+
   border-radius: 5px;
   // margin: 5px;
 

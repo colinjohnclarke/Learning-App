@@ -51,6 +51,7 @@ function SchoolLeaderBoard() {
                     height: "30px",
                     width: "30px",
                     borderRadius: "100%",
+                    boxShadow: "rgba(0, 0, 0, 0.15) 0px 3px 1px 0px",
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
@@ -152,6 +153,7 @@ export default SchoolLeaderBoard;
 const Wrapper = styled.div`
   width: 100%;
   border-radius: 5px;
+  border: none;
 
   background-color: ${(props) =>
     props.darkThemeActive
@@ -164,17 +166,18 @@ const Wrapper = styled.div`
 `;
 
 const Main = styled.table`
-
-
+  border: none;
   width: 100%;
   text-align: center;
-  font-size: 13px;
+  font-size: 12px;
   background-color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor
       : ThemeStyles.darkThemePrimaryBackgroundColor};
 `;
+
 const Tr = styled.tr`
+  border: none;
   background-color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor
@@ -187,25 +190,28 @@ const Xp = styled.th`
   min-width: 60px;
   font-weight: 500;
   font-size: 15px;
+  border: none;
 
   color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryFrontColor
       : ThemeStyles.darkThemePrimaryFontColor};
-
-  background-color: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemePrimaryBackgroundColor
-      : ThemeStyles.darkThemePrimaryBackgroundColor};
 `;
 
-const P = styled.p``;
+const P = styled.p`
+  font-size: 13px;
+  color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryFrontColor
+      : ThemeStyles.darkThemePrimaryFontColor};
+`;
 
 const Rank = styled.th`
   padding: 10px;
   width: 20%;
   font-weight: 500;
   font-size: 15px;
+  border: none;
 
 
   color: ${(props) =>
@@ -227,6 +233,7 @@ const School = styled.th`
   font-weight: 500;
   font-size: 15px;
   text-align: left;
+  border: none;
   background-color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor
@@ -244,6 +251,7 @@ const SchoolDetails = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  border: none;
   background-color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor
@@ -263,11 +271,14 @@ const SchoolDetails = styled.div`
   }
 `;
 
-const TableBody = styled.tbody``;
+const TableBody = styled.tbody`
+  border: none;
+`;
 
 const Td = styled.td`
   height: 50px;
   font-size: 13px;
+
 
   color: ${(props) =>
     props.darkThemeActive
@@ -281,6 +292,7 @@ const Location = styled.p`
   display: none;
   justify-content: start;
   width: 200px;
+
 
   @media ${device.tablet} {
     display: flex;

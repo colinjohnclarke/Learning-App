@@ -20,10 +20,7 @@ function CourseBlockBreakdown({ data, completedBlocks, blocksRemaining }) {
   };
 
   const allBlocksinCourse = data?.map((block, index) => {
-    console.log(
-      "🚀 ~ file: CourseBlockBreakdownMobile.jsx:23 ~ allBlocksinCourse ~ block:",
-      block
-    );
+  
 
     const findBlock = completedBlocks?.find((subBlock) => {
       return subBlock.blockName === block.blockName;

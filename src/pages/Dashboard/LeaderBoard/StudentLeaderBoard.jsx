@@ -190,7 +190,7 @@ export default StudentLeaderBoard;
 
 const Wrapper = styled.div`
   width: 100%;
-  background-color: white;
+
   border-radius: 5px;
   background-color: ${(props) =>
     props.darkThemeActive

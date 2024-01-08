@@ -37,7 +37,9 @@ import {
   updatePercentage,
 } from "../features/CurrentBlockProgressData/currentblockprogressdata";
 import { useUpdateUserDataMutation } from "../features/api/UserData/userDataSlice";
-import { useGetUserByEmailQuery } from "../features/api/UserData/userDataSlice";
+
+import { useUpdateEnrolledCourseMutation } from "../features/api/UserData/enrolledCourseDataSlice";
+
 import { UserContext } from "../App";
 import CheckScoreBtn from "../components/Buttons/CheckScoreBtn";
 import StartQuizBtn from "../components/Buttons/StartQuizBtn";
@@ -378,6 +380,8 @@ function Main() {
 
   const [updateUserData] = useUpdateUserDataMutation();
 
+  const [updateEnrolledCourse] = useUpdateEnrolledCourseMutation();
+
   useEffect(() => {
     dispatch(
       updatePercentage(
@@ -389,6 +393,17 @@ function Main() {
 
     const updateUserDataFN = async () => {
       // console.log("updateUserDataFN");
+
+      const updatedDetails = {
+        id: userData?.user._id,
+        Subject: subject,
+        updateXP: currentblockprogressdata.userScore,
+        updateTimeElapsed: elapsedTime,
+        courseName,
+      };
+
+      await updateEnrolledCourse(updatedDetails);
+
       await updateUserData({
         id: userData?.user._id,
         updateTimeElapsed: elapsedTime,
@@ -516,7 +531,6 @@ const Container = styled.div`
         ? ThemeStyles.lightThemePrimaryFrontColor
         : ThemeStyles.darkThemePrimaryFontColor};
   }
-
 
   @media ${device.mobileL} {
     position: relative;

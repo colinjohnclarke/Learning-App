@@ -10,9 +10,21 @@
   font-family: Manrope, sans-serif; */
 
   font-family: Montserrat;
+
+  /* font-family: "Lato", sans-serif;
+  font-family: "Poppins", sans-serif;
+font-family: "Varela Round", sans-serif;
+  font-family: "Quicksand", sans-serif;
+  /* font-family: "Dosis", sans-serif; */
+
+  /* font-family: "Quicksand", sans-serif; */
+
+  /* font-family: "Varela Round", sans-serif; */
+
   color: rgb(58, 57, 57);
   font-weight: 300;
   overscroll-behavior: none;
+  letter-spacing: 0.5px;
 
   /* width: 400px;
   height: 200px; */
@@ -36,7 +48,6 @@ body {
 }
 
 .tg {
-  border-collapse: collapse;
   border-spacing: 0;
 }
 .tg td {

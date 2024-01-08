@@ -189,7 +189,7 @@ function Courses() {
       <DashboardHeader />
 
       <Main>
-        <div style={{ height: "50px" }}></div>
+        <div style={{ height: "60px" }}></div>
         <RecentCourses />
 
         <div

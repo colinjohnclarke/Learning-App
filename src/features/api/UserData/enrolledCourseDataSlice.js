@@ -4,8 +4,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const enrolledCourseDataSlice = createApi({
   reducerPath: "enrolledCourseDataSlice",
   baseQuery: fetchBaseQuery({
-    // baseUrl: `http://localhost:3600`,
-    baseUrl: `https://sps-dev-deploy-test1.onrender.com`,
+    baseUrl: `http://localhost:3600`,
+    // baseUrl: `https://sps-dev-deploy-test1.onrender.com`,
   }),
   tagTypes: ["EnrolledCourses"],
   endpoints: (builder) => ({
@@ -30,6 +30,14 @@ export const enrolledCourseDataSlice = createApi({
       }),
       invalidatesTags: ["EnrolledCourses"],
     }),
+    updateEnrolledCourse: builder.mutation({
+      query: (updatedDetails) => ({
+        url: "/updateenrolledcourse",
+        method: "POST",
+        body: updatedDetails,
+      }),
+      invalidatesTags: ["EnrolledCourses"],
+    }),
     // deleteEnrolledCourse: builder.mutation({
     //   query: ({ courseName }) => ({
     //     url: "/deleteenrolledcourse",
@@ -46,5 +54,6 @@ export const {
 
   useGetEnrolledCourseDataQuery,
   useAddEnrolledCourseMutation,
+  useUpdateEnrolledCourseMutation,
   // useDeleteEnrolledCourse,
 } = enrolledCourseDataSlice;

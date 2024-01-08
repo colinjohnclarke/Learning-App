@@ -24,6 +24,8 @@ import {
   useDeleteEnrolledCourse,
 } from "../../features/api/UserData/enrolledCourseDataSlice";
 
+import GridLoader from "react-spinners/GridLoader";
+
 import { ThemeStyles } from "../../styles/ThemeStyles";
 
 import { UserContext } from "../../App";
@@ -44,7 +46,6 @@ function CourseDetailedView() {
 
   // get the course overview data from mongodb for animated user data display
   const { data } = useGetEnrolledCourseDataQuery({ courseName, id });
-  const courseDetails = data?.courseData;
 
   useEffect(() => {
     const addCourse = async () => {
@@ -58,7 +59,7 @@ function CourseDetailedView() {
     };
 
     if (addCourseBtnClicked) {
-      console.log("addCourseBtnClicked", addCourseBtnClicked);
+   
       addCourse();
     }
   }, [addCourseBtnClicked]);
@@ -107,7 +108,51 @@ function CourseDetailedView() {
 
   let headerBannerContent;
 
-  if (blocksRemaining.length && blocksCompleted.length) {
+  if (!completedBlocks.length && blocksRemaining.length) {
+    headerBannerContent = (
+      <div
+        style={{
+          padding: "10px",
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          color: "white",
+        }}
+      >
+        <h2
+          style={{
+            color: "white",
+            fontWeight: "400",
+            fontSize: "1.2rem",
+          }}
+        >
+          Not started yet!
+        </h2>
+        {!addCourseBtnClicked ? (
+          <MainActionBtn
+            onClick={() => {
+              setAddCourseBtnClicked((val) => true);
+            }}
+            style={{ width: "200px" }}
+          >
+            {buttonContent}
+          </MainActionBtn>
+        ) : (
+          <MainActionBtn
+            onClick={() => {
+              navigate(
+                `/courses/${subject}/${courseName}/${blocks[0].blockName}`
+              );
+            }}
+            style={{ width: "200px" }}
+          >
+            {buttonContent}
+          </MainActionBtn>
+        )}
+      </div>
+    );
+  } else if (blocksRemaining.length && blocksCompleted.length) {
     headerBannerContent = (
       <div
         style={{
@@ -165,7 +210,7 @@ function CourseDetailedView() {
         />
       </div>
     );
-  } else if (blocksRemaining.length === 0) {
+  } else {
     headerBannerContent = (
       <div
         style={{
@@ -186,50 +231,6 @@ function CourseDetailedView() {
           src={completedAnimation}
           alt=""
         />
-      </div>
-    );
-  } else {
-    headerBannerContent = (
-      <div
-        style={{
-          padding: "10px",
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-          color: "white",
-        }}
-      >
-        <h2
-          style={{
-            color: "white",
-            fontWeight: "400",
-            fontSize: "1.2rem",
-          }}
-        >
-          Not started yet!
-        </h2>
-        {!addCourseBtnClicked ? (
-          <MainActionBtn
-            onClick={() => {
-              setAddCourseBtnClicked((val) => true);
-            }}
-            style={{ width: "200px" }}
-          >
-            {buttonContent}
-          </MainActionBtn>
-        ) : (
-          <MainActionBtn
-            onClick={() => {
-              navigate(
-                `/courses/${subject}/${courseName}/${blocks[0].blockName}`
-              );
-            }}
-            style={{ width: "200px" }}
-          >
-            {buttonContent}
-          </MainActionBtn>
-        )}
       </div>
     );
   }
@@ -268,13 +269,24 @@ function CourseDetailedView() {
                   {subject} : {courseName}
                 </h2>
 
-                {headerBannerContent}
+                {data ? (
+                  headerBannerContent
+                ) : (
+                  <GridLoader
+                    color={"rgb(0, 250, 250, 0.5)"}
+                    // loading={loading}
+                    // cssOverride={override}
+                    size={25}
+                    aria-label="Loading Spinner"
+                    data-testid="loader"
+                  />
+                )}
               </div>
 
               <UserdataWrapper>
                 <Box darkThemeActive={darkThemeActive}>
                   <AllTimeLearningTimeBox
-                    data={data?.courseData?.XPForCurrentCourse || 0}
+                    data={data?.courseData?.timeElapsedForCurrentCourse || 0}
                   />
                 </Box>
                 {/* <Box darkThemeActive={darkThemeActive}>
@@ -284,7 +296,7 @@ function CourseDetailedView() {
                 <Box darkThemeActive={darkThemeActive}>
                   {" "}
                   <AllTimeXPBox
-                    data={data?.courseData?.timeElapsedForCurrentCourse || 0}
+                    data={data?.courseData?.XPForCurrentCourse || 0}
                   />
                 </Box>
               </UserdataWrapper>
