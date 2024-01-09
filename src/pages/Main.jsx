@@ -378,6 +378,8 @@ function Main() {
       ((currentPositioninCourse - 1) / totalLengthofCourse) * 100;
   } else calculateProgress = 100;
 
+  console.log("calculateProgress", calculateProgress);
+
   const [updateUserData] = useUpdateUserDataMutation();
 
   const [updateEnrolledCourse] = useUpdateEnrolledCourseMutation();
@@ -391,8 +393,15 @@ function Main() {
       )
     );
 
+    // dispatch(updatePercentage(calculateProgress));
+
+
+    dispatch(updateProgressPercentage({ calculateProgress }));
+
     const updateUserDataFN = async () => {
       // console.log("updateUserDataFN");
+
+    
 
       const updatedDetails = {
         id: userData?.user._id,
@@ -500,6 +509,8 @@ const Loader = styled.div`
 
 const Container = styled.div`
   display: flex;
+  // border: 1px solid red;
+  border: none;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -537,6 +548,7 @@ const Container = styled.div`
     width: 100%;
     max-width: 1000px;
     scroll-margin: 75px;
+    border: none;
   }
 `;
 
@@ -546,8 +558,8 @@ const Item = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 5px;
-  border-radius: 5px;
+  // margin-bottom: 5px;
+  // border-radius: 5px;
   width: 100%;
 
   // min-height: 700px;

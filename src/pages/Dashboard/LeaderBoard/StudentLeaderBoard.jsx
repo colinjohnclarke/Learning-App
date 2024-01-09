@@ -51,7 +51,7 @@ function StudentLeaderBoard() {
           const borderBottomStyle =
             index === 2
               ? `1px solid ${ThemeStyles.highlightPrimaryColor}`
-              : `0.2px solid ${ThemeStyles.highlightTertiaryColor}`;
+              : `0px solid ${ThemeStyles.highlightTertiaryColor}`;
 
           if (rankData[index].display) {
             rankElement = (

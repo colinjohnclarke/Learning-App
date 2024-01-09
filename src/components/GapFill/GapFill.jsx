@@ -84,7 +84,7 @@ function GapFill({ index, data }) {
 export default GapFill;
 
 const Wrapper = styled.div`
-  border-top: 0.5px solid lightblue;
+ 
   display: flex;
   flex-direction: column;
   justify-content: center;

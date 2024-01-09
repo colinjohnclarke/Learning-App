@@ -14,6 +14,7 @@ import { useGetAllEnrolledCoursesDataQuery } from "../../features/api/UserData/e
 import { useAuth0 } from "@auth0/auth0-react";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import CoursePercentageCompletion from "../../components/functions/CoursePercentageCompletion";
+import AddCourseBtn from "../../components/Buttons/AddCourseBtn";
 
 function RecentCourses() {
   const courses = FetchCoursefromSanity();
@@ -30,9 +31,21 @@ function RecentCourses() {
   };
 
   const list = data?.enrolledCourses?.map((item, index) => {
+    console.log("🚀 ~ file: RecentCourses.jsx:33 ~ list ~ item:", item);
+
     const result = courses.find((subItem) => {
       return subItem.courseName === item.courseName;
     });
+
+    const blocksCompleted = userData?.user.blocksCompleted;
+
+    const completedBlocks = blocksCompleted?.filter((block) => {
+      return (
+        block.courseName === item.courseName && block.Subject === item.Subject
+      );
+    });
+
+    // const percentageCompletion = (completedBlocks.length / blocks.length) * 100;
 
     const content = result?.coverImage ? (
       <img
@@ -95,7 +108,7 @@ function RecentCourses() {
                   padding: "12px",
                 }}
               >
-                {item.XPForCurrentCourse} Xp Scored
+                {item.XPForCurrentCourse} Xp
               </p>
             </Text>
             <AnimatedPercentageScore
@@ -118,6 +131,25 @@ function RecentCourses() {
     );
   });
 
+  const contentList = (
+    <Grid>
+      <Box style={{}} darkThemeActive={darkThemeActive}>
+        <Text>Hello</Text>
+      </Box>
+
+      <Box darkThemeActive={darkThemeActive}>
+        <Text>Hello</Text>
+      </Box>
+
+      <Box darkThemeActive={darkThemeActive}>
+        <Text>Hello</Text>
+      </Box>
+
+      <Box darkThemeActive={darkThemeActive}>
+        <Text>Hello</Text>
+      </Box>
+    </Grid>
+  );
   return (
     <Main
       style={{
@@ -150,7 +182,24 @@ function RecentCourses() {
           Your recent Courses
         </h2>
       </HeaderContent>
-      <Grid> {list}</Grid>
+      <Grid>
+        {list}
+        <Box
+          darkThemeActive={darkThemeActive}
+          style={{
+            height: "80px",
+            width: "100%",
+            minWidth: "290px",
+            marginTop: "12px",
+            borderRadius: "5px",
+          }}
+        >
+          <Button>
+            <Link to={"/courses"}> + Add course </Link>
+          </Button>
+        </Box>
+      </Grid>
+
       <PaddingBox />
     </Main>
   );
@@ -192,7 +241,6 @@ const Box = styled.a`
   height: 80px;
   width: 100%;
   min-width: 290px;
-  // padding: 4px;
   margin-top: 3px;
   margin-bottom: 3px;
   border-radius: 5px;
@@ -210,8 +258,8 @@ const Box = styled.a`
     transition: 0s;
     box-shadow: rgb(0, 255, 255) 0px 0px 2px 1px,
       rgb(39, 106, 245, 0.7) 2px 2px 2px 1px;
-    // background-color: rgb(39, 106, 245, 0.01);
   }
+
   p,
   h1,
   h2,
@@ -296,5 +344,31 @@ const HeaderContent = styled.div`
 const PaddingBox = styled.div`
   @media ${device.tablet} {
     height: 20px;
+  }
+`;
+
+const Button = styled.div`
+  border: 2px dotted;
+  border-radius: 5px;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+
+  a {
+    transition: 0.1s;
+    text-decoration: none;
+  }
+
+  &:hover {
+    a {
+      font-size: 1.2rem;
+      transition: 0.1s;
+      color: rgba(0, 240, 240);
+      text-decoration: none;
+    }
   }
 `;

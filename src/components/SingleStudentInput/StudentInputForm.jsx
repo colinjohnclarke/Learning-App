@@ -264,7 +264,6 @@ function StudentInputForm({ updateStateFunctions, data, index }) {
 export default StudentInputForm;
 
 const Wrapper = styled.div`
-  border-top: 0.5px solid lightblue;
   display: flex;
   justify-content: center;
   align-items: center;

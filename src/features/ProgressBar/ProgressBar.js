@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   // set initial state for number of correct questions scored in a row
-  value: 0,
+  percentage: 0,
 };
 
 export const progressbarSlice = createSlice({
@@ -10,7 +10,7 @@ export const progressbarSlice = createSlice({
   initialState,
   reducers: {
     updateProgressPercentage: (state, action) => {
-      state.value = action.payload;
+      state.percentage = action.payload;
     },
   },
 });

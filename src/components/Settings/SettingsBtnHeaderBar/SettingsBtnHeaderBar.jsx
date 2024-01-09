@@ -37,10 +37,14 @@ const Wrapper = styled.button`
   margin: 20px;
   border-radius: 50%;
   display: flex;
-  background-color: white;
   justify-content: center;
   align-items: center;
-  border: 0.3px solid rgb(0, 240, 240);
+  border: none;
+
+  box-shadow: ${(props) =>
+    props.darkThemeActive
+      ? `${ThemeStyles.lightThemeMainBoxShadow}, rgba(0, 0, 0, 0.15) 0px 3px 2px 2px`
+      : `${ThemeStyles.darkThemeMainBoxShadow},  0px 3px 5px 4px`};
 
   background-color: ${(props) =>
     props.darkThemeActive
@@ -52,8 +56,8 @@ const Wrapper = styled.button`
   }
 
   &:active {
-    border: none;
-    box-shadow: rgb(0, 255, 255) 0px 0px 2px 1px;
+    transform: translateY(2px);
+    box-shadow: none;
   }
 `;
 

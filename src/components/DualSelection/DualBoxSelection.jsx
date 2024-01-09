@@ -204,7 +204,7 @@ const Pair = styled.div`
 `;
 
 const Wrapper = styled.div`
-  border-top: 0.5px solid lightblue;
+
   display: flex;
   flex-direction: column;
   align-items: center;

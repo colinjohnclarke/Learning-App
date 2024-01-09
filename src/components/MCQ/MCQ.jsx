@@ -62,7 +62,6 @@ const Wrapper = styled.div`
 `;
 
 const Main = styled.div`
-  border-top: 0.5px solid lightblue;
   position: relative;
   display: flex;
   flex-direction: column;

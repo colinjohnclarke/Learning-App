@@ -64,7 +64,7 @@ function DragDropRandomise({ data, updateStateFunctions }) {
 export default DragDropRandomise;
 
 const Wrapper = styled.div`
-  border-top: 0.5px solid lightblue;
+ 
   display: flex;
   flex-direction: column;
   justify-content: center;

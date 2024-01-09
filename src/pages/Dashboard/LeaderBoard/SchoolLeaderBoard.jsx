@@ -17,22 +17,22 @@ function SchoolLeaderBoard() {
   const data = rankData;
 
   return (
-    <Wrapper>
-      <Main>
-        <thead>
+    <Wrapper darkThemeActive={darkThemeActive}>
+      <Main darkThemeActive={darkThemeActive}>
+        <TableHead darkThemeActive={darkThemeActive}>
           <Tr darkThemeActive={darkThemeActive}>
             <Rank darkThemeActive={darkThemeActive}>Rank</Rank>
             <School darkThemeActive={darkThemeActive}>School</School>
             <Xp darkThemeActive={darkThemeActive}>Xp</Xp>
           </Tr>
-        </thead>
+        </TableHead>
 
         <TableBody darkThemeActive={darkThemeActive}>
           {schoolLeaderBoardFakeData.map((item, index) => {
             const borderBottomStyle =
               index === 2
                 ? `1px solid ${ThemeStyles.highlightPrimaryColor}`
-                : `0.2px solid ${ThemeStyles.highlightTertiaryColor}`;
+                : `0px solid ${ThemeStyles.highlightTertiaryColor}`;
 
             let rankElement = <></>;
 
@@ -47,17 +47,24 @@ function SchoolLeaderBoard() {
             } else {
               rankElement = (
                 <div
+                  darkThemeActive={darkThemeActive}
                   style={{
                     height: "30px",
                     width: "30px",
                     borderRadius: "100%",
-                    boxShadow: "rgba(0, 0, 0, 0.15) 0px 3px 1px 0px",
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
+                    backgroundColor: darkThemeActive
+                      ? ThemeStyles.lightThemePrimaryBackgroundColor
+                      : ThemeStyles.darkThemePrimaryBackgroundColor,
+
+                    boxShadow: darkThemeActive
+                      ? `${ThemeStyles.lightThemeMainBoxShadow}, rgba(0, 0, 0, 0.15) 0px 3px 1px 0px`
+                      : `${ThemeStyles.darkThemeMainBoxShadow}, rgba(0, 0, 0, 0.15) 0px 3px 1px 0px`,
                   }}
                 >
-                  {data[index].position}
+                  <P>{data[index].position}</P>
                 </div>
               );
             }
@@ -131,13 +138,12 @@ function SchoolLeaderBoard() {
                   </SchoolDetails>
                 </Td>
                 <Td
+                  darkThemeActive={darkThemeActive}
                   style={{
-                    fontWeight: "700",
-
                     borderBottom: borderBottomStyle,
                   }}
                 >
-                  {item.xp}
+                  <P darkThemeActive={darkThemeActive}>{item.xp}</P>
                 </Td>
               </Tr>
             );
@@ -154,11 +160,11 @@ const Wrapper = styled.div`
   width: 100%;
   border-radius: 5px;
   border: none;
-
   background-color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor
       : ThemeStyles.darkThemePrimaryBackgroundColor};
+
   box-shadow: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemeMainBoxShadow
@@ -176,8 +182,14 @@ const Main = styled.table`
       : ThemeStyles.darkThemePrimaryBackgroundColor};
 `;
 
+const TableHead = styled.thead`
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
+`;
+
 const Tr = styled.tr`
-  border: none;
   background-color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor
@@ -190,7 +202,11 @@ const Xp = styled.th`
   min-width: 60px;
   font-weight: 500;
   font-size: 15px;
-  border: none;
+
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
 
   color: ${(props) =>
     props.darkThemeActive
@@ -279,7 +295,6 @@ const Td = styled.td`
   height: 50px;
   font-size: 13px;
 
-
   color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryFrontColor
@@ -292,7 +307,6 @@ const Location = styled.p`
   display: none;
   justify-content: start;
   width: 200px;
-
 
   @media ${device.tablet} {
     display: flex;

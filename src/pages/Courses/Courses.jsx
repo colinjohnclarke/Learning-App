@@ -227,7 +227,6 @@ const Wrapper = styled.div`
   align-items: center;
   height: 100%;
 
-
   p,
   h1,
   h2,
@@ -355,7 +354,6 @@ const SeeAllBtn = styled.button`
 
   // // justify-content: center;
   border: none;
-
   background-color: rgb(240, 245, 250);
 `;
 

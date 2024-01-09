@@ -1,42 +1,26 @@
-import React, { useContext, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { device } from "../../styles/breakpoints";
-import { UserContext } from "../../App";
-import { IoIosArrowDropdown } from "react-icons/io";
 import SettingsBtnHeaderBar from "../Settings/SettingsBtnHeaderBar/SettingsBtnHeaderBar";
 
 function NavigationBarDesktop() {
-  const { userData } = useContext(UserContext);
-  const [color, setColor] = useState("");
-
-  let selectedFontColor = "rgb(0, 250, 250)";
-
-  const changeFontColortoSelected = () => {
-    setColor((val) => selectedFontColor);
-  };
-
-  const changeFontColortoUNSelected = () => {
-    setColor((val) => "");
-  };
-
   return (
     <Wrapper>
       {" "}
-      <Link to={"/dashboard"} style={{ textDecoration: "none" }}>
-        <DashLink>
-          <P>Dashboard</P>
-        </DashLink>
+      <Link
+        to={"/dashboard"}
+        style={{
+          textDecoration: "none",
+        }}
+      >
+        <P>Dashboard</P>
       </Link>
       <Link to={"/courses"} style={{ textDecoration: "none" }}>
-        <DashLink>
-          <P>Courses</P>
-        </DashLink>
+        <P>Courses</P>
       </Link>
       <Link to={"/profile"} style={{ textDecoration: "none" }}>
-        <DashLink>
-          <P>Profile</P>
-        </DashLink>
+        <P>Profile</P>
       </Link>
       {/* <Link
         to={"/settings"}
@@ -58,18 +42,11 @@ function NavigationBarDesktop() {
           </div>
         </DashLink>
       </Link> */}
-      <SettingsBtnHeaderBar />
     </Wrapper>
   );
 }
 
 export default NavigationBarDesktop;
-
-const DashLink = styled.div`
-  padding-left: 15px;
-  padding-right: 15px;
-  text=decoration: none;
-`;
 
 const Wrapper = styled.div`
   display: none;
@@ -78,19 +55,20 @@ const Wrapper = styled.div`
     flex-direction: row;
     align-items: center;
     position: absolute;
-    right: 0px;
+    left: 70px;
     /* width: 50%; */
   }
 `;
 
 const P = styled.p`
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 400;
+  margin: 10px;
 
   &:hover {
     color: rgb(0, 240, 240);
     transition: 0.1s;
-    text=decoration: underline;
+    text-decoration: underline;
   }
 
   @media ${device.tablet} {
