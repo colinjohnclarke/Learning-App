@@ -195,7 +195,7 @@ function RecentCourses() {
           }}
         >
           <Button>
-            <Link to={"/courses"}> + Add course </Link>
+            <Link to={"/courses"}> + Enroll for course </Link>
           </Button>
         </Box>
       </Grid>

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import DashboardHeader from "../Dashboard/DashboardHeader";
 import bookshelf from "../../assets/images/bookshelf.png";
@@ -20,18 +20,23 @@ import {
   useGetUserByEmailQuery,
 } from "../../features/api/UserData/enrolledCourseDataSlice";
 import { ThemeStyles } from "../../styles/ThemeStyles";
+import EnrollForCourse from "./EnrollForCourse";
 
 function Courses() {
   const courses = FetchCoursefromSanity();
   const { userData, darkThemeActive } = useContext(UserContext);
 
+  const [selectStyle, setSelectStyle] = useState({
+    position: "relative",
+    left: "0%",
+  });
+
+  const [selection, setSelection] = useState("recentCourses");
+
   const builder = imageUrlBuilder(sanityClient);
 
   // const [addEnrolledCourse] = useAddEnrolledCourseMutation();
   const { data } = useGetAllEnrolledCoursesDataQuery(userData?.user._id);
-
-  // const data = [];
-  useEffect(() => {}, []);
 
   const imgurlFor = (source) => {
     return builder.image(source);
@@ -176,43 +181,83 @@ function Courses() {
     );
   });
 
-  const flexStyle = {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-around",
-    width: "100%",
+  const selectClickHandler = (selection) => {
+    setSelection(selection);
+    console.log("selection", selection);
+    if (selection === "allCoursesAndBlocks") {
+      setSelectStyle({ transform: "translateX(200%)", transition: "0.3s" });
+    } else if (selection === "enroll") {
+      setSelectStyle({ transform: "translateX(100%)", transition: "0.3s" });
+    } else {
+      setSelectStyle({ transform: "translateX(0%)", transition: "0.3s" });
+    }
   };
+
+  const selected = {
+    fontWeight: "500",
+    transition: "0.3s",
+    color: "rgb(78, 78, 78)",
+  };
+  const unselected = {
+    fontWeight: "500",
+    transition: "0.3s",
+    color: "#D3D3D3",
+  };
+
   return (
     <Wrapper darkThemeActive={darkThemeActive}>
       {/* <CourseFilter /> */}
+
+      <Padding />
+      <SelectionDiv>
+        <Tags>
+          <Select onClick={() => selectClickHandler("recentCourses")}>
+            <p style={selection === "recentCourses" ? selected : unselected}>
+              Recent Courses
+            </p>
+          </Select>
+          <Select onClick={() => selectClickHandler("enroll")}>
+            <p style={selection === "enroll" ? selected : unselected}>Enroll</p>
+          </Select>
+          <Select onClick={() => selectClickHandler("allCoursesAndBlocks")}>
+            <p
+              style={
+                selection === "allCoursesAndBlocks" ? selected : unselected
+              }
+            >
+              All
+            </p>
+          </Select>
+        </Tags>
+
+        <SelectionBar style={selectStyle}></SelectionBar>
+      </SelectionDiv>
       <DashboardHeader />
 
       <Main>
-        <div style={{ height: "60px" }}></div>
-        <RecentCourses />
+        {selection === "recentCourses" && <RecentCourses />}
 
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            width: "100%",
-            alignItems: "center",
-          }}
-        >
-          <SearchCourse />
-        </div>
-        <div style={flexStyle}>
-          <p style={{ fontWeight: "500" }}> All Courses </p>
+        <SearchCourse />
 
-          <CourseFilterButton />
-        </div>
-        {courseslist}
-        <div style={flexStyle}>
-          <p style={{ fontWeight: "500" }}> All Blocks</p>
-          <CourseFilterButton />
-        </div>
-        {allBlocks}
+        {selection === "enroll" && <EnrollForCourse />}
+
+        {selection === "allCoursesAndBlocks" && (
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {" "}
+            <p style={{ fontWeight: "500" }}> All Courses </p>
+            {courseslist}
+            <p style={{ fontWeight: "500" }}> All Blocks</p>
+            {allBlocks}
+          </div>
+        )}
       </Main>
     </Wrapper>
   );
@@ -258,6 +303,13 @@ const Main = styled.div`
 
   @media ${device.desktop} {
     width: 100%;
+  }
+`;
+
+const Padding = styled.div`
+  height: 60px;
+  @media ${device.tablet} {
+    height: 80px;
   }
 `;
 
@@ -357,9 +409,15 @@ const SeeAllBtn = styled.button`
   background-color: rgb(240, 245, 250);
 `;
 
+const SelectionDiv = styled.div`
+  width: 98%;
+  max-width: 900px;
+`;
+
 const Tags = styled.div`
   height: 40px;
   width: 100%;
+
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -375,24 +433,26 @@ const Select = styled.div`
   justify-content: space-around;
   align-items: center;
   font-size: 16px;
+  transition: 0.3s;
+
   @media ${device.tablet} {
-    width: 50%;
+    width: 33%;
   }
 `;
 
 const SelectionBar = styled.div`
   border-radius: 10px;
   height: 4px;
-  width: 50%;
+  width: 33%;
   background: linear-gradient(
     225deg,
     rgba(39, 106, 245, 1) 0%,
     rgba(0, 200, 200, 1) 100%
   );
 
-  @media ${device.tablet} {
-    width: 50%;
-  }
+  // @media ${device.tablet} {
+  //   width: 100%;
+  // }
 `;
 
 const Filter = styled.div`

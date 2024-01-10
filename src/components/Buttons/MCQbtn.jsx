@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
+import { UserContext } from "../../App";
 import styled from "styled-components";
+import { ThemeStyles } from "../../styles/ThemeStyles";
 
 function MCQbtn({ children, ...atributes }) {
+  const { darkThemeActive } = useContext(UserContext);
   return (
-    <Btn type="button" {...atributes}>
+    <Btn darkThemeActive={darkThemeActive} type="button" {...atributes}>
       {children}
     </Btn>
   );
@@ -22,13 +25,21 @@ const Btn = styled.button`
   width: 250px;
   border-radius: 5px;
   background-color: white;
-  box-shadow: rgba(0, 240, 240, 0.5) 0px 0px 5px 0px;
-  box-shadow: 0px 0px 30px 4px rgba(174, 196, 216, 0.15),
-    rgba(0, 200, 200, 0.5) 0px 0px 5px 0px;
-  transition: 0.3s;
+
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
+
+  box-shadow: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemeMainBoxShadow
+      : ThemeStyles.darkThemeMainBoxShadow};
+
 
   &:hover {
     transform: translateY(-2px);
+    transition: 0.3s;
     // background-color: rgba(0, 200, 200, 0.29);
   }
 

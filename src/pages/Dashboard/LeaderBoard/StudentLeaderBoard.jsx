@@ -180,7 +180,7 @@ function StudentLeaderBoard() {
   );
 
   return (
-    <Wrapper>
+    <Wrapper darkThemeActive={darkThemeActive}>
       {isLoading ? <Skeleton height={60} count={10} /> : mainContent}
     </Wrapper>
   );
@@ -196,6 +196,7 @@ const Wrapper = styled.div`
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor
       : ThemeStyles.darkThemePrimaryBackgroundColor};
+
   box-shadow: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemeMainBoxShadow
@@ -203,6 +204,7 @@ const Wrapper = styled.div`
 `;
 
 const Main = styled.table`
+  border: none;
   width: 100%;
   text-align: center;
   font-size: 12px;
@@ -238,7 +240,8 @@ const Rank = styled.th`
 `;
 
 const TableBody = styled.tbody`
-  border: 1px solid;
+  // border: 1px solid;
+  border: collapse;
 `;
 
 const GifImg = styled.img``;

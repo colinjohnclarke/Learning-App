@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { colors } from "../../styles/colors";
 import MCQbtn from "../Buttons/MCQbtn";
@@ -7,6 +7,7 @@ import { TiTickOutline } from "react-icons/ti";
 import { RxCross2 } from "react-icons/rx";
 import MathsMLfromString from "../../config/sanity/MathsMLfromString";
 import "animate.css";
+import { UserContext } from "../../App";
 
 const MCQAnswerButtons = ({
   index,
@@ -16,6 +17,7 @@ const MCQAnswerButtons = ({
   updateStateFunctions,
 }) => {
   const [buttonClicked, setButtonClicked] = useState(false);
+  const { darkThemeActive } = useContext(UserContext);
 
   const {
     correctAnswerIsSelected,
@@ -42,6 +44,7 @@ const MCQAnswerButtons = ({
     // justifyContent: "space-around",
     border: "none",
     backgroundColor: isCorrect ? colors.correctColor : colors.incorrectColor,
+    boxShadow: "0px 0px 30px 4px rgba(174, 196, 216, 0.15)",
   };
 
   const onPressed = () => {
@@ -67,7 +70,7 @@ const MCQAnswerButtons = ({
   // condense variables to a boolean if true
 
   if (!isCorrect && incorrectAnswerIsSelected && buttonClicked) {
-    animateclass = "animate__animated animate__wobble animate__fast";
+    animateclass = "animate__animated animate__headShake animate__faster";
   }
 
   // Identify the correct answers if the incorrect answer was selected and reveal to user
@@ -95,6 +98,7 @@ const MCQAnswerButtons = ({
 
   const btn = isAlgebra ? (
     <MCQMathButton
+      darkThemeActive={darkThemeActive}
       disabled={buttonDisabled}
       className={animateclass}
       style={buttonstyle}
@@ -108,6 +112,7 @@ const MCQAnswerButtons = ({
     </MCQMathButton>
   ) : (
     <MCQbtn
+      darkThemeActive={darkThemeActive}
       disabled={buttonDisabled}
       className={animateclass}
       style={buttonstyle}
@@ -130,6 +135,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+ 
 `;
 
 const Box = styled.div`

@@ -9,7 +9,7 @@ import MainActionBtn from "../../../components/Buttons/MainActionBtn";
 import { FaArrowLeft, FaTimes } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
 
-function CourseFilter() {
+function CourseFilterDesktopMain() {
   const CrossIcon = () => {
     return <AiOutlineClose style={{ fontSize: "20px", strokeWidth: "1" }} />;
   };
@@ -17,91 +17,66 @@ function CourseFilter() {
   const filterContent = FilterOptions.map((item, index) => {
     return <DropDown index={index} data={item}></DropDown>;
   });
-  const {
-    dropDownClicked,
-    setDropdownClicked,
-    displayFilter,
-    setDisplayFilter,
-  } = useContext(CourseFilterContext);
 
   return (
-    <div style={{ display: "none" }}>
-      <Backdrop
+    <Wrapper
+      style={{
+        // left:  ? "0px" : "-100%",
+        left: "0px",
+        transition: "0.4s",
+      }}
+    >
+      <div
         style={{
           display: "flex",
-          opacity: "0.8",
-          transition: "0.4s",
-          backgroundColor: "grey",
-          height: "100%",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
           width: "100%",
-          position: "absolute",
-          top: "0px",
-          zIndex: "10",
-        }}
-      ></Backdrop>
-
-      <Wrapper
-        style={{
-          // left:  ? "0px" : "-100%",
-          left: "0px",
-          transition: "0.4s",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            width: "100%",
+        <MainActionBtn>Clear all</MainActionBtn>
+
+        <Back
+          onClick={() => {
+            // setDisplayFilter((val) => !val);
           }}
         >
-          <MainActionBtn>Clear all</MainActionBtn>
+          <CrossIcon />
+        </Back>
+      </div>
 
-          <Back
-            onClick={() => {
-              // setDisplayFilter((val) => !val);
-            }}
-          >
-            <CrossIcon />
-          </Back>
-        </div>
-
-        {filterContent}
-      </Wrapper>
-    </div>
+      {filterContent}
+    </Wrapper>
   );
 }
 
-export default CourseFilter;
+export default CourseFilterDesktopMain;
 
 const Wrapper = styled.div`
   height: 100%;
   background-color: white;
-  position: absolute;
-  top: 0;
-  z-index: 10;
-  padding-top: 50px;
+
+  //   padding-top: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: start;
-  width: 65%;
+  width: 30%;
+  margin: 20px;
 
-  @media ${device.tablet} {
-    width: 25%;
-  }
+  //   @media ${device.tablet} {
+  //     width: 25%;
+  //   }
 
-  @media ${device.mobileL} {
-    width: 35%;
-  }
+  //   @media ${device.mobileL} {
+  //     width: 35%;
+  //   }
 `;
 
 const Back = styled.button`
   height: 45px;
-
   border: none;
-
   // box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 1px 0px;
   background-color: white;
   display: flex;

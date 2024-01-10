@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
+import { device } from "../../styles/breakpoints";
+import { UserContext } from "../../App";
+import { ThemeStyles } from "../../styles/ThemeStyles";
 
 function MainActionBtn({ ...atributes }) {
   return <Btn type="button" {...atributes}></Btn>;
@@ -18,10 +21,19 @@ const Btn = styled.button`
   width: 100px;
   border-radius: 5px;
   background-color: white;
-  box-shadow: 0px 0px 30px 4px rgba(174, 196, 216, 0.25);
+
   transition: 0.3s;
   border: 2px solid rgba(0, 240, 240, 1);
-  color: rgba(0, 240, 240, 1);
+
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
+
+  box-shadow: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemeMainBoxShadow
+      : ThemeStyles.darkThemeMainBoxShadow};
 
   &:hover {
     transform: translateY(-2px);

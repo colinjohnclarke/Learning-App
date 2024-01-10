@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import CloseDrawerBtn from "./CloseDrawerBtn";
 import { AiOutlineHome } from "react-icons/ai";
-import SettingsBtnHeaderBar from "../Settings/SettingsBtnHeaderBar/SettingsBtnHeaderBar";
 
 function DrawerHeader() {
   return (

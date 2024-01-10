@@ -1,9 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import styled from "styled-components";
 
 import { device } from "../../styles/breakpoints";
 import MathsMLfromString from "../../config/sanity/MathsMLfromString";
 import "animate.css";
+import { UserContext } from "../../App";
+
+import { ThemeStyles } from "../../styles/ThemeStyles";
 
 import {
   selectedbuttonstyle,
@@ -24,6 +27,7 @@ function Textbox({
   const { correctAnswerIsSelected, setArrayOfBoolsFromCorrect } =
     updateStateFunctions;
 
+  const { darkThemeActive } = useContext(UserContext);
   useEffect(() => {
     if (isSelected && isCorrect) {
       setArrayOfBoolsFromCorrect((val) => {
@@ -78,6 +82,7 @@ function Textbox({
 
   return (
     <Box
+      darkThemeActive={darkThemeActive}
       disabled={correctAnswerIsSelected}
       className={
         correctAnswerIsSelected && isCorrect
@@ -112,6 +117,11 @@ const Box = styled.button`
     rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px,
     rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset,
     rgba(0, 0, 0, 0.2) 0px 5px 10px;
+
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
 
   height: 80px;
   width: 100%;

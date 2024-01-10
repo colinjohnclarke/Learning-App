@@ -413,6 +413,9 @@ function Main() {
 
       await updateEnrolledCourse(updatedDetails);
 
+
+      // await updateUserData returns user to update local storage after respone 
+      
       await updateUserData({
         id: userData?.user._id,
         updateTimeElapsed: elapsedTime,

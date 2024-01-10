@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { device } from "../../styles/breakpoints";
 
+import { UserContext } from "../../App";
+
+import { ThemeStyles } from "../../styles/ThemeStyles";
+
 function ContinueBtn({ children, ...atributes }) {
+  const { darkThemeActive } = useContext(UserContext);
   return (
-    <Btn type="button" {...atributes}>
+    <Btn darkThemeActive={darkThemeActive} type="button" {...atributes}>
       Continue
     </Btn>
   );
@@ -22,9 +27,16 @@ const Btn = styled.button`
   height: 50px;
   width: 350px;
   border-radius: 5px;
-  background-color: white;
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
-  box-shadow: 0px 0px 20px 4px rgba(174, 196, 216, 0.25);
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
+
+  box-shadow: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemeMainBoxShadow
+      : ThemeStyles.darkThemeMainBoxShadow};
+
   transition: 0.3s;
 
   border: 2px solid rgba(0, 240, 240, 0.8);
