@@ -36,11 +36,11 @@ const Btn = styled.button`
       ? ThemeStyles.lightThemeMainBoxShadow
       : ThemeStyles.darkThemeMainBoxShadow};
 
-
   &:hover {
     transform: translateY(-2px);
     transition: 0.3s;
-    // background-color: rgba(0, 200, 200, 0.29);
+
+    color: white;
   }
 
   &:active {

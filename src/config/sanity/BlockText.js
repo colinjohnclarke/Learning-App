@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useContext } from "react";
 import styled from "styled-components";
 import sanityClient from "../../createclient";
 import DOMPurify from "dompurify";
@@ -6,9 +6,13 @@ import imageUrlBuilder from "@sanity/image-url";
 import { myPortableTextComponents } from "../../config/sanity/portableText";
 import { PortableText } from "@portabletext/react";
 import Test from "../../components/Geogebra/Test";
+import { ThemeStyles } from "../../styles/ThemeStyles";
+import { UserContext } from "../../App";
 
 function BlockText({ data }) {
   const builder = imageUrlBuilder(sanityClient);
+
+  const { darkThemeActive } = useContext(UserContext);
 
   const imgurlFor = (source) => {
     return builder.image(source);
@@ -94,50 +98,130 @@ function BlockText({ data }) {
         const textblock = text.map((item) => {
           if (item.marks.includes("strong")) {
             return (
-              <strong style={{ fontWeight: "500", display: "inline" }}>
+              <strong
+                style={{
+                  fontWeight: "500",
+                  color: darkThemeActive
+                    ? ThemeStyles.lightThemePrimaryFrontColorThemePrimaryFontColor
+                    : ThemeStyles.darkThemePrimaryFontColor,
+                  display: "inline",
+                }}
+              >
                 {item.text}
               </strong>
             );
           } else if (item.marks.includes("underline")) {
             return (
-              <p style={{ display: "inline", textDecoration: "underline" }}>
+              <p
+                style={{
+                  display: "inline",
+                  textDecoration: "underline",
+                  color: darkThemeActive
+                    ? ThemeStyles.lightThemePrimaryFrontColorThemePrimaryFontColor
+                    : ThemeStyles.darkThemePrimaryFontColor,
+                }}
+              >
                 {item.text}
               </p>
             );
           } else if (item.marks.includes("em")) {
             return (
-              <p style={{ display: "inline", fontStyle: "italic" }}>
+              <p
+                style={{
+                  display: "inline",
+                  fontStyle: "italic",
+                  color: darkThemeActive
+                    ? ThemeStyles.lightThemePrimaryFrontColorThemePrimaryFontColor
+                    : ThemeStyles.darkThemePrimaryFontColor,
+                }}
+              >
                 {item.text}
               </p>
             );
           } else {
-            return <p style={{ display: "inline" }}>{item.text}</p>;
+            return (
+              <p
+                style={{
+                  display: "inline",
+                  color: darkThemeActive
+                    ? ThemeStyles.lightThemePrimaryFrontColorThemePrimaryFontColor
+                    : ThemeStyles.darkThemePrimaryFontColor,
+                }}
+              >
+                {item.text}
+              </p>
+            );
           }
         });
 
-        return <p>{textblock}</p>;
+        return (
+          <p
+            style={{
+              color: darkThemeActive
+                ? ThemeStyles.lightThemePrimaryFrontColorThemePrimaryFontColor
+                : ThemeStyles.darkThemePrimaryFontColor,
+            }}
+          >
+            {textblock}
+          </p>
+        );
       } else if (listItem === "number") {
         const numberedElements = text.map((item, index) => {
           if (item.marks.includes("strong")) {
             return (
-              <strong style={{ fontWeight: "500", display: "inline" }}>
+              <strong
+                style={{
+                  fontWeight: "500",
+                  display: "inline",
+                  color: darkThemeActive
+                    ? ThemeStyles.lightThemePrimaryFrontColorThemePrimaryFontColor
+                    : ThemeStyles.darkThemePrimaryFontColor,
+                }}
+              >
                 {item.text}
               </strong>
             );
           } else if (item.marks.includes("underline")) {
             return (
-              <p style={{ display: "inline", textDecoration: "underline" }}>
+              <p
+                style={{
+                  display: "inline",
+                  textDecoration: "underline",
+                  color: darkThemeActive
+                    ? ThemeStyles.lightThemePrimaryFrontColorThemePrimaryFontColor
+                    : ThemeStyles.darkThemePrimaryFontColor,
+                }}
+              >
                 {item.text}
               </p>
             );
           } else if (item.marks.includes("em")) {
             return (
-              <p style={{ display: "inline", fontStyle: "italic" }}>
+              <p
+                style={{
+                  display: "inline",
+                  fontStyle: "italic",
+                  color: darkThemeActive
+                    ? ThemeStyles.lightThemePrimaryFrontColorThemePrimaryFontColor
+                    : ThemeStyles.darkThemePrimaryFontColor,
+                }}
+              >
                 {item.text}
               </p>
             );
           } else {
-            return <p style={{ display: "inline" }}>{item.text}</p>;
+            return (
+              <p
+                style={{
+                  display: "inline",
+                  color: darkThemeActive
+                    ? ThemeStyles.lightThemePrimaryFrontColorThemePrimaryFontColor
+                    : ThemeStyles.darkThemePrimaryFontColor,
+                }}
+              >
+                {item.text}
+              </p>
+            );
           }
         });
 
@@ -148,7 +232,17 @@ function BlockText({ data }) {
       ) {
         // make list from bullet marks
 
-        return <li>{text.map((item) => item.text)}</li>;
+        return (
+          <li
+            style={{
+              color: darkThemeActive
+                ? ThemeStyles.lightThemePrimaryFrontColorThemePrimaryFontColor
+                : ThemeStyles.darkThemePrimaryFontColor,
+            }}
+          >
+            {text.map((item) => item.text)}
+          </li>
+        );
       } else if (
         Array.isArray(text) &&
         listItem === "bullet" &&
@@ -161,6 +255,9 @@ function BlockText({ data }) {
                 style={{
                   fontWeight: "500",
                   display: "inline",
+                  color: darkThemeActive
+                    ? ThemeStyles.lightThemePrimaryFrontColorThemePrimaryFontColor
+                    : ThemeStyles.darkThemePrimaryFontColor,
                 }}
               >
                 {item.text}
@@ -171,6 +268,9 @@ function BlockText({ data }) {
               <p
                 style={{
                   display: "inline",
+                  color: darkThemeActive
+                    ? ThemeStyles.lightThemePrimaryFrontColorThemePrimaryFontColor
+                    : ThemeStyles.darkThemePrimaryFontColor,
                 }}
               >
                 {item.text}
@@ -178,18 +278,31 @@ function BlockText({ data }) {
             );
         });
 
-        return <li>{text2}</li>;
+        return (
+          <li
+            style={{
+              color: darkThemeActive
+                ? ThemeStyles.lightThemePrimaryFrontColorThemePrimaryFontColor
+                : ThemeStyles.darkThemePrimaryFontColor,
+            }}
+          >
+            {text2}
+          </li>
+        );
       } else if (algebra) {
         // if alebgra then render xml maths
         const cleaned = DOMPurify.sanitize(algebra);
         return (
-          <h2
-            style={{
-              fontSize: "1.5rem",
-              textAlign: "center",
-            }}
-            dangerouslySetInnerHTML={{ __html: cleaned }}
-          ></h2>
+          <AlgebraDiv darkThemeActive={darkThemeActive} style={{}}>
+            {" "}
+            <h2
+              style={{
+                fontSize: "1.8rem",
+                textAlign: "center",
+              }}
+              dangerouslySetInnerHTML={{ __html: cleaned }}
+            ></h2>
+          </AlgebraDiv>
         );
       } else if (type === "image") {
         return (
@@ -224,3 +337,17 @@ function BlockText({ data }) {
 }
 
 export default BlockText;
+
+const AlgebraDiv = styled.div`
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemeSecondaryBackgroundColor};
+
+  * {
+    color: ${(props) =>
+      props.darkThemeActive
+        ? ThemeStyles.lightThemePrimaryFrontColor
+        : ThemeStyles.darkThemePrimaryFontColor};
+  }
+`;

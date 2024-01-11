@@ -1,4 +1,4 @@
-import React, { Children, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import styled from "styled-components";
 import { device } from "../../styles/breakpoints";
@@ -6,6 +6,8 @@ import { useDraggable } from "@dnd-kit/core";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import MathMLfromString from "../../config/sanity/MathsMLfromString";
+import { UserContext } from "../../App";
+import { ThemeStyles } from "../../styles/ThemeStyles";
 
 import {
   correctstyle,
@@ -19,6 +21,7 @@ function DragandDropItem(props) {
   const [dimensions, setDimensions] = useState({
     width: window.innerWidth,
   });
+  const { darkThemeActive } = useContext(UserContext);
 
   let statements = props.statements;
 
@@ -102,7 +105,7 @@ function DragandDropItem(props) {
       {...listeners}
       disabled={disabled}
     >
-      <Item>{textContent}</Item>
+      <Item darkThemeActive={darkThemeActive}>{textContent}</Item>
     </div>
   );
 }
@@ -112,6 +115,14 @@ export default DragandDropItem;
 const Item = styled.div`
 transition: 0.3s; 
   margin: 5px;
+
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
+
+
+
   box-shadow: rgba(0, 200, 200, 1) 0px 2px 5px -1px;
   rgba(0, 200, 200, 1) 0px 1px 3px -1px;
 height: 80px;
@@ -121,15 +132,13 @@ height: 80px;
 
   max-width: 700px;
   border-radius: 20px;
-  background-color: white;
+
   position: relative;
   cursor: grab;
   // left: 20px; 
 
 
-// @media ${device.iphone12} {
-//   width: 90%; 
-// }
+
 
 
   @media ${device.mobileM} {

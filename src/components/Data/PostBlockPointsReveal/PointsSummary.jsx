@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import ContinueBtn from "../../Buttons/ContinueBtn";
@@ -9,10 +9,14 @@ import PercentagePoints from "./PercentagePoints";
 import BlockQuestionsCorrect from "./BlockQuestionsCorrect";
 import AnimatedBlockScore from "../CurrentBlockScores/AnimatedBlockScore";
 import "animate.css";
+import { UserContext } from "../../../App";
+
+import { ThemeStyles } from "../../../styles/ThemeStyles";
 
 function PointsSummary() {
+  const { darkThemeActive } = useContext(UserContext);
   return (
-    <PointsReveal>
+    <PointsReveal darkThemeActive={darkThemeActive}>
       <PercentagePoints></PercentagePoints>
       <BlockQuestionsCorrect></BlockQuestionsCorrect>
       <ExperiencePoints></ExperiencePoints>
@@ -25,10 +29,15 @@ export default PointsSummary;
 
 const PointsReveal = styled.div`
   z-index: 400;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
 `;

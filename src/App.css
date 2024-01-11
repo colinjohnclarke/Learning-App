@@ -9,7 +9,7 @@
   /* 
   font-family: Manrope, sans-serif; */
 
-  font-family: Montserrat;
+  /* font-family: Montserrat; */
 
   /* /* font-family: "Lato", sans-serif; */
   /* font-family: "Poppins", sans-serif; */
@@ -18,8 +18,8 @@
   /* font-family: "Dosis", sans-serif; */
 
   /* font-family: "Quicksand", sans-serif; */
-/* 
-  font-family: "Varela Round", sans-serif; */
+
+  font-family: "Varela Round", sans-serif;
 
   color: rgb(58, 57, 57);
   font-weight: 300;
@@ -67,6 +67,15 @@ table {
   padding: 4px 5px;
   word-break: normal;
 }
+
+.tableThemeLight {
+  color: rgb(58, 57, 57);
+}
+
+.tableThemeDark {
+  color: rgb(200, 200, 200);
+}
+
 .tg th {
   width: 30px;
   border: none;

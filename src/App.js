@@ -120,34 +120,34 @@ function App() {
   );
 
   return (
-    <div>
-      {!isAuthenticated ? (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          {" "}
-          <h1 style={{ fontWeight: "500", color: "rgb(0, 240, 240)" }}>
-            SPS online
-          </h1>
-          <img style={{ height: "230px" }} src={spslogo} alt="" />
-          <Login></Login>
-        </div>
-      ) : (
-        <BrowserRouter>
-          <Drawer />
+    <UserContext.Provider value={userContextValues}>
+      <div>
+        {!isAuthenticated ? (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            {" "}
+            <h1 style={{ fontWeight: "500", color: "rgb(0, 240, 240)" }}>
+              SPS online
+            </h1>
+            <img style={{ height: "230px" }} src={spslogo} alt="" />
+            <Login></Login>
+          </div>
+        ) : (
+          <BrowserRouter>
+            <Drawer />
 
-          <UserContext.Provider value={userContextValues}>
             <Header></Header>
             <Routing navState={{ selectedNav, setSelectedNav }} />
             <NavigationBarMobile navState={{ selectedNav, setSelectedNav }} />
-          </UserContext.Provider>
-        </BrowserRouter>
-      )}
-    </div>
+          </BrowserRouter>
+        )}
+      </div>
+    </UserContext.Provider>
   );
 }
 

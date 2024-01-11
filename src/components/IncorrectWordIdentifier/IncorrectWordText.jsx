@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useContext } from "react";
 import styled from "styled-components";
 import "animate.css";
 import { device } from "../../styles/breakpoints";
@@ -6,6 +6,8 @@ import Score from "../Data/CurrentQuestionScores/Score";
 import { colors } from "../../styles/colors";
 import MCQ from "./MCQ";
 import ImagefromSanity from "../../config/sanity/ImagefromSanity";
+import { ThemeStyles } from "../../styles/ThemeStyles";
+import { UserContext } from "../../App";
 
 function IncorrectWordText({ data, index, updateStateFunctions }) {
   const [word1selected, setWord1selected] = useState(false);
@@ -13,6 +15,8 @@ function IncorrectWordText({ data, index, updateStateFunctions }) {
 
   const mcqCheckWord1Ref = useRef(false);
   const mcqCheckWord2Ref = useRef(false);
+
+  const { darkThemeActive } = useContext(UserContext);
 
   let numberofCorrectWordstoFind = 2;
   let animatenum = "";
@@ -40,15 +44,18 @@ function IncorrectWordText({ data, index, updateStateFunctions }) {
 
   // words correctly clicked display
   const displayMcqStyle = {
-    display: "block",
+    display: "flex",
+    flexDirection: "column",
     transition: "2.5s",
-    backgroundColor: "rgba(0, 200, 200, 0.3)",
-    boxShadow: "rgba(0, 0, 0, 0.15) 0px 3px 3px 0px",
+    backgroundColor: darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemeSecondaryBackgroundColor,
     paddingTop: "10px",
     marginTop: "10px",
-    width: "60%",
+    // width: "60%",
     minWidth: "350px",
     textAlign: "center",
+    height: "auto",
   };
 
   const correctstyle = {
@@ -59,7 +66,12 @@ function IncorrectWordText({ data, index, updateStateFunctions }) {
     marginRight: "2px",
   };
 
-  let normalTextStyle = { backgroundColor: "white", fontSize: "16px" };
+  let normalTextStyle = {
+    backgroundColor: darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemeSecondaryBackgroundColor,
+    fontSize: "16px",
+  };
 
   // scroll function pass in element ref
   const scrolltoFn = (elementRef) => {
@@ -150,7 +162,7 @@ function IncorrectWordText({ data, index, updateStateFunctions }) {
         }}
         totalMarksAvailable={totalMarksAvailable}
       ></Score>
-      {pointsScored}
+
       <Question style={{ textAlign: "center" }}>
         There are{" "}
         <div style={{ display: "inline" }} className={animatenum}>
@@ -197,7 +209,7 @@ function IncorrectWordText({ data, index, updateStateFunctions }) {
       </Text>
       {mcq1}
 
-      <Reminder
+      {/* <Reminder
         style={showReminder ? { display: "flex" } : { display: "none" }}
       >
         <p style={{ textAlign: "center" }}>
@@ -215,7 +227,7 @@ function IncorrectWordText({ data, index, updateStateFunctions }) {
           </div>{" "}
           incorrect word(s) to find in the text above!
         </p>
-      </Reminder>
+      </Reminder> */}
       {mcq2}
     </Wrapper>
   );
@@ -224,13 +236,15 @@ function IncorrectWordText({ data, index, updateStateFunctions }) {
 export default IncorrectWordText;
 
 const Wrapper = styled.div`
-  min-height: 490px;
+
+height: 100%; 
   padding-top: 50px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: relative;
+ 
+
 
 
 
@@ -242,6 +256,7 @@ const Wrapper = styled.div`
 
   @media ${device.mobileL} {
     min-height: 400px;
+    height: 100%; 
 `;
 
 const Text = styled.div`

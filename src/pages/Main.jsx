@@ -395,13 +395,10 @@ function Main() {
 
     // dispatch(updatePercentage(calculateProgress));
 
-
     dispatch(updateProgressPercentage({ calculateProgress }));
 
     const updateUserDataFN = async () => {
       // console.log("updateUserDataFN");
-
-    
 
       const updatedDetails = {
         id: userData?.user._id,
@@ -413,9 +410,8 @@ function Main() {
 
       await updateEnrolledCourse(updatedDetails);
 
+      // await updateUserData returns user to update local storage after respone
 
-      // await updateUserData returns user to update local storage after respone 
-      
       await updateUserData({
         id: userData?.user._id,
         updateTimeElapsed: elapsedTime,
@@ -475,7 +471,7 @@ function Main() {
     <Wrapper darkThemeActive={darkThemeActive}>
       {data.length === 0 && loader}
       {renderedItems}
-      {showPointsSummary && <PostBlockPointsReveal></PostBlockPointsReveal>}
+      {showPointsSummary && <PostBlockPointsReveal />}
     </Wrapper>
   );
 }

@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled, { keyframes } from "styled-components";
 import PercentageScore from "./PercentageScore";
 import { useSelector } from "react-redux";
+
+import { UserContext } from "../../../App";
+import { ThemeStyles } from "../../../styles/ThemeStyles";
 
 function AnimatedBlockScore() {
   let currentblockprogressdata = useSelector(
     (state) => state.currentblockprogressdata
   );
+
+  const { darkThemeActive } = useContext(UserContext);
 
   const percentage = currentblockprogressdata.percentageScore;
   const current = (percentage / 100) * 472;
@@ -27,7 +32,7 @@ function AnimatedBlockScore() {
   `;
 
   return (
-    <Wrapper>
+    <Wrapper darkThemeActive={darkThemeActive}>
       <p style={{ fontWeight: "600", textSize: "1.3rem" }}>
         Well done! You scored...
       </p>
@@ -46,9 +51,9 @@ function AnimatedBlockScore() {
         >
           <defs>
             <linearGradient id="GradientColor">
-              <stop offset="0%" stop-color="rgba(39, 106, 245, 0.5)" />
-              <stop offset="50%" stop-color="rgba(0,200,200,1)" />
-              <stop offset="100%" stop-color="rgba(0,200,200,1)" />
+              {/* <stop offset="0%" stop-color="rgba(39, 106, 245, 0.5)" /> */}
+
+              <stop offset="100%" stop-color="rgba(0,240,240,1)" />
             </linearGradient>
           </defs>
           <Circle cx="80" cy="80" r="74" stroke-linecap="round" />
@@ -69,7 +74,18 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: rgba(250, 250, 250, 0.8);
+
+  p {
+    color: ${(props) =>
+      props.darkThemeActive
+        ? ThemeStyles.lightThemePrimaryFrontColor
+        : ThemeStyles.darkThemePrimaryFontColor};
+  }
+
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
 `;
 
 const Outer = styled.div`
@@ -82,7 +98,6 @@ const Outer = styled.div`
   border-radius: 50%;
   box-shadow: -6px -6px -10px -1px rgba(255, 255, 255, 0.7);
   box-shadow: 6px 6px 10px 1px rgba(0, 0, 0, 0.15);
-  border-top: 1.4px white solid;
 `;
 
 const Inner = styled.div`

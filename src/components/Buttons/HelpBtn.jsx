@@ -6,9 +6,8 @@ import { UserContext } from "../../App";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 
 function HelpBtn({ ...atributes }) {
-  const { darkThemeActive } = useContext(UserContext);
   return (
-    <MainActionBtn darkThemeActive={darkThemeActive} {...atributes}>
+    <MainActionBtn {...atributes}>
       <BiHelpCircle />
       <p style={{ paddingLeft: "8px" }}></p>
     </MainActionBtn>

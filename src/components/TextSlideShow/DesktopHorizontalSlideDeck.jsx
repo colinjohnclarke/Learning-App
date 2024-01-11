@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import "@splidejs/react-splide/css/skyblue";
 import TextSectionDesktop from "./TextSectionDesktop";
@@ -63,13 +63,7 @@ function DesktopHorizontalSlideDeck({
       break;
   }
 
-  const positioncolorsarr = [
-    "rgb(0, 255, 255, 0.2) ",
-    "rgb(0, 255, 255, 0.4) ",
-    "rgb(0, 255, 255, 0.6) ",
-    "rgb(0, 255, 255, 0.8) ",
-    "rgb(0, 255, 255, 1) ",
-  ];
+  const positioncolorsarr = ["rgb(0, 240, 240, 1) "];
 
   let backgroundcolor = positioncolorsarr[currentslide];
 
@@ -79,16 +73,37 @@ function DesktopHorizontalSlideDeck({
         <GrLinkNext style={{ width: "20px", transform: "rotate(180deg)" }} />
       </SlideShowNavBtn>
       <Wrapper>
-        <Position style={{ backgroundColor: backgroundcolor }}>
+        <Position style={{ backgroundColor: "rgb(0, 240, 240, 1)" }}>
           <Text
             className={animateClass}
             style={{
+              color: "white",
+              fontWeight: "500",
               fontSize: "16px",
-              fontWeight: "400",
             }}
           >
-            <sup style={{ padding: "4px" }}>{currentslide + 1} </sup> &#8260;
-            <sub style={{ padding: "4px" }}> {data.length}</sub>
+            <sup
+              style={{
+                padding: "5px",
+                color: "white",
+                fontWeight: "500",
+                fontSize: "16px",
+              }}
+            >
+              {currentslide + 1}{" "}
+            </sup>{" "}
+            &#8260;
+            <sub
+              style={{
+                padding: "5px",
+                color: "white",
+                fontWeight: "500",
+                fontSize: "16px",
+              }}
+            >
+              {" "}
+              {data.length}
+            </sub>
           </Text>
         </Position>
         {data.map((item, index) => {

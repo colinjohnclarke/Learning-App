@@ -1,12 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
+import { UserContext } from "../../../App";
+
+import { ThemeStyles } from "../../../styles/ThemeStyles";
 
 function PercentagePoints() {
   const percentageScore = useSelector(
     (state) => state.currentblockprogressdata.percentageScore
   );
 
+  const { darkThemeActive } = useContext(UserContext);
   const [points, setPoints] = useState(Math.floor(percentageScore));
   const [counter, setCounter] = useState(0);
 
@@ -44,7 +48,7 @@ function PercentagePoints() {
   }, [counter]);
 
   return (
-    <Wrapper>
+    <Wrapper darkThemeActive={darkThemeActive}>
       <p style={{ fontWeight: "700" }}> </p>
       <p style={{ fontWeight: "700" }}>
         {"   "} {counter}
@@ -60,10 +64,25 @@ const Wrapper = styled.div`
   height: 60px;
   width: 250px;
   border-radius: 5px;
-  background-color: white;
-  border: 1px solid;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 10px;
+
+  p {
+    color: ${(props) =>
+      props.darkThemeActive
+        ? ThemeStyles.lightThemePrimaryFrontColor
+        : ThemeStyles.darkThemePrimaryFontColor};
+  }
+
+  box-shadow: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemeMainBoxShadow
+      : ThemeStyles.darkThemeMainBoxShadow};
+
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
 `;

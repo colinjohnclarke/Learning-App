@@ -1,17 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { device } from "../../styles/breakpoints";
+import { ThemeStyles } from "../../styles/ThemeStyles";
+import { UserContext } from "../../App";
 
 function NativatetoDashBoard({ ...atributes }) {
+  const { darkThemeActive } = useContext(UserContext);
   return (
-    <div>
-      <Link style={{ textDecoration: "none" }} to={"/dashboard"}>
-        <Btn type="button" {...atributes}>
-          Go to Dashboard
-        </Btn>
-      </Link>
-    </div>
+    <Link style={{ textDecoration: "none" }} to={"/dashboard"}>
+      <Btn darkThemeActive={darkThemeActive} type="button" {...atributes}>
+        Go to Dashboard
+      </Btn>
+    </Link>
   );
 }
 
@@ -30,13 +31,19 @@ const Btn = styled.button`
   height: 50px;
   width: 350px;
   border-radius: 5px;
-  background-color: white;
   border: 2px solid rgba(0, 240, 240, 0.8);
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
+
   transition: 0.3s;
-  background-color: white;
-  color: rgba(0, 240, 240, 0.8);
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
   font-weight: 400;
+
+  color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryFrontColor
+      : ThemeStyles.darkThemePrimaryFontColor};
 
   &:hover {
     transform: translateY(-2px);

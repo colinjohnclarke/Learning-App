@@ -16,7 +16,7 @@ function ProgressBar() {
   }, [getCurrentpercentage]);
 
   const barStyle = {
-    height: "8px",
+    height: "9px",
     width: `${progress}%`,
     // width: `${50}%`,
     // width: "0%",

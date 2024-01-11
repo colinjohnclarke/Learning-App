@@ -82,7 +82,7 @@ const IncorrectWordMCQ = (props) => {
     mcq1State.incorrectAnswerSelected
   ) {
     buttonstyle = showCorrectAnsStyle;
-    icon = <TiTickOutline />;
+    icon = <TiTickOutline fill="white" />;
     buttonDisabled = true;
   } else if (
     props.isCorrect &&
@@ -90,7 +90,7 @@ const IncorrectWordMCQ = (props) => {
     mcq1State.correctAnswerSelected
   ) {
     buttonstyle = showCorrectAnsStyle;
-    icon = <TiTickOutline />;
+    icon = <TiTickOutline fill="white" />;
     buttonDisabled = true;
   }
   // if incorrect answer selected show incorrect style
@@ -101,7 +101,7 @@ const IncorrectWordMCQ = (props) => {
     buttonSelected
   ) {
     buttonstyle = showCorrectAnsStyle;
-    icon = <RxCross2 />;
+    icon = <RxCross2 fill="white" />;
     animateclass = "animate__animated animate__wobble animate__faster";
     buttonDisabled = true;
   }
@@ -114,7 +114,7 @@ const IncorrectWordMCQ = (props) => {
     mcq2State.incorrectAnswerSelected
   ) {
     buttonstyle = showCorrectAnsStyle;
-    icon = <TiTickOutline />;
+    icon = <TiTickOutline fill="white" />;
     buttonDisabled = true;
   } else if (
     props.isCorrect &&
@@ -122,7 +122,7 @@ const IncorrectWordMCQ = (props) => {
     mcq2State.correctAnswerSelected
   ) {
     buttonstyle = showCorrectAnsStyle;
-    icon = <TiTickOutline />;
+    icon = <TiTickOutline fill="white" />;
     buttonDisabled = true;
   }
   // if incorrect answer selected show incorrect style
@@ -133,7 +133,7 @@ const IncorrectWordMCQ = (props) => {
     buttonSelected
   ) {
     buttonstyle = showCorrectAnsStyle;
-    icon = <RxCross2 />;
+    icon = <RxCross2 fill="white" />;
     animateclass = "animate__animated animate__wobble animate__faster";
     buttonDisabled = true;
   }

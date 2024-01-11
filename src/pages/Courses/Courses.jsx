@@ -206,8 +206,9 @@ function Courses() {
 
   return (
     <Wrapper darkThemeActive={darkThemeActive}>
-      {/* <CourseFilter /> */}
+      <CourseFilter />
 
+      <Padding />
       <Padding />
       <SelectionDiv>
         <Tags>
@@ -267,18 +268,13 @@ export default Courses;
 
 const Wrapper = styled.div`
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   height: 100%;
+  // display: flex;
+  // flex-direction: column;
+  // align-items: center;
 
+  background-color: red;
   p,
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
   div,
   strong {
     color: ${(props) =>
@@ -286,23 +282,18 @@ const Wrapper = styled.div`
         ? ThemeStyles.lightThemePrimaryFrontColor
         : ThemeStyles.darkThemePrimaryFontColor};
   }
-
-  background-color: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemePrimaryBackgroundColor
-      : ThemeStyles.darkThemePrimaryBackgroundColor};
 `;
 
 const Main = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 100%;
   width: 98%;
   max-width: 900px;
-  height: 100%;
 
   @media ${device.desktop} {
-    width: 100%;
+    height: 100%;
   }
 `;
 

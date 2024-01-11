@@ -5,7 +5,12 @@ import { UserContext } from "../../App";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 
 function MainActionBtn({ ...atributes }) {
-  return <Btn type="button" {...atributes}></Btn>;
+  const { darkThemeActive } = useContext(UserContext);
+  console.log("🚀 ~ MainActionBtn ~ darkThemeActive:", darkThemeActive);
+
+  return (
+    <Btn darkThemeActive={darkThemeActive} type="button" {...atributes}></Btn>
+  );
 }
 
 export default MainActionBtn;
@@ -22,7 +27,6 @@ const Btn = styled.button`
   border-radius: 5px;
   background-color: white;
 
-  transition: 0.3s;
   border: 2px solid rgba(0, 240, 240, 1);
 
   background-color: ${(props) =>

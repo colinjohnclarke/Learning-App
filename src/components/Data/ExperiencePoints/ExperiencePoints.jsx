@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import "animate.css";
@@ -6,15 +6,21 @@ import AnimateCountFunction from "../../functions/AnimateCountFunction";
 
 import { correctstyle } from "../../../styles/colors";
 
+import { UserContext } from "../../../App";
+
+import { ThemeStyles } from "../../../styles/ThemeStyles";
+
 function ExperiencePoints() {
   const percentageScore = useSelector(
     (state) => state.currentblockprogressdata.percentageScore
   );
+  const { darkThemeActive } = useContext(UserContext);
 
   const { counter, animateclass } = AnimateCountFunction(percentageScore);
 
   return (
     <Wrapper
+      darkThemeActive={darkThemeActive}
       style={animateclass !== "" ? correctstyle : {}}
       className={animateclass}
     >
@@ -33,10 +39,20 @@ const Wrapper = styled.div`
   height: 60px;
   width: 250px;
   border-radius: 5px;
-  background-color: white;
-  border: 1px solid;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 10px;
+
+  p {
+    color: ${(props) =>
+      props.darkThemeActive
+        ? ThemeStyles.lightThemePrimaryFrontColor
+        : ThemeStyles.darkThemePrimaryFontColor};
+  }
+
+  box-shadow: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemeMainBoxShadow
+      : ThemeStyles.darkThemeMainBoxShadow};
 `;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { colors } from "../../styles/colors";
 import MainActionBtn from "../Buttons/MainActionBtn";
@@ -8,12 +8,18 @@ import Score from "../Data/CurrentQuestionScores/Score";
 import { myPortableTextComponents } from "../../config/sanity/portableText";
 import "animate.css";
 import { device } from "../../styles/breakpoints";
+import { UserContext } from "../../App";
 
 // sanity imports
 import sanityClient from "../../createclient";
 import { PortableText } from "@portabletext/react";
 import imageUrlBuilder from "@sanity/image-url";
 import HelpBtn from "../Buttons/HelpBtn";
+import {
+  darkThemePrimaryBackgroundColor,
+  darkThemePrimaryFontColor,
+  ThemeStyles,
+} from "../../styles/ThemeStyles";
 
 function StudentInputForm({ updateStateFunctions, data, index }) {
   const [helpneeded, setHelpNeeded] = useState(false);
@@ -22,6 +28,8 @@ function StudentInputForm({ updateStateFunctions, data, index }) {
   const [inputfocused, setInputFocused] = useState(false);
   const [answerSubmitted, setAnswerSubmitted] = useState(false);
   const totalMarksAvailable = data.total_marks_available;
+
+  const { darkThemeActive } = useContext(UserContext);
 
   //constants
 
@@ -74,17 +82,27 @@ function StudentInputForm({ updateStateFunctions, data, index }) {
     transition: "0.3s",
     padding: "5px",
     borderRadius: "5px",
-    backgroundColor: "white",
+    // opacity: "0",
+    backgroundColor: darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : darkThemePrimaryBackgroundColor,
+    color: darkThemeActive
+      ? ThemeStyles.lightThemePrimaryFrontColor
+      : darkThemePrimaryFontColor,
   };
 
   const spanStyleNormalUnFocused = {
     position: "absolute",
     left: "0px",
     top: "0px",
+    // width: "100%",
     padding: "20px",
     fontSize: "12px",
     borderRadius: "5px",
     transition: "0.3s",
+    color: darkThemeActive
+      ? ThemeStyles.lightThemePrimaryFrontColor
+      : darkThemePrimaryFontColor,
   };
 
   let spanStyle = spanStyleNormalUnFocused;
@@ -181,7 +199,10 @@ function StudentInputForm({ updateStateFunctions, data, index }) {
 
   if (inputfocused && !answerSubmitted) {
     spanStyle = spanStyleNormal;
-    selectedInputColor = colors.normalInputColor;
+
+    selectedInputColor = darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor;
   }
 
   return (
@@ -223,6 +244,7 @@ function StudentInputForm({ updateStateFunctions, data, index }) {
           style={{
             position: "relative",
             backgroundColor: selectedInputColor,
+
             borderRadius: "5px",
           }}
         >
@@ -231,7 +253,13 @@ function StudentInputForm({ updateStateFunctions, data, index }) {
               height: "30px",
               width: "200px",
               padding: "10px",
-              backgroundColor: selectedInputColor,
+              backgroundColor: darkThemeActive
+                ? ThemeStyles.lightThemePrimaryBackgroundColor
+                : ThemeStyles.darkThemePrimaryBackgroundColor,
+
+              color: darkThemeActive
+                ? ThemeStyles.lightThemePrimaryFrontColor
+                : darkThemePrimaryFontColor,
               border: "3.5px solid rgb(0, 240, 240, 0.5)",
               borderRadius: "5px",
               display: "flex",
@@ -295,7 +323,7 @@ const Hint = styled.div`
   width: 80%;
   max-width: 700px;
   border: 2px solid rgba(0, 200, 200, 1);
-  color: rgba(0, 200, 200, 1);
+  color: rgba(0, 240, 240, 1);
   padding: 10px;
 `;
 

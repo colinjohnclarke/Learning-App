@@ -32,6 +32,7 @@ function EnrollForCourse() {
 export default EnrollForCourse;
 
 const Wrapper = styled.div`
+  border: 1px solid red;
   background-color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor

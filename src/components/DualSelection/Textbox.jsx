@@ -6,14 +6,15 @@ import MathsMLfromString from "../../config/sanity/MathsMLfromString";
 import "animate.css";
 import { UserContext } from "../../App";
 
-import { ThemeStyles } from "../../styles/ThemeStyles";
+import {
+  darkThemePrimaryBackgroundColor,
+  ThemeStyles,
+} from "../../styles/ThemeStyles";
 
 import {
   selectedbuttonstyle,
   correctstyle,
   incorrectstyle,
-  normalboxstyle,
-  normalboxstyleHover,
 } from "../../styles/colors";
 
 function Textbox({
@@ -49,7 +50,11 @@ function Textbox({
   if (isSelected) {
     style = selectedbuttonstyle;
   } else {
-    style = normalboxstyle;
+    style = {
+      backgroundColor: darkThemeActive
+        ? ThemeStyles.lightThemePrimaryBackgroundColor
+        : darkThemePrimaryBackgroundColor,
+    };
   }
 
   let content;
@@ -118,11 +123,6 @@ const Box = styled.button`
     rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset,
     rgba(0, 0, 0, 0.2) 0px 5px 10px;
 
-  background-color: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemePrimaryBackgroundColor
-      : ThemeStyles.darkThemePrimaryBackgroundColor};
-
   height: 80px;
   width: 100%;
   display: flex;
@@ -135,7 +135,7 @@ const Box = styled.button`
   border: none;
 
   &:hover {
-    background-color: rgba(0, 200, 200, 0.29);
+    background-color: rgba(0, 245, 245, 1);
   }
 `;
 
