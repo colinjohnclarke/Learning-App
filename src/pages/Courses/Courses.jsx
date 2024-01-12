@@ -235,7 +235,7 @@ function Courses() {
       </SelectionDiv>
       <DashboardHeader />
 
-      <Main>
+      <Main darkThemeActive={darkThemeActive}>
         {selection === "recentCourses" && <RecentCourses />}
 
         <SearchCourse />
@@ -268,12 +268,15 @@ export default Courses;
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 100%;
-  // display: flex;
-  // flex-direction: column;
-  // align-items: center;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
 
-  background-color: red;
   p,
   div,
   strong {
@@ -288,9 +291,10 @@ const Main = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100%;
   width: 98%;
   max-width: 900px;
+
+
 
   @media ${device.desktop} {
     height: 100%;

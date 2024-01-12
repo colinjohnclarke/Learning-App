@@ -4,19 +4,22 @@ import styled from "styled-components";
 import { CourseFilterContext } from "./CourseFilterContext";
 import { UserContext } from "../../../App";
 import { ThemeStyles } from "../../../styles/ThemeStyles";
+import "animate.css";
 
-function DropDown({ data, index }) {
-  const [isSelected, setIsSelected] = useState(false);
+function DropDown({
+  data,
+  index,
+  setFilterTermsArr,
+  dropdownsSelected,
+  setDropDownsSelected,
+}) {
   const [buttonColor, setButtonColor] = useState("white");
+
+  const [isChecked, setIsChecked] = useState(false);
 
   useContext(CourseFilterContext);
 
   const { darkThemeActive } = useContext(UserContext);
-
-  // const { dropDownClicked, setDropdownClicked } =
-  //   useContext(CourseFilterContext);
-
-  const heightVal = data.options.length * 50;
 
   const colorDnClick = () => {
     console.log("clciked");
@@ -26,117 +29,190 @@ function DropDown({ data, index }) {
     }, 200);
   };
 
-  return (
-    <Li
+  const handleCheckboxChange = (event) => {
+    const { name, checked } = event.target;
+    setIsChecked(checked);
+
+    if (checked) {
+      setFilterTermsArr((prevVal) => ({
+        ...prevVal,
+        [name]: checked,
+      }));
+    } else {
+      setFilterTermsArr((prevVal) => {
+        const updatedFilter = { ...prevVal };
+        delete updatedFilter[name];
+        return updatedFilter;
+      });
+    }
+  };
+
+  const subList = (
+    <SubList
+      style={{ height: "auto", transition: "1.5s" }}
       darkThemeActive={darkThemeActive}
-      onClick={() => {
-        colorDnClick();
-        setIsSelected((val) => !val);
-        // setDropdownClicked((state) => {
-        //   const newState = [...state];
-        //   newState[index] = !isSelected;
-        //   return newState;
-        // });
-      }}
-      style={{
-        listStyle: "none",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "space-between",
-        width: "100%",
-        // justifyContent: "center",
-        // height: "100%",
-        height: isSelected ? `${heightVal}px` : "50px",
-
-        // minHeight: "60px",
-
-        // borderBottom: "0.3px solid rgb(192,192,192, 0.5)",
-        position: "relative",
-        borderRadius: "5px",
-      }}
     >
-      <div
+      {data.options.map((subItem) => {
+        return (
+          <ListItem
+            className="animate__animated animate__fadeIn"
+            darkThemeActive={darkThemeActive}
+            style={{
+              width: "100%",
+              height: "50px",
+            }}
+          >
+            <label class="custom-checkbox">
+              <input
+                type="checkbox"
+                id={subItem}
+                name={subItem}
+                value={subItem}
+                onChange={handleCheckboxChange}
+                class="custom-checkbox"
+                style={{
+                  margin: "10px",
+                  backgroundColor: darkThemeActive
+                    ? ThemeStyles.lightThemePrimaryBackgroundColor
+                    : ThemeStyles.darkThemeSecondaryBackgroundColor,
+                }}
+              />
+              <span class="checkmark"></span>
+            </label>
+
+            <p style={{ marginLeft: "5px", fontSize: "13px" }}>{subItem}</p>
+          </ListItem>
+        );
+      })}
+    </SubList>
+  );
+  let objName;
+  if (data.name === "Age Group") {
+    objName = "ageGroup";
+  } else if (data.name === "Subject") {
+    objName = "subject";
+  } else if (data.name === "Exam Board") {
+    objName = "examBoard";
+  } else if (data.name === "Skill") {
+    objName = "skill";
+  } else if (data.name === "Tier") {
+    objName = "tier";
+  }
+
+  return (
+    <div style={{ width: "100%" }}>
+      <Li
+        darkThemeActive={darkThemeActive}
+        onClick={() => {
+          colorDnClick();
+
+          setDropDownsSelected((val) => ({
+            ageGroup: false,
+            subject: false,
+            examBoard: false,
+            skill: false,
+            tier: false,
+          }));
+
+          if (dropdownsSelected[objName]) {
+            setDropDownsSelected((prevVal) => {
+              const updated = { ...prevVal };
+              updated[objName] = false;
+              return updated;
+            });
+          } else {
+            setDropDownsSelected((prevVal) => {
+              const updated = { ...prevVal };
+              updated[objName] = true;
+              return updated;
+            });
+          }
+        }}
         style={{
           listStyle: "none",
           display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
+          flexDirection: "column",
           alignItems: "center",
-
+          justifyContent: "space-between",
           width: "100%",
-          height: "100%",
-          // marginLeft: "2px",
-          backgroundColor: buttonColor,
-          transition: "0.4s",
+          height: "50px",
+
+          position: "relative",
           borderRadius: "5px",
-          // marginRight: "10px",
         }}
       >
         <div
           style={{
-            fontSize: "13px",
-            marginLeft: "10px",
-            maxHeight: "50px",
-          }}
-        >
-          {data.name}
-        </div>
-        <div
-          style={{
+            listStyle: "none",
             display: "flex",
             flexDirection: "row",
+            justifyContent: "space-between",
             alignItems: "center",
-            justifyContent: "center",
+
+            width: "100%",
             height: "100%",
-            width: "30%",
+            // marginLeft: "2px",
+            // backgroundColor: buttonColor,
+
+            borderRadius: "5px",
+            backgroundColor: darkThemeActive
+              ? ThemeStyles.lightThemePrimaryBackgroundColor
+              : ThemeStyles.darkThemeSecondaryBackgroundColor,
+            // marginRight: "10px",
           }}
         >
-          <ShowSelected
-            style={{ backgroundColor: isSelected ? "rgb(0, 250, 250)" : "" }}
-          ></ShowSelected>
-          <GrNext
+          <div
             style={{
-              transform: isSelected ? "rotate(90deg)" : "rotate(0deg)",
-              transition: "0.4s",
+              fontSize: "13px",
+              marginLeft: "10px",
+              maxHeight: "50px",
+              backgroundColor: darkThemeActive
+                ? ThemeStyles.lightThemePrimaryBackgroundColor
+                : ThemeStyles.darkThemeSecondaryBackgroundColor,
             }}
-            fill={"rgb(0, 250, 250)"}
-          />
+          >
+            {data.name}
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "100%",
+              width: "30%",
+            }}
+          >
+            <ShowSelected
+              style={{
+                backgroundColor:
+                  dropdownsSelected && dropdownsSelected[objName]
+                    ? "rgb(0, 250, 250)"
+                    : "",
+              }}
+            ></ShowSelected>
+            <GrNext
+              style={{
+                transition: "0.3s",
+                transform:
+                  dropdownsSelected && dropdownsSelected[objName]
+                    ? "rotate(90deg)"
+                    : "rotate(0deg)",
+              }}
+              fill={"white"}
+            />
+          </div>
         </div>
-      </div>
-
-      {isSelected && (
-        <SubList darkThemeActive={darkThemeActive}>
-          {data.options.map((subItem) => {
-            return (
-              <ListItem
-                darkThemeActive={darkThemeActive}
-                style={{
-                  width: "100%",
-                }}
-              >
-                <input
-                  type="checkbox"
-                  id={subItem}
-                  name={subItem}
-                  value={subItem}
-                  style={{ margin: "5px" }}
-                />
-                <p style={{ marginLeft: "5px", fontSize: "13px" }}>{subItem}</p>
-              </ListItem>
-            );
-          })}
-        </SubList>
-      )}
-      {/* {JSON.stringify(isSelected)} */}
-    </Li>
+      </Li>
+      {dropdownsSelected && dropdownsSelected[objName] && subList}
+    </div>
   );
 }
 
 export default DropDown;
 
 const Li = styled.li`
-  margin: 3px;
+  margin-top: 4px;
   border-radius: 5px;
 
   background-color: ${(props) =>
@@ -151,10 +227,16 @@ const Li = styled.li`
 `;
 
 const SubList = styled.form`
+  transition: 0.3s;
+  height: 0px;
   width: 100%;
+
+  max-height: 300px; /* Adjust the height as needed */
+  overflow: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
+  transition: 0.2s;
 
   background-color: ${(props) =>
     props.darkThemeActive
@@ -174,8 +256,7 @@ const ListItem = styled.div`
   flex-direction: row;
   justify-content: start;
   align-items: center;
-  transition: 0.4s;
-  border-radius: 5px;
+  height: 0px;
 
   background-color: ${(props) =>
     props.darkThemeActive

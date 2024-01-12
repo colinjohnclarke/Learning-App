@@ -114,10 +114,6 @@ function App() {
     darkThemeActive,
     setDarkThemeActive,
   };
-  console.log(
-    "🚀 ~ file: App.js:117 ~ App ~ userContextValues.darkThemeActive:",
-    userContextValues.darkThemeActive
-  );
 
   return (
     <UserContext.Provider value={userContextValues}>
@@ -140,7 +136,6 @@ function App() {
         ) : (
           <BrowserRouter>
             <Drawer />
-
             <Header></Header>
             <Routing navState={{ selectedNav, setSelectedNav }} />
             <NavigationBarMobile navState={{ selectedNav, setSelectedNav }} />

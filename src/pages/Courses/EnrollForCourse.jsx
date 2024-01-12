@@ -1,13 +1,26 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import { device } from "../../styles/breakpoints";
 import { UserContext } from "../../App";
+import CourseFIlterResultDesktop from "./CourseFIlterResultDesktop";
 
 import CourseFilterDesktopMain from "../Dashboard/CourseFilter/CourseFilterDesktopMain";
 
 function EnrollForCourse() {
   const { darkThemeActive } = useContext(UserContext);
+  const [filterTermsArr, setFilterTermsArr] = useState({});
+  console.log("🚀 ~ EnrollForCourse ~ filterTermsArr:", filterTermsArr);
+
+  const [dropdownsSelected, setDropDownsSelected] = useState({
+    ageGroup: false,
+    subject: false,
+    examBoard: false,
+    skill: false,
+    tier: false,
+  });
+  console.log("🚀 ~ EnrollForCourse ~ dropdownsSelected:", dropdownsSelected);
+
   return (
     <Wrapper darkThemeActive={darkThemeActive} style={{ maxWidth: "900px" }}>
       <div
@@ -19,11 +32,11 @@ function EnrollForCourse() {
         }}
       >
         {" "}
-        <CourseFilterDesktopMain darkThemeActive={darkThemeActive} />
-        <CourseFilterResult darkThemeActive={darkThemeActive}>
-          {" "}
-          Begin by searching....
-        </CourseFilterResult>
+        <CourseFilterDesktopMain
+          filterState={{ filterTermsArr, setFilterTermsArr }}
+          dropDownState={{ dropdownsSelected, setDropDownsSelected }}
+        />
+        <CourseFIlterResultDesktop filterTermsArr={filterTermsArr} />
       </div>
     </Wrapper>
   );
@@ -32,11 +45,10 @@ function EnrollForCourse() {
 export default EnrollForCourse;
 
 const Wrapper = styled.div`
-  border: 1px solid red;
   background-color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor
-      : ThemeStyles.darkThemePrimaryBackgroundColor};
+      : ThemeStyles.darkThemeSecondaryBackgroundColor};
 
   width: 100%;
   height: 100%;
@@ -45,32 +57,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   border-radius: 5px;
-  margin-top: 5px;
-
-  box-shadow: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemeMainBoxShadow
-      : ThemeStyles.darkThemeMainBoxShadow};
-`;
-
-const CourseFilterResult = styled.div`
-  background-color: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemePrimaryBackgroundColor
-      : ThemeStyles.darkThemePrimaryBackgroundColor};
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  font-weight: 400;
-
-  align-items: center;
-  border-radius: 5px;
-  padding: 10px;
-  margin: 10px;
-
-  width: 50%;
-  max-height: 100px;
+  margin-top: 10px;
 
   box-shadow: ${(props) =>
     props.darkThemeActive

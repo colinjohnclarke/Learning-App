@@ -21,8 +21,8 @@ function Profile() {
 export default Profile;
 
 const Wrapper = styled.div`
-  height: 100%;
   width: 100%;
+  border: 2px solid yellow;
 
   background-color: red;
 `;

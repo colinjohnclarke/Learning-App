@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import { FilterOptions } from "./FilterOptions";
@@ -10,6 +10,16 @@ import { FaArrowLeft, FaTimes } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
 
 function CourseFilter() {
+  const [filterTermsArr, setFilterTermsArr] = useState({});
+
+  const [dropdownsSelected, setDropDownsSelected] = useState({
+    ageGroup: false,
+    subject: false,
+    examBoard: false,
+    skill: false,
+    tier: false,
+  });
+
   const CrossIcon = () => {
     return <AiOutlineClose style={{ fontSize: "20px", strokeWidth: "1" }} />;
   };
@@ -17,12 +27,6 @@ function CourseFilter() {
   const filterContent = FilterOptions.map((item, index) => {
     return <DropDown index={index} data={item}></DropDown>;
   });
-  const {
-    dropDownClicked,
-    setDropdownClicked,
-    displayFilter,
-    setDisplayFilter,
-  } = useContext(CourseFilterContext);
 
   return (
     <div style={{ display: "none" }}>

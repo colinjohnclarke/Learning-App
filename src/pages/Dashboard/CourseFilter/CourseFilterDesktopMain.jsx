@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 
 import { FilterOptions } from "./FilterOptions";
@@ -8,22 +8,41 @@ import { device } from "../../../styles/breakpoints";
 import MainActionBtn from "../../../components/Buttons/MainActionBtn";
 import { FaArrowLeft, FaTimes } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
+import { UserContext } from "../../../App";
+import { ThemeStyles } from "../../../styles/ThemeStyles";
 
-function CourseFilterDesktopMain() {
+function CourseFilterDesktopMain({ filterState, dropDownState }) {
+  const { filterTermsArr, setFilterTermsArr } = filterState;
+  const { dropdownsSelected, setDropDownsSelected } = dropDownState;
+
+  // console.log("🚀 ~ CourseFilterDesktopMain ~ filterTermsArr:", filterTermsArr);
+  const { darkThemeActive } = useContext(UserContext);
   const CrossIcon = () => {
     return <AiOutlineClose style={{ fontSize: "20px", strokeWidth: "1" }} />;
   };
 
   const filterContent = FilterOptions.map((item, index) => {
-    return <DropDown index={index} data={item}></DropDown>;
+    return (
+      <DropDown
+        setFilterTermsArr={setFilterTermsArr}
+        dropdownsSelected={dropdownsSelected}
+        setDropDownsSelected={setDropDownsSelected}
+        index={index}
+        data={item}
+      ></DropDown>
+    );
   });
 
   return (
     <Wrapper
+      darkThemeActive={darkThemeActive}
       style={{
         // left:  ? "0px" : "-100%",
         left: "0px",
-        transition: "0.4s",
+
+        backgroundColor: darkThemeActive
+          ? ThemeStyles.lightThemePrimaryBackgroundColor
+          : ThemeStyles.darkThemeSecondaryBackgroundColor,
       }}
     >
       <div
@@ -35,9 +54,12 @@ function CourseFilterDesktopMain() {
           width: "100%",
         }}
       >
-        <MainActionBtn>Clear all</MainActionBtn>
+        <MainActionBtn darkThemeActive={darkThemeActive}>
+          Clear all
+        </MainActionBtn>
 
         <Back
+          darkThemeActive={darkThemeActive}
           onClick={() => {
             // setDisplayFilter((val) => !val);
           }}
@@ -77,8 +99,10 @@ const Wrapper = styled.div`
 const Back = styled.button`
   height: 45px;
   border: none;
-  // box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 1px 0px;
-  background-color: white;
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemeSecondaryBackgroundColor};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -98,6 +122,4 @@ const ClearFilter = styled.button`
   margin: 10px;
 `;
 
-const Backdrop = styled.div`
-  transition: 0.4s;
-`;
+const Backdrop = styled.div``;
