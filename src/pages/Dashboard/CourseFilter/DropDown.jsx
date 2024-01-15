@@ -1,5 +1,5 @@
-import React, { useState, useContext } from "react";
-import { GrNext } from "react-icons/gr";
+import React, { useState, useContext, useRef, useEffect } from "react";
+import { FcNext } from "react-icons/fc";
 import styled from "styled-components";
 import { CourseFilterContext } from "./CourseFilterContext";
 import { UserContext } from "../../../App";
@@ -9,10 +9,12 @@ import "animate.css";
 function DropDown({
   data,
   index,
+  filterTermsArr,
   setFilterTermsArr,
   dropdownsSelected,
   setDropDownsSelected,
 }) {
+  console.log("🚀 ~ filterTermsArr:", filterTermsArr);
   const [buttonColor, setButtonColor] = useState("white");
 
   const [isChecked, setIsChecked] = useState(false);
@@ -47,8 +49,22 @@ function DropDown({
     }
   };
 
+  const formRef = useRef(null);
+
+  useEffect(() => {
+    if (filterTermsArr && filterTermsArr.length === 0) {
+      handleResetForm();
+    }
+  }, [filterTermsArr]);
+
+  const handleResetForm = () => {
+    if (formRef.current) {
+      formRef.current.reset();
+    }
+  };
   const subList = (
     <SubList
+      ref={formRef}
       style={{ height: "auto", transition: "1.5s" }}
       darkThemeActive={darkThemeActive}
     >
@@ -191,7 +207,7 @@ function DropDown({
                     : "",
               }}
             ></ShowSelected>
-            <GrNext
+            <FcNext
               style={{
                 transition: "0.3s",
                 transform:
@@ -199,7 +215,6 @@ function DropDown({
                     ? "rotate(90deg)"
                     : "rotate(0deg)",
               }}
-              fill={"white"}
             />
           </div>
         </div>

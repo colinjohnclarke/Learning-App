@@ -6,7 +6,6 @@ import { ThemeStyles } from "../../styles/ThemeStyles";
 
 function MainActionBtn({ ...atributes }) {
   const { darkThemeActive } = useContext(UserContext);
-  console.log("🚀 ~ MainActionBtn ~ darkThemeActive:", darkThemeActive);
 
   return (
     <Btn darkThemeActive={darkThemeActive} type="button" {...atributes}></Btn>
@@ -25,7 +24,6 @@ const Btn = styled.button`
   height: 40px;
   width: 100px;
   border-radius: 5px;
-  background-color: white;
 
   border: 2px solid rgba(0, 240, 240, 1);
 
@@ -39,18 +37,22 @@ const Btn = styled.button`
       ? ThemeStyles.lightThemeMainBoxShadow
       : ThemeStyles.darkThemeMainBoxShadow};
 
+  color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryFrontColor
+      : ThemeStyles.darkThemePrimaryFontColor};
   &:hover {
-    transform: translateY(-2px);
-    background-color: rgba(0, 240, 240, 1);
+    transform: translateY(-1px);
     color: white;
+    transition: 0.2s;
   }
 
   &:active {
-    transform: translateY(-2px);
+    transform: translateY(1px);
     background-color: rgba(0, 240, 240, 1);
     color: white;
   }
-  p {
-    font-size: 12px;
+  * {
+    font-size: 13px;
   }
 `;

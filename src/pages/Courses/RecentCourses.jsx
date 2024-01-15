@@ -15,15 +15,13 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import CoursePercentageCompletion from "../../components/functions/CoursePercentageCompletion";
 import AddCourseBtn from "../../components/Buttons/AddCourseBtn";
+import HeaderColoredHightlight from "./HeaderColoredHightlight";
 
 function RecentCourses() {
   const courses = FetchCoursefromSanity();
   const builder = imageUrlBuilder(sanityClient);
   const { userData, darkThemeActive } = useContext(UserContext);
-  console.log(
-    "🚀 ~ file: RecentCourses.jsx:21 ~ RecentCourses ~ userData:",
-    userData
-  );
+
   const { data } = useGetAllEnrolledCoursesDataQuery(userData?.user._id);
 
   const imgurlFor = (source) => {
@@ -31,8 +29,6 @@ function RecentCourses() {
   };
 
   const list = data?.enrolledCourses?.map((item, index) => {
-    console.log("🚀 ~ file: RecentCourses.jsx:33 ~ list ~ item:", item);
-
     const result = courses.find((subItem) => {
       return subItem.courseName === item.courseName;
     });
@@ -153,7 +149,7 @@ function RecentCourses() {
   return (
     <Main
       style={{
-        marginTop: "5px",
+        // marginTop: "5px",
         // margin: "10px",
         // display: "flex",
         // flexDirection: "column",
@@ -170,18 +166,7 @@ function RecentCourses() {
       }}
     >
       {/* <PaddingBox /> */}
-      <HeaderContent>
-        <h2
-          style={{
-            fontWeight: "500",
-            fontSize: "1rem",
-            color: "white",
-            margin: "20px",
-          }}
-        >
-          Your recent Courses
-        </h2>
-      </HeaderContent>
+      <HeaderColoredHightlight content={"Your recent Courses"} />
       <Grid>
         {list}
         <Box
@@ -199,8 +184,6 @@ function RecentCourses() {
           </Button>
         </Box>
       </Grid>
-
-      <PaddingBox />
     </Main>
   );
 }
@@ -311,39 +294,6 @@ const Image = styled.div`
   clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 25% 100%, 0% 50%);
 
   @media ${device.mobileL} {
-  }
-`;
-
-const HeaderContent = styled.div`
-  position: relative;
-  z-index: 10;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-
-  transition: 0.3s;
-
-  background-image: linear-gradient(
-    -225deg,
-    rgb(142, 45, 226, 0.5) 0%,
-    rgb(74, 0, 224, 0.5) 20%,
-    rgb(74, 0, 224, 0.5) 30%,
-    rgba(0, 200, 200, 0.7) 100%
-  );
-
-  border-radius: 5px;
-  // margin: 5px;
-
-  width: 100%;
-
-  @media ${device.tablet} {
-    width: 100%;
-  }
-`;
-const PaddingBox = styled.div`
-  @media ${device.tablet} {
-    height: 20px;
   }
 `;
 

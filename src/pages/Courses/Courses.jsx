@@ -21,6 +21,8 @@ import {
 } from "../../features/api/UserData/enrolledCourseDataSlice";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import EnrollForCourse from "./EnrollForCourse";
+import { maxHeight } from "@mui/system";
+import HeaderColoredHightlight from "./HeaderColoredHightlight";
 
 function Courses() {
   const courses = FetchCoursefromSanity();
@@ -206,10 +208,10 @@ function Courses() {
 
   return (
     <Wrapper darkThemeActive={darkThemeActive}>
-      <CourseFilter />
+      {/* <CourseFilter /> */}
 
       <Padding />
-      <Padding />
+
       <SelectionDiv>
         <Tags>
           <Select onClick={() => selectClickHandler("recentCourses")}>
@@ -238,8 +240,6 @@ function Courses() {
       <Main darkThemeActive={darkThemeActive}>
         {selection === "recentCourses" && <RecentCourses />}
 
-        <SearchCourse />
-
         {selection === "enroll" && <EnrollForCourse />}
 
         {selection === "allCoursesAndBlocks" && (
@@ -252,11 +252,19 @@ function Courses() {
               alignItems: "center",
             }}
           >
-            {" "}
+            <HeaderColoredHightlight content={"All courses"} />
             <p style={{ fontWeight: "500" }}> All Courses </p>
             {courseslist}
-            <p style={{ fontWeight: "500" }}> All Blocks</p>
-            {allBlocks}
+
+            <div
+              style={{
+                fontWeight: "500",
+                display: "flex",
+                flexDirection: "column",
+                width: "100%",
+                height: "auto",
+              }}
+            ></div>
           </div>
         )}
       </Main>
@@ -293,8 +301,6 @@ const Main = styled.div`
   align-items: center;
   width: 98%;
   max-width: 900px;
-
-
 
   @media ${device.desktop} {
     height: 100%;
@@ -437,6 +443,7 @@ const Select = styled.div`
 
 const SelectionBar = styled.div`
   border-radius: 10px;
+  margin: 4px;
   height: 4px;
   width: 33%;
   background: linear-gradient(

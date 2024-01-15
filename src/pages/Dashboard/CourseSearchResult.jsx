@@ -1,24 +1,51 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { device } from "../../styles/breakpoints";
 import { defaultCoursesImages } from "./CourseFilter/DefaultCourseImages";
+import imageUrlBuilder from "@sanity/image-url";
+import sanityClient from "../../createclient";
+import { UserContext } from "../../App";
+import { ThemeStyles } from "../../styles/ThemeStyles";
 
 function CourseSearchResult({ data }) {
   const newArr = data ? [...data] : [];
 
+  const builder = imageUrlBuilder(sanityClient);
+
+  const { darkThemeActive } = useContext(UserContext);
+
+  const imgurlFor = (source) => {
+    return builder.image(source);
+  };
+
   const searchResults = newArr?.map((item) => {
+    // deafault img
     let imgurl = defaultCoursesImages.find((subItem) => {
       return subItem.subject === item.subject;
     });
+    // stored course image
+    const content = item.coverImage ? (
+      <img
+        alt=""
+        style={{
+          height: "100px",
+          width: "100px",
+          borderRadius: "5px",
+          // position: "relative",
+          // top: "2px",
+        }}
+        src={imgurlFor(item.coverImage.asset._ref)}
+      />
+    ) : null;
 
     return (
       <Wrapper>
         <Link
           style={{ display: "flex", width: "100%", textDecoration: "none" }}
-          to={"/courses/biology"}
+          to={`/courses/${item.subject}/${item.courseName}`}
         >
-          <Box>
+          <Box darkThemeActive={darkThemeActive}>
             <Text>
               <p
                 style={{
@@ -41,13 +68,17 @@ function CourseSearchResult({ data }) {
               </p>
             </Text>
 
-            <Image
-              src={
-                imgurl
-                  ? imgurl.imageUrl
-                  : "https://stpauls.fra1.digitaloceanspaces.com/wp-content/uploads/2022/04/28130914/SPS-logo-centred-POS.png"
-              }
-            ></Image>
+            {content ? (
+              <Image> {content}</Image>
+            ) : (
+              <Img
+                src={
+                  imgurl
+                    ? imgurl.imageUrl
+                    : "https://stpauls.fra1.digitaloceanspaces.com/wp-content/uploads/2022/04/28130914/SPS-logo-centred-POS.png"
+                }
+              ></Img>
+            )}
           </Box>
         </Link>
       </Wrapper>
@@ -71,7 +102,7 @@ const Box = styled.a`
   height: 50px;
   width: 100%;
   min-width: 290px;
-  padding: 4px;
+  // padding: 4px;
   margin: 3px;
   border-radius: 5px;
   text-decoration: none;
@@ -79,9 +110,24 @@ const Box = styled.a`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 1px 0px;
-  background-color: rgb(255, 255, 255);
-  transition: 0.4s;
+  strong {
+    color: ${(props) =>
+      props.darkThemeActive
+        ? ThemeStyles.lightThemePrimaryFrontColor
+        : ThemeStyles.darkThemePrimaryFontColor};
+  }
+
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
+
+  box-shadow: ${(props) =>
+    props.darkThemeActive
+      ? " rgba(0, 0, 0, 0.15) 0px 1px 1px 0px;"
+      : ThemeStyles.darkThemeMainBoxShadow};
+
+  transition: 0.3s;
 
   &:hover {
     transition: 0.2s;
@@ -100,15 +146,22 @@ const Text = styled.div`
   align-items: center;
 `;
 
-const Image = styled.img`
+const Image = styled.div`
   height: 100%;
-  width: 33.3%;
   border-radius: 5px;
-  max-width: 100px;
-  min-width: 100px;
+
+  clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 25% 100%, 0% 50%);
 
   @media ${device.mobileL} {
-    max-width: 100px;
-    min-width: 100px;
+  }
+`;
+
+const Img = styled.img`
+  height: 100%;
+  border-radius: 5px;
+
+  clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 25% 100%, 0% 50%);
+
+  @media ${device.mobileL} {
   }
 `;

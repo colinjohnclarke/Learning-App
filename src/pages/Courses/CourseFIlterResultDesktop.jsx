@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import { UserContext } from "../../App";
@@ -8,120 +8,243 @@ import { device } from "../../styles/breakpoints";
 import { Link } from "react-router-dom";
 import sanityClient from "../../createclient";
 import imageUrlBuilder from "@sanity/image-url";
+import GridLoader from "react-spinners/GridLoader";
+import { CiCircleRemove } from "react-icons/ci";
+import "animate.css";
+import SearchCourses from "../Dashboard/CourseFilter/SearchCourses";
+import CourseSearchResult from "../Dashboard/CourseSearchResult";
+import bookshelf from "../../assets/images/bookshelf.png";
 
-function CourseFIlterResultDesktop({ filterTermsArr }) {
+function CourseFIlterResultDesktop({ filterState, dropDownState }) {
+  const { filterTermsArr, setFilterTermsArr } = filterState;
+  const [userSearch, setUserSearch] = useState([]);
   const courses = FetchCoursefromSanity();
-  console.log("🚀 ~ CourseFIlterResultDesktop ~ courses:", courses);
-
-  const arr = Object.keys(filterTermsArr);
-  console.log("🚀 ~ CourseFIlterResultDesktop ~ arr:", arr);
-
+  const termsArr = Object.keys(filterTermsArr);
   const { darkThemeActive } = useContext(UserContext);
-
-  //   const filteredCourses = courses.filter((item) => {
-  //     return item.filter((subItem) => {
-  //       return subItem.name.includes("Biology");
-  //     });
-  //   });
-
-  //   console.log("🚀 ~ filteredCourses ~ filteredCourses:", filteredCourses);
-
   const builder = imageUrlBuilder(sanityClient);
 
   const imgurlFor = (source) => {
     return builder.image(source);
   };
 
-  const content = courses.map((item, index) => {
-    console.log("🚀 ~ content ~ item:", item);
+  let content;
 
-    const imgcontent = item.coverImage ? (
-      <img
-        alt=""
-        style={{
-          height: "100px",
-          width: "100px",
-        }}
-        src={imgurlFor(item.coverImage.asset._ref)}
-      />
-    ) : null;
-    return (
-      <Link
-        className="animate__animated animate__fadeIn"
+  if (!termsArr.length) {
+    content = (
+      <div
         style={{
           display: "flex",
-          width: "100%",
-          textDecoration: "none",
-          animationDelay: `${index / 20}s`,
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
         }}
-        to={`/courses/${item.subject}/${item.courseName}`}
       >
-        <Box darkThemeActive={darkThemeActive}>
-          <Text>
-            {" "}
-            <p
-              style={{
-                fontSize: "13px",
-                listStyle: "none",
-                paddingLeft: "10px",
-                fontWeight: "600",
-              }}
-            >
-              {item.subject}
-            </p>
-            <p
-              style={{
-                fontSize: "13px",
-                listStyle: "none",
-                padding: "12px",
-              }}
-            >
-              {item.courseName}
-            </p>
-            <p
-              style={{
-                fontSize: "13px",
-                listStyle: "none",
-                padding: "12px",
-              }}
-            >
-              {" "}
-              {item.blockName}{" "}
-            </p>
-          </Text>
+        <p>Start by searching or filtering..</p>
 
-          {imgcontent ? (
-            <Image>{imgcontent}</Image>
-          ) : (
-            <></> ||
-            //   <Img
-            //     src={
-            //       imgurl
-            //         ? imgurl.imageUrl
-            //         : "https://stpauls.fra1.digitaloceanspaces.com/wp-content/uploads/2022/04/28130914/SPS-logo-centred-POS.png"
-            //     }
-            //   ></Img> ||
-            null
-          )}
-        </Box>
-      </Link>
+        <img
+          style={{ height: "200px", width: "200px", borderRadius: "5px",  }}
+          src={bookshelf}
+          alt=""
+        />
+      </div>
+    );
+  } else if (termsArr.length) {
+    // filter courses based on search filters
+    const filteredCourses = courses.filter((item) => {
+      return (
+        (item.name && termsArr.some((term) => item.name.includes(term))) ||
+        (item.blockName &&
+          termsArr.some((term) => item.blockName.includes(term))) ||
+        (item.courseName &&
+          termsArr.some((term) => item.courseName.includes(term))) ||
+        (item.subject && termsArr.some((term) => item.subject.includes(term)))
+      );
+    });
+    // map
+    if (!filteredCourses.length) {
+      content = <p>Sorry, no search result</p>;
+    } else {
+      // filterd values present render results
+      content = filteredCourses.map((item, index) => {
+        // console.log("🚀 ~ content ~ item:", item);
+
+        const imgcontent = item.coverImage ? (
+          <img
+            alt=""
+            style={{
+              height: "100px",
+              width: "100px",
+            }}
+            src={imgurlFor(item.coverImage.asset._ref)}
+          />
+        ) : null;
+        return (
+          <Link
+            className="animate__animated animate__fadeIn"
+            style={{
+              display: "flex",
+              width: "100%",
+              textDecoration: "none",
+              animationDelay: `${index / 20}s`,
+            }}
+            to={`/courses/${item.subject}/${item.courseName}`}
+          >
+            <Box darkThemeActive={darkThemeActive}>
+              <Text>
+                {" "}
+                <p
+                  style={{
+                    fontSize: "12px",
+                    listStyle: "none",
+                    paddingLeft: "10px",
+                    fontWeight: "600",
+                  }}
+                >
+                  {item.subject}
+                </p>
+                <p
+                  style={{
+                    fontSize: "12px",
+                    listStyle: "none",
+                    padding: "12px",
+                  }}
+                >
+                  {item.courseName}
+                </p>
+                <p
+                  style={{
+                    fontSize: "13px",
+                    listStyle: "none",
+                    padding: "11px",
+                  }}
+                >
+                  {" "}
+                  {item.blockName}{" "}
+                </p>
+              </Text>
+
+              {imgcontent ? (
+                <Image>{imgcontent}</Image>
+              ) : (
+                <></> ||
+                //   <Img
+                //     src={
+                //       imgurl
+                //         ? imgurl.imageUrl
+                //         : "https://stpauls.fra1.digitaloceanspaces.com/wp-content/uploads/2022/04/28130914/SPS-logo-centred-POS.png"
+                //     }
+                //   ></Img> ||
+                null
+              )}
+            </Box>
+          </Link>
+        );
+      });
+    }
+  }
+
+  if (!content) {
+    content = (
+      <Loader>
+        <GridLoader
+          color={"rgb(0, 250, 250, 0.5)"}
+          // loading={loading}
+          // cssOverride={override}
+          size={25}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
+      </Loader>
+    );
+  }
+
+  const handleRemoveBtnClicked = (term) => {
+    const keyToRemove = term;
+
+    setFilterTermsArr((prevVal) => {
+      const updated = { ...prevVal };
+      delete updated[term];
+      return updated;
+    });
+  };
+  const searchTermsButtons = termsArr.map((term) => {
+    return (
+      <div
+        className=" animate__animated animate__fadeIn"
+        darkThemeActive={darkThemeActive}
+        style={{
+          paddingLeft: "10px",
+          height: "40px",
+          minWidth: "150px",
+          border: "2px solid rgb(0, 245, 245)",
+          padding: "3px",
+          borderRadius: "5px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          fontSize: "13px",
+          margin: "2px",
+
+          backgroundColor: darkThemeActive
+            ? ThemeStyles.lightThemePrimaryBackgroundColor
+            : ThemeStyles.darkThemeSecondaryBackgroundColor,
+
+          boxShadow: darkThemeActive
+            ? ThemeStyles.lightThemeMainBoxShadow
+            : ThemeStyles.darkThemeMainBoxShadow,
+        }}
+      >
+        {term}
+
+        <RemoveBtn
+          onClick={() => handleRemoveBtnClicked(term)}
+          darkThemeActive={darkThemeActive}
+        >
+          {
+            <CiCircleRemove
+              fill={darkThemeActive ? "rgb(200, 200, 200)" : "white"}
+              darkThemeActive={darkThemeActive}
+              size={30}
+            />
+          }
+        </RemoveBtn>
+      </div>
     );
   });
 
-  return <Wrapper darkThemeActive={darkThemeActive}>{content}</Wrapper>;
+  return (
+    <Wrapper darkThemeActive={darkThemeActive}>
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "start",
+          alignItems: "start",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          marginBottom: "10px",
+        }}
+      >
+        <SearchCourses search={{ setUserSearch }} />
+
+        <CourseSearchResult data={userSearch}></CourseSearchResult>
+        <div style={{ height: "10px", width: "100%" }}></div>
+        {searchTermsButtons}
+      </div>
+
+      {content}
+    </Wrapper>
+  );
 }
 
 export default CourseFIlterResultDesktop;
 
 const Wrapper = styled.div`
-  background-color: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemePrimaryBackgroundColor
-      : ThemeStyles.darkThemePrimaryBackgroundColor};
+
 
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: start;
   font-weight: 400;
 
   align-items: center;
@@ -191,6 +314,26 @@ const Text = styled.div`
   align-items: center;
 `;
 
+const Loader = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+`;
+
+const RemoveBtn = styled.button`
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemeSecondaryBackgroundColor};
+`;
 const Img = styled.img`
   height: 100%;
   width: 33.3%;
@@ -292,3 +435,77 @@ const Image = styled.div`
 `;
 
 const PlaceholderImg = styled.div``;
+
+const Outer = styled.div`
+  width: 100%;
+  height: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 0px 30px 4px rgba(174, 196, 216, 0.25);
+  background-color: rgb(255, 255, 255);
+  border-radius: 5px;
+
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
+
+  box-shadow: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemeMainBoxShadow
+      : ThemeStyles.darkThemeMainBoxShadow};
+
+  @media ${device.desktop} {
+    width: 100%;
+  }
+
+  //
+`;
+
+const SuggestedCourse = styled.div`
+  display: none;
+  @media (min-width: 550px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    border: 1px solid red;
+  }
+`;
+
+const SuggestCourseMobile = styled.div`
+  display: flex;
+
+  @media ${device.mobileL} {
+    display: none;
+  }
+`;
+
+const NoResultDesktop = styled.div`
+  display: none;
+  color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryFrontColor
+      : ThemeStyles.darkThemePrimaryFontColor};
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const NoResultMobile = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryFrontColor
+      : ThemeStyles.darkThemePrimaryFontColor};
+
+  @media (min-width: 550px) {
+    display: none;
+  }
+`;

@@ -10,6 +10,7 @@ import { FaArrowLeft, FaTimes } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
 import { UserContext } from "../../../App";
 import { ThemeStyles } from "../../../styles/ThemeStyles";
+import { BiFilter } from "react-icons/bi";
 
 function CourseFilterDesktopMain({ filterState, dropDownState }) {
   const { filterTermsArr, setFilterTermsArr } = filterState;
@@ -25,6 +26,7 @@ function CourseFilterDesktopMain({ filterState, dropDownState }) {
     return (
       <DropDown
         setFilterTermsArr={setFilterTermsArr}
+        filterTermsArr={filterTermsArr}
         dropdownsSelected={dropdownsSelected}
         setDropDownsSelected={setDropDownsSelected}
         index={index}
@@ -37,9 +39,6 @@ function CourseFilterDesktopMain({ filterState, dropDownState }) {
     <Wrapper
       darkThemeActive={darkThemeActive}
       style={{
-        // left:  ? "0px" : "-100%",
-        left: "0px",
-
         backgroundColor: darkThemeActive
           ? ThemeStyles.lightThemePrimaryBackgroundColor
           : ThemeStyles.darkThemeSecondaryBackgroundColor,
@@ -52,20 +51,25 @@ function CourseFilterDesktopMain({ filterState, dropDownState }) {
           justifyContent: "space-between",
           alignItems: "center",
           width: "100%",
+
+          margin: "5px",
+          padding: "5px",
         }}
       >
-        <MainActionBtn darkThemeActive={darkThemeActive}>
-          Clear all
-        </MainActionBtn>
-
-        <Back
-          darkThemeActive={darkThemeActive}
+        <BiFilter
+          fill={darkThemeActive ? "rgb(200, 200, 200)" : "white"}
+          size={25}
+        ></BiFilter>
+        <MainActionBtn
+          style={{ margin: "0px" }}
           onClick={() => {
-            // setDisplayFilter((val) => !val);
+            console.log("clicked");
+            setFilterTermsArr([]);
           }}
+          darkThemeActive={darkThemeActive}
         >
-          <CrossIcon />
-        </Back>
+          <p>Reset filter</p>
+        </MainActionBtn>
       </div>
 
       {filterContent}
@@ -78,14 +82,14 @@ export default CourseFilterDesktopMain;
 const Wrapper = styled.div`
   height: 100%;
   background-color: white;
-
-  //   padding-top: 50px;
+  height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: start;
   width: 30%;
   margin: 20px;
+  margin-right: 15px;
 
   //   @media ${device.tablet} {
   //     width: 25%;
@@ -109,6 +113,33 @@ const Back = styled.button`
   margin-left: 30px;
 `;
 
+const HeaderContent = styled.div`
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  transition: 0.3s;
+
+  background-image: linear-gradient(
+    -225deg,
+    rgb(142, 45, 226, 0.5) 0%,
+    rgb(74, 0, 224, 0.5) 20%,
+    rgb(74, 0, 224, 0.5) 30%,
+    rgba(0, 200, 200, 0.7) 100%
+  );
+
+  border-radius: 5px;
+  // margin: 5px;
+
+  width: 100%;
+
+  @media ${device.tablet} {
+    width: 100%;
+  }
+`;
 const ClearFilter = styled.button`
   height: 35px;
   width: 100px;
