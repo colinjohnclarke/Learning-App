@@ -193,18 +193,13 @@ const Pair = styled.div`
   justify-content: center;
   align-items: center;
   max-width: 600px;
-  box-shadow: rgba(0, 200, 200, 1) 0px 2px 5px -1px;
-  rgba(0, 200, 200, 1) 0px 1px 3px -1px;
 
   @media ${device.tablet} {
-    box-shadow: none; 
-
-
+    box-shadow: none;
   }
 `;
 
 const Wrapper = styled.div`
-
   display: flex;
   flex-direction: column;
   align-items: center;

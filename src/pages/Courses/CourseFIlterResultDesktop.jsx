@@ -14,14 +14,17 @@ import "animate.css";
 import SearchCourses from "../Dashboard/CourseFilter/SearchCourses";
 import CourseSearchResult from "../Dashboard/CourseSearchResult";
 import bookshelf from "../../assets/images/bookshelf.png";
+import CourseFilterButtonSide from "../Dashboard/CourseFilter/CourseFilterButtonSide";
 
-function CourseFIlterResultDesktop({ filterState, dropDownState }) {
+function CourseFIlterResultDesktop({ filterState, dropDownState, sidePanel }) {
   const { filterTermsArr, setFilterTermsArr } = filterState;
   const [userSearch, setUserSearch] = useState([]);
   const courses = FetchCoursefromSanity();
   const termsArr = Object.keys(filterTermsArr);
   const { darkThemeActive } = useContext(UserContext);
   const builder = imageUrlBuilder(sanityClient);
+
+  const { courseFilterMobileisOpen, setCourseFilterMobileisOpen } = sidePanel;
 
   const imgurlFor = (source) => {
     return builder.image(source);
@@ -42,7 +45,7 @@ function CourseFIlterResultDesktop({ filterState, dropDownState }) {
         <p>Start by searching or filtering..</p>
 
         <img
-          style={{ height: "200px", width: "200px", borderRadius: "5px",  }}
+          style={{ height: "200px", width: "200px", borderRadius: "5px" }}
           src={bookshelf}
           alt=""
         />
@@ -225,7 +228,23 @@ function CourseFIlterResultDesktop({ filterState, dropDownState }) {
           marginBottom: "10px",
         }}
       >
-        <SearchCourses search={{ setUserSearch }} />
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "row",
+          }}
+        >
+          <CourseFilterButtonSide
+            sidePanel={{
+              courseFilterMobileisOpen,
+              setCourseFilterMobileisOpen,
+            }}
+          />
+          <SearchCourses search={{ setUserSearch }} />
+        </div>
 
         <CourseSearchResult data={userSearch}></CourseSearchResult>
         <div style={{ height: "10px", width: "100%" }}></div>
@@ -240,8 +259,6 @@ function CourseFIlterResultDesktop({ filterState, dropDownState }) {
 export default CourseFIlterResultDesktop;
 
 const Wrapper = styled.div`
-
-
   display: flex;
   flex-direction: column;
   justify-content: start;

@@ -20,9 +20,10 @@ const Btn = styled.button`
   justify-content: center;
   align-items: center;
   border: none;
-  margin: 10px;
-  height: 40px;
-  width: 250px;
+  margin: 7px;
+  min-height: 50px;
+  min-width: 350px;
+  max-width: 350px;
   border-radius: 5px;
   background-color: white;
 

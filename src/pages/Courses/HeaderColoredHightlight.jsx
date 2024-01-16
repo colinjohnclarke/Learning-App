@@ -6,7 +6,6 @@ import { device } from "../../styles/breakpoints";
 function HeaderColoredHightlight({ content }) {
   return (
     <HeaderContent>
-      {" "}
       <h2
         style={{
           color: "white",
@@ -16,7 +15,7 @@ function HeaderColoredHightlight({ content }) {
         }}
       >
         {content}
-      </h2>{" "}
+      </h2>
     </HeaderContent>
   );
 }

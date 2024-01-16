@@ -1,15 +1,21 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import "animate.css";
 import { device } from "../../styles/breakpoints";
 import { UserContext } from "../../App";
 import LogoutBtn from "../Login/LogoutBtn";
 import { ThemeStyles } from "../../styles/ThemeStyles";
+import { CiLineHeight } from "react-icons/ci";
 
 function SettingsDrawerDesktop({ controllers }) {
   const { settingDrawerIsOpen, setSettingsDrawerIsOpen } = controllers;
-  const { userData, darkThemeActive, setDarkThemeActive } =
+
+  const { userData, userAuth0, darkThemeActive, setDarkThemeActive } =
     useContext(UserContext);
+  console.log("🚀 ~ SettingsDrawerDesktop ~ userAuth0:", userAuth0);
+  console.log("userData HELLOW", userData);
+
+  const menuRef = useRef(null);
 
   const [isChecked, setIsChecked] = useState(false);
 
@@ -24,10 +30,23 @@ function SettingsDrawerDesktop({ controllers }) {
   }
 
   return (
-    <Wrapper className={animate} darkThemeActive={darkThemeActive}>
+    <Wrapper
+      ref={menuRef}
+      className={animate}
+      darkThemeActive={darkThemeActive}
+    >
+      <Outer
+        onClick={() => {
+          setSettingsDrawerIsOpen((val) => false);
+        }}
+      ></Outer>
+      <div style={{ height: "50px" }}></div>
       <div style={{ height: "50px" }}>
         <p style={{ fontweight: "600" }}>
-          {userData?.user.firstName || userData?.user.email}
+          {userData?.user.firstName ||
+            userAuth0?.name ||
+            userAuth0.family_name ||
+            userAuth0.email}
         </p>
       </div>
 
@@ -55,6 +74,15 @@ function SettingsDrawerDesktop({ controllers }) {
 }
 
 export default SettingsDrawerDesktop;
+
+const Outer = styled.div`
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  z-index: -20;
+  top: 0;
+  right: 0;
+`;
 
 const Wrapper = styled.div`
   opacity: 1;

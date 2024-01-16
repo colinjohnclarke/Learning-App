@@ -7,10 +7,14 @@ import CourseFIlterResultDesktop from "./CourseFIlterResultDesktop";
 
 import CourseFilterDesktopMain from "../Dashboard/CourseFilter/CourseFilterDesktopMain";
 import HeaderColoredHightlight from "./HeaderColoredHightlight";
+import CourseFilterMobileMain from "../Dashboard/CourseFilter/CourseFilterMobileMain";
 
 function EnrollForCourse() {
   const { darkThemeActive } = useContext(UserContext);
   const [filterTermsArr, setFilterTermsArr] = useState({});
+
+  const [courseFilterMobileisOpen, setCourseFilterMobileisOpen] =
+    useState(false);
 
   const [dropdownsSelected, setDropDownsSelected] = useState({
     ageGroup: false,
@@ -32,14 +36,34 @@ function EnrollForCourse() {
         }}
       >
         {" "}
-        <CourseFilterDesktopMain
-          filterState={{ filterTermsArr, setFilterTermsArr }}
-          dropDownState={{ dropdownsSelected, setDropDownsSelected }}
-        />
+        <DesktopFilter>
+          <CourseFilterDesktopMain
+            filterState={{ filterTermsArr, setFilterTermsArr }}
+            dropDownState={{ dropdownsSelected, setDropDownsSelected }}
+            sidePanel={{
+              courseFilterMobileisOpen,
+              setCourseFilterMobileisOpen,
+            }}
+          />
+        </DesktopFilter>
         <CourseFIlterResultDesktop
           filterState={{ filterTermsArr, setFilterTermsArr }}
           dropDownState={{ dropdownsSelected, setDropDownsSelected }}
+          sidePanel={{
+            courseFilterMobileisOpen,
+            setCourseFilterMobileisOpen,
+          }}
         />
+
+          <CourseFilterMobileMain
+            filterState={{ filterTermsArr, setFilterTermsArr }}
+            dropDownState={{ dropdownsSelected, setDropDownsSelected }}
+            sidePanel={{
+              courseFilterMobileisOpen,
+              setCourseFilterMobileisOpen,
+            }}
+          ></CourseFilterMobileMain>
+  
       </div>
     </Wrapper>
   );
@@ -74,9 +98,7 @@ const HeaderContent = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-
   transition: 0.3s;
-
   background-image: linear-gradient(
     -225deg,
     rgb(142, 45, 226, 0.5) 0%,
@@ -93,4 +115,20 @@ const HeaderContent = styled.div`
   @media ${device.tablet} {
     width: 100%;
   }
+`;
+
+const DesktopFilter = styled.div`
+  display: none;
+  @media (min-width: 600px) {
+    display: flex;
+    width: 40%;
+  }
+`;
+
+const MobileFilter = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid;
 `;

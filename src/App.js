@@ -22,6 +22,8 @@ export const UserContext = createContext();
 function App() {
   const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
 
+  const userAuth0 = user;
+
   const { data } = useGetUserByEmailQuery(user?.email);
 
   let userData;
@@ -113,6 +115,7 @@ function App() {
     userData,
     darkThemeActive,
     setDarkThemeActive,
+    userAuth0,
   };
 
   return (

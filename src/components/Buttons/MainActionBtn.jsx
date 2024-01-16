@@ -20,11 +20,11 @@ const Btn = styled.button`
   justify-content: center;
   align-items: center;
   border: none;
-  margin: 10px;
-  height: 40px;
-  width: 100px;
+  margin: 7px;
+  min-height: 50px;
+  // min-width: 350px;
+  // max-width: 350px;
   border-radius: 5px;
-
   border: 2px solid rgba(0, 240, 240, 1);
 
   background-color: ${(props) =>

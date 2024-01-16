@@ -12,12 +12,14 @@ import { UserContext } from "../../../App";
 import { ThemeStyles } from "../../../styles/ThemeStyles";
 import { BiFilter } from "react-icons/bi";
 
-function CourseFilterDesktopMain({ filterState, dropDownState }) {
+function CourseFilterDesktopMain({ filterState, dropDownState, sidePanel }) {
   const { filterTermsArr, setFilterTermsArr } = filterState;
   const { dropdownsSelected, setDropDownsSelected } = dropDownState;
 
-  // console.log("🚀 ~ CourseFilterDesktopMain ~ filterTermsArr:", filterTermsArr);
+  const { courseFilterMobileisOpen, setCourseFilterMobileisOpen } = sidePanel;
+
   const { darkThemeActive } = useContext(UserContext);
+
   const CrossIcon = () => {
     return <AiOutlineClose style={{ fontSize: "20px", strokeWidth: "1" }} />;
   };
@@ -81,23 +83,12 @@ export default CourseFilterDesktopMain;
 
 const Wrapper = styled.div`
   height: 100%;
+  width: 98%;
   background-color: white;
-  height: auto;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: start;
   justify-content: start;
-  width: 30%;
-  margin: 20px;
-  margin-right: 15px;
-
-  //   @media ${device.tablet} {
-  //     width: 25%;
-  //   }
-
-  //   @media ${device.mobileL} {
-  //     width: 35%;
-  //   }
 `;
 
 const Back = styled.button`

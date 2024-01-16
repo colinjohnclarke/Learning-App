@@ -123,7 +123,8 @@ const Box = styled.button`
     rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset,
     rgba(0, 0, 0, 0.2) 0px 5px 10px;
 
-  height: 80px;
+  min-height: 80px;
+
   width: 100%;
   display: flex;
   justify-content: center;

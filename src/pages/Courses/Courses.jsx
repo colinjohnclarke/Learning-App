@@ -9,7 +9,6 @@ import { Link } from "react-router-dom";
 import { defaultCoursesImages } from "../Dashboard/CourseFilter/DefaultCourseImages";
 import sanityClient from "../../createclient";
 import imageUrlBuilder from "@sanity/image-url";
-import CourseFilter from "../Dashboard/CourseFilter/CourseFilter";
 import CourseFilterButton from "../../components/Buttons/CourseFilterBtn";
 import PlaceHolderImg from "./PlaceHolderImg";
 import RecentCourses from "./RecentCourses";

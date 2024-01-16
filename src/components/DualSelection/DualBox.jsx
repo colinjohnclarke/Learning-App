@@ -102,9 +102,10 @@ const RightBox = styled.div`
 `;
 
 const Wrapper = styled.div`
+
   max-width: 700px;
   width: 100%; 
-  height: 110px; 
+  height: 120px; 
   display: none;
   display: flex;
   flex-direction: row;
@@ -125,6 +126,8 @@ const Num = styled.div`
 position: relative; 
 // left: -80px; 
 
+
+
   display: none;
   justify-content: center;
   align-items: center;
@@ -132,7 +135,6 @@ position: relative;
   width: 8px;
   padding: 10px;
   border-radius: 50%;
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
   transition: 0.3s;
   border: 2px solid rgba(0, 200, 200, 0.8);
   color: rgba(0, 200, 200, 0.8);
