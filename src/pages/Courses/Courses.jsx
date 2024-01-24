@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import styled from "styled-components";
 import DashboardHeader from "../Dashboard/DashboardHeader";
 import bookshelf from "../../assets/images/bookshelf.png";
@@ -193,6 +193,10 @@ function Courses() {
       setSelectStyle({ transform: "translateX(0%)", transition: "0.3s" });
     }
   };
+
+  useEffect(() => {
+    selectClickHandler("enroll");
+  }, []);
 
   const selected = {
     fontWeight: "500",

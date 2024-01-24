@@ -80,6 +80,8 @@ function Main() {
       )
       .then((result) => setData(result[0]))
       .catch(console.error);
+
+    window.scrollTo(0, 0);
   }, []);
 
   // useEffect(() => {
@@ -371,7 +373,9 @@ function Main() {
     }
   });
 
-  let currentPositioninCourse = numOfDisplayedItems + slideVal;
+  let currentPositioninCourse = 0;
+
+  currentPositioninCourse = numOfDisplayedItems + slideVal;
 
   if (!showPointsSummary) {
     calculateProgress =

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import { correctstyle } from "../../styles/colors";
 import HelpBtn from "../Buttons/HelpBtn";
@@ -8,13 +8,17 @@ import { myPortableTextComponents } from "../../config/sanity/portableText";
 import { PortableText } from "@portabletext/react";
 import { BiHelpCircle } from "react-icons/bi";
 import { device } from "../../styles/breakpoints";
+import { ThemeStyles } from "../../styles/ThemeStyles";
+import { UserContext } from "../../App";
 
 function GapFill({ index, data }) {
   const [correctAnswerIsSelected, setCorrectAnswerIsSelected] = useState(false);
   const [inputFieldGapFill, setInputFieldGapFill] = useState("");
   const [helpNeeded, setHelpNeeded] = useState(false);
+  const { darkThemeActive } = useContext(UserContext);
 
   const { acceptable_missing_words, hint, total_marks_available } = data;
+  console.log("🚀 ~ GapFill ~ hint:", hint);
 
   const acceptableMissingWordsArr = acceptable_missing_words.split(", ");
   let isCorrect = acceptableMissingWordsArr.includes(inputFieldGapFill);
@@ -66,17 +70,37 @@ function GapFill({ index, data }) {
         />
         {data.remainder}
       </Text>
-      <Hint
-        className={hintAnimateClass}
-        style={helpNeeded ? {} : { display: "none" }}
-      >
-        <BiHelpCircle style={{ width: "70px" }} />
-        {hint}
-      </Hint>
-      <HelpBtn
-        style={helpNeeded ? { display: "none" } : { display: "flex" }}
-        onClick={toggleHelp}
-      />
+
+      {hint && (
+        <>
+          <Hint
+            className={hintAnimateClass}
+            style={
+              helpNeeded
+                ? {
+                    display: "flex",
+                    margin: "20px",
+                    padding: "20px",
+                    backgroundColor: darkThemeActive
+                      ? ThemeStyles.lightThemePrimaryBackgroundColor
+                      : ThemeStyles.darkThemeSecondaryBackgroundColor,
+
+                    boxShadow: darkThemeActive
+                      ? ThemeStyles.lightThemeMainBoxShadow
+                      : ThemeStyles.darkThemeMainBoxShadow,
+                  }
+                : { display: "none" }
+            }
+          >
+            <BiHelpCircle style={{ width: "70px" }} />
+            {hint}
+          </Hint>
+          <HelpBtn
+            style={helpNeeded ? { display: "none" } : { display: "flex" }}
+            onClick={toggleHelp}
+          />
+        </>
+      )}
     </Wrapper>
   );
 }
@@ -84,7 +108,6 @@ function GapFill({ index, data }) {
 export default GapFill;
 
 const Wrapper = styled.div`
- 
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -34,7 +34,8 @@ function AnimatedBlockScore() {
   return (
     <Wrapper darkThemeActive={darkThemeActive}>
       <p style={{ fontWeight: "600", textSize: "1.3rem" }}>
-        Well done! You scored...
+        {percentage > 25 && <p>Well done!</p>}
+        <p>You scored...</p>
       </p>
       <Outer>
         <Inner>
@@ -53,7 +54,7 @@ function AnimatedBlockScore() {
             <linearGradient id="GradientColor">
               {/* <stop offset="0%" stop-color="rgba(39, 106, 245, 0.5)" /> */}
 
-              <stop offset="100%" stop-color="rgba(0,240,240,1)" />
+              <stop offset="100%" stop-color="rgba(0,245,245,1)" />
             </linearGradient>
           </defs>
           <Circle cx="80" cy="80" r="74" stroke-linecap="round" />

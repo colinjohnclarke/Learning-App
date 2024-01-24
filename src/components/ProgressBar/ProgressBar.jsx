@@ -6,18 +6,27 @@ import { device } from "../../styles/breakpoints";
 
 function ProgressBar() {
   const [progress, setProgress] = useState(0);
+  console.log("🚀 ~ ProgressBar ~ progress:", progress);
 
   let getCurrentpercentage = useSelector(
     (state) => state.progressbarreducer.percentage
   );
 
   useEffect(() => {
+    if (getCurrentpercentage < 0) {
+      setProgress((val) => 0);
+    }
+    console.log(
+      "🚀 ~ ProgressBar ~ getCurrentpercentage:",
+      getCurrentpercentage
+    );
     setProgress((val) => getCurrentpercentage.calculateProgress);
   }, [getCurrentpercentage]);
 
   const barStyle = {
     height: "9px",
     width: `${progress}%`,
+    //  width: `${100}%`,
     // width: `${50}%`,
     // width: "0%",
     borderRadius: "20px",
@@ -28,7 +37,11 @@ function ProgressBar() {
     maxWidth: "60vw",
   };
 
-  return <Wrapper>{<Bar style={barStyle}></Bar>}</Wrapper>;
+  return (
+    <Wrapper>
+      <Bar style={barStyle}></Bar>
+    </Wrapper>
+  );
 }
 
 export default ProgressBar;

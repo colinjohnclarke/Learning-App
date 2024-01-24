@@ -49,7 +49,7 @@ function TextSection({
           overflow: "hidden",
         }}
       >
-        {index + 2 !== length && continueArrowButton}
+        {index + 1 !== length && continueArrowButton}
       </div>
     </Wrapper>
   );
@@ -63,6 +63,7 @@ const Wrapper = styled.section`
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  min-height: 90vh;
 `;
 
 // <StartQuizBtn

@@ -65,7 +65,7 @@ const Wrapper = styled.button`
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
   transition: 0.3s;
-  background-color: rgba(0, 240, 240, 0.8);
+  background-color: rgba(0, 245, 245, 0.8);
   color: white;
   font-weight: 400;
   transition: 0.3s;

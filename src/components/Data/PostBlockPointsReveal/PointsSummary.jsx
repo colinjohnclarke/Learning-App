@@ -12,11 +12,13 @@ import "animate.css";
 import { UserContext } from "../../../App";
 
 import { ThemeStyles } from "../../../styles/ThemeStyles";
+import ConfettiDashboard from "../../Effects/ConfettiDashboard";
 
 function PointsSummary() {
   const { darkThemeActive } = useContext(UserContext);
   return (
     <PointsReveal darkThemeActive={darkThemeActive}>
+      <ConfettiDashboard />
       <PercentagePoints></PercentagePoints>
       <BlockQuestionsCorrect></BlockQuestionsCorrect>
       <ExperiencePoints></ExperiencePoints>

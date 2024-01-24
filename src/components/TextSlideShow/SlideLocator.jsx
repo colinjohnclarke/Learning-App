@@ -34,4 +34,5 @@ export default SlideLocator;
 const Wrapper = styled.div`
   border-radius: 100%;
   position: relative;
+  margin: 5px;
 `;

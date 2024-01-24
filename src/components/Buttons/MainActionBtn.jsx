@@ -37,10 +37,13 @@ const Btn = styled.button`
       ? ThemeStyles.lightThemeMainBoxShadow
       : ThemeStyles.darkThemeMainBoxShadow};
 
-  color: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemePrimaryFrontColor
-      : ThemeStyles.darkThemePrimaryFontColor};
+  p {
+    color: ${(props) =>
+      props.darkThemeActive
+        ? ThemeStyles.lightThemePrimaryFrontColor
+        : ThemeStyles.darkThemePrimaryFontColor};
+  }
+
   &:hover {
     transform: translateY(-1px);
     color: white;

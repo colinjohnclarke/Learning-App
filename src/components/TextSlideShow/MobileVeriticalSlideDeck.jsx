@@ -18,7 +18,7 @@ function MobileVerticalSlideDeck({
 
   const textArr = data.map((item, index) => {
     return (
-      <div key={index} style={{ padding: "20px" }}>
+      <div key={index} style={{ padding: "5px" }}>
         <TextSection
           currentslide={currentslide}
           setCurrentSlide={setCurrentSlide}

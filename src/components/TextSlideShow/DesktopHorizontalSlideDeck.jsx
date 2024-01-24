@@ -10,6 +10,8 @@ import "animate.css";
 import SlideShowNavBtn from "../Buttons/SlideShowNavBtn";
 import { device } from "../../styles/breakpoints";
 import { useDispatch } from "react-redux";
+import { GrNext } from "react-icons/gr";
+import { FcNext } from "react-icons/fc";
 
 function DesktopHorizontalSlideDeck({
   length,
@@ -70,7 +72,7 @@ function DesktopHorizontalSlideDeck({
   return (
     <Main>
       <SlideShowNavBtn style={leftbtnstyle} onClick={changeSlideLeft}>
-        <GrLinkNext style={{ width: "20px", transform: "rotate(180deg)" }} />
+        <FcNext size={50} style={{ transform: "rotate(180deg)" }} />
       </SlideShowNavBtn>
       <Wrapper>
         <Position style={{ backgroundColor: "rgb(0, 240, 240, 1)" }}>
@@ -120,7 +122,7 @@ function DesktopHorizontalSlideDeck({
       </Wrapper>
 
       <SlideShowNavBtn style={showRightBtn} onClick={changeSlideRight}>
-        <GrLinkNext />
+        <FcNext size={50} />
       </SlideShowNavBtn>
 
       {/* <StartQuizBtn
@@ -170,7 +172,7 @@ const LocationSlider = styled.div`
   // margin-bottom: 30px;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
   transition: 0.5s;
 

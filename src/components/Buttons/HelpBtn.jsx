@@ -22,11 +22,11 @@ const Btn = styled.button`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 7px;
+  margin: 15px;
   width: 50px;
   height: 50px;
-  border: 1px solid rgb(0, 245, 245);
-  border-radius: 50%;
+  border: 2px solid rgb(0, 245, 245);
+  border-radius: 4px;
   background-color: white;
 
   background-color: ${(props) =>

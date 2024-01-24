@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../App";
 import styled from "styled-components";
 import AllTimeLearningTimeBox from "./Scores/AllTimeLearningTimeBox";
@@ -22,17 +22,29 @@ import {
   ThemeStyles,
 } from "../../styles/ThemeStyles";
 
+import ConfettiDashboard from "../../components/Effects/ConfettiDashboard";
+
 function Dashboard() {
   const { userData, darkThemeActive } = useContext(UserContext);
-  console.log("🚀 ~ file: Dashboard.jsx:23 ~ Dashboard ~ userData:", userData);
 
   const user = useAuth0();
-  console.log("🚀 ~ file: Dashboard.jsx:26 ~ Dashboard ~ user:", user);
 
   // const { data, isLoading, isError, error } = useGetUserByEmailQuery(
   //   user?.email
   // );
 
+  const [dashBoardViewed, setDashBoardViewed] = useState(false);
+
+  useEffect(() => {
+    setDashBoardViewed((val) => !val);
+  }, [userData]);
+
+  const propsConfetti = {
+    particleSize: 5,
+    colors: ["rgba(0,245,245)"],
+    width: 1000,
+  };
+  window.scrollTo(0, 0);
   const loader = (
     <Loader>
       <GridLoader
@@ -46,15 +58,19 @@ function Dashboard() {
 
   return (
     <Wrapper darkThemeActive={darkThemeActive}>
+      {dashBoardViewed && <ConfettiDashboard />}
+
       <DashboardHeader />
       <Padding>
         {/* {!data && loader} */}
+
         <Main>
           <Greeting darkThemeActive={darkThemeActive}>
             <Welcome>
               <h3 style={{ color: "white" }}>
                 Welcome {userData?.user.firstName}
               </h3>
+
               <img
                 referrerpolicy="no-referrer"
                 style={{

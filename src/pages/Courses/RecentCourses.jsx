@@ -21,8 +21,10 @@ function RecentCourses() {
   const courses = FetchCoursefromSanity();
   const builder = imageUrlBuilder(sanityClient);
   const { userData, darkThemeActive } = useContext(UserContext);
+  console.log("🚀 ~ RecentCourses ~ userData:", userData);
 
   const { data } = useGetAllEnrolledCoursesDataQuery(userData?.user._id);
+  console.log("🚀 ~ RecentCourses ~ data:", data);
 
   const imgurlFor = (source) => {
     return builder.image(source);
@@ -33,6 +35,15 @@ function RecentCourses() {
       return subItem.courseName === item.courseName;
     });
 
+    const blocks = courses
+      .filter((course) => {
+        return course.courseName === item.courseName;
+      })
+      .sort((a, b) => {
+        return a.blockPositioninCourse - b.blockPositioninCourse;
+      });
+
+    // find which blocks user has completed and update continue button to start next block
     const blocksCompleted = userData?.user.blocksCompleted;
 
     const completedBlocks = blocksCompleted?.filter((block) => {
@@ -41,7 +52,14 @@ function RecentCourses() {
       );
     });
 
-    // const percentageCompletion = (completedBlocks.length / blocks.length) * 100;
+    const blocksRemaining = blocks?.filter((block) => {
+      return !completedBlocks.some(
+        (obj2) => obj2.blockName === block.blockName
+      );
+    });
+
+    const CoursePercentageCompletion =
+      (completedBlocks.length / blocks.length) * 100;
 
     const content = result?.coverImage ? (
       <img
@@ -108,8 +126,8 @@ function RecentCourses() {
               </p>
             </Text>
             <AnimatedPercentageScore
-              color="rgb(39, 106, 245, 1)"
-              // percentage={}
+              color="rgb(0, 245, 245)"
+              percentage={CoursePercentageCompletion}
             />
 
             {content ? (
@@ -127,42 +145,13 @@ function RecentCourses() {
     );
   });
 
-  const contentList = (
-    <Grid>
-      <Box style={{}} darkThemeActive={darkThemeActive}>
-        <Text>Hello</Text>
-      </Box>
-
-      <Box darkThemeActive={darkThemeActive}>
-        <Text>Hello</Text>
-      </Box>
-
-      <Box darkThemeActive={darkThemeActive}>
-        <Text>Hello</Text>
-      </Box>
-
-      <Box darkThemeActive={darkThemeActive}>
-        <Text>Hello</Text>
-      </Box>
-    </Grid>
-  );
   return (
     <Main
       style={{
-        // marginTop: "5px",
-        // margin: "10px",
-        // display: "flex",
-        // flexDirection: "column",
-        // justifyContent: "space-around",
-        // backgroundColor: "white",
         alignItems: "center",
         fontWeight: "500",
-        // height: "300px",
         width: "100%",
-
-        // marginTop: "70px",
         borderRadius: "5px",
-        // boxShadow: "0px 0px 30px 4px rgba(174, 196, 216, 0.25)",
       }}
     >
       {/* <PaddingBox /> */}

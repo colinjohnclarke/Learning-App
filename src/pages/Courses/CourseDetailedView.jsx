@@ -59,7 +59,6 @@ function CourseDetailedView() {
     };
 
     if (addCourseBtnClicked) {
-   
       addCourse();
     }
   }, [addCourseBtnClicked]);
@@ -86,6 +85,9 @@ function CourseDetailedView() {
   const blocksRemaining = blocks?.filter((block) => {
     return !completedBlocks.some((obj2) => obj2.blockName === block.blockName);
   });
+
+  const CoursePercentageCompletion =
+    (completedBlocks.length / blocks.length) * 100;
 
   function handleResize() {
     setWidth((width) => window.innerWidth);
@@ -136,7 +138,7 @@ function CourseDetailedView() {
             }}
             style={{ width: "200px" }}
           >
-            {buttonContent}
+            <p style={{ fontSize: "14px" }}>{buttonContent}</p>
           </MainActionBtn>
         ) : (
           <MainActionBtn
@@ -147,7 +149,7 @@ function CourseDetailedView() {
             }}
             style={{ width: "200px" }}
           >
-            {buttonContent}
+            <p  style={{ fontSize: "14px" }}>{buttonContent}</p>
           </MainActionBtn>
         )}
       </div>
@@ -204,8 +206,8 @@ function CourseDetailedView() {
           </MainActionBtn>
         </div>
         <AnimatedPercentageScore
-          color="rgb(39, 106, 245, 1)"
-          percentage={data?.courseData?.percentageProgress || 0}
+          color="rgb(0, 245, 245)"
+          percentage={CoursePercentageCompletion || 0}
           fontColor=""
         />
       </div>
@@ -220,7 +222,12 @@ function CourseDetailedView() {
           flexDirection: "row",
         }}
       >
-        <h1 style={{ color: "white" }}>completed!!</h1>
+        <h1 style={{ color: "white" }}>completed!! </h1>
+        <AnimatedPercentageScore
+          color="rgb(0, 245, 245)"
+          percentage={CoursePercentageCompletion || 0}
+          fontColor=""
+        />
         <img
           style={{
             height: "100px",

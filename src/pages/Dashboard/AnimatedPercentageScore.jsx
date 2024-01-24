@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled, { keyframes } from "styled-components";
 import "animate.css";
+import { UserContext } from "../../App";
+import { ThemeStyles } from "../../styles/ThemeStyles";
 
 function AnimatedPercentageScore({ percentage, color, fontColor }) {
-  const offset = 2 * Math.PI * 23;
+  const offset = 2 * Math.PI * 22.5;
   const current = (percentage / 100) * offset;
+
+  const { darkThemeActive } = useContext(UserContext);
 
   const anim = keyframes`
     100%{  stroke-dashoffset: ${offset - current}
@@ -23,10 +27,10 @@ function AnimatedPercentageScore({ percentage, color, fontColor }) {
   return (
     <Wrapper className="animate__animated animate__fadeIn ">
       <Outer>
-        <Inner>
+        <Inner darkThemeActive={darkThemeActive}>
           <p
             style={{
-              fontSize: "13px",
+              fontSize: "12px",
               fontWeight: "500",
               color: `${fontColor}`,
             }}
@@ -45,10 +49,13 @@ function AnimatedPercentageScore({ percentage, color, fontColor }) {
         >
           <defs>
             <linearGradient id="GradientColor">
-              <stop offset="100%" stop-color={`${color}`} />
+              <stop
+                offset="100%"
+                stop-color={`${color}` || "rgb(0,245, 245)"}
+              />
             </linearGradient>
           </defs>
-          <Circle cx="80" cy="79" r="23" stroke-linecap="round" />
+          <Circle cx="79" cy="79" r="22.5" stroke-linecap="round" />
         </Svg>
       </div>
     </Wrapper>
@@ -96,7 +103,18 @@ const Inner = styled.div`
   box-shadow: inset 4px 4px 2px 1px rgba(0, 0, 0, 0.15),
     inset -4px -4px 6px -1px rgba(255, 255, 255, 0.7),
     -0.5px -0.5px 0px rgba(255, 255, 255, 1);
-  background-color: white;
+
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
+
+  p {
+    color: ${(props) =>
+      props.darkThemeActive
+        ? ThemeStyles.lightThemePrimaryFrontColor
+        : ThemeStyles.darkThemePrimaryFontColor};
+  }
 `;
 
 const breatheAnimation = keyframes`

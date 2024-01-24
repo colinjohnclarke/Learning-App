@@ -141,11 +141,17 @@ const Box = styled.button`
 `;
 
 const Text = styled.p`
-  font-size: 14px;
+  font-size: 12px;
+
+  @media ${device.mobileM} {
+    p {
+      font-size: 13px;
+    }
+  }
 
   @media ${device.mobileL} {
     p {
-      font-size: 16px;
+      font-size: 14px;
     }
   }
 `;

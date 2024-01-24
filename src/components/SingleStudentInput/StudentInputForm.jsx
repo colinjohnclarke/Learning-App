@@ -191,6 +191,15 @@ function StudentInputForm({ updateStateFunctions, data, index }) {
 
   const hintStyle = {
     display: "flex",
+    margin: "20px",
+    padding: "20px",
+    backgroundColor: darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemeSecondaryBackgroundColor,
+
+    boxShadow: darkThemeActive
+      ? ThemeStyles.lightThemeMainBoxShadow
+      : ThemeStyles.darkThemeMainBoxShadow,
   };
 
   const handleFocusInput = () => {
@@ -219,23 +228,33 @@ function StudentInputForm({ updateStateFunctions, data, index }) {
         components={myPortableTextComponents}
       ></PortableText>
 
-      <HelpBtn
-        style={helpneeded ? { display: "none" } : { display: "flex" }}
-        onClick={helpBtnClickHandler}
-      ></HelpBtn>
+      {hint && (
+        <>
+          <HelpBtn
+            style={helpneeded ? { display: "none" } : { display: "flex" }}
+            onClick={helpBtnClickHandler}
+          ></HelpBtn>
 
-      <Hint
-        style={helpneeded ? hintStyle : hintstyleHidden}
-        className={
-          helpneeded
-            ? "animate__animated animate__backInRight animate__fast"
-            : ""
-        }
+          <Hint
+            style={helpneeded ? hintStyle : hintstyleHidden}
+            className={
+              helpneeded
+                ? "animate__animated animate__backInRight animate__fast"
+                : ""
+            }
+          >
+            <BiHelpCircle style={{ width: "70px" }} />
+            {hint}
+          </Hint>
+        </>
+      )}
+
+      <form
+        style={{
+          fontFamily: "Montserrat",
+        }}
+        onSubmit={handleSubmit}
       >
-        <BiHelpCircle style={{ width: "70px" }} />
-        {hint}
-      </Hint>
-      <form style={{ fontFamily: "Montserrat" }} onSubmit={handleSubmit}>
         <div
           className={animate}
           onClick={() => {
@@ -253,6 +272,7 @@ function StudentInputForm({ updateStateFunctions, data, index }) {
               height: "30px",
               width: "200px",
               padding: "10px",
+
               backgroundColor: darkThemeActive
                 ? ThemeStyles.lightThemePrimaryBackgroundColor
                 : ThemeStyles.darkThemePrimaryBackgroundColor,
@@ -276,9 +296,15 @@ function StudentInputForm({ updateStateFunctions, data, index }) {
 
           <label style={spanStyle}>{textfieldLabel}</label>
         </div>
+        <div style={{ height: "20px", width: "20px" }}></div>
 
         <MainActionBtn
-          style={{ backgroundColor: "rgb(00, 240, 240)", color: "white" }}
+          style={{
+            backgroundColor: "rgb(00, 245, 245)",
+            color: "white",
+            height: "55px",
+            width: "90px",
+          }}
           type="submit"
         >
           {" "}
@@ -319,11 +345,8 @@ const Hint = styled.div`
   align-items: center;
   transition: 0.3s;
   border-radius: 4px;
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
   width: 80%;
   max-width: 700px;
-  border: 2px solid rgba(0, 200, 200, 1);
-  color: rgba(0, 240, 240, 1);
   padding: 10px;
 `;
 

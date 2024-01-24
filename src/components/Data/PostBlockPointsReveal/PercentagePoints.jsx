@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { UserContext } from "../../../App";
-
 import { ThemeStyles } from "../../../styles/ThemeStyles";
 
 function PercentagePoints() {
