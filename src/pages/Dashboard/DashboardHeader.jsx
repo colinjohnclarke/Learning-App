@@ -8,6 +8,7 @@ import { UserContext } from "../../App";
 import NavigationBarDesktop from "../../components/Navigation/NavigationBarDesktop";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import SettingsBtnHeaderBar from "../../components/Settings/SettingsBtnHeaderBar/SettingsBtnHeaderBar";
+import FlameDayStreak from "../../components/DayStreak/FlameDayStreak";
 
 function DashboardHeader() {
   const { darkThemeActive } = useContext(UserContext);
@@ -34,7 +35,9 @@ function DashboardHeader() {
       {/* <LogoutBtn> Logout</LogoutBtn> */}
 
       <NavigationBarDesktop />
+    
       <SettingsBtnHeaderBar />
+
       {/* <Signup /> */}
     </Wrapper>
   );

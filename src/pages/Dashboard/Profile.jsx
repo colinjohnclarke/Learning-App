@@ -4,25 +4,18 @@ import DashboardHeader from "../Dashboard/DashboardHeader";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import { device } from "../../styles/breakpoints";
 import { UserContext } from "../../App";
+import NavigationBarMobile from "../../components/Navigation/NavigationBarMobile";
 
 function Profile() {
   const { darkThemeActive } = useContext(UserContext);
   return (
     <Wrapper darkThemeActive={darkThemeActive}>
       <DashboardHeader />
-      Profile
-      <div
-        style={{ height: "100px", width: "100px", border: "3px solid" }}
-      ></div>
+      <NavigationBarMobile />
     </Wrapper>
   );
 }
 
 export default Profile;
 
-const Wrapper = styled.div`
-  width: 100%;
-  border: 2px solid yellow;
-
-  background-color: red;
-`;
+const Wrapper = styled.div``;

@@ -13,8 +13,6 @@ import Profile from "../pages/Dashboard/Profile";
 import CourseDetailedView from "../pages/Courses/CourseDetailedView";
 
 function Routing({ navState }) {
-  const { selectedNav, setSelectedNav } = navState;
-
   return (
     <div>
       <Routes>
@@ -30,13 +28,11 @@ function Routing({ navState }) {
         {/* <Route path="/maths" element={<Testmath />}></Route> */}
         <Route path="/maths" element={<Maths />} />
         <Route
-          navState={{ selectedNav, setSelectedNav }}
           path="/courses/:subject/:courseName/:blockName"
           element={<Main />}
         />
 
         <Route
-          navState={{ selectedNav, setSelectedNav }}
           path="/courses/:subject/:courseName"
           element={<CourseDetailedView />}
         />

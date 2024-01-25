@@ -116,6 +116,8 @@ function App() {
     darkThemeActive,
     setDarkThemeActive,
     userAuth0,
+    selectedNav,
+    setSelectedNav,
   };
 
   return (
@@ -140,8 +142,7 @@ function App() {
           <BrowserRouter>
             <Drawer />
             <Header></Header>
-            <Routing navState={{ selectedNav, setSelectedNav }} />
-            <NavigationBarMobile navState={{ selectedNav, setSelectedNav }} />
+            <Routing />
           </BrowserRouter>
         )}
       </div>

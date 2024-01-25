@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import { UserContext } from "../../App";
@@ -18,9 +18,16 @@ import CourseFilterButtonSide from "../Dashboard/CourseFilter/CourseFilterButton
 
 function CourseFIlterResultDesktop({ filterState, dropDownState, sidePanel }) {
   const { filterTermsArr, setFilterTermsArr } = filterState;
-  const [userSearch, setUserSearch] = useState([]);
+  // const [userSearch, setUserSearch] = useState([]);
+
+  const [searchBarTerms, setSearchBarTerms] = useState("");
+
   const courses = FetchCoursefromSanity();
+
   const termsArr = Object.keys(filterTermsArr);
+
+  console.log("🚀 ~ CourseFIlterResultDesktop ~ termsArr:", termsArr);
+
   const { darkThemeActive } = useContext(UserContext);
   const builder = imageUrlBuilder(sanityClient);
 
@@ -31,7 +38,24 @@ function CourseFIlterResultDesktop({ filterState, dropDownState, sidePanel }) {
   };
 
   let content;
+  // let filteredCourses;
 
+  // useEffect(() => {
+  //   let filteredCourses = coursesSearchResult?.filter((item) => {
+  //     return (
+  //       (item.name && termsArr.some((term) => item.name.includes(term))) ||
+  //       (item.blockName &&
+  //         termsArr.some((term) => item.blockName.includes(term))) ||
+  //       (item.courseName &&
+  //         termsArr.some((term) => item.courseName.includes(term))) ||
+  //       (item.subject && termsArr.some((term) => item.subject.includes(term)))
+  //     );
+  //   });
+
+  //   setCoursesSearchResult(filteredCourses);
+  // }, [termsArr]);
+
+  // content to render if no search terms selected or no result
   if (!termsArr.length) {
     content = (
       <div
@@ -42,124 +66,118 @@ function CourseFIlterResultDesktop({ filterState, dropDownState, sidePanel }) {
           flexDirection: "column",
         }}
       >
-        <p>Start by searching or filtering..</p>
+        <p>Start by searching or filtering...</p>
 
         <img
-          style={{ height: "200px", width: "200px", borderRadius: "5px" }}
+          style={{
+            height: "160px",
+            width: "160px",
+            borderRadius: "5px",
+          }}
           src={bookshelf}
           alt=""
         />
       </div>
     );
-  } else if (termsArr.length) {
-    // filter courses based on search filters
-    const filteredCourses = courses.filter((item) => {
-      return (
-        (item.name && termsArr.some((term) => item.name.includes(term))) ||
-        (item.blockName &&
-          termsArr.some((term) => item.blockName.includes(term))) ||
-        (item.courseName &&
-          termsArr.some((term) => item.courseName.includes(term))) ||
-        (item.subject && termsArr.some((term) => item.subject.includes(term)))
-      );
-    });
-    // map
-    if (!filteredCourses.length) {
-      content = <p>Sorry, no search result</p>;
-    } else {
-      // filterd values present render results
-      content = filteredCourses.map((item, index) => {
-        // console.log("🚀 ~ content ~ item:", item);
-
-        const imgcontent = item.coverImage ? (
-          <img
-            alt=""
-            style={{
-              height: "100px",
-              width: "100px",
-            }}
-            src={imgurlFor(item.coverImage.asset._ref)}
-          />
-        ) : null;
-        return (
-          <Link
-            className="animate__animated animate__fadeIn"
-            style={{
-              display: "flex",
-              width: "100%",
-              textDecoration: "none",
-              animationDelay: `${index / 20}s`,
-            }}
-            to={`/courses/${item.subject}/${item.courseName}`}
-          >
-            <Box darkThemeActive={darkThemeActive}>
-              <Text>
-                {" "}
-                <p
-                  style={{
-                    fontSize: "12px",
-                    listStyle: "none",
-                    paddingLeft: "10px",
-                    fontWeight: "600",
-                  }}
-                >
-                  {item.subject}
-                </p>
-                <p
-                  style={{
-                    fontSize: "12px",
-                    listStyle: "none",
-                    padding: "12px",
-                  }}
-                >
-                  {item.courseName}
-                </p>
-                <p
-                  style={{
-                    fontSize: "13px",
-                    listStyle: "none",
-                    padding: "11px",
-                  }}
-                >
-                  {" "}
-                  {item.blockName}{" "}
-                </p>
-              </Text>
-
-              {imgcontent ? (
-                <Image>{imgcontent}</Image>
-              ) : (
-                <></> ||
-                //   <Img
-                //     src={
-                //       imgurl
-                //         ? imgurl.imageUrl
-                //         : "https://stpauls.fra1.digitaloceanspaces.com/wp-content/uploads/2022/04/28130914/SPS-logo-centred-POS.png"
-                //     }
-                //   ></Img> ||
-                null
-              )}
-            </Box>
-          </Link>
-        );
-      });
-    }
   }
+  // // map
+  // else if (!coursesSearchResult) {
+  //   content = <p>Sorry, no search result</p>;
+  // }
 
-  if (!content) {
-    content = (
-      <Loader>
-        <GridLoader
-          color={"rgb(0, 250, 250, 0.5)"}
-          // loading={loading}
-          // cssOverride={override}
-          size={25}
-          aria-label="Loading Spinner"
-          data-testid="loader"
-        />
-      </Loader>
-    );
-  }
+  // else {
+  //   // filterd values present render results
+  //   content = filteredCourses?.map((item, index) => {
+  //     // console.log("🚀 ~ content ~ item:", item);
+
+  //     const imgcontent = item.coverImage ? (
+  //       <img
+  //         alt=""
+  //         style={{
+  //           height: "100px",
+  //           width: "100px",
+  //         }}
+  //         src={imgurlFor(item.coverImage.asset._ref)}
+  //       />
+  //     ) : null;
+  //     return (
+  //       <Link
+  //         className="animate__animated animate__fadeIn"
+  //         style={{
+  //           display: "flex",
+  //           width: "100%",
+  //           textDecoration: "none",
+  //           animationDelay: `${index / 20}s`,
+  //         }}
+  //         to={`/courses/${item.subject}/${item.courseName}`}
+  //       >
+  //         <Box darkThemeActive={darkThemeActive}>
+  //           <Text>
+  //             {" "}
+  //             <p
+  //               style={{
+  //                 fontSize: "12px",
+  //                 listStyle: "none",
+  //                 paddingLeft: "10px",
+  //                 fontWeight: "600",
+  //               }}
+  //             >
+  //               {item.subject}
+  //             </p>
+  //             <p
+  //               style={{
+  //                 fontSize: "12px",
+  //                 listStyle: "none",
+  //                 padding: "12px",
+  //               }}
+  //             >
+  //               {item.courseName}
+  //             </p>
+  //             <p
+  //               style={{
+  //                 fontSize: "13px",
+  //                 listStyle: "none",
+  //                 padding: "11px",
+  //               }}
+  //             >
+  //               {" "}
+  //               {item.blockName}{" "}
+  //             </p>
+  //           </Text>
+
+  //           {imgcontent ? (
+  //             <Image>{imgcontent}</Image>
+  //           ) : (
+  //             <></> ||
+  //             //   <Img
+  //             //     src={
+  //             //       imgurl
+  //             //         ? imgurl.imageUrl
+  //             //         : "https://stpauls.fra1.digitaloceanspaces.com/wp-content/uploads/2022/04/28130914/SPS-logo-centred-POS.png"
+  //             //     }
+  //             //   ></Img> ||
+  //             null
+  //           )}
+  //         </Box>
+  //       </Link>
+  //     );
+  //   });
+  // }
+
+  // if (!content) {
+  //   content = (
+  //     <Loader>
+  //       <GridLoader
+  //         color={"rgb(0, 250, 250, 0.5)"}
+  //         // loading={loading}
+  //         // cssOverride={override}
+  //         size={25}
+  //         aria-label="Loading Spinner"
+  //         data-testid="loader"
+  //       />
+  //     </Loader>
+  //   );
+  // }
 
   const handleRemoveBtnClicked = (term) => {
     const keyToRemove = term;
@@ -173,13 +191,13 @@ function CourseFIlterResultDesktop({ filterState, dropDownState, sidePanel }) {
   const searchTermsButtons = termsArr.map((term) => {
     return (
       <div
-        className=" animate__animated animate__fadeIn"
+        className=" animate__animated animate__fadeIn animate__faster"
         darkThemeActive={darkThemeActive}
         style={{
           paddingLeft: "10px",
           height: "40px",
           minWidth: "150px",
-          border: "2px solid rgb(0, 245, 245)",
+          border: "1px solid rgb(0, 245, 245)",
           padding: "3px",
           borderRadius: "5px",
           display: "flex",
@@ -243,15 +261,31 @@ function CourseFIlterResultDesktop({ filterState, dropDownState, sidePanel }) {
               setCourseFilterMobileisOpen,
             }}
           />
-          <SearchCourses search={{ setUserSearch }} />
+          <SearchCourses
+            searchBarTerms={searchBarTerms}
+            setSearchBarTerms={setSearchBarTerms}
+            // termsArr={termsArr}
+            // setCoursesSearchResult={setCoursesSearchResult}
+            // coursesSearchResult={coursesSearchResult}
+            // search={{ setUserSearch }}
+          />
         </div>
 
-        <CourseSearchResult data={userSearch}></CourseSearchResult>
         <div style={{ height: "10px", width: "100%" }}></div>
         {searchTermsButtons}
       </div>
 
-      {content}
+      <CourseSearchResult
+        searchBarTerms={searchBarTerms}
+        setSearchBarTerms={setSearchBarTerms}
+        termsArr={termsArr}
+        // setCoursesSearchResult={setCoursesSearchResult}
+        // coursesSearchResult={coursesSearchResult}
+        // data={userSearch}
+      ></CourseSearchResult>
+
+
+      
     </Wrapper>
   );
 }
@@ -266,8 +300,7 @@ const Wrapper = styled.div`
 
   align-items: center;
   border-radius: 5px;
-  padding: 10px;
-  margin: 10px;
+  padding: 15px;
   width: 100%;
 `;
 

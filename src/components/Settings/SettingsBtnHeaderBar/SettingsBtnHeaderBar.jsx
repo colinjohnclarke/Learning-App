@@ -32,7 +32,7 @@ const Wrapper = styled.button`
   height: 30px;
   width: 30px;
   position: relative;
-  z-index: 200;
+  z-index: 300;
   padding: 3px;
   margin: 20px;
   border-radius: 50%;
@@ -44,7 +44,7 @@ const Wrapper = styled.button`
   box-shadow: ${(props) =>
     props.darkThemeActive
       ? `${ThemeStyles.lightThemeMainBoxShadow}, rgba(0, 0, 0, 0.15) 0px 3px 2px 2px`
-      : `${ThemeStyles.darkThemeMainBoxShadow},  0px 3px 5px 4px`};
+      : `${ThemeStyles.darkThemeMainBoxShadow}`};
 
   background-color: ${(props) =>
     props.darkThemeActive
@@ -61,6 +61,4 @@ const Wrapper = styled.button`
   }
 `;
 
-const Main = styled.div`
-  transition: 0s all;
-`;
+const Main = styled.div``;

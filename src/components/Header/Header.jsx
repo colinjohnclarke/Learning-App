@@ -51,7 +51,7 @@ function Header() {
     <Wrapper darkThemeActive={darkThemeActive}>
       <OpenDrawerBtn></OpenDrawerBtn>
       <ProgressBar></ProgressBar>
-      <SettingsBtnHeaderBar />
+      {/* <SettingsBtnHeaderBar /> */}
       {/* <Signup></Signup> */}
       {/* <LogoutBtn></LogoutBtn>
 

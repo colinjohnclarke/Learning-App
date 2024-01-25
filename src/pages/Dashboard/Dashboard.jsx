@@ -14,7 +14,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import sanityClient from "../../createclient";
 import GridLoader from "react-spinners/GridLoader";
 import Weekday from "../../components/Weekday";
-import { useGetAllEnrolledCoursesDataQuery } from "../../features/api/UserData/enrolledCourseDataSlice";
+
+import NavigationBarMobile from "../../components/Navigation/NavigationBarMobile";
 
 import { useGetUserByEmailQuery } from "../../features/api/UserData/userDataSlice";
 import {
@@ -23,9 +24,11 @@ import {
 } from "../../styles/ThemeStyles";
 
 import ConfettiDashboard from "../../components/Effects/ConfettiDashboard";
+import FlameDayStreak from "../../components/DayStreak/FlameDayStreak";
 
 function Dashboard() {
   const { userData, darkThemeActive } = useContext(UserContext);
+  console.log("🚀 ~ Dashboard ~ userData:", userData);
 
   const user = useAuth0();
 
@@ -94,6 +97,7 @@ function Dashboard() {
           </Greeting>
 
           {/* display user data */}
+          <div style={{ height: "10px" }}></div>
           <UserdataWrapper>
             <Box
               darkThemeActive={darkThemeActive}
@@ -106,17 +110,27 @@ function Dashboard() {
               style={{ margin: "5px 5px" }}
             >
               <AllTimeQuestionsAnsweredBox
-                data={userData?.user.totalQuestionsAttempted}
+                data={userData?.user.totalQuestionsAttempted || 0}
               />
             </Box>
             <Box
               darkThemeActive={darkThemeActive}
-              style={{ marginLeft: "5px" }}
+              style={{ margin: "5px 5px" }}
             >
               <AllTimeXPBox data={userData?.user.totalXP} />
             </Box>
+
+            <Box
+              style={{
+                marginLeft: "5px",
+              }}
+              darkThemeActive={darkThemeActive}
+            >
+              <FlameDayStreak />
+            </Box>
           </UserdataWrapper>
-          <div style={{ height: "5px" }}></div>
+          <div style={{ height: "10px" }}></div>
+
           <SearchCourse />
           <div style={{ height: "5px" }}></div>
           {/* display recent Courses */}
@@ -127,6 +141,7 @@ function Dashboard() {
           <LeaderBoard />
         </Main>
       </Padding>
+      <NavigationBarMobile />
     </Wrapper>
   );
 }
@@ -218,7 +233,7 @@ const UserdataWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 10px;
+  // margin: 10px;
 
   // max-width: 500px;
 
@@ -233,7 +248,7 @@ const Box = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   background-color: ${(props) =>
     props.darkThemeActive

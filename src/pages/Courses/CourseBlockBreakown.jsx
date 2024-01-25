@@ -75,7 +75,7 @@ function CourseBlockBreakdown({ data, completedBlocks, blocksRemaining }) {
     <Wrapper>
       <OverView darkThemeActive={darkThemeActive}>
         {" "}
-        Overview of course...
+        The learning journey...
       </OverView>
       {allBlocksinCourse}
     </Wrapper>

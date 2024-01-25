@@ -22,6 +22,7 @@ import { ThemeStyles } from "../../styles/ThemeStyles";
 import EnrollForCourse from "./EnrollForCourse";
 import { maxHeight } from "@mui/system";
 import HeaderColoredHightlight from "./HeaderColoredHightlight";
+import NavigationBarMobile from "../../components/Navigation/NavigationBarMobile";
 
 function Courses() {
   const courses = FetchCoursefromSanity();
@@ -271,6 +272,7 @@ function Courses() {
           </div>
         )}
       </Main>
+      <NavigationBarMobile />
     </Wrapper>
   );
 }

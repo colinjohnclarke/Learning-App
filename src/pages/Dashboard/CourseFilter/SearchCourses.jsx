@@ -10,60 +10,52 @@ import FetchCoursefromSanity from "./FetchCoursefromSanity";
 import { UserContext } from "../../../App";
 import { ThemeStyles } from "../../../styles/ThemeStyles";
 import CourseSearchResult from "../CourseSearchResult";
+import { RxCross2 } from "react-icons/rx";
 
-function SearchCourses({ search }) {
-  const [searchedResult, setSearchedResult] = useState({});
-  const [displaySearchResults, setDisplaySearchResult] = useState(false);
-  const coursesfromSanity = FetchCoursefromSanity();
+function SearchCourses({ setSearchBarTerms, searchBarTerms }) {
   const { darkThemeActive } = useContext(UserContext);
 
-  const {  setUserSearch } = search;
-
   const searchCourse = (val) => {
-    let result = coursesfromSanity.filter(
-      (course) =>
-        course.subject.toLowerCase().includes(val) ||
-        course.blockName.toLowerCase().includes(val) ||
-        course.courseName.toLowerCase().includes(val)
-    );
-
-    setUserSearch((res) => result);
+    setSearchBarTerms((prev) => val);
   };
 
-  let searchBoxHeight = searchedResult.length * 60 + 60;
-
   return (
-    <Outer
-      darkThemeActive={darkThemeActive}
-      style={{
-        height: displaySearchResults ? `${searchBoxHeight}px` : "60px",
-      }}
-    >
+    <Outer darkThemeActive={darkThemeActive}>
       <Main darkThemeActive={darkThemeActive}>
         <Wrapper darkThemeActive={darkThemeActive}>
-          <div>
-            <BsSearch />
-          </div>
-
+          {" "}
+          <BsSearch />
           <Input
             style={{
+              width: "100%",
+              paddingLeft: "10px",
               color: darkThemeActive
                 ? ThemeStyles.lightThemePrimaryFrontColor
                 : ThemeStyles.darkThemePrimaryFontColor,
             }}
             type="text"
             darkThemeActive={darkThemeActive}
+            value={searchBarTerms}
             onChange={(e) => {
               searchCourse(e.target.value.toLowerCase());
-              if (e.target.value) {
-                setDisplaySearchResult((val) => true);
-              } else {
-                setDisplaySearchResult((val) => false);
-                setSearchedResult({});
-              }
+              // if (e.target.value) {
+              //   setDisplaySearchResult((val) => true);
+              // } else {
+              //   setDisplaySearchResult((val) => false);
+              //   setSearchedResult({});
+              // }
             }}
             placeholder="Search our courses..."
           ></Input>
+          <Remove
+            onClick={(event) => {
+              event.preventDefault();
+              setSearchBarTerms((prev) => "");
+            }}
+            darkThemeActive={darkThemeActive}
+          >
+            <RxCross2 size={20} />
+          </Remove>
         </Wrapper>
       </Main>
     </Outer>
@@ -74,7 +66,7 @@ export default SearchCourses;
 
 const Wrapper = styled.form`
   height: 30px;
-  width: 94.5%;
+  width: 90.5%;
   // max-width: 880px;
   background-color: ${(props) =>
     props.darkThemeActive
@@ -86,9 +78,17 @@ const Wrapper = styled.form`
   padding: 8px;
   display: flex;
   flex-direction: row;
-  // justify-content: ;
+  justify-content: space-between;
   align-items: center;
   font-size: 12px;
+`;
+
+const Remove = styled.button`
+  border: none;
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
 `;
 
 const Input = styled.input`
@@ -96,9 +96,7 @@ const Input = styled.input`
   width: 50%;
   border: none;
   outline: none;
-  padding-left: 10px;
-
-  font-size: 16px;
+  font-size: 15px;
 
   color: ${(props) =>
     props.darkThemeActive

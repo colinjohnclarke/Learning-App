@@ -1,96 +1,77 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import { AiOutlineDashboard } from "react-icons/ai";
-import { BsActivity } from "react-icons/bs";
+
 import { device } from "../../styles/breakpoints";
 import { Link } from "react-router-dom";
-
-import {
-  GiBookshelf,
-  GiPlantsAndAnimals,
-  GiMaterialsScience,
-} from "react-icons/gi";
-import { IoMdNotificationsOutline, IoEarthSharp } from "react-icons/io";
-import { IoPersonOutline } from "react-icons/io5";
+import { ThemeStyles } from "../../styles/ThemeStyles";
+import { GiBookshelf } from "react-icons/gi";
 import { CiSettings } from "react-icons/ci";
-import { IconContext } from "react-icons";
-import { FaBeer } from "react-icons/fa";
-import { GoPersonFill } from "react-icons/go";
-import { BsPerson } from "react-icons/bs";
 
-function NavigationBarMobile({ navState }) {
-  // const [scrollDistance, setScrollDistance] = useState(0);
+import { BsPerson } from "react-icons/bs";
+import { UserContext } from "../../App";
+
+function NavigationBarMobile() {
   const [navHeight, setNavHeight] = useState(50);
+  const { darkThemeActive, selectedNav, setSelectedNav } =
+    useContext(UserContext);
+
+  console.log("🚀 ~ NavigationBarMobile ~ selectedNav:", selectedNav);
 
   useEffect(() => {
-    // const handleScroll = () => {
-    //   const distance = window.pageYOffset || 0;
-    //   setScrollDistance((val) => distance);
-    //   setNavHeight(Math.max(50 - distance * 0.5));
-    // };
-    // window.addEventListener("scroll", handleScroll);
-    // return () => {
-    //   window.removeEventListener("scroll", handleScroll);
-    // };
+    if (selectedNav.Dashboard) {
+      handleNavClicked("Dashboard");
+    }
   }, []);
-
-  const { selectedNav, setSelectedNav } = navState;
 
   const handleNavClicked = (nav) => {
     setSelectedNav((prevState) => ({ ...!prevState, [nav]: "true" }));
   };
 
-  useEffect(() => {
-    handleNavClicked("Dashboard");
-  }, []);
-
-  // useEffect(() => {
-  //   if (selectedNav.Courses === "true") {
-  //     handleNavClicked("Courses");
-  //   }
-
-  //   handleNavClicked("Dashboard");
-  // }, [selectedNav]);
-
   const selectedColor = "rgb(0, 250, 250)";
 
   const fontStyle = {
     fontSize: "10px",
-    transition: "0.3s",
   };
   const transition = { transition: "0.3s" };
 
-  let selectorPosition = "7.5%";
+  // let selectorPosition = "7.5%";
 
-  if (selectedNav.Dasboard) {
-    selectorPosition = "7.5%";
+  // if (selectedNav.Dasboard) {
+  //   selectorPosition = "7.5%";
+  // } else if (selectedNav.Courses) {
+  //   selectorPosition = "32.5%";
+  // } else if (selectedNav.Profile) {
+  //   selectorPosition = "57.5%";
+  // } else if (selectedNav.Settings) {
+  //   selectorPosition = "82.5%";
+  // }
+
+  if (selectedNav.Dashboard) {
+    console.log("dash");
   } else if (selectedNav.Courses) {
-    selectorPosition = "32.5%";
-  } else if (selectedNav.Profile) {
-    selectorPosition = "57.5%";
-  } else if (selectedNav.Settings) {
-    selectorPosition = "82.5%";
+    console.log("Courrses");
   }
 
   return (
     <Wrapper
+      darkThemeActive={darkThemeActive}
       // style={{ height: `${navHeight}px` }}
-
     >
-      <Selector
+      {/* <Selector
         style={{ transiton: "0.3s", left: selectorPosition }}
-      ></Selector>
+      ></Selector> */}
       <Link to={"/dashboard"} style={{ textDecoration: "none" }}>
         <Li onClick={() => handleNavClicked("Dashboard")}>
           <AiOutlineDashboard
             style={{ transition: "0.3s" }}
-            fill={selectedNav.Dashboard ? selectedColor : ""}
+            fill={selectedNav.Dashboard ? selectedColor : "grey"}
           />
           <p
             style={{
               ...transition,
               ...fontStyle,
-              color: selectedNav.Dashboard ? selectedColor : "black",
+              color: selectedNav.Dashboard ? selectedColor : "grey",
             }}
           >
             Dashboard
@@ -99,12 +80,12 @@ function NavigationBarMobile({ navState }) {
       </Link>
       <Link to={"/courses"} style={{ textDecoration: "none" }}>
         <Li onClick={() => handleNavClicked("Courses")}>
-          <GiBookshelf fill={selectedNav.Courses ? selectedColor : ""} />
+          <GiBookshelf fill={selectedNav.Courses ? selectedColor : "grey"} />
           <p
             style={{
               ...transition,
               ...fontStyle,
-              color: selectedNav.Courses ? selectedColor : "",
+              color: selectedNav.Courses ? selectedColor : "grey",
             }}
           >
             {" "}
@@ -114,12 +95,12 @@ function NavigationBarMobile({ navState }) {
       </Link>
       <Link to={"/profile"} style={{ textDecoration: "none" }}>
         <Li onClick={() => handleNavClicked("Profile")}>
-          <BsPerson fill={selectedNav.Profile ? selectedColor : ""} />
+          <BsPerson fill={selectedNav.Profile ? selectedColor : "grey"} />
           <p
             style={{
               ...transition,
               ...fontStyle,
-              color: selectedNav.Profile ? selectedColor : "",
+              color: selectedNav.Profile ? selectedColor : "grey",
             }}
           >
             Profile
@@ -129,12 +110,12 @@ function NavigationBarMobile({ navState }) {
 
       <Link to={"/settings"} style={{ textDecoration: "none" }}>
         <Li onClick={() => handleNavClicked("Settings")}>
-          <CiSettings fill={selectedNav.Settings ? selectedColor : ""} />
+          <CiSettings fill={selectedNav.Settings ? selectedColor : "grey"} />
           <p
             style={{
               ...transition,
               ...fontStyle,
-              color: selectedNav.Settings ? selectedColor : "",
+              color: selectedNav.Settings ? selectedColor : "grey",
             }}
           >
             Settings
@@ -160,7 +141,11 @@ const Wrapper = styled.div`
   align-items: center;
   box-shadow: 0px -4px 4px -5px rgba(0, 0, 0, 0.75);
   transiton: 0.3s;
-  color: black;
+
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemeSecondaryBackgroundColor};
 
   @media ${device.tablet} {
     // height: 50px;

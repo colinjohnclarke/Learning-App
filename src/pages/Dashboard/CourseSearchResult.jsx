@@ -7,19 +7,76 @@ import imageUrlBuilder from "@sanity/image-url";
 import sanityClient from "../../createclient";
 import { UserContext } from "../../App";
 import { ThemeStyles } from "../../styles/ThemeStyles";
+import FetchCoursefromSanity from "./CourseFilter/FetchCoursefromSanity";
 
-function CourseSearchResult({ data }) {
-  const newArr = data ? [...data] : [];
+import bookshelf from "../../assets/images/bookshelf.png";
+
+function CourseSearchResult({ termsArr, searchBarTerms }) {
+  const courses = FetchCoursefromSanity();
+
+  // const newArr = data ? [...data] : [];
+  // console.log("🚀 ~ CourseSearchResult ~ newArr:", newArr);
 
   const builder = imageUrlBuilder(sanityClient);
 
   const { darkThemeActive } = useContext(UserContext);
 
+  let filteredCourses;
+
+  if (termsArr.length) {
+    filteredCourses = courses?.filter((item) => {
+      return (
+        (item.name && termsArr.some((term) => item.name.includes(term))) ||
+        (item.blockName &&
+          termsArr.some((term) => item.blockName.includes(term))) ||
+        (item.courseName &&
+          termsArr.some((term) => item.courseName.includes(term))) ||
+        (item.subject && termsArr.some((term) => item.subject.includes(term)))
+      );
+    });
+  }
+
+  if (searchBarTerms) {
+    filteredCourses = courses.filter(
+      (course) =>
+        course.subject.toLowerCase().includes(searchBarTerms) ||
+        course.blockName.toLowerCase().includes(searchBarTerms) ||
+        course.courseName.toLowerCase().includes(searchBarTerms)
+    );
+  }
+
+  let noSearchRes = <></>;
+
+  if (!searchBarTerms && !termsArr.length) {
+    noSearchRes = (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+        }}
+      >
+        <p>Start by searching or filtering...</p>
+
+        <img
+          style={{
+            height: "160px",
+            width: "160px",
+            borderRadius: "5px",
+          }}
+          src={bookshelf}
+          alt=""
+        />
+      </div>
+    );
+  }
+
   const imgurlFor = (source) => {
     return builder.image(source);
   };
 
-  const searchResults = newArr?.map((item) => {
+  const searchResults = filteredCourses?.map((item, index) => {
     // deafault img
     let imgurl = defaultCoursesImages.find((subItem) => {
       return subItem.subject === item.subject;
@@ -42,29 +99,45 @@ function CourseSearchResult({ data }) {
     return (
       <Wrapper>
         <Link
-          style={{ display: "flex", width: "100%", textDecoration: "none" }}
+          className=" animate__animated animate__fadeIn"
+          style={{
+            display: "flex",
+            width: "100%",
+            textDecoration: "none",
+            animationDelay: `${index / 20}s`,
+          }}
           to={`/courses/${item.subject}/${item.courseName}`}
         >
           <Box darkThemeActive={darkThemeActive}>
             <Text>
-              <p
+              <Subject
                 style={{
-                  fontSize: "13px",
+                  fontSize: "12px",
                   listStyle: "none",
                   paddingLeft: "10px",
                   fontWeight: "600",
                 }}
               >
-                {item.subject} :
-              </p>
+                {item.subject}:
+              </Subject>
               <p
                 style={{
-                  fontSize: "13px",
+                  fontSize: "12px",
                   listStyle: "none",
                   paddingLeft: "10px",
                 }}
               >
                 {item.courseName}
+              </p>
+
+              <p
+                style={{
+                  fontSize: "12px",
+                  listStyle: "none",
+                  paddingLeft: "10px",
+                }}
+              >
+                {item.blockName}
               </p>
             </Text>
 
@@ -85,7 +158,30 @@ function CourseSearchResult({ data }) {
     );
   });
 
-  return searchResults;
+  return searchResults ? (
+    searchResults
+  ) : (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+      }}
+    >
+      <p>Start by searching or filtering...</p>
+
+      <img
+        style={{
+          height: "160px",
+          width: "160px",
+          borderRadius: "5px",
+        }}
+        src={bookshelf}
+        alt=""
+      />
+    </div>
+  );
 }
 
 export default CourseSearchResult;
@@ -103,7 +199,7 @@ const Box = styled.a`
   width: 100%;
   min-width: 290px;
   // padding: 4px;
-  margin: 3px;
+  margin: 4px;
   border-radius: 5px;
   text-decoration: none;
   display: flex;
@@ -119,21 +215,27 @@ const Box = styled.a`
 
   background-color: ${(props) =>
     props.darkThemeActive
-      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      ? "white"
       : ThemeStyles.darkThemePrimaryBackgroundColor};
 
   box-shadow: ${(props) =>
     props.darkThemeActive
-      ? " rgba(0, 0, 0, 0.15) 0px 1px 1px 0px;"
+      ? ThemeStyles.lightThemeMainBoxShadow
       : ThemeStyles.darkThemeMainBoxShadow};
 
-  transition: 0.3s;
-
   &:hover {
-    transition: 0.2s;
     box-shadow: rgb(0, 255, 255) 0px 0px 2px 1px,
       rgb(39, 106, 245, 0.7) 2px 2px 2px 1px;
     background-color: rgb(39, 106, 245, 0.01);
+  }
+`;
+
+const Subject = styled.div`
+  display: none;
+
+  @media ${device.mobileL} {
+    display: block;
+    font-weight: 500;
   }
 `;
 

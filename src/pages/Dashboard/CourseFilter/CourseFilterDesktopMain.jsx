@@ -11,6 +11,8 @@ import { AiOutlineClose } from "react-icons/ai";
 import { UserContext } from "../../../App";
 import { ThemeStyles } from "../../../styles/ThemeStyles";
 import { BiFilter } from "react-icons/bi";
+import { IoMdArrowBack } from "react-icons/io";
+
 
 function CourseFilterDesktopMain({ filterState, dropDownState, sidePanel }) {
   const { filterTermsArr, setFilterTermsArr } = filterState;
@@ -55,15 +57,14 @@ function CourseFilterDesktopMain({ filterState, dropDownState, sidePanel }) {
           width: "100%",
 
           margin: "5px",
-          padding: "5px",
         }}
       >
-        <BiFilter
+        {/* <BiFilter
           fill={darkThemeActive ? "rgb(200, 200, 200)" : "white"}
           size={25}
-        ></BiFilter>
+        ></BiFilter> */}
         <MainActionBtn
-          style={{ margin: "0px" }}
+          style={{ marginRight: "4px" }}
           onClick={() => {
             console.log("clicked");
             setFilterTermsArr([]);
@@ -74,7 +75,7 @@ function CourseFilterDesktopMain({ filterState, dropDownState, sidePanel }) {
         </MainActionBtn>
       </div>
 
-      {filterContent}
+      <FilterDiv>{filterContent}</FilterDiv>
     </Wrapper>
   );
 }
@@ -83,12 +84,24 @@ export default CourseFilterDesktopMain;
 
 const Wrapper = styled.div`
   height: 100%;
-  width: 98%;
+  width: 100%;
   background-color: white;
   display: flex;
   flex-direction: column;
   align-items: start;
   justify-content: start;
+`;
+
+const FilterDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: 97%;
+
+  padding-right: 4px;
+  padding-left: 4px;
 `;
 
 const Back = styled.button`

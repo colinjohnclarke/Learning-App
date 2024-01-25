@@ -152,7 +152,6 @@ function DropDown({
           justifyContent: "space-between",
           width: "100%",
           height: "50px",
-
           position: "relative",
           borderRadius: "5px",
         }}
@@ -185,6 +184,7 @@ function DropDown({
               backgroundColor: darkThemeActive
                 ? ThemeStyles.lightThemePrimaryBackgroundColor
                 : ThemeStyles.darkThemeSecondaryBackgroundColor,
+              borderRadius: "5px",
             }}
           >
             {data.name}
@@ -197,6 +197,7 @@ function DropDown({
               justifyContent: "center",
               height: "100%",
               width: "30%",
+              borderRadius: "5px",
             }}
           >
             <ShowSelected
@@ -227,7 +228,7 @@ function DropDown({
 export default DropDown;
 
 const Li = styled.li`
-  margin-top: 4px;
+  margin-top: 8px;
   border-radius: 5px;
 
   background-color: ${(props) =>

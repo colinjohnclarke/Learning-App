@@ -12,8 +12,6 @@ function SettingsDrawerDesktop({ controllers }) {
 
   const { userData, userAuth0, darkThemeActive, setDarkThemeActive } =
     useContext(UserContext);
-  console.log("🚀 ~ SettingsDrawerDesktop ~ userAuth0:", userAuth0);
-  console.log("userData HELLOW", userData);
 
   const menuRef = useRef(null);
 
@@ -23,16 +21,16 @@ function SettingsDrawerDesktop({ controllers }) {
     setIsChecked(!isChecked);
     setDarkThemeActive((val) => !val);
   };
-  let animate = "animate__animated animate__fadeOutRightBig animate__faster";
+  let position = "-100%";
 
   if (settingDrawerIsOpen) {
-    animate = "animate__animated animate__fadeInRight animate__faster";
+    position = "0%";
   }
 
   return (
     <Wrapper
+      position={position}
       ref={menuRef}
-      className={animate}
       darkThemeActive={darkThemeActive}
     >
       <Outer
@@ -40,35 +38,38 @@ function SettingsDrawerDesktop({ controllers }) {
           setSettingsDrawerIsOpen((val) => false);
         }}
       ></Outer>
-      <div style={{ height: "50px" }}></div>
-      <div style={{ height: "50px" }}>
-        <p style={{ fontweight: "600" }}>
-          {userData?.user.firstName ||
-            userAuth0?.name ||
-            userAuth0.family_name ||
-            userAuth0.email}
-        </p>
-      </div>
 
-      <Box>
-        <p>Sound Effects</p>
-        <Label class="switch">
-          <Input type="checkbox" />
-          <Span></Span>
-        </Label>
-      </Box>
-      <Box>
-        <p>Dark mode</p>
-        <Label class="switch">
-          <Input
-            checked={isChecked}
-            onChange={handleCheckboxChange}
-            type="checkbox"
-          />
-          <Span></Span>
-        </Label>
-      </Box>
-      <LogoutBtn />
+      <Drawer darkThemeActive={darkThemeActive}>
+        <div style={{ height: "50px" }}></div>
+        <div style={{ height: "50px" }}>
+          <p style={{ fontweight: "600" }}>
+            {userData?.user.firstName ||
+              userAuth0?.name ||
+              userAuth0.family_name ||
+              userAuth0.email}
+          </p>
+        </div>
+
+        <Box>
+          <p>Sound Effects</p>
+          <Label class="switch">
+            <Input type="checkbox" />
+            <Span></Span>
+          </Label>
+        </Box>
+        <Box>
+          <p>Dark mode</p>
+          <Label class="switch">
+            <Input
+              checked={isChecked}
+              onChange={handleCheckboxChange}
+              type="checkbox"
+            />
+            <Span></Span>
+          </Label>
+        </Box>
+        <LogoutBtn />
+      </Drawer>
     </Wrapper>
   );
 }
@@ -76,6 +77,7 @@ function SettingsDrawerDesktop({ controllers }) {
 export default SettingsDrawerDesktop;
 
 const Outer = styled.div`
+  // background-color: grey;
   height: 100vh;
   width: 100vw;
   position: absolute;
@@ -84,25 +86,30 @@ const Outer = styled.div`
   right: 0;
 `;
 
-const Wrapper = styled.div`
-  opacity: 1;
-  width: 200px;
-  position: absolute;
-  z-index: 0;
-  top: 0px;
-  right: 0px;
+const Drawer = styled.div`
+  height: 100%;
+  width: 100%;
   background-color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor
       : ThemeStyles.darkThemePrimaryBackgroundColor};
 
-  box-shadow: 0px 0px 30px 4px rgba(174, 196, 216, 0.25);
+  box-shadow: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemeMainBoxShadow
+      : ThemeStyles.darkThemeMainBoxShadow};
   border-radius: 5px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: start;
-  padding: 10px;
+  padding: 15px;
+  margin-right: 10px;
+  transition: 0s;
+
+  @media ${device.tablet} {
+    margin-right: 40px;
+  }
 
   p {
     font-size: 14px;
@@ -111,13 +118,19 @@ const Wrapper = styled.div`
         ? ThemeStyles.lightThemePrimaryFrontColor
         : ThemeStyles.darkThemePrimaryFontColor};
   }
+`;
 
-  @media ${device.tablet} {
-    width: 200px;
-    top: 0px;
-    right: 0px;
-    box-shadow: 0px 0px 30px 4px rgba(174, 196, 216, 0.25);
-  }
+const Wrapper = styled.div`
+  width: 200px;
+  position: absolute;
+  z-index: 0;
+  transition: 0.3s;
+  top: 0px;
+  right: ${(props) => props.position};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  // justify-content: start;
 `;
 
 const Box = styled.div`
@@ -128,7 +141,7 @@ const Box = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-left: 10px;
-  margin-right: 10px;
+  margin-right: 20px;
   padding-left: 6px;
   padding-right: 6px;
 
