@@ -280,8 +280,7 @@ function Main() {
 
   useEffect(() => {
     if (currentblockprogressdata.startQuiz) {
-      console.log("start quiz");
-
+  
       setItemDisplayed((prevState) => {
         const newState = [...prevState];
         newState[1] = true;

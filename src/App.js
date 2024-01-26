@@ -30,7 +30,6 @@ function App() {
 
   if (data) {
     userData = data;
-    console.log("🚀 ~ file: App.js:31 ~ App ~ userData121:", userData);
   }
 
   // const domain = process.env.REACT_APP_AUTH0_DOMAIN;

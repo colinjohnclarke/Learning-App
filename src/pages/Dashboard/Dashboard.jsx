@@ -28,7 +28,6 @@ import FlameDayStreak from "../../components/DayStreak/FlameDayStreak";
 
 function Dashboard() {
   const { userData, darkThemeActive } = useContext(UserContext);
-  console.log("🚀 ~ Dashboard ~ userData:", userData);
 
   const user = useAuth0();
 

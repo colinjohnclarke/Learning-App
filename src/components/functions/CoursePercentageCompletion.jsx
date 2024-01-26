@@ -22,10 +22,7 @@ function CoursePercentageCompletion({ subject, courseName }) {
   });
 
   const percentageCompletion = (completedBlocks.length / blocks.length) * 100;
-  console.log(
-    "🚀 ~ file: CoursePercentageCompletion.jsx:29 ~ CoursePercentageCompletion ~ percentageCompletion:",
-    percentageCompletion
-  );
+
 
   return percentageCompletion;
 }

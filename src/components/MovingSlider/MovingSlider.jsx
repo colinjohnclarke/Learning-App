@@ -31,7 +31,6 @@ function MovingSlider({
   }
 
   const sliderData = data;
-  // console.log("🚀 ~ file: MovingSlider.jsx:38 ~ sliderData:", sliderData);
 
   const allcorrect =
     sliderCorrectList.filter((item) => item === true).length ===
@@ -199,7 +198,6 @@ function MovingSlider({
 export default MovingSlider;
 
 const Wrapper = styled.div`
-
   display: flex;
   flex-direction: column;
   align-items: center;

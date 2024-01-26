@@ -16,10 +16,7 @@ function ProgressBar() {
     if (getCurrentpercentage < 0) {
       setProgress((val) => 0);
     }
-    console.log(
-      "🚀 ~ ProgressBar ~ getCurrentpercentage:",
-      getCurrentpercentage
-    );
+
     setProgress((val) => getCurrentpercentage.calculateProgress);
   }, [getCurrentpercentage]);
 

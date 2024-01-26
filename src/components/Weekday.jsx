@@ -9,8 +9,6 @@ function Weekday() {
 
   const day = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
 
-  console.log(day[dayOfWeekIndex]);
-
   const list = day.map((dayofweek) => {
     let borderStyle = "2px white dotted";
 
