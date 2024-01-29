@@ -5,7 +5,7 @@ import bookshelf from "../../assets/images/bookshelf.png";
 import SearchCourse from "../../components/Search/SearchCourse";
 import FetchCoursefromSanity from "../Dashboard/CourseFilter/FetchCoursefromSanity";
 import { device } from "../../styles/breakpoints";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { defaultCoursesImages } from "../Dashboard/CourseFilter/DefaultCourseImages";
 import sanityClient from "../../createclient";
 import imageUrlBuilder from "@sanity/image-url";
@@ -36,6 +36,8 @@ function Courses() {
   const [selection, setSelection] = useState("recentCourses");
 
   const builder = imageUrlBuilder(sanityClient);
+
+
 
   // const [addEnrolledCourse] = useAddEnrolledCourseMutation();
   const { data } = useGetAllEnrolledCoursesDataQuery(userData?.user._id);

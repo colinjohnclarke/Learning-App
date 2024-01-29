@@ -18,7 +18,6 @@ function GapFill({ index, data }) {
   const { darkThemeActive } = useContext(UserContext);
 
   const { acceptable_missing_words, hint, total_marks_available } = data;
-  console.log("🚀 ~ GapFill ~ hint:", hint);
 
   const acceptableMissingWordsArr = acceptable_missing_words.split(", ");
   let isCorrect = acceptableMissingWordsArr.includes(inputFieldGapFill);

@@ -4,12 +4,21 @@ import { ThemeStyles } from "../../styles/ThemeStyles";
 import { device } from "../../styles/breakpoints";
 import { UserContext } from "../../App";
 import CourseFIlterResultDesktop from "./CourseFIlterResultDesktop";
+import { useLocation } from "react-router-dom";
 
 import CourseFilterDesktopMain from "../Dashboard/CourseFilter/CourseFilterDesktopMain";
 import HeaderColoredHightlight from "./HeaderColoredHightlight";
 import CourseFilterMobileMain from "../Dashboard/CourseFilter/CourseFilterMobileMain";
 
 function EnrollForCourse() {
+  const location = useLocation();
+  console.log("🚀 ~ Courses ~ location:", location);
+
+  const searchParams = new URLSearchParams(location.search);
+  console.log("🚀 ~ Courses ~ searchParams:", searchParams);
+  const query = searchParams.get("query");
+  console.log("🚀 ~ Courses ~ query:", query);
+
   const { darkThemeActive } = useContext(UserContext);
   const [filterTermsArr, setFilterTermsArr] = useState({});
 
@@ -38,6 +47,7 @@ function EnrollForCourse() {
         {" "}
         <DesktopFilter>
           <CourseFilterDesktopMain
+          
             filterState={{ filterTermsArr, setFilterTermsArr }}
             dropDownState={{ dropdownsSelected, setDropDownsSelected }}
             sidePanel={{
@@ -47,6 +57,7 @@ function EnrollForCourse() {
           />
         </DesktopFilter>
         <CourseFIlterResultDesktop
+          query={query}
           filterState={{ filterTermsArr, setFilterTermsArr }}
           dropDownState={{ dropdownsSelected, setDropDownsSelected }}
           sidePanel={{
@@ -54,16 +65,14 @@ function EnrollForCourse() {
             setCourseFilterMobileisOpen,
           }}
         />
-
-          <CourseFilterMobileMain
-            filterState={{ filterTermsArr, setFilterTermsArr }}
-            dropDownState={{ dropdownsSelected, setDropDownsSelected }}
-            sidePanel={{
-              courseFilterMobileisOpen,
-              setCourseFilterMobileisOpen,
-            }}
-          ></CourseFilterMobileMain>
-  
+        <CourseFilterMobileMain
+          filterState={{ filterTermsArr, setFilterTermsArr }}
+          dropDownState={{ dropdownsSelected, setDropDownsSelected }}
+          sidePanel={{
+            courseFilterMobileisOpen,
+            setCourseFilterMobileisOpen,
+          }}
+        ></CourseFilterMobileMain>
       </div>
     </Wrapper>
   );

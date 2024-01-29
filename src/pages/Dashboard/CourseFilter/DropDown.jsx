@@ -14,7 +14,6 @@ function DropDown({
   dropdownsSelected,
   setDropDownsSelected,
 }) {
-  console.log("🚀 ~ filterTermsArr:", filterTermsArr);
   const [buttonColor, setButtonColor] = useState("white");
 
   const [isChecked, setIsChecked] = useState(false);

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import AnimateCountFunction from "../../../components/functions/AnimateCountFunction";
-
+import { GoQuestion } from "react-icons/go";
 function AllTimeQuestionsAnsweredBox({ data }) {
   const questionAttempted = data;
   let counter = 0;
@@ -14,7 +14,9 @@ function AllTimeQuestionsAnsweredBox({ data }) {
 
   return (
     <Wrapper>
-      <Points>{counter}</Points> Questions
+      <Points>{counter}</Points>
+      <div style={{ height: "10px" }}></div>
+      Questions
     </Wrapper>
   );
 }
@@ -33,7 +35,7 @@ const Wrapper = styled.p`
 `;
 
 const Points = styled.div`
-  color: rgb(0, 255, 255);
+  color: blue;
   font-weight: 700;
   font-size: 16px;
 `;

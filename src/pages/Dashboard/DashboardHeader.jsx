@@ -8,7 +8,8 @@ import { UserContext } from "../../App";
 import NavigationBarDesktop from "../../components/Navigation/NavigationBarDesktop";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import SettingsBtnHeaderBar from "../../components/Settings/SettingsBtnHeaderBar/SettingsBtnHeaderBar";
-import FlameDayStreak from "../../components/DayStreak/FlameDayStreak";
+
+import UserProgressData from "./UserProgressData";
 
 function DashboardHeader() {
   const { darkThemeActive } = useContext(UserContext);
@@ -18,24 +19,30 @@ function DashboardHeader() {
     <Wrapper darkThemeActive={darkThemeActive}>
       <OpenDrawerBtn />
 
-      <div
+      <Logo
         style={{
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          // position: "absolute",
         }}
       >
         {" "}
         <p style={{ fontWeight: "500", color: "rgb(0, 230, 230)" }}>
           SPS online
         </p>
-        <img style={{ height: "40px" }} src={spslogo} alt="" />
-      </div>
+        {/* <img style={{ height: "40px" }} src={spslogo} alt="" /> */}
+      </Logo>
 
       {/* <LogoutBtn> Logout</LogoutBtn> */}
 
       <NavigationBarDesktop />
-    
+
+      <Data style={{ position: "relative" }}>
+        {" "}
+        <UserProgressData />
+      </Data>
+
       <SettingsBtnHeaderBar />
 
       {/* <Signup /> */}
@@ -71,5 +78,39 @@ const Wrapper = styled.div`
 
   @media ${device.tablet} {
     height: 60px;
+  }
+`;
+
+const Data = styled.div`
+  display: none;
+  @media ${device.mobileM} {
+    display: flex;
+    position: relative;
+    left: 20%;
+  }
+
+  @media ${device.mobileM} {
+    display: flex;
+    position: relative;
+    left: 25%;
+  }
+
+  @media ${device.tablet} {
+    display: flex;
+    position: relative;
+    left: 30%;
+  }
+`;
+
+const Logo = styled.div`
+  position: absolute;
+  right: 45%;
+
+  @media ${device.tablet} {
+    right: 47%;
+  }
+
+  @media ${device.laptopL} {
+    right: 50%;
   }
 `;

@@ -1,7 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import AnimateCountFunction from "../../../components/functions/AnimateCountFunction";
+import { FcClock } from "react-icons/fc";
 
+import { BsSmartwatch } from "react-icons/bs";
 function AllTimeLearningTimeBox({ data }) {
   let allTimeLearningTime = data / 1000 / 60;
 
@@ -21,7 +23,8 @@ function AllTimeLearningTimeBox({ data }) {
 
   return (
     <Wrapper>
-      <Points>{counter} mins </Points> learning
+      <Points>{counter} mins </Points>
+      <div style={{ height: "10px" }}></div> learning
     </Wrapper>
   );
 }

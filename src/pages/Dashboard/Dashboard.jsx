@@ -14,20 +14,19 @@ import { useAuth0 } from "@auth0/auth0-react";
 import sanityClient from "../../createclient";
 import GridLoader from "react-spinners/GridLoader";
 import Weekday from "../../components/Weekday";
+import DailyGoal from "../../components/DayStreak/DailyGoal/DailyGoal";
 
 import NavigationBarMobile from "../../components/Navigation/NavigationBarMobile";
 
 import { useGetUserByEmailQuery } from "../../features/api/UserData/userDataSlice";
-import {
-  lightThemePrimaryBackgroundColor,
-  ThemeStyles,
-} from "../../styles/ThemeStyles";
+import { ThemeStyles } from "../../styles/ThemeStyles";
 
 import ConfettiDashboard from "../../components/Effects/ConfettiDashboard";
 import FlameDayStreak from "../../components/DayStreak/FlameDayStreak";
 
 function Dashboard() {
   const { userData, darkThemeActive } = useContext(UserContext);
+  console.log("🚀 ~ Dashboard ~ userData:", userData);
 
   const user = useAuth0();
 
@@ -112,22 +111,21 @@ function Dashboard() {
                 data={userData?.user.totalQuestionsAttempted || 0}
               />
             </Box>
-            <Box
-              darkThemeActive={darkThemeActive}
-              style={{ margin: "5px 5px" }}
-            >
+            <Box darkThemeActive={darkThemeActive} style={{ margin: "5px" }}>
               <AllTimeXPBox data={userData?.user.totalXP} />
             </Box>
 
             <Box
-              style={{
-                marginLeft: "5px",
-              }}
+              style={{ marginLeft: "5px" }}
               darkThemeActive={darkThemeActive}
             >
               <FlameDayStreak />
+              <Mobile style={{ margin: "0px" }}> days</Mobile>
+              <Streak style={{ margin: "0px" }}> day streak</Streak>
             </Box>
           </UserdataWrapper>
+
+          <DailyGoal />
           <div style={{ height: "10px" }}></div>
 
           <SearchCourse />
@@ -232,7 +230,7 @@ const UserdataWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  // margin: 10px;
+  margin-bottom: 10px;
 
   // max-width: 500px;
 
@@ -265,6 +263,23 @@ const Box = styled.div`
       props.darkThemeActive
         ? ThemeStyles.lightThemePrimaryFrontColor
         : ThemeStyles.darkThemePrimaryFontColor};
+  }
+`;
+
+const Streak = styled.p`
+  display: none;
+
+  @media (min-width: 500px) {
+    display: block;
+    font-size: 14px;
+  }
+`;
+
+const Mobile = styled.p`
+  font-size: 15px;
+
+  @media (min-width: 500px) {
+    display: none;
   }
 `;
 

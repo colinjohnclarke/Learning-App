@@ -12,7 +12,7 @@ function FillMissingValuesTable({ data }) {
   const [predictedvaluerange, setPredictedValueRange] = useState([]);
   const [predictedValue, setPredictedValue] = useState("");
   const [expectedAnswers, setExpectedAnswers] = useState([]);
-  const { animateClass, setAnimateClass } = useState("");
+  const [animateClass, setAnimateClass] = useState("");
   const [style, setStyle] = useState({
     transition: "0.3s",
     textAlign: "center",
@@ -181,6 +181,7 @@ function FillMissingValuesTable({ data }) {
                             //     ? "animate__animated animate__rubberBand"
                             //     : "animate__animated"
                             // }
+                            className={animateClass}
                             style={style}
                             placeholder="?"
                             maxLength="5"

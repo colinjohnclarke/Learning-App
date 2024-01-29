@@ -280,7 +280,6 @@ function Main() {
 
   useEffect(() => {
     if (currentblockprogressdata.startQuiz) {
-  
       setItemDisplayed((prevState) => {
         const newState = [...prevState];
         newState[1] = true;
@@ -380,8 +379,6 @@ function Main() {
     calculateProgress =
       ((currentPositioninCourse - 1) / totalLengthofCourse) * 100;
   } else calculateProgress = 100;
-
-  console.log("calculateProgress", calculateProgress);
 
   const [updateUserData] = useUpdateUserDataMutation();
 

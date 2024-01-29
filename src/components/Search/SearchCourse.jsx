@@ -1,4 +1,6 @@
 import React, { useState, useContext } from "react";
+
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { BsSearch } from "react-icons/bs";
 import { AiOutlineClose } from "react-icons/ai";
@@ -12,12 +14,13 @@ import { ThemeStyles } from "../../styles/ThemeStyles";
 import { UserContext } from "../../App";
 
 function SearchCourse() {
-  const [searchedResult, setSearchedResult] = useState({});
+  const [searchedResult, setSearchedResult] = useState("");
   const [displaySearchResults, setDisplaySearchResult] = useState(false);
 
   const coursesfromSanity = FetchCoursefromSanity();
 
   const { darkThemeActive } = useContext(UserContext);
+  const navigate = useNavigate();
 
   // let contentNameFromSanity = "biology_blocks";
   // let blockName = "photosynthesis_required_practical";
@@ -45,111 +48,26 @@ function SearchCourse() {
   let searchBoxHeight = searchedResult.length * 60 + 60;
 
   return (
-    <Outer
-      darkThemeActive={darkThemeActive}
-      style={{
-        height: displaySearchResults ? `${searchBoxHeight}px` : "60px",
-      }}
-    >
+    <Outer darkThemeActive={darkThemeActive}>
       <Main darkThemeActive={darkThemeActive}>
-        <Wrapper darkThemeActive={darkThemeActive}>
+        <Wrapper
+          onSubmit={(e) => {
+            navigate(`/courses?query=${searchedResult}`);
+          }}
+          darkThemeActive={darkThemeActive}
+        >
           <div>
             <BsSearch />
           </div>
           <Input
-            darkThemeActive={darkThemeActive}
             onChange={(e) => {
-              searchCourse(e.target.value.toLowerCase());
-              if (e.target.value) {
-                setDisplaySearchResult((val) => true);
-              } else {
-                setDisplaySearchResult((val) => false);
-                setSearchedResult({});
-              }
+              setSearchedResult(e.target.value);
             }}
+            darkThemeActive={darkThemeActive}
             type="text"
             placeholder="Search our courses..."
           ></Input>
-
-          {!searchedResult.length && displaySearchResults && (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-around",
-                // alignItems: "start",
-                height: "60px",
-              }}
-            >
-              <div>
-                <NoResultDesktop
-                  style={{
-                    height: "60px",
-                    width: "150px",
-                    fontSize: "13px",
-                    textAlign: "center",
-                  }}
-                >
-                  {" "}
-                  Sorry, no search result can i suggest this...
-                </NoResultDesktop>
-
-                <NoResultMobile
-                  style={{
-                    height: "60px",
-                    width: "150px",
-                    fontSize: "13px",
-                    textAlign: "center",
-                  }}
-                >
-                  Sorry... no search result
-                </NoResultMobile>
-              </div>
-
-              <SuggestedCourse>
-                <Link
-                  style={{
-                    display: "flex",
-                    justifyContent: "end",
-                    alignItems: "center",
-                    width: "100%",
-                    textDecoration: "none",
-                  }}
-                  to={"/courses/biology"}
-                >
-                  <Box
-                    style={{
-                      width: "50%",
-                      height: "90%",
-
-                      // border: "1px solid",
-                    }}
-                  >
-                    <p
-                      style={{
-                        fontSize: "12px",
-                        fontWeight: "600",
-                        backgroundColor: "white",
-                      }}
-                    >
-                      {allCoursesList[Math.floor(Math.random() * 10)].blockName}{" "}
-                      :
-                    </p>
-                    <p
-                      style={{
-                        fontSize: "12px",
-                      }}
-                    >
-                      {
-                        allCoursesList[Math.floor(Math.random() * 10)]
-                          .courseName
-                      }
-                    </p>
-                  </Box>
-                </Link>
-              </SuggestedCourse>
-            </div>
-          )}
+          <h1>{searchedResult}</h1>
         </Wrapper>
 
         {displaySearchResults && <CourseSearchResult data={searchedResult} />}

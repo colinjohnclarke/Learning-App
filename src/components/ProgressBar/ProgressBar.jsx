@@ -6,7 +6,6 @@ import { device } from "../../styles/breakpoints";
 
 function ProgressBar() {
   const [progress, setProgress] = useState(0);
-  console.log("🚀 ~ ProgressBar ~ progress:", progress);
 
   let getCurrentpercentage = useSelector(
     (state) => state.progressbarreducer.percentage

@@ -15,8 +15,9 @@ function AllTimeXPBox({ data }) {
 
   return (
     <Wrapper>
-      <XP>{counter}</XP> XP
-      
+      <XP>{counter} Xp </XP>
+      <div style={{ height: "10px" }}></div>
+      Scored
     </Wrapper>
   );
 }
@@ -27,18 +28,16 @@ const Wrapper = styled.p`
   height: 100%;
   width: 100%;
   display: flex;
+  flex-direction: column;
+
   justify-content: center;
   align-items: center;
-  justify-content: space-between;
-  flex-direction: column;
+
   font-size: 15px;
-
-
 `;
 
 const XP = styled.div`
-  color: blue;
+  color: rgb(0, 255, 255);
   font-weight: 700;
   font-size: 16px;
-  
 `;

@@ -22,7 +22,13 @@ function SearchCourses({ setSearchBarTerms, searchBarTerms }) {
   return (
     <Outer darkThemeActive={darkThemeActive}>
       <Main darkThemeActive={darkThemeActive}>
-        <Wrapper darkThemeActive={darkThemeActive}>
+        <Wrapper
+          onSubmit={(e) => {
+            e.preventDefault();
+            searchCourse(e.target.value.toLowerCase());
+          }}
+          darkThemeActive={darkThemeActive}
+        >
           {" "}
           <BsSearch />
           <Input

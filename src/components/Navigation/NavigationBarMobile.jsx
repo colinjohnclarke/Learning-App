@@ -48,9 +48,7 @@ function NavigationBarMobile() {
   // }
 
   if (selectedNav.Dashboard) {
-    console.log("dash");
   } else if (selectedNav.Courses) {
-    console.log("Courrses");
   }
 
   return (

@@ -21,10 +21,8 @@ function RecentCourses() {
   const courses = FetchCoursefromSanity();
   const builder = imageUrlBuilder(sanityClient);
   const { userData, darkThemeActive } = useContext(UserContext);
-  console.log("🚀 ~ RecentCourses ~ userData:", userData);
 
   const { data } = useGetAllEnrolledCoursesDataQuery(userData?.user._id);
-  console.log("🚀 ~ RecentCourses ~ data:", data);
 
   const imgurlFor = (source) => {
     return builder.image(source);

@@ -20,7 +20,7 @@ import { GiCorkHat } from "react-icons/gi";
 export const UserContext = createContext();
 
 function App() {
-  const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
+  const { isAuthenticated, user } = useAuth0();
 
   const userAuth0 = user;
 
@@ -30,6 +30,7 @@ function App() {
 
   if (data) {
     userData = data;
+    console.log("🚀 ~ App ~ userData:", userData);
   }
 
   // const domain = process.env.REACT_APP_AUTH0_DOMAIN;
@@ -48,7 +49,6 @@ function App() {
     Settings: "false",
     courseView: "false",
   });
-  console.log("🚀 ~ file: App.js:43 ~ App ~ selectedNav:", selectedNav);
 
   const [darkThemeActive, setDarkThemeActive] = useState(true);
   const [silentModeActive, setSilentModeActive] = useState(true);
