@@ -14,7 +14,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import sanityClient from "../../createclient";
 import GridLoader from "react-spinners/GridLoader";
 import Weekday from "../../components/Weekday";
-import DailyGoal from "../../components/DayStreak/DailyGoal/DailyGoal";
+import DashboardStreakXPProgressView from "../../components/DayStreak/DashboardStreakXPProgressView";
 
 import NavigationBarMobile from "../../components/Navigation/NavigationBarMobile";
 
@@ -111,21 +111,15 @@ function Dashboard() {
                 data={userData?.user.totalQuestionsAttempted || 0}
               />
             </Box>
-            <Box darkThemeActive={darkThemeActive} style={{ margin: "5px" }}>
-              <AllTimeXPBox data={userData?.user.totalXP} />
-            </Box>
-
             <Box
-              style={{ marginLeft: "5px" }}
               darkThemeActive={darkThemeActive}
+              style={{ marginLeft: "5px" }}
             >
-              <FlameDayStreak />
-              <Mobile style={{ margin: "0px" }}> days</Mobile>
-              <Streak style={{ margin: "0px" }}> day streak</Streak>
+              <AllTimeXPBox data={userData?.user.totalXP} />
             </Box>
           </UserdataWrapper>
 
-          <DailyGoal />
+          <DashboardStreakXPProgressView />
           <div style={{ height: "10px" }}></div>
 
           <SearchCourse />
@@ -263,23 +257,6 @@ const Box = styled.div`
       props.darkThemeActive
         ? ThemeStyles.lightThemePrimaryFrontColor
         : ThemeStyles.darkThemePrimaryFontColor};
-  }
-`;
-
-const Streak = styled.p`
-  display: none;
-
-  @media (min-width: 500px) {
-    display: block;
-    font-size: 14px;
-  }
-`;
-
-const Mobile = styled.p`
-  font-size: 15px;
-
-  @media (min-width: 500px) {
-    display: none;
   }
 `;
 

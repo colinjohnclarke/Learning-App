@@ -15,6 +15,16 @@ import {
 import { Line } from "react-chartjs-2";
 import { ThemeStyles } from "../../../styles/ThemeStyles";
 
+export const dayOfWeekMap = new Map([
+  [0, "Sunday"],
+  [1, "Monday"],
+  [2, "Tuesday"],
+  [3, "Wednesday"],
+  [4, "Thursday"],
+  [5, "Friday"],
+  [6, "Saturday"],
+]);
+
 function DailyGoal() {
   const { darkThemeActive } = useContext(UserContext);
 
@@ -34,16 +44,6 @@ function DailyGoal() {
     Legend
   );
 
-  const dayOfWeekMap = new Map([
-    [0, "Sunday"],
-    [1, "Monday"],
-    [2, "Tuesday"],
-    [3, "Wednesday"],
-    [4, "Thursday"],
-    [5, "Friday"],
-    [6, "Saturday"],
-  ]);
-
   const prevDaysOfWeek = lastWeekDates
     .map((date) => {
       const dateOfWeek = new Date(date);
@@ -51,22 +51,29 @@ function DailyGoal() {
       return dayOfWeekMap.get(day).substring(0, 3);
     })
     .reverse();
-  console.log("🚀 ~ DailyGoal ~ prevDaysOfWeek:", prevDaysOfWeek);
 
-  // console.log("🚀 ~ prevDaysOfWeek ~ prevDaysOfWeek:", prevDaysOfWeek);
+  const xpScoredEachDayLastWeek = lastWeekDates
+    .map((date) => {
+      const subItems = dataFromPrevWeek?.filter(
+        (item) => item.timeStamp.substring(0, 10) === date
+      );
+      console.log("🚀 ~ .map ~ subItems:", subItems);
 
-  const test = [5, 19, 15, 25, 33, 35, 45];
+      let combinedXP = 0;
 
-  // const xpScoredEachDayLastWeek = lastWeekDates.map((day, index) => {
-  //   const date = new Date(day);
+      subItems?.forEach((item) => {
+        combinedXP += item.XPScored;
+      });
+      console.log("🚀 ~ combinedXP:", combinedXP);
 
-  //   console.log("🚀 ~ xpScoredEachDayLastWeek ~ date:", date);
-  //   const dateFromQuiz = dataFromPrevWeek.map((subDay) => {
-  //     if (new Date(subDay.timeStamp).getTime() === date.getTime()) {
-  //       return subDay.XpScored;
-  //     }
-  //   });
-  // });
+      return combinedXP;
+    })
+    .reverse();
+
+  console.log(
+    "🚀 ~ xpScoredEachDayLastWeek ~ xpScoredEachDayLastWeek:",
+    xpScoredEachDayLastWeek
+  );
 
   // console.log(
   //   "🚀 ~ xpScoredEachDayLastWeek ~ xpScoredEachDayLastWeek:",
@@ -76,9 +83,24 @@ function DailyGoal() {
   // console.log("xpScoredEachDayLastWeek", xpScoredEachDayLastWeek);
   const options = {
     responsive: true,
+    layout: {
+      padding: {
+        top: 20,
+        right: 30,
+        bottom: 20,
+        left: 20,
+      },
+    },
     plugins: {
       legend: {
         display: false,
+        labels: {
+          font: {
+            family: "Quicksand",
+            size: 12,
+            weight: "normal",
+          },
+        },
       },
     },
     scales: {
@@ -86,20 +108,33 @@ function DailyGoal() {
         grid: {
           display: false,
         },
+        ticks: {
+          font: {
+            family: "Quicksand",
+            size: 14,
+            weight: "normal",
+          },
+        },
       },
       y: {
         grid: {
           display: false,
         },
+        ticks: {
+          font: {
+            family: "Quicksand",
+            size: 14,
+            weight: "normal",
+          },
+        },
       },
     },
   };
-
   const data = {
     labels: prevDaysOfWeek,
     datasets: [
       {
-        data: test,
+        data: xpScoredEachDayLastWeek,
         borderColor: "rgb(0, 245, 245)",
         backgroundColor: darkThemeActive
           ? ThemeStyles.lightThemePrimaryBackgroundColor
@@ -108,31 +143,7 @@ function DailyGoal() {
     ],
   };
 
-  return (
-    <div
-      style={{
-        height: "300px",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-
-        width: "100%",
-        borderRadius: "4px",
-
-        backgroundColor: darkThemeActive
-          ? ThemeStyles.lightThemePrimaryBackgroundColor
-          : ThemeStyles.darkThemePrimaryBackgroundColor,
-        boxShadow: darkThemeActive
-          ? ThemeStyles.lightThemeMainBoxShadow
-          : ThemeStyles.darkThemeMainBoxShadow,
-      }}
-    >
-      {" "}
-      {/* Daily Goal */}
-      <Line options={options} data={data} />
-    </div>
-  );
+  return <Line options={options} data={data} />;
 }
 
 export default DailyGoal;
