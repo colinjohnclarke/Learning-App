@@ -77,10 +77,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
 
-  box-shadow: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemeMainBoxShadow
-      : ThemeStyles.darkThemeMainBoxShadow};
+xd
   position: fixed;
   z-index: 100;
 

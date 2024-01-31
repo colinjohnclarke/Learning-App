@@ -6,42 +6,107 @@ import { UserContext } from "../../App";
 import { FaCheck } from "react-icons/fa";
 import { GiCheckMark } from "react-icons/gi";
 import { FaCheckCircle } from "react-icons/fa";
-import { arrOfDatesQuiZCompletedLastWeek } from "./FlameDayStreak";
-import { dayOfWeekMap } from "./DailyGoal/DailyGoal";
+import { arrOfDatesQuizCompletedLastWeek } from "./FlameDayStreak";
+import { AiFillQuestionCircle } from "react-icons/ai";
+
+import { dayOfWeekMap } from "./DailyGoal/XPointsGraph";
 import LastWeekDates from "./LastWeekDates";
 
 function DayStreakDaysView() {
   const lastWeekDates = LastWeekDates();
 
-  const daysCompleted = arrOfDatesQuiZCompletedLastWeek.map((item) => {
+  const { darkThemeActive } = useContext(UserContext);
+
+  const daysCompleted = arrOfDatesQuizCompletedLastWeek.map((item) => {
     const day = new Date(item).getDay();
     const dayValue = dayOfWeekMap.get(day);
     return dayValue;
   });
 
+  const date = new Date();
+  const today = dayOfWeekMap.get(date.getDay());
+
   const content = lastWeekDates.map((date, index) => {
     const day = new Date(date).getDay();
-    const letter = dayOfWeekMap.get(day);
+    const letterOfDay = dayOfWeekMap.get(day);
 
-    return (
-      <Day>
-        <P>{letter.substring(0, 1)} </P>
-        <DayIcon
-          style={{
-            backgroundColor: daysCompleted.find((item) => item === letter)
-              ? "orange"
-              : "lightgrey",
-          }}
-        >
-          {daysCompleted.find((item) => item === letter) ? (
-            <FaCheckCircle size={22} fill="white" />
-          ) : null}
-        </DayIcon>
-      </Day>
-    );
+    let icon;
+
+    if (daysCompleted.find((item) => item === letterOfDay)) {
+      icon = (
+        <>
+          <P
+            style={{
+              color: darkThemeActive
+                ? ThemeStyles.lightThemePrimaryFrontColor
+                : ThemeStyles.darkThemePrimaryFontColor,
+            }}
+          >
+            {letterOfDay.substring(0, 1)}{" "}
+          </P>
+          <DayIcon
+            style={{
+              backgroundColor: "orange",
+            }}
+          >
+            <FaCheckCircle
+              size={23}
+              fill={darkThemeActive ? "white" : "black"}
+            />
+          </DayIcon>
+        </>
+      );
+    } else if (
+      !daysCompleted.find((item) => item === today) &&
+      letterOfDay === today
+    ) {
+      icon = (
+        <>
+          <P
+            style={{
+              color: "rgb(0, 245, 245)",
+            }}
+          >
+            {letterOfDay.substring(0, 1)}{" "}
+          </P>
+
+          <DayIcon
+            style={{
+              backgroundColor: "rgb(0, 245, 245)",
+            }}
+          >
+            <AiFillQuestionCircle
+              size={23}
+              fill={darkThemeActive ? "white" : "black"}
+            />
+          </DayIcon>
+        </>
+      );
+    } else {
+      icon = (
+        <>
+          <P
+            style={{
+              color: darkThemeActive
+                ? ThemeStyles.lightThemePrimaryFrontColor
+                : ThemeStyles.darkThemePrimaryFontColor,
+            }}
+          >
+            {letterOfDay.substring(0, 1)}{" "}
+          </P>
+          <DayIcon
+            style={{
+              backgroundColor: "grey",
+            }}
+          >
+            {/* <FaCheckCircle size={23} fill={darkThemeActive ? "white" : "black"} /> */}
+          </DayIcon>
+        </>
+      );
+    }
+
+    return <Day>{icon}</Day>;
   });
-
-  console.log("🚀 ~ content ~ content:", content);
 
   return <Outer>{content.reverse()}</Outer>;
 }
@@ -49,11 +114,13 @@ function DayStreakDaysView() {
 export default DayStreakDaysView;
 
 const DayIcon = styled.div`
-  height: 23px;
-  width: 23px;
+  height: 25px;
+  width: 25px;
   border-radius: 50%;
-  margin: 3px;
+  margin: 2px;
+  padding: 2px;
   display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
 `;

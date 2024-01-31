@@ -1,10 +1,13 @@
 import React, { useContext } from "react";
-import DailyGoal from "./DailyGoal/DailyGoal";
+import DailyGoal from "./DailyGoal/XPointsGraph";
 import styled from "styled-components";
 import { UserContext } from "../../App";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import DayStreakPanel from "./DayStreakPanel";
 import { device } from "../../styles/breakpoints";
+import XPointsGraph from "./DailyGoal/XPointsGraph";
+
+import SetDailyGoalBtn from "./DailyGoal/SetDailyGoalBtn";
 
 function DashboardStreakXPProgressView() {
   const { darkThemeActive } = useContext(UserContext);
@@ -18,24 +21,36 @@ function DashboardStreakXPProgressView() {
         // alignItems: "center",
       }}
     >
-      <Graph darkThemeActive={darkThemeActive}>
-        <h2
-          style={{
-            fontSize: "15px",
-            color: darkThemeActive
-              ? ThemeStyles.lightThemePrimaryFrontColor
-              : ThemeStyles.darkThemePrimaryFontColor,
-          }}
-        >
-          Daily Progress
-        </h2>
-        <DailyGoal />
-      </Graph>
-      <Gap></Gap>
-
       <DayStreak darkThemeActive={darkThemeActive}>
         <DayStreakPanel />
       </DayStreak>
+      <Gap></Gap>
+      <Graph darkThemeActive={darkThemeActive}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
+          <h2
+            style={{
+              padding: "5px",
+              fontSize: "15px",
+              color: darkThemeActive
+                ? ThemeStyles.lightThemePrimaryFrontColor
+                : ThemeStyles.darkThemePrimaryFontColor,
+            }}
+          >
+            Daily Progress
+          </h2>
+          <SetDailyGoalBtn />
+        </div>
+
+        <DailyGoal />
+      </Graph>
     </Wrapper>
   );
 }
@@ -63,7 +78,7 @@ const Graph = styled.div`
       ? ThemeStyles.lightThemeMainBoxShadow
       : ThemeStyles.darkThemeMainBoxShadow};
 
-  @media ${device.mobileL} {
+  @media (min-width: 550px) {
     // margin-right: 5px;
     width: 49%;
   }
@@ -86,7 +101,7 @@ const DayStreak = styled.div`
       ? ThemeStyles.lightThemeMainBoxShadow
       : ThemeStyles.darkThemeMainBoxShadow};
 
-  @media ${device.mobileL} {
+  @media (min-width: 550px) {
     // margin-left: 5px;
     width: 49%;
     margin-top: 0px;
@@ -95,7 +110,7 @@ const DayStreak = styled.div`
 
 const Gap = styled.div`
   display: none;
-  @media ${device.mobileL} {
+  @media (min-width: 550px) {
     display: block;
     width: 2%;
     max-width: 20px;

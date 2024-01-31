@@ -25,14 +25,12 @@ export const dayOfWeekMap = new Map([
   [6, "Saturday"],
 ]);
 
-function DailyGoal() {
+function XPointsGraph() {
   const { darkThemeActive } = useContext(UserContext);
 
   const dataFromPrevWeek = DataFromPrevWeek();
-  console.log("🚀 ~ DailyGoal ~ dataFromPrevWeek:", dataFromPrevWeek);
 
   const lastWeekDates = LastWeekDates();
-  console.log("🚀 ~ DailyGoal ~ lastWeekDates:", lastWeekDates);
 
   ChartJS.register(
     CategoryScale,
@@ -57,30 +55,17 @@ function DailyGoal() {
       const subItems = dataFromPrevWeek?.filter(
         (item) => item.timeStamp.substring(0, 10) === date
       );
-      console.log("🚀 ~ .map ~ subItems:", subItems);
 
       let combinedXP = 0;
 
       subItems?.forEach((item) => {
         combinedXP += item.XPScored;
       });
-      console.log("🚀 ~ combinedXP:", combinedXP);
 
       return combinedXP;
     })
     .reverse();
 
-  console.log(
-    "🚀 ~ xpScoredEachDayLastWeek ~ xpScoredEachDayLastWeek:",
-    xpScoredEachDayLastWeek
-  );
-
-  // console.log(
-  //   "🚀 ~ xpScoredEachDayLastWeek ~ xpScoredEachDayLastWeek:",
-  //   xpScoredEachDayLastWeek
-  // );
-
-  // console.log("xpScoredEachDayLastWeek", xpScoredEachDayLastWeek);
   const options = {
     responsive: true,
     layout: {
@@ -146,4 +131,4 @@ function DailyGoal() {
   return <Line options={options} data={data} />;
 }
 
-export default DailyGoal;
+export default XPointsGraph;
