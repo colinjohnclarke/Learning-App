@@ -65,7 +65,7 @@ export default SetDailyGoalBtn;
 const Wrapper = styled.div`
   padding: 10px;
   height: 30px;
-  width: 100px;
+  width: 110px;
   border-radius: 5px;
   display: flex;
   flex-direction: row;
@@ -77,8 +77,6 @@ const Wrapper = styled.div`
       ? ThemeStyles.lightThemePrimaryBackgroundColor
       : ThemeStyles.darkThemeSecondaryBackgroundColor};
 `;
-
-
 
 const Inner = styled.div`
   height: 100%;
@@ -96,21 +94,30 @@ const Inner = styled.div`
 const Btn = styled.button`
   height: 30px;
   width: 30px;
-  margin-left: 2px;
+  border-radius: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
   background-color: ${(props) =>
     props.darkThemeActive
-      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      ? "lightgrey"
       : ThemeStyles.darkThemeTertiaryBackgroundColor};
 
-  border-radius: 5px;
+  border-radius: 50%;
   border: none;
+  margin-left: 2px;
+
   box-shadow: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemeMainBoxShadow
       : ThemeStyles.darkThemeMainBoxShadow};
 
   &:hover {
-    background-color: lightgrey;
+    box-shadow: rgb(0, 255, 255) 0px 0px 2px 1px,
+      rgb(39, 106, 245, 0.7) 2px 2px 2px 1px;
+
+    background-color: #e0e0e0;
   }
 `;

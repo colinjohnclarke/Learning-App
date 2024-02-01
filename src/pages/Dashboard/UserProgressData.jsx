@@ -25,7 +25,7 @@ function UserProgressData() {
       >
         {" "}
         {userData?.user.totalXP}{" "}
-        <DiRubyRough style={{}} size={30} fill="rgb(0, 240, 240)" />
+        <DiRubyRough style={{}} size={30} fill="rgb(138,43,226)" />
       </div>
 
       {/* <div style={{ width: "10px" }}></div> */}

@@ -1,63 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { TbTargetArrow } from "react-icons/tb";
 import MainActionBtn from "../../Buttons/MainActionBtn";
+import { UserContext } from "../../../App";
+import { ThemeStyles } from "../../../styles/ThemeStyles";
+import { RxCross2 } from "react-icons/rx";
+import DailyGoalUpdated from "./DailyGoalUpdated";
+import SetDailyGoal from "./SetDailyGoal";
 
 function SetDailyGoalModal({ modalIsOpen, setModalIsOpen }) {
-  const toggleModal = () => {
-    setModalIsOpen(!modalIsOpen);
-  };
-
-  const handleOptionChange = (e) => {
-    // setSelectedOption(e.target.value);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // console.log("Selected XP Points:", selectedOption);
-    toggleModal();
-  };
+  const { darkThemeActive } = useContext(UserContext);
 
   return (
-    <div>
+    <>
       {modalIsOpen && (
-        <ModalWrapper>
-          <ModalContent>
-            <ModalTitle>
-              Set your Daily Goal
-              <TbTargetArrow size={140} />
-            </ModalTitle>
-            <ModalForm onSubmit={handleSubmit}>
-              <ModalOption>
-                <Name> Starter</Name> <P> 20 XP</P>{" "}
-              </ModalOption>
-              <ModalOption>
-                <Name> Casual</Name> <P>50 XP</P>{" "}
-              </ModalOption>
-              <ModalOption>
-                <Name> Intermediate</Name> <P>100 XP</P>{" "}
-              </ModalOption>
-              <ModalOption>
-                <Name> Serious</Name> <P>150 XP</P>{" "}
-              </ModalOption>
-              <ModalOption>
-                <Name> Advanced</Name> <P>200 XP</P>{" "}
-              </ModalOption>
-
-              <ModalButton type="submit">Set</ModalButton>
-            </ModalForm>
-          </ModalContent>
+        <ModalWrapper darkThemeActive={darkThemeActive}>
+          <SetDailyGoal
+            modalIsOpen={modalIsOpen}
+            setModalIsOpen={setModalIsOpen}
+          />
         </ModalWrapper>
       )}
-    </div>
+    </>
   );
 }
 
 export default SetDailyGoalModal;
 
 const ModalWrapper = styled.div`
-  position: absolute;
-  z-index: 300;
+  position: fixed;
+  z-index: 1000;
   top: 0;
   left: 0;
   width: 100%;
@@ -66,11 +38,19 @@ const ModalWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemeMainBoxShadow
+      : ThemeStyles.darkThemeMainBoxShadow};
 `;
 
-const P = styled.p``;
+const P = styled.p`
+  padding-right: 10px;
+`;
 
-const Name = styled.div``;
+const Name = styled.div`
+  padding-left: 10px;
+`;
 
 const ModalForm = styled.form`
   display: flex;
@@ -80,25 +60,62 @@ const ModalForm = styled.form`
 `;
 
 const ModalContent = styled.div`
+  position: relative;
   background-color: #fff;
-  padding: 20px;
-  border-radius: 4px;
+  padding: 60px;
+  border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryFrontColor
+      : ThemeStyles.darkThemePrimaryFontColor};
+
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
+`;
+
+const ModalExitBtn = styled.button`
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 0.5px lightgrey;
+  margin: 3px;
+  &:hover {
+    box-shadow: rgb(0, 255, 255) 0px 0px 2px 1px,
+      rgb(39, 106, 245, 0.7) 2px 2px 2px 1px;
+
+    background-color: #e0e0e0;
+  }
 `;
 
 const ModalButton = styled.button`
-  background-color: #333;
+  // background-color: #333;
   color: #fff;
-  padding: 8px 16px;
+  margin: 7px;
+  padding: 4px;
+  height: 40px;
   width: 300px;
-  height: 50px;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
+
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
 `;
 
 const ModalTitle = styled.h2`
@@ -108,7 +125,7 @@ const ModalTitle = styled.h2`
   justify-content: center;
 `;
 
-const ModalOption = styled.div`
+const ModalOption = styled.button`
   height: 40px;
   width: 300px;
   display: flex;
@@ -118,10 +135,18 @@ const ModalOption = styled.div`
   margin: 7px;
   padding: 4px;
   min-height: 50px;
-  border: 0.5px solid lightgrey;
-  // min-width: 350px;
-  // max-width: 350px;
   border-radius: 5px;
+  border: none;
+
+  box-shadow: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemeMainBoxShadow
+      : ThemeStyles.darkThemeMainBoxShadow};
+
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
 
   &:hover {
     transition: 0s;

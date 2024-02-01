@@ -13,6 +13,7 @@ import mathsMCQSlice from "../features/MCQ/mathsMCQSlice";
 
 import { userDataSlice } from "../features/api/UserData/userDataSlice";
 import { enrolledCourseDataSlice } from "../features/api/UserData/enrolledCourseDataSlice";
+import { dailyXpGoalSlice } from "../features/api/UserData/dailyXPGoal";
 
 export const store = configureStore({
   reducer: {
@@ -26,10 +27,12 @@ export const store = configureStore({
     mathsMCQSlice,
     [userDataSlice.reducerPath]: userDataSlice.reducer,
     [enrolledCourseDataSlice.reducerPath]: enrolledCourseDataSlice.reducer,
+    [dailyXpGoalSlice.reducerPath]: dailyXpGoalSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
       userDataSlice.middleware,
-      enrolledCourseDataSlice.middleware
+      enrolledCourseDataSlice.middleware,
+      dailyXpGoalSlice.middleware
     ),
 });
