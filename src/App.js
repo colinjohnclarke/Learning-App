@@ -26,6 +26,16 @@ function App() {
 
   const { data } = useGetUserByEmailQuery(user?.email);
 
+  // const fetchUserData = async () => {
+  //   try {
+  //     const response = await fetch('your-api-endpoint');
+  //     const data = await response.json();
+  //     setData(data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
   let userData;
 
   if (data) {

@@ -4,6 +4,8 @@ import { IoIosArrowDropdown } from "react-icons/io";
 import SettingsDrawerDesktop from "../SettingsDrawerDesktop";
 import { UserContext } from "../../../App";
 import { ThemeStyles } from "../../../styles/ThemeStyles";
+import { CiSettings } from "react-icons/ci";
+import { device } from "../../../styles/breakpoints";
 
 function SettingsBtnHeaderBar() {
   const [settingDrawerIsOpen, setSettingsDrawerIsOpen] = useState(false);
@@ -15,7 +17,8 @@ function SettingsBtnHeaderBar() {
         darkThemeActive={darkThemeActive}
         onClick={() => setSettingsDrawerIsOpen((val) => !val)}
       >
-        <IoIosArrowDropdown
+        <CiSettings
+          size={24}
           fill={darkThemeActive ? "rgb(200, 200, 200)" : "white"}
         />
       </Wrapper>
@@ -34,12 +37,13 @@ const Wrapper = styled.button`
   position: relative;
   z-index: 300;
   padding: 3px;
-  margin: 20px;
+
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   border: none;
+  margin: 10px;
 
   box-shadow: ${(props) =>
     props.darkThemeActive
@@ -58,6 +62,10 @@ const Wrapper = styled.button`
   &:active {
     transform: translateY(2px);
     box-shadow: none;
+  }
+
+  @media ${device.tablet} {
+    margin-right: 25px;
   }
 `;
 

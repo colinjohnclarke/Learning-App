@@ -37,8 +37,6 @@ function Courses() {
 
   const builder = imageUrlBuilder(sanityClient);
 
-
-
   // const [addEnrolledCourse] = useAddEnrolledCourseMutation();
   const { data } = useGetAllEnrolledCoursesDataQuery(userData?.user._id);
 
@@ -309,9 +307,9 @@ const Main = styled.div`
   width: 98%;
   max-width: 900px;
 
-  @media ${device.desktop} {
-    height: 100%;
-  }
+  // @media ${device.desktop} {
+  //   height: 100%;
+  // }
 `;
 
 const Padding = styled.div`

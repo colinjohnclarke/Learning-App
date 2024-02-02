@@ -27,11 +27,18 @@ function FlameDayStreak() {
   arrOfDatesQuizCompletedLastWeek.sort((a, b) => {
     return new Date(b) - new Date(a);
   });
+  console.log(
+    "🚀 ~ arrOfDatesQuizCompletedLastWeek.sort ~ arrOfDatesQuizCompletedLastWeek:",
+    arrOfDatesQuizCompletedLastWeek
+  );
 
   let count = 0;
 
   const date = new Date();
-  const day = date.getDate();
+  let day = date.getDate();
+  if (day < 10) {
+    day = "0" + day;
+  }
   let month = date.getMonth() + 1;
   if (month < 10) {
     month = "0" + month;
@@ -48,7 +55,7 @@ function FlameDayStreak() {
         break;
       }
     }
-  } else
+  } else {
     for (let index = 1; index < lastWeekDates.length; index++) {
       const element = lastWeekDates[index];
       if (arrOfDatesQuizCompletedLastWeek.includes(element)) {
@@ -57,6 +64,7 @@ function FlameDayStreak() {
         break;
       }
     }
+  }
 
   let content = (
     <Wrapper>

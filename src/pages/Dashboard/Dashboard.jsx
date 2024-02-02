@@ -46,6 +46,7 @@ function Dashboard() {
     width: 1000,
   };
   window.scrollTo(0, 0);
+
   const loader = (
     <Loader>
       <GridLoader

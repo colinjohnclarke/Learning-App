@@ -4,6 +4,7 @@ import { device } from "../../styles/breakpoints";
 import { UserContext } from "../../App";
 import LastWeekDates from "./LastWeekDates";
 
+
 function DataFromPrevWeek() {
   const { userData } = useContext(UserContext);
 

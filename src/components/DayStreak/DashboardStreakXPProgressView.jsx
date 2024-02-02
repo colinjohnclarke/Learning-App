@@ -6,6 +6,7 @@ import { ThemeStyles } from "../../styles/ThemeStyles";
 import DayStreakPanel from "./DayStreakPanel";
 import { device } from "../../styles/breakpoints";
 import XPointsGraph from "./DailyGoal/XPointsGraph";
+import XPRemainingToCompleteGoal from "./DailyGoal/XPRemainingToCompleteGoal";
 
 import SetDailyGoalBtn from "./DailyGoal/SetDailyGoalBtn";
 
@@ -38,7 +39,8 @@ function DashboardStreakXPProgressView() {
           <h2
             style={{
               padding: "5px",
-              fontSize: "15px",
+              marginLeft: "30px",
+              fontSize: "14px",
               color: darkThemeActive
                 ? ThemeStyles.lightThemePrimaryFrontColor
                 : ThemeStyles.darkThemePrimaryFontColor,
@@ -47,9 +49,20 @@ function DashboardStreakXPProgressView() {
             Daily Progress
           </h2>
           <SetDailyGoalBtn />
+          <XPRemainingToCompleteGoal></XPRemainingToCompleteGoal>
         </div>
 
-        <DailyGoal />
+        {/* <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            height: "100%",
+            width: "100%",
+          }}
+        > */}
+        <XPointsGraph />
+
+        {/* </div> */}
       </Graph>
     </Wrapper>
   );
@@ -65,9 +78,11 @@ const Wrapper = styled.div`
 const Graph = styled.div`
   width: 100%;
   display: flex;
+  margin-bottom: 10px;
   flex-direction: column;
   align-items: center;
   border-radius: 4px;
+
   background-color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor
@@ -78,15 +93,17 @@ const Graph = styled.div`
       ? ThemeStyles.lightThemeMainBoxShadow
       : ThemeStyles.darkThemeMainBoxShadow};
 
-  @media (min-width: 550px) {
+  @media (min-width: 640px) {
     // margin-right: 5px;
+
     width: 49%;
   }
 `;
 
 const DayStreak = styled.div`
-  margin-top: 10px;
+  margin-bottom: 10px;
   width: 100%;
+
   // display: flex;
   // flex-direction: column;
   // align-items: center;
@@ -101,7 +118,7 @@ const DayStreak = styled.div`
       ? ThemeStyles.lightThemeMainBoxShadow
       : ThemeStyles.darkThemeMainBoxShadow};
 
-  @media (min-width: 550px) {
+  @media (min-width: 640px) {
     // margin-left: 5px;
     width: 49%;
     margin-top: 0px;
@@ -110,7 +127,7 @@ const DayStreak = styled.div`
 
 const Gap = styled.div`
   display: none;
-  @media (min-width: 550px) {
+  @media (min-width: 640px) {
     display: block;
     width: 2%;
     max-width: 20px;

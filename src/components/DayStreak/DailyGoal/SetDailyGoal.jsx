@@ -15,28 +15,33 @@ import { device } from "../../../styles/breakpoints";
 
 import { DiRubyRough } from "react-icons/di";
 import { useUpdateDailyXpGoalMutation } from "../../../features/api/UserData/dailyXPGoal";
+import GridLoader from "react-spinners/GridLoader";
 
 function SetDailyGoal({ modalIsOpen, setModalIsOpen }) {
   const { darkThemeActive, userData } = useContext(UserContext);
   const [selectedOption, setSelectedOption] = useState();
-  console.log("🚀 ~ SetDailyGoalModal ~ selectedOption:", selectedOption);
 
   const [displayDailyGoalUpdate, setDisplayDailyGoalUpdate] = useState(false);
 
-  const [updateDailyXpGoal] = useUpdateDailyXpGoalMutation();
+  const [updateDailyXpGoal, isLoading, isError, error, data] =
+    useUpdateDailyXpGoalMutation();
+
+  console.log("🚀 ~ SetDailyGoal ~ data:", data);
+  const isSuccess = data !== undefined && data !== null;
+  console.log("🚀 ~ SetDailyGoal ~ isSuccess:", isSuccess);
 
   const toggleModal = () => {
     setModalIsOpen(!modalIsOpen);
   };
 
   const handleSubmit = async () => {
-    console.log("Selected XP Points234:", selectedOption);
     setDisplayDailyGoalUpdate((val) => true);
+    const updatedDailyXPGoal = {
+      id: userData?.user._id,
+      XPGoal: selectedOption,
+    };
 
-    const update = await updateDailyXpGoal({
-      updatedDailyXPGoal: selectedOption,
-      id: userData.user._id,
-    });
+    const update = await updateDailyXpGoal(updatedDailyXPGoal);
     console.log("🚀 ~ handleSubmit ~ update:", update);
   };
 
@@ -82,6 +87,27 @@ function SetDailyGoal({ modalIsOpen, setModalIsOpen }) {
     { name: "Serious", xp: "250" },
     { name: "Advanced", xp: "500" },
   ];
+
+  //   else if (isLoading) {
+  //     setDailyGoalApiResponseContent = (
+  //       <GridLoader
+  //         color={"rgb(0, 250, 250, 0.5)"}
+  //         size={25}
+  //         aria-label="Loading Spinner"
+  //         data-testid="loader"
+  //       />
+  //     );
+  //   }
+  //   else if (isError) {
+  //     // Handle error state
+  //     console.log(error);
+  //     <ModalContent>
+  //       {" "}
+  //       <ErrorContainer>
+  //         <ErrorMessage>An error occurred: {error.message}</ErrorMessage>
+  //       </ErrorContainer>
+  //     </ModalContent>;
+  //   }
 
   const options = XPPointsOptions.map((option, optionsIndex) => {
     let rubys = XPPointsOptions.map((item, index) => {
@@ -147,40 +173,41 @@ function SetDailyGoal({ modalIsOpen, setModalIsOpen }) {
           </ModalForm>
         </ModalContent>
       ) : (
-        <>
-          <ModalContent darkThemeActive={darkThemeActive}>
-            <ModalExitBtn onClick={toggleModal}>
-              {" "}
-              <RxCross2 size={24} />
-            </ModalExitBtn>
-            <ConfettiDashboard></ConfettiDashboard>
-            <ModalTitle darkThemeActive={darkThemeActive}>
-              Daily Goal set to {selectedOption} XP
-              <TbTargetArrow
-                stroke={
-                  darkThemeActive
-                    ? ThemeStyles.darkThemeTertiaryBackgroundColor
-                    : "white"
-                }
-                size={140}
-              />
-            </ModalTitle>
-
-            <ModalButton
-              darkThemeActive={darkThemeActive}
-              onClick={toggleModal}
-              style={
-                !selectedOption
-                  ? inActiveSubmitButtonStyle
-                  : { border: "2px solid white" }
+        <ModalContent darkThemeActive={darkThemeActive}>
+          <ModalExitBtn onClick={toggleModal}>
+            {" "}
+            <RxCross2 size={24} />
+          </ModalExitBtn>
+          <ConfettiDashboard></ConfettiDashboard>
+          <ModalTitle darkThemeActive={darkThemeActive}>
+            Daily Goal set to {selectedOption} XP .
+            <P darkThemeActive={darkThemeActive}>
+              You will see the changes when the page refreshes!
+            </P>
+            <TbTargetArrow
+              stroke={
+                darkThemeActive
+                  ? ThemeStyles.darkThemeTertiaryBackgroundColor
+                  : "white"
               }
-              disabled={!selectedOption}
-              type="button"
-            >
-              Continue!
-            </ModalButton>
-          </ModalContent>
-        </>
+              size={140}
+            />
+          </ModalTitle>
+
+          <ModalButton
+            darkThemeActive={darkThemeActive}
+            onClick={toggleModal}
+            style={
+              !selectedOption
+                ? inActiveSubmitButtonStyle
+                : { border: "2px solid white" }
+            }
+            disabled={!selectedOption}
+            type="button"
+          >
+            Continue!
+          </ModalButton>
+        </ModalContent>
       )}
     </Wrapper>
   );
@@ -270,6 +297,10 @@ const ModalExitBtn = styled.button`
   justify-content: center;
   border: 0.5px lightgrey;
   margin: 3px;
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
   &:hover {
     box-shadow: rgb(0, 255, 255) 0px 0px 2px 1px,
       rgb(39, 106, 245, 0.7) 2px 2px 2px 1px;
@@ -357,4 +388,29 @@ const ModalOption = styled.button`
     box-shadow: rgb(0, 255, 255) 0px 0px 2px 1px,
       rgb(39, 106, 245, 0.7) 2px 2px 2px 1px;
   }
+`;
+
+const ErrorContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f8f8f8;
+`;
+
+const ErrorMessage = styled.p`
+  font-size: 24px;
+  color: red;
+  margin-bottom: 16px;
+`;
+
+const RetryButton = styled.button`
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #ff0000;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 `;

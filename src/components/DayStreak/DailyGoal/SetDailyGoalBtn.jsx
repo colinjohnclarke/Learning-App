@@ -4,17 +4,20 @@ import { ThemeStyles } from "../../../styles/ThemeStyles";
 import { FaRegEdit } from "react-icons/fa";
 import { UserContext } from "../../../App";
 import SetDailyGoalModal from "./SetDailyGoalModal";
+import { arrOfDatesQuizCompletedLastWeek } from "../FlameDayStreak";
+import DataFromPrevWeek from "../DataFromPrevWeek";
+import XPPointsScoredToday from "./XPPointsScoredToday";
 
 function SetDailyGoalBtn() {
-  const { darkThemeActive } = useContext(UserContext);
+  const { darkThemeActive, userData } = useContext(UserContext);
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  console.log("🚀 ~ SetDailyGoalBtn ~ modalIsOpen:", modalIsOpen);
   const handleClick = () => {
     setModalIsOpen(!modalIsOpen);
-    console.log("🚀 ~ SetDailyGoalBtn ~ modalIsOpen:", modalIsOpen);
   };
+
+  const xP = XPPointsScoredToday();
 
   return (
     <div>
@@ -33,7 +36,7 @@ function SetDailyGoalBtn() {
                 : ThemeStyles.darkThemePrimaryFontColor,
             }}
           >
-            Daily Goal
+            Your Target
           </div>
           <div
             style={{
@@ -44,7 +47,8 @@ function SetDailyGoalBtn() {
             }}
           >
             {" "}
-            0/150 XP
+            {xP}/ {userData?.user.preferences.personalizedSettings.dailyXPGoal}{" "}
+            XP
           </div>
         </Inner>
         <Btn darkThemeActive={darkThemeActive} onClick={handleClick}>

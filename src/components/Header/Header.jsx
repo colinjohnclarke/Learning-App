@@ -8,6 +8,7 @@ import { device } from "../../styles/breakpoints";
 import SettingsBtnHeaderBar from "../Settings/SettingsBtnHeaderBar/SettingsBtnHeaderBar";
 import { UserContext } from "../../App";
 import { ThemeStyles } from "../../styles/ThemeStyles";
+import ExitCurrentCourseBtn from "./ExitCurrentCourseBtn";
 
 // function Header() {
 //   const { darkThemeActive } = useContext(UserContext);
@@ -49,10 +50,10 @@ function Header() {
   const { darkThemeActive } = useContext(UserContext);
   return (
     <Wrapper darkThemeActive={darkThemeActive}>
-      <OpenDrawerBtn></OpenDrawerBtn>
+      {/* <OpenDrawerBtn></OpenDrawerBtn> */}
+      <ExitCurrentCourseBtn />
       <ProgressBar></ProgressBar>
 
-     
       <SettingsBtnHeaderBar />
       {/* <Signup></Signup> */}
       {/* <LogoutBtn></LogoutBtn>
@@ -66,6 +67,7 @@ export default Header;
 
 const Wrapper = styled.div`
   height: 50px;
+
   background-color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor
@@ -76,8 +78,10 @@ const Wrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-
-xd
+  box-shadow: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemeMainBoxShadow
+      : ThemeStyles.darkThemeMainBoxShadow};
   position: fixed;
   z-index: 100;
 

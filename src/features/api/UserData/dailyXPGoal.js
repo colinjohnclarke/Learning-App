@@ -9,7 +9,7 @@ export const dailyXpGoalSlice = createApi({
   tagTypes: ["DailyXpGoal"],
   endpoints: (builder) => ({
     updateDailyXpGoal: builder.mutation({
-      query: ({ updatedDailyXPGoal, id }) => ({
+      query: (updatedDailyXPGoal) => ({
         url: "/updatedailyxpgoal",
         method: "POST",
         body: updatedDailyXPGoal,

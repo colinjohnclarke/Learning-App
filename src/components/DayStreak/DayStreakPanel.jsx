@@ -9,13 +9,11 @@ import { arrOfDatesQuizCompletedLastWeek } from "./FlameDayStreak";
 function DayStreakPanel() {
   const { darkThemeActive } = useContext(UserContext);
 
-  console.log(
-    "🚀 ~ arrOfDatesQuizCompletedLastWeek:",
-    arrOfDatesQuizCompletedLastWeek
-  );
-
   const date = new Date();
-  const day = date.getDate();
+  let day = date.getDate();
+  if (day < 10) {
+    day = "0" + day;
+  }
   let month = date.getMonth() + 1;
   if (month < 10) {
     month = "0" + month;
@@ -23,19 +21,13 @@ function DayStreakPanel() {
   const year = date.getFullYear();
   const today = `${year}-${month}-${day}`;
 
-  console.log("🚀 ~ DayStreakPanel ~ today:", today);
-
-  // console.log(arrOfDatesQuizCompletedLastWeek.find((item) => item === today));
-
-  console.log("not completed");
-
   return (
     <Wrapper>
       {/* <Box style={{ marginLeft: "5px" }} darkThemeActive={darkThemeActive}> */}{" "}
       <FlameDayStreak />
       <Mobile style={{ margin: "10px" }}> days</Mobile>
       {!arrOfDatesQuizCompletedLastWeek.find((item) => item === today) && (
-        <p> Complete lesson to continue day streak!</p>
+        <p> Complete a lesson to start day streak!</p>
       )}
       {arrOfDatesQuizCompletedLastWeek.find((item) => item === today) && (
         <Streak
@@ -47,7 +39,7 @@ function DayStreakPanel() {
           }}
         >
           {" "}
-          day streak!!
+          Keep the flame lit by studying every day!
         </Streak>
       )}
       <DayStreakDaysView />

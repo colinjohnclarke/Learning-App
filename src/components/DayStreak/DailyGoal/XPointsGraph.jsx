@@ -26,7 +26,7 @@ export const dayOfWeekMap = new Map([
 ]);
 
 function XPointsGraph() {
-  const { darkThemeActive } = useContext(UserContext);
+  const { darkThemeActive, userData } = useContext(UserContext);
 
   const dataFromPrevWeek = DataFromPrevWeek();
 
@@ -66,8 +66,12 @@ function XPointsGraph() {
     })
     .reverse();
 
+  const dailyXPGoal =
+    userData?.user.preferences.personalizedSettings.dailyXPGoal;
+
   const options = {
     responsive: true,
+
     layout: {
       padding: {
         top: 20,
@@ -78,12 +82,33 @@ function XPointsGraph() {
     },
     plugins: {
       legend: {
-        display: false,
+        display: true,
         labels: {
           font: {
             family: "Quicksand",
             size: 12,
             weight: "normal",
+          },
+          generateLabels: function (chart) {
+            // Custom label generation function
+            return [
+              {
+                text: "Scored XP",
+                fillStyle: "rgb(0, 245, 245)",
+                strokeStyle: "rgb(0, 245, 245)",
+                lineWidth: 2,
+                hidden: false,
+                index: 0,
+              },
+              {
+                text: "Daily XP Goal",
+                fillStyle: "blue",
+                strokeStyle: "blue",
+                lineWidth: 2,
+                hidden: false,
+                index: 1,
+              },
+            ];
           },
         },
       },
@@ -121,6 +146,22 @@ function XPointsGraph() {
       {
         data: xpScoredEachDayLastWeek,
         borderColor: "rgb(0, 245, 245)",
+        backgroundColor: darkThemeActive
+          ? ThemeStyles.lightThemePrimaryBackgroundColor
+          : ThemeStyles.darkThemePrimaryBackgroundColor,
+      },
+
+      {
+        data: [
+          dailyXPGoal,
+          dailyXPGoal,
+          dailyXPGoal,
+          dailyXPGoal,
+          dailyXPGoal,
+          dailyXPGoal,
+          dailyXPGoal,
+        ],
+        borderColor: "blue",
         backgroundColor: darkThemeActive
           ? ThemeStyles.lightThemePrimaryBackgroundColor
           : ThemeStyles.darkThemePrimaryBackgroundColor,

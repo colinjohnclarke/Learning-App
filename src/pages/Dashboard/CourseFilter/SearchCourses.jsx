@@ -187,9 +187,9 @@ const Outer = styled.div`
       ? ThemeStyles.lightThemeMainBoxShadow
       : ThemeStyles.darkThemeMainBoxShadow};
 
-  @media ${device.desktop} {
-    width: 100%;
-  }
+  // @media ${device.desktop} {
+  //   width: 100%;
+  // }
 
   //
 `;
