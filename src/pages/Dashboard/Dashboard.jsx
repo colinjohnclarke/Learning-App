@@ -16,6 +16,8 @@ import GridLoader from "react-spinners/GridLoader";
 import Weekday from "../../components/Weekday";
 import DashboardStreakXPProgressView from "../../components/DayStreak/DashboardStreakXPProgressView";
 
+import SelectSchool from "../UserPreferencesOnSignup/SelectSchool";
+
 import NavigationBarMobile from "../../components/Navigation/NavigationBarMobile";
 
 import { useGetUserByEmailQuery } from "../../features/api/UserData/userDataSlice";
@@ -69,6 +71,7 @@ function Dashboard() {
         <Main>
           <Greeting darkThemeActive={darkThemeActive}>
             <Welcome>
+              <SelectSchool></SelectSchool>
               <h3 style={{ color: "white" }}>
                 Welcome {userData?.user.firstName}
               </h3>

@@ -3,25 +3,36 @@ import styled from "styled-components";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import { IoMdClose } from "react-icons/io";
 import { UserContext } from "../../App";
+import ExitCurrentCourseModal from "./ExitCurrentCourseModal";
 
 function ExitCurrentCourseBtn() {
   const { darkThemeActive } = useContext(UserContext);
 
-  const handleClick = () => {};
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
   return (
-    <ModalExitBtn darkThemeActive={darkThemeActive} onClick={handleClick}>
-      {" "}
-      <IoMdClose
-        fill={darkThemeActive ? "rgb(200, 200, 200)" : "white"}
-        size={24}
-      />
-    </ModalExitBtn>
+    <div>
+      <ExitCurrentCourseModal
+        setModalIsOpen={setModalIsOpen}
+        modalIsOpen={modalIsOpen}
+      ></ExitCurrentCourseModal>
+      <ExitBtn
+        darkThemeActive={darkThemeActive}
+        onClick={() => setModalIsOpen((val) => !val)}
+      >
+        {" "}
+        <IoMdClose
+          fill={darkThemeActive ? "rgb(200, 200, 200)" : "white"}
+          size={24}
+        />
+      </ExitBtn>
+    </div>
   );
 }
 
 export default ExitCurrentCourseBtn;
 
-const ModalExitBtn = styled.button`
+const ExitBtn = styled.button`
   top: 0;
   right: 0;
   height: 30px;

@@ -89,6 +89,7 @@ function XPointsGraph() {
             size: 12,
             weight: "normal",
           },
+
           generateLabels: function (chart) {
             // Custom label generation function
             return [
@@ -99,6 +100,9 @@ function XPointsGraph() {
                 lineWidth: 2,
                 hidden: false,
                 index: 0,
+                fontColor: darkThemeActive
+                  ? ThemeStyles.lightThemePrimaryFrontColor
+                  : ThemeStyles.darkThemePrimaryFontColor,
               },
               {
                 text: "Daily XP Goal",
@@ -107,6 +111,9 @@ function XPointsGraph() {
                 lineWidth: 2,
                 hidden: false,
                 index: 1,
+                fontColor: darkThemeActive
+                  ? ThemeStyles.lightThemePrimaryFrontColor
+                  : ThemeStyles.darkThemePrimaryFontColor,
               },
             ];
           },
@@ -161,6 +168,7 @@ function XPointsGraph() {
           dailyXPGoal,
           dailyXPGoal,
         ],
+
         borderColor: "blue",
         backgroundColor: darkThemeActive
           ? ThemeStyles.lightThemePrimaryBackgroundColor

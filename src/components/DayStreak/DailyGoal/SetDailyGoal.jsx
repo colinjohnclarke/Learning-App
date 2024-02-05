@@ -16,6 +16,7 @@ import { device } from "../../../styles/breakpoints";
 import { DiRubyRough } from "react-icons/di";
 import { useUpdateDailyXpGoalMutation } from "../../../features/api/UserData/dailyXPGoal";
 import GridLoader from "react-spinners/GridLoader";
+import { IoMdClose } from "react-icons/io";
 
 function SetDailyGoal({ modalIsOpen, setModalIsOpen }) {
   const { darkThemeActive, userData } = useContext(UserContext);
@@ -139,9 +140,12 @@ function SetDailyGoal({ modalIsOpen, setModalIsOpen }) {
     <Wrapper>
       {!displayDailyGoalUpdate ? (
         <ModalContent darkThemeActive={darkThemeActive}>
-          <ModalExitBtn onClick={toggleModal}>
+          <ModalExitBtn darkThemeActive={darkThemeActive} onClick={toggleModal}>
             {" "}
-            <RxCross2 size={24} />
+            <IoMdClose
+              fill={darkThemeActive ? "rgb(200, 200, 200)" : "white"}
+              size={24}
+            />
           </ModalExitBtn>
           <ModalTitle darkThemeActive={darkThemeActive}>
             Set your Daily Goal
@@ -176,7 +180,10 @@ function SetDailyGoal({ modalIsOpen, setModalIsOpen }) {
         <ModalContent darkThemeActive={darkThemeActive}>
           <ModalExitBtn onClick={toggleModal}>
             {" "}
-            <RxCross2 size={24} />
+            <IoMdClose
+              fill={darkThemeActive ? "rgb(200, 200, 200)" : "white"}
+              size={24}
+            />
           </ModalExitBtn>
           <ConfettiDashboard></ConfettiDashboard>
           <ModalTitle darkThemeActive={darkThemeActive}>
@@ -301,11 +308,19 @@ const ModalExitBtn = styled.button`
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor
       : ThemeStyles.darkThemePrimaryBackgroundColor};
-  &:hover {
-    box-shadow: rgb(0, 255, 255) 0px 0px 2px 1px,
-      rgb(39, 106, 245, 0.7) 2px 2px 2px 1px;
 
-    background-color: #e0e0e0;
+  box-shadow: ${(props) =>
+    props.darkThemeActive
+      ? `${ThemeStyles.lightThemeMainBoxShadow}, rgba(0, 0, 0, 0.15) 0px 3px 2px 2px`
+      : `${ThemeStyles.darkThemeMainBoxShadow}`};
+
+  &:hover {
+    background-color: rgb(39, 106, 245, 0.05);
+  }
+
+  &:active {
+    transform: translateY(2px);
+    box-shadow: none;
   }
 `;
 

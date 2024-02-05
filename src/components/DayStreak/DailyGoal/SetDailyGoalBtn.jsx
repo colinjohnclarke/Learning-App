@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { ThemeStyles } from "../../../styles/ThemeStyles";
-import { FaRegEdit } from "react-icons/fa";
+import { MdEdit } from "react-icons/md";
 import { UserContext } from "../../../App";
 import SetDailyGoalModal from "./SetDailyGoalModal";
 import { arrOfDatesQuizCompletedLastWeek } from "../FlameDayStreak";
@@ -36,7 +36,7 @@ function SetDailyGoalBtn() {
                 : ThemeStyles.darkThemePrimaryFontColor,
             }}
           >
-            Your Target
+            Target
           </div>
           <div
             style={{
@@ -52,7 +52,7 @@ function SetDailyGoalBtn() {
           </div>
         </Inner>
         <Btn darkThemeActive={darkThemeActive} onClick={handleClick}>
-          <FaRegEdit fill={darkThemeActive ? "grey" : "white"} />
+          <MdEdit fill={darkThemeActive ? "rgb(200, 200, 200)" : "white"} />
         </Btn>
       </Wrapper>
     </div>
@@ -96,32 +96,62 @@ const Inner = styled.div`
 `;
 
 const Btn = styled.button`
+  position: relative;
+  left: 4px;
   height: 30px;
   width: 30px;
-  border-radius: 50px;
+  border-radius: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
+  border: 0.5px lightgrey;
+  margin: 3px;
   background-color: ${(props) =>
     props.darkThemeActive
-      ? "lightgrey"
-      : ThemeStyles.darkThemeTertiaryBackgroundColor};
-
-  border-radius: 50%;
-  border: none;
-  margin-left: 2px;
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
 
   box-shadow: ${(props) =>
     props.darkThemeActive
-      ? ThemeStyles.lightThemeMainBoxShadow
-      : ThemeStyles.darkThemeMainBoxShadow};
+      ? `${ThemeStyles.lightThemeMainBoxShadow}, rgba(0, 0, 0, 0.15) 0px 3px 2px 2px`
+      : `${ThemeStyles.darkThemeMainBoxShadow}`};
 
   &:hover {
-    box-shadow: rgb(0, 255, 255) 0px 0px 2px 1px,
-      rgb(39, 106, 245, 0.7) 2px 2px 2px 1px;
+    background-color: rgb(39, 106, 245, 0.05);
+  }
 
-    background-color: #e0e0e0;
+  &:active {
+    transform: translateY(2px);
+    box-shadow: none;
   }
 `;
+//   height: 30px;
+//   width: 30px;
+//   border-radius: 50px;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   justify-content: center;
+
+//   background-color: ${(props) =>
+//     props.darkThemeActive
+//       ? "lightgrey"
+//       : ThemeStyles.darkThemeTertiaryBackgroundColor};
+
+//   border-radius: 50%;
+//   border: none;
+//   margin-left: 2px;
+
+//   box-shadow: ${(props) =>
+//     props.darkThemeActive
+//       ? ThemeStyles.lightThemeMainBoxShadow
+//       : ThemeStyles.darkThemeMainBoxShadow};
+
+//   &:hover {
+//     box-shadow: rgb(0, 255, 255) 0px 0px 2px 1px,
+//       rgb(39, 106, 245, 0.7) 2px 2px 2px 1px;
+
+//     background-color: #e0e0e0;
+//   }
+// `;

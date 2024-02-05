@@ -47,14 +47,14 @@ const Btn = styled.button`
   &:hover {
     transform: translateY(-1px);
     color: white;
+    background-color: rgba(0, 240, 240, 1);
     transition: 0.2s;
+
+    p {
+      color: ${(props) => (props.darkThemeActive ? "white" : "white")};
+    }
   }
 
-  &:active {
-    transform: translateY(1px);
-    background-color: rgba(0, 240, 240, 1);
-    color: white;
-  }
   * {
     font-size: 13px;
   }
