@@ -16,11 +16,13 @@ import spslogo from "./assets/images/spslogo.png";
 import styled from "styled-components";
 import { device } from "./styles/breakpoints";
 import { GiCorkHat } from "react-icons/gi";
+import UserPreferencesOnSignupModal from "./pages/UserPreferencesOnSignup/UserPreferencesOnSignupModal";
 
 export const UserContext = createContext();
 
 function App() {
   const { isAuthenticated, user } = useAuth0();
+  const [isSchoolRegistered, setIsSchoolRegistered] = useState(false);
 
   const userAuth0 = user;
 
@@ -132,7 +134,7 @@ function App() {
   return (
     <UserContext.Provider value={userContextValues}>
       <div>
-        {!isAuthenticated ? (
+        {!isAuthenticated && (
           <div
             style={{
               display: "flex",
@@ -147,9 +149,17 @@ function App() {
             <img style={{ height: "230px" }} src={spslogo} alt="" />
             <Login></Login>
           </div>
-        ) : (
+        )}
+
+        {/* {isAuthenticated && !isSchoolRegistered && UserPreferencesOnSignupModal} */}
+
+        {isAuthenticated && !isSchoolRegistered && (
+          <UserPreferencesOnSignupModal />
+        )}
+
+        {isAuthenticated && isSchoolRegistered && (
           <BrowserRouter>
-            <Drawer />
+            {/* <Drawer /> */}
             <Header></Header>
             <Routing />
           </BrowserRouter>

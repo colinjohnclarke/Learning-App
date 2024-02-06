@@ -16,7 +16,7 @@ import GridLoader from "react-spinners/GridLoader";
 import Weekday from "../../components/Weekday";
 import DashboardStreakXPProgressView from "../../components/DayStreak/DashboardStreakXPProgressView";
 
-import SelectSchool from "../UserPreferencesOnSignup/SelectSchool";
+import SelectSchool from "../UserPreferencesOnSignup/SelectSchool/SelectSchool";
 
 import NavigationBarMobile from "../../components/Navigation/NavigationBarMobile";
 
