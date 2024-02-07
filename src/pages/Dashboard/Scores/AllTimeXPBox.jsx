@@ -3,7 +3,10 @@ import styled from "styled-components";
 import AnimateCountFunction from "../../../components/functions/AnimateCountFunction";
 
 function AllTimeXPBox({ data }) {
-  const totalXP = data;
+  let totalXP;
+  if (data) {
+    totalXP = data;
+  }
 
   let counter = 0;
 

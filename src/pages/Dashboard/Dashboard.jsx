@@ -71,7 +71,6 @@ function Dashboard() {
         <Main>
           <Greeting darkThemeActive={darkThemeActive}>
             <Welcome>
-              <SelectSchool></SelectSchool>
               <h3 style={{ color: "white" }}>
                 Welcome {userData?.user.firstName}
               </h3>

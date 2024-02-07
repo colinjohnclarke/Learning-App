@@ -22,37 +22,13 @@ export const UserContext = createContext();
 
 function App() {
   const { isAuthenticated, user } = useAuth0();
-  const [isSchoolRegistered, setIsSchoolRegistered] = useState(false);
 
-  const userAuth0 = user;
+  const [loginCompleted, setLoginCompleted] = useState(false);
 
-  const { data } = useGetUserByEmailQuery(user?.email);
-
-  // const fetchUserData = async () => {
-  //   try {
-  //     const response = await fetch('your-api-endpoint');
-  //     const data = await response.json();
-  //     setData(data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  let userData;
-
-  if (data) {
-    userData = data;
-    console.log("🚀 ~ App ~ userData:", userData);
-  }
-
-  // const domain = process.env.REACT_APP_AUTH0_DOMAIN;
-
-  let createUserRequired = false;
-  if (!data) {
-    createUserRequired = true; // Remove the 'let' here to update the existing variable
-  }
-  const [createUser, { isLoading, isSuccess, isError, error }] =
-    useCreateUserMutation();
+  const [
+    isSchoolandUserPreferencesCompleted,
+    setIsShoolandUserPreferencesCompleted,
+  ] = useState(false);
 
   const [selectedNav, setSelectedNav] = useState({
     Dashboard: "true",
@@ -63,43 +39,38 @@ function App() {
   });
 
   const [darkThemeActive, setDarkThemeActive] = useState(true);
-  const [silentModeActive, setSilentModeActive] = useState(true);
+  const [silentModeActive, setSilentModeActive] = useState(false);
 
-  // useEffect(() => {
-  //   const getUserMetadata = async () => {
-  //     const domain = process.env.REACT_APP_AUTH0_DOMAIN;
+  const userAuth0 = user;
 
-  //     try {
-  //       const accessToken = await getAccessTokenSilently({
-  //         authorizationParams: {
-  //           audience: `https://${domain}/api/v2/`,
-  //           scope: "read:current_user",
-  //         },
-  //       });
+  // use email to fetch userData from mongoDB
+  const { data } = useGetUserByEmailQuery(user?.email);
 
-  //       const userDetailsByIdUrl = `https://${domain}/api/v2/users/${user.sub}`;
+  let userData;
 
-  //       const metadataResponse = await fetch(userDetailsByIdUrl, {
-  //         headers: {
-  //           Authorization: `Bearer ${accessToken}`,
-  //         },
-  //       });
+  if (data) {
+    userData = data;
+    console.log("🚀 ~ App ~ userData:", userData);
+  }
 
-  //       const { user_metadata } = await metadataResponse.json();
+  let createUserRequired = false;
 
-  //       setUserMetadata(user_metadata);
-  //     } catch (e) {
-  //       console.log(e.message);
-  //     }
-  //   };
+  // if ! data returned then user doesnt exist in DB so need to create user
+  if (!data) {
+    createUserRequired = true; // Remove the 'let' here to update the existing variable
+  }
+  const [createUser, { isLoading, isSuccess, isError, error }] =
+    useCreateUserMutation();
 
-  //   getUserMetadata();
-  // }, [getAccessTokenSilently, user?.sub]);
+  useEffect(() => {
+    if (isAuthenticated && data) {
+      setLoginCompleted(true);
+    }
+  }, [isAuthenticated, data]);
 
   useEffect(() => {
     if (createUserRequired && isAuthenticated) {
       // Check 'createUserRequired'
-
       const createNewUser = async () => {
         try {
           const response = await createUser({
@@ -117,7 +88,7 @@ function App() {
 
       const newlyCreatedUser = createNewUser();
       newlyCreatedUser.then((response) => {
-        // Handle the response object here
+        setLoginCompleted(true);
       });
     }
   }, [createUserRequired, isAuthenticated, data]);
@@ -129,42 +100,86 @@ function App() {
     userAuth0,
     selectedNav,
     setSelectedNav,
+    silentModeActive,
+    setSilentModeActive,
   };
 
   return (
+    // <UserContext.Provider value={userContextValues}>
+    //   <div>
+    //     {!isAuthenticated && (
+    //       <div
+    //         style={{
+    //           display: "flex",
+    //           flexDirection: "column",
+    //           alignItems: "center",
+    //         }}
+    //       >
+    //         {" "}
+    //         <h1 style={{ fontWeight: "500", color: "rgb(0, 240, 240)" }}>
+    //           SPS online
+    //         </h1>
+    //         <img style={{ height: "230px" }} src={spslogo} alt="" />
+    //         <Login></Login>
+    //       </div>
+    //     )}
+
+    //     {/* {isAuthenticated && !isSchoolRegistered && UserPreferencesOnSignupModal} */}
+
+    //     {isAuthenticated && !isSchoolRegistered && (
+    //       <UserPreferencesOnSignupModal />
+    //     )}
+
+    //     {isAuthenticated && isSchoolRegistered && (
+    //       <BrowserRouter>
+    //         {/* <Drawer /> */}
+    //         <Header></Header>
+    //         <Routing />
+    //       </BrowserRouter>
+    //     )}
+    //   </div>
+    // </UserContext.Provider>
+
     <UserContext.Provider value={userContextValues}>
-      <div>
-        {!isAuthenticated && (
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            {" "}
-            <h1 style={{ fontWeight: "500", color: "rgb(0, 240, 240)" }}>
-              SPS online
-            </h1>
-            <img style={{ height: "230px" }} src={spslogo} alt="" />
-            <Login></Login>
-          </div>
-        )}
+      <BrowserRouter>
+        <div>
+          {!isAuthenticated && (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              {" "}
+              <h1 style={{ fontWeight: "500", color: "rgb(0, 240, 240)" }}>
+                SPS online
+              </h1>
+              <img style={{ height: "230px" }} src={spslogo} alt="" />
+              <Login></Login>
+            </div>
+          )}
 
-        {/* {isAuthenticated && !isSchoolRegistered && UserPreferencesOnSignupModal} */}
+          {/* {isAuthenticated && !isSchoolRegistered && UserPreferencesOnSignupModal} */}
 
-        {isAuthenticated && !isSchoolRegistered && (
-          <UserPreferencesOnSignupModal />
-        )}
+          {loginCompleted && !isSchoolandUserPreferencesCompleted && (
+            <UserPreferencesOnSignupModal
+              setIsShoolandUserPreferencesCompleted={
+                setIsShoolandUserPreferencesCompleted
+              }
+            />
+          )}
 
-        {isAuthenticated && isSchoolRegistered && (
-          <BrowserRouter>
-            {/* <Drawer /> */}
-            <Header></Header>
-            <Routing />
-          </BrowserRouter>
-        )}
-      </div>
+          {loginCompleted && isSchoolandUserPreferencesCompleted && (
+            <div>
+              {" "}
+              <Drawer />
+              <Header></Header>
+              <Routing />{" "}
+            </div>
+          )}
+        </div>
+      </BrowserRouter>
     </UserContext.Provider>
   );
 }

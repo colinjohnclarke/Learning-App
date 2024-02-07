@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import "animate.css";
 import { colors } from "../../../styles/colors";
@@ -9,6 +9,7 @@ import {
   updateUserScore,
   reverseUpdatePointsAvailable,
 } from "../../../features/CurrentBlockProgressData/currentblockprogressdata";
+import { UserContext } from "../../../App";
 
 function Score({ scoreData, totalMarksAvailable }) {
   const [score, setScore] = useState(0);
@@ -16,6 +17,8 @@ function Score({ scoreData, totalMarksAvailable }) {
   const [animateclass, setAnimateClass] = useState("");
 
   const { correctAnswerIsSelected, pointsScored } = scoreData;
+
+  const { silentModeActive } = useContext(UserContext);
 
   const correctStyle = {
     backgroundColor: colors.correctColor,
@@ -58,7 +61,10 @@ function Score({ scoreData, totalMarksAvailable }) {
 
         if (!indexMarkUpdated[updateMarkArrPosition]) {
           // if falsy
-          new Audio(correct).play();
+
+          if (silentModeActive) {
+            new Audio(correct).play();
+          }
 
           // set state value at that position to true so will not be played twice when function rerun
           setIndexMarkUpdated((prevState) => {

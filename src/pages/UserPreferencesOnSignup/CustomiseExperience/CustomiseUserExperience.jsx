@@ -5,42 +5,132 @@ import { ThemeStyles } from "../../../styles/ThemeStyles";
 import { device } from "../../../styles/breakpoints";
 import { AiOutlineSound } from "react-icons/ai";
 import { FaRegLightbulb } from "react-icons/fa";
+import { LuFlashlight } from "react-icons/lu";
+import { LuFlashlightOff } from "react-icons/lu";
+import { HiOutlineSpeakerWave } from "react-icons/hi2";
+import { HiOutlineSpeakerXMark } from "react-icons/hi2";
+import MainActionBtn from "../../../components/Buttons/MainActionBtn";
+import { useNavigate } from "react-router-dom";
 
-function CustomiseUserExperience() {
-  const { darkThemeActive, setDarkThemeActive } = useContext(UserContext);
-  const [isChecked, setIsChecked] = useState(false);
+function CustomiseUserExperience({
+  setDisplayCustomiseUserExperience,
+  setIsShoolandUserPreferencesCompleted,
+  setDisplayStudentAndSchoolWrapper,
+}) {
+  const {
+    darkThemeActive,
+    setDarkThemeActive,
+    silentModeActive,
+    setSilentModeActive,
+  } = useContext(UserContext);
+  // const [isDarkModeChecked, setDarkModeChecked] = useState(false);
+  // const [isSoundOff, setIsSoundOff] = useState(false);
 
   // const menuRef = useRef(null);
 
-  const handleCheckboxChange = () => {
-    setIsChecked(!isChecked);
+  const navigate = useNavigate();
+
+  const handleDarkModeCheckboxChange = () => {
+    // setDarkModeChecked(!isDarkModeChecked);
     setDarkThemeActive((val) => !val);
+  };
+
+  const handleSoundOffCheckboxChange = () => {
+    setSilentModeActive((val) => !val);
+  };
+
+  const handleClick = () => {
+    setDisplayCustomiseUserExperience(false);
+    setIsShoolandUserPreferencesCompleted((val) => true);
+    // navigate("/dashboard");
+  };
+
+  const handleBackBtnClicked = () => {
+    setDisplayCustomiseUserExperience(false);
+    setDisplayStudentAndSchoolWrapper(true);
   };
 
   return (
     <ModalContent darkThemeActive={darkThemeActive}>
-      Select your preferred settings, you can always change later!
+      <p> Select your preferred settings, you can always change later!</p>
+
       <Box>
-        <p>Sound Effects</p>
-        <AiOutlineSound />
+        <p
+          style={{
+            color: darkThemeActive
+              ? ThemeStyles.lightThemePrimaryFrontColor
+              : ThemeStyles.darkThemePrimaryFontColor,
+          }}
+        >
+          Sound Effects
+        </p>
+
+        {silentModeActive ? (
+          <HiOutlineSpeakerXMark
+            size={20}
+            fill={darkThemeActive ? "darkgrey" : "white"}
+            stroke={darkThemeActive ? "darkgrey" : "white"}
+          />
+        ) : (
+          <HiOutlineSpeakerWave
+            size={20}
+            fill={darkThemeActive ? "darkgrey" : "white"}
+            stroke={darkThemeActive ? "darkgrey" : "white"}
+          />
+        )}
 
         <Label class="switch">
-          <Input type="checkbox" />
+          <Input type="checkbox" onChange={handleSoundOffCheckboxChange} />
           <Span></Span>
         </Label>
       </Box>
       <Box>
-        <p>Dark mode</p>
-        <FaRegLightbulb />
-        <Label class="switch">
-          <Input
-            checked={isChecked}
-            onChange={handleCheckboxChange}
-            type="checkbox"
+        <p
+          style={{
+            color: darkThemeActive
+              ? ThemeStyles.lightThemePrimaryFrontColor
+              : ThemeStyles.darkThemePrimaryFontColor,
+          }}
+        >
+          Dark Mode
+        </p>
+
+        {darkThemeActive ? (
+          <LuFlashlight
+            size={20}
+            style={{ position: "relative", left: "8px" }}
+            fill={darkThemeActive ? "darkgrey" : "white"}
+            stroke={"darkgrey"}
           />
+        ) : (
+          <LuFlashlightOff
+            size={20}
+            style={{ position: "relative", left: "8px" }}
+            fill={darkThemeActive ? "" : "white"}
+            stroke="white"
+          />
+        )}
+
+        <Label class="switch">
+          <Input onChange={handleDarkModeCheckboxChange} type="checkbox" />
           <Span></Span>
         </Label>
       </Box>
+      <BtnDiv>
+        <MainActionBtn
+          onClick={handleClick}
+          darkThemeActive={darkThemeActive}
+          style={{ width: "100%" }}
+        >
+          {" "}
+          <p style={{ fontSize: "15px" }}>Save</p>
+        </MainActionBtn>
+
+        <MainActionBtn onClick={handleBackBtnClicked} style={{ width: "100%" }}>
+          {" "}
+          Previous
+        </MainActionBtn>
+      </BtnDiv>
     </ModalContent>
   );
 }
@@ -48,7 +138,7 @@ function CustomiseUserExperience() {
 export default CustomiseUserExperience;
 
 const ModalContent = styled.div`
-  width: 60%;
+  max-width: 60%;
   position: relative;
   background-color: #fff;
   padding: 60px;
@@ -57,6 +147,14 @@ const ModalContent = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryFrontColor
+      : ThemeStyles.darkThemePrimaryFontColor};
+
+  @media ${device.tablet} {
+    width: auto;
+  }
   color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryFrontColor
@@ -72,9 +170,33 @@ const ModalContent = styled.div`
       ? ThemeStyles.lightThemeMainBoxShadow
       : ThemeStyles.darkThemeMainBoxShadow};
 
+  p {
+    color: ${(props) =>
+      props.darkThemeActive
+        ? ThemeStyles.lightThemePrimaryFrontColor
+        : ThemeStyles.darkThemePrimaryFontColor};
+  }
+
   @media ${device.tablet} {
     width: auto;
   }
+`;
+
+// color: ${(props) =>
+//   props.darkThemeActive
+//     ? ThemeStyles.lightThemePrimaryFrontColor
+//     : ThemeStyles.darkThemePrimaryFontColor};
+
+const P = styled.p`
+  color: red;
+`;
+
+const BtnDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  // border: 1px solid;
+  width: 100%;
+  margin-top: 30px;
 `;
 
 const Box = styled.div`
@@ -84,10 +206,6 @@ const Box = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-left: 10px;git 
-  margin-right: 20px;
-  padding-left: 6px;
-  padding-right: 6px;
 
   border-bottom: 1px solid ${ThemeStyles.highlightSecondaryColor};
 

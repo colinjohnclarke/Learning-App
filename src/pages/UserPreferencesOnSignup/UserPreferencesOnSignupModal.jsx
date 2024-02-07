@@ -6,23 +6,33 @@ import StudentSchoolandYearWrapper from "./StudentSchoolandYearWrapper";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import CustomiseUserExperience from "./CustomiseExperience/CustomiseUserExperience";
 
-function UserPreferencesOnSignupModal() {
+function UserPreferencesOnSignupModal({
+  setIsShoolandUserPreferencesCompleted,
+}) {
   const [displayStudentAndSchoolWrapper, setDisplayStudentAndSchoolWrapper] =
-    useState(false);
+    useState(true);
 
   const [displayCustomiseUserExperience, setDisplayCustomiseUserExperience] =
-    useState(true);
+    useState(false);
 
   return (
     <ModalWrapper>
       {displayStudentAndSchoolWrapper && !displayCustomiseUserExperience && (
         <StudentSchoolandYearWrapper
+          setDisplayStudentAndSchoolWrapper={setDisplayStudentAndSchoolWrapper}
+          setDisplayCustomiseUserExperience={setDisplayCustomiseUserExperience}
           className={"animate__animated  animate__fadeIn"}
         />
       )}
 
       {displayCustomiseUserExperience && !displayStudentAndSchoolWrapper && (
-        <CustomiseUserExperience />
+        <CustomiseUserExperience
+          setIsShoolandUserPreferencesCompleted={
+            setIsShoolandUserPreferencesCompleted
+          }
+          setDisplayCustomiseUserExperience={setDisplayCustomiseUserExperience}
+          setDisplayStudentAndSchoolWrapper={setDisplayStudentAndSchoolWrapper}
+        />
       )}
     </ModalWrapper>
   );
@@ -31,6 +41,7 @@ function UserPreferencesOnSignupModal() {
 export default UserPreferencesOnSignupModal;
 
 const ModalWrapper = styled.div`
+
   position: fixed;
   z-index: 1000;
   top: 0;

@@ -4,8 +4,12 @@ import AnimateCountFunction from "../../../components/functions/AnimateCountFunc
 import { FcClock } from "react-icons/fc";
 
 import { BsSmartwatch } from "react-icons/bs";
+
 function AllTimeLearningTimeBox({ data }) {
-  let allTimeLearningTime = data / 1000 / 60;
+  let allTimeLearningTime;
+  if (data) {
+    allTimeLearningTime = data / 1000 / 60;
+  }
 
   // let allTimeLearningTime = data?.user.totalTimeElapsed;
   // let allTimeLearningTime = 300;

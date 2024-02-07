@@ -7,16 +7,31 @@ import MainActionBtn from "../../components/Buttons/MainActionBtn";
 
 import SelectYear from "./SelectYear/SelectYear";
 
-function StudentSchoolandYearWrapper() {
+function StudentSchoolandYearWrapper({
+  setDisplayStudentAndSchoolWrapper,
+  setDisplayCustomiseUserExperience,
+}) {
+  const handleClick = () => {
+    setDisplayStudentAndSchoolWrapper(false);
+    setDisplayCustomiseUserExperience(true);
+  };
+
+
+
   return (
     <ModalContent style={{ boxShadow: ThemeStyles.lightThemeMainBoxShadow }}>
       <h2>Complete your signup</h2>
       <SelectSchool />
       <SelectYear />
-      <MainActionBtn style={{ width: "100%", marginTop: "20px" }}>
+      <MainActionBtn
+        onClick={handleClick}
+        style={{ width: "100%", marginTop: "20px" }}
+      >
         {" "}
         Save
       </MainActionBtn>
+
+     
     </ModalContent>
   );
 }

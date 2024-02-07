@@ -6,14 +6,33 @@ import { UserContext } from "../../App";
 import LogoutBtn from "../Login/LogoutBtn";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import { CiLineHeight } from "react-icons/ci";
+import { LuFlashlight } from "react-icons/lu";
+import { LuFlashlightOff } from "react-icons/lu";
+import { HiOutlineSpeakerWave } from "react-icons/hi2";
+import { HiOutlineSpeakerXMark } from "react-icons/hi2";
 
 function SettingsDrawerDesktop({ controllers }) {
   const { settingDrawerIsOpen, setSettingsDrawerIsOpen } = controllers;
 
-  const { userData, userAuth0, darkThemeActive, setDarkThemeActive } =
-    useContext(UserContext);
+  const {
+    userData,
+    userAuth0,
+    darkThemeActive,
+    setDarkThemeActive,
+    silentModeActive,
+    setSilentModeActive,
+  } = useContext(UserContext);
 
   const menuRef = useRef(null);
+
+  const handleDarkModeCheckboxChange = () => {
+    // setDarkModeChecked(!isDarkModeChecked);
+    setDarkThemeActive((val) => !val);
+  };
+
+  const handleSoundOffCheckboxChange = () => {
+    setSilentModeActive((val) => !val);
+  };
 
   const [isChecked, setIsChecked] = useState(false);
 
@@ -49,22 +68,65 @@ function SettingsDrawerDesktop({ controllers }) {
               userAuth0.email}
           </p>
         </div>
-
         <Box>
-          <p>Sound Effects</p>
+          <p
+            style={{
+              color: darkThemeActive
+                ? ThemeStyles.lightThemePrimaryFrontColor
+                : ThemeStyles.darkThemePrimaryFontColor,
+            }}
+          >
+            Sound Effects
+          </p>
+
+          {silentModeActive ? (
+            <HiOutlineSpeakerXMark
+              size={20}
+              fill={darkThemeActive ? "darkgrey" : "white"}
+              stroke={darkThemeActive ? "darkgrey" : "white"}
+            />
+          ) : (
+            <HiOutlineSpeakerWave
+              size={20}
+              fill={darkThemeActive ? "darkgrey" : "white"}
+              stroke={darkThemeActive ? "darkgrey" : "white"}
+            />
+          )}
+
           <Label class="switch">
-            <Input type="checkbox" />
+            <Input type="checkbox" onChange={handleSoundOffCheckboxChange} />
             <Span></Span>
           </Label>
         </Box>
         <Box>
-          <p>Dark mode</p>
-          <Label class="switch">
-            <Input
-              checked={isChecked}
-              onChange={handleCheckboxChange}
-              type="checkbox"
+          <p
+            style={{
+              color: darkThemeActive
+                ? ThemeStyles.lightThemePrimaryFrontColor
+                : ThemeStyles.darkThemePrimaryFontColor,
+            }}
+          >
+            Dark Mode
+          </p>
+
+          {darkThemeActive ? (
+            <LuFlashlight
+              size={20}
+              style={{ position: "relative", left: "8px" }}
+              fill={darkThemeActive ? "darkgrey" : "white"}
+              stroke={"darkgrey"}
             />
+          ) : (
+            <LuFlashlightOff
+              size={20}
+              style={{ position: "relative", left: "8px" }}
+              fill={darkThemeActive ? "" : "white"}
+              stroke="white"
+            />
+          )}
+
+          <Label class="switch">
+            <Input onChange={handleDarkModeCheckboxChange} type="checkbox" />
             <Span></Span>
           </Label>
         </Box>
@@ -203,4 +265,12 @@ const Span = styled.span`
     transition: 0.2s;
     border-radius: 50%;
   }
+`;
+
+const BtnDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  // border: 1px solid;
+  width: 100%;
+  margin-top: 30px;
 `;
