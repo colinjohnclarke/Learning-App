@@ -7,9 +7,7 @@ import { ThemeStyles } from "../../styles/ThemeStyles";
 function MainActionBtn({ ...atributes }) {
   const { darkThemeActive } = useContext(UserContext);
 
-  return (
-    <Btn darkThemeActive={darkThemeActive} type="button" {...atributes}></Btn>
-  );
+  return <Btn darkThemeActive type="button" {...atributes}></Btn>;
 }
 
 export default MainActionBtn;
@@ -25,18 +23,14 @@ const Btn = styled.button`
   // min-width: 350px;
   // max-width: 350px;
   border-radius: 5px;
-  border: 2px solid rgba(0, 240, 240, 1);
 
   background-color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor
       : ThemeStyles.darkThemePrimaryBackgroundColor};
 
-  box-shadow: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemeMainBoxShadow
-      : ThemeStyles.darkThemeMainBoxShadow};
-
+  box-shadow: rgb(0, 255, 255) 0px 0px 2px 1px,
+    rgb(39, 106, 245, 0.7) 2px 2px 2px 1px;
   p {
     color: ${(props) =>
       props.darkThemeActive

@@ -149,6 +149,7 @@ function RecentCourses() {
         alignItems: "center",
         fontWeight: "500",
         width: "100%",
+       
         borderRadius: "5px",
       }}
     >

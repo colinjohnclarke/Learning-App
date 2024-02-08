@@ -149,7 +149,7 @@ function CourseDetailedView() {
             }}
             style={{ width: "200px" }}
           >
-            <p  style={{ fontSize: "14px" }}>{buttonContent}</p>
+            <p style={{ fontSize: "14px" }}>{buttonContent}</p>
           </MainActionBtn>
         )}
       </div>
@@ -368,9 +368,9 @@ const Wrapper = styled.div`
 `;
 
 const Main = styled.div`
-  height: 100%;
+  height: 100vh;
   width: 100%;
-  transition: 0.3s;
+
   display: flex;
   flex-direction: column;
   align-items: center;

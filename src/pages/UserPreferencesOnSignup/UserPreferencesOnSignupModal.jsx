@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import "animate.css";
+import { UserContext } from "../../App";
 
 import StudentSchoolandYearWrapper from "./StudentSchoolandYearWrapper";
 import { ThemeStyles } from "../../styles/ThemeStyles";
@@ -15,8 +16,15 @@ function UserPreferencesOnSignupModal({
   const [displayCustomiseUserExperience, setDisplayCustomiseUserExperience] =
     useState(false);
 
+  const {
+    darkThemeActive,
+    setDarkThemeActive,
+    silentModeActive,
+    setSilentModeActive,
+  } = useContext(UserContext);
+
   return (
-    <ModalWrapper>
+    <ModalWrapper darkThemeActive={darkThemeActive}>
       {displayStudentAndSchoolWrapper && !displayCustomiseUserExperience && (
         <StudentSchoolandYearWrapper
           setDisplayStudentAndSchoolWrapper={setDisplayStudentAndSchoolWrapper}
@@ -41,7 +49,6 @@ function UserPreferencesOnSignupModal({
 export default UserPreferencesOnSignupModal;
 
 const ModalWrapper = styled.div`
-
   position: fixed;
   z-index: 1000;
   top: 0;
@@ -51,5 +58,15 @@ const ModalWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(0, 0, 0, 0.5);
+
+  background: ${(props) =>
+    props.darkThemeActive
+      ? `linear-gradient(
+          225deg,
+          rgba(0, 200, 200, 0.4) 0%,
+          rgba(0, 200, 200, 0.4) 20%,
+          rgba(0, 200, 200, 0.3) 60%,
+          rgba(39, 106, 245, 0.3) 100%
+        )`
+      : ThemeStyles.darkThemeSecondaryBackgroundColor};
 `;

@@ -16,22 +16,18 @@ function StudentSchoolandYearWrapper({
     setDisplayCustomiseUserExperience(true);
   };
 
-
-
   return (
-    <ModalContent style={{ boxShadow: ThemeStyles.lightThemeMainBoxShadow }}>
+    <ModalContent style={{ boxShadow: ThemeStyles.darkThemeMainBoxShadow }}>
       <h2>Complete your signup</h2>
       <SelectSchool />
       <SelectYear />
       <MainActionBtn
         onClick={handleClick}
-        style={{ width: "100%", marginTop: "20px" }}
+        style={{ width: "100%", marginTop: "20px", marginTop: "40px" }}
       >
         {" "}
         Save
       </MainActionBtn>
-
-     
     </ModalContent>
   );
 }
@@ -62,7 +58,9 @@ const ModalForm = styled.form`
 `;
 
 const ModalContent = styled.div`
+  height: 300px;
   width: 60%;
+  max-width: 500px;
   position: relative;
   background-color: #fff;
   padding: 60px;
@@ -71,12 +69,10 @@ const ModalContent = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemePrimaryFrontColor
-      : ThemeStyles.darkThemePrimaryFontColor};
+  // border: 1px solid red;
+  box-shadow: 0px 0px 30px 30px;
 
   @media ${device.tablet} {
-    width: auto;
+    width: 300px;
   }
 `;

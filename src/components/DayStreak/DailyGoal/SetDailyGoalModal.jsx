@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { TbTargetArrow } from "react-icons/tb";
 import MainActionBtn from "../../Buttons/MainActionBtn";
 import { UserContext } from "../../../App";
@@ -14,7 +14,10 @@ function SetDailyGoalModal({ modalIsOpen, setModalIsOpen }) {
   return (
     <>
       {modalIsOpen && (
-        <ModalWrapper darkThemeActive={darkThemeActive}>
+        <ModalWrapper
+          modalIsOpen={modalIsOpen}
+          darkThemeActive={darkThemeActive}
+        >
           <SetDailyGoal
             modalIsOpen={modalIsOpen}
             setModalIsOpen={setModalIsOpen}
@@ -42,6 +45,15 @@ const ModalWrapper = styled.div`
     props.darkThemeActive
       ? ThemeStyles.lightThemeMainBoxShadow
       : ThemeStyles.darkThemeMainBoxShadow};
+  transition: opacity 0.2s;
+  opacity: 1;
+
+  ${({ modalIsOpen }) =>
+    modalIsOpen &&
+    css`
+      opacity: 1;
+      pointer-events: auto;
+    `}
 `;
 
 const P = styled.p`

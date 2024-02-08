@@ -1,16 +1,13 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { UserContext } from "../../../App";
 import { ThemeStyles } from "../../../styles/ThemeStyles";
 import { device } from "../../../styles/breakpoints";
-import { AiOutlineSound } from "react-icons/ai";
-import { FaRegLightbulb } from "react-icons/fa";
 import { LuFlashlight } from "react-icons/lu";
 import { LuFlashlightOff } from "react-icons/lu";
 import { HiOutlineSpeakerWave } from "react-icons/hi2";
 import { HiOutlineSpeakerXMark } from "react-icons/hi2";
 import MainActionBtn from "../../../components/Buttons/MainActionBtn";
-import { useNavigate } from "react-router-dom";
 
 function CustomiseUserExperience({
   setDisplayCustomiseUserExperience,
@@ -23,26 +20,31 @@ function CustomiseUserExperience({
     silentModeActive,
     setSilentModeActive,
   } = useContext(UserContext);
-  // const [isDarkModeChecked, setDarkModeChecked] = useState(false);
-  // const [isSoundOff, setIsSoundOff] = useState(false);
 
-  // const menuRef = useRef(null);
+  const [uodate, setUpdate] = useState(false);
+  console.log("🚀 ~ darkThemeActive:", darkThemeActive);
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    setUpdate(!uodate);
+  }, []);
 
-  const handleDarkModeCheckboxChange = () => {
-    // setDarkModeChecked(!isDarkModeChecked);
-    setDarkThemeActive((val) => !val);
+  const handleDarkModeCheckboxChange = (e) => {
+    e.preventDefault();
+    const newVal = !darkThemeActive;
+    setDarkThemeActive(newVal);
+    localStorage.setItem("darkThemeActive", newVal);
   };
 
-  const handleSoundOffCheckboxChange = () => {
-    setSilentModeActive((val) => !val);
+  const handleSoundOffCheckboxChange = (e) => {
+    e.preventDefault();
+    const newValue = !silentModeActive;
+    setSilentModeActive(newValue);
+    localStorage.setItem("silentModeActive", newValue);
   };
 
   const handleClick = () => {
     setDisplayCustomiseUserExperience(false);
     setIsShoolandUserPreferencesCompleted((val) => true);
-    // navigate("/dashboard");
   };
 
   const handleBackBtnClicked = () => {
@@ -52,8 +54,8 @@ function CustomiseUserExperience({
 
   return (
     <ModalContent darkThemeActive={darkThemeActive}>
-      <p> Select your preferred settings, you can always change later!</p>
-
+      <h2>Preferences</h2>
+      <p> You can always change later!</p>
       <Box>
         <p
           style={{
@@ -80,8 +82,18 @@ function CustomiseUserExperience({
         )}
 
         <Label class="switch">
-          <Input type="checkbox" onChange={handleSoundOffCheckboxChange} />
-          <Span></Span>
+          <SilentModeInput
+            silentModeActive={silentModeActive}
+            // checked={silentModeActive}
+            type="checkbox"
+            onClick={handleSoundOffCheckboxChange}
+          />
+          <SilentModeSpan silentModeActive={silentModeActive}>
+            {" "}
+            <LightInnerSpan
+              silentModeActive={silentModeActive}
+            ></LightInnerSpan>
+          </SilentModeSpan>
         </Label>
       </Box>
       <Box>
@@ -99,24 +111,41 @@ function CustomiseUserExperience({
           <LuFlashlight
             size={20}
             style={{ position: "relative", left: "8px" }}
-            fill={darkThemeActive ? "darkgrey" : "white"}
+            fill={"darkgrey"}
             stroke={"darkgrey"}
           />
         ) : (
           <LuFlashlightOff
             size={20}
             style={{ position: "relative", left: "8px" }}
-            fill={darkThemeActive ? "" : "white"}
+            fill={darkThemeActive ? "white" : "white"}
             stroke="white"
           />
         )}
 
-        <Label class="switch">
-          <Input onChange={handleDarkModeCheckboxChange} type="checkbox" />
-          <Span></Span>
+        <Label>
+          <DarkThemeInput
+            darkThemeActive={darkThemeActive}
+            onClick={handleDarkModeCheckboxChange}
+            type="checkbox"
+          />
+          <DarkThemeSpan darkThemeActive={darkThemeActive}>
+            {" "}
+            <DarkInnerSpan
+              darkThemeActive={darkThemeActive}
+            ></DarkInnerSpan>{" "}
+          </DarkThemeSpan>
         </Label>
       </Box>
       <BtnDiv>
+        <MainActionBtn
+          darkThemeActive={darkThemeActive}
+          onClick={handleBackBtnClicked}
+          style={{ width: "100%" }}
+        >
+          {" "}
+          <p style={{ fontSize: "15px" }}>Previous</p>
+        </MainActionBtn>
         <MainActionBtn
           onClick={handleClick}
           darkThemeActive={darkThemeActive}
@@ -124,11 +153,6 @@ function CustomiseUserExperience({
         >
           {" "}
           <p style={{ fontSize: "15px" }}>Save</p>
-        </MainActionBtn>
-
-        <MainActionBtn onClick={handleBackBtnClicked} style={{ width: "100%" }}>
-          {" "}
-          Previous
         </MainActionBtn>
       </BtnDiv>
     </ModalContent>
@@ -138,7 +162,9 @@ function CustomiseUserExperience({
 export default CustomiseUserExperience;
 
 const ModalContent = styled.div`
-  max-width: 60%;
+  height: 300px;
+  width: 60%;
+  max-width: 500px;
   position: relative;
   background-color: #fff;
   padding: 60px;
@@ -147,48 +173,23 @@ const ModalContent = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemePrimaryFrontColor
-      : ThemeStyles.darkThemePrimaryFontColor};
-
-  @media ${device.tablet} {
-    width: auto;
-  }
-  color: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemePrimaryFrontColor
-      : ThemeStyles.darkThemePrimaryFontColor};
 
   background-color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor
       : ThemeStyles.darkThemePrimaryBackgroundColor};
 
-  box-shadow: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemeMainBoxShadow
-      : ThemeStyles.darkThemeMainBoxShadow};
+  @media ${device.tablet} {
+    width: 300px;
+  }
 
-  p {
+  p,
+  h2 {
     color: ${(props) =>
       props.darkThemeActive
         ? ThemeStyles.lightThemePrimaryFrontColor
         : ThemeStyles.darkThemePrimaryFontColor};
   }
-
-  @media ${device.tablet} {
-    width: auto;
-  }
-`;
-
-// color: ${(props) =>
-//   props.darkThemeActive
-//     ? ThemeStyles.lightThemePrimaryFrontColor
-//     : ThemeStyles.darkThemePrimaryFontColor};
-
-const P = styled.p`
-  color: red;
 `;
 
 const BtnDiv = styled.div`
@@ -207,8 +208,6 @@ const Box = styled.div`
   align-items: center;
   justify-content: space-between;
 
-  border-bottom: 1px solid ${ThemeStyles.highlightSecondaryColor};
-
   &:hover {
     transition: 0s;
     background-color: rgb(0, 240, 255, 0.2);
@@ -216,7 +215,6 @@ const Box = styled.div`
   }
 
   p {
-    font-size: 14px;
     color: ${(props) =>
       props.darkThemeActive
         ? ThemeStyles.lightThemePrimaryFrontColor
@@ -231,27 +229,23 @@ const Label = styled.label`
   height: 22px;
 `;
 
-const Input = styled.input`
+const SilentModeInput = styled.input`
   opacity: 0;
   width: 0;
   height: 0;
-
-  &:checked + span {
-    background-color: rgb(0, 250, 250);
-  }
-
-  &:focus + span {
-    box-shadow: 0 0 1px #2196f3;
-  }
-
-  &:checked + span::before {
-    transform: translateX(26px);
-  }
 `;
 
-const Span = styled.span`
+const DarkThemeInput = styled.input`
+  opacity: 0;
+  width: 0;
+  height: 0;
+`;
+
+const DarkThemeSpan = styled.span`
   position: absolute;
   cursor: pointer;
+  display: flex;
+  align-items: center;
   top: 0;
   left: 0;
   right: 0;
@@ -260,17 +254,49 @@ const Span = styled.span`
   -webkit-transition: 0.4s;
   transition: 0.2s;
   border-radius: 34px;
+  background-color: ${(props) =>
+    props.darkThemeActive ? "lightgrey" : "rgb(0,245, 245)"};
+`;
 
-  &:before {
-    position: absolute;
-    content: "";
-    height: 15px;
-    width: 15px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: 0.4s;
-    transition: 0.2s;
-    border-radius: 50%;
-  }
+const SilentModeSpan = styled.span`
+  position: absolute;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.2s;
+  border-radius: 34px;
+  background-color: ${(props) =>
+    props.silentModeActive ? "rgb(0,245, 245)" : "lightgrey"};
+`;
+
+const DarkInnerSpan = styled.span`
+  position: absolute;
+  content: "";
+  height: 15px;
+  width: 15px;
+  left: ${(props) => (props.darkThemeActive ? "4px" : "30px")};
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.2s;
+  border-radius: 50%;
+`;
+
+const LightInnerSpan = styled.span`
+  position: absolute;
+  content: "";
+  height: 15px;
+  width: 15px;
+  left: ${(props) => (props.silentModeActive ? "30px" : "4px")};
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.2s;
+  border-radius: 50%;
 `;

@@ -1,5 +1,5 @@
 import React, { useContext, useState, useRef, useEffect } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import "animate.css";
 import { device } from "../../styles/breakpoints";
 import { UserContext } from "../../App";
@@ -26,20 +26,18 @@ function SettingsDrawerDesktop({ controllers }) {
   const menuRef = useRef(null);
 
   const handleDarkModeCheckboxChange = () => {
-    // setDarkModeChecked(!isDarkModeChecked);
-    setDarkThemeActive((val) => !val);
+    const newVal = !darkThemeActive;
+    setDarkThemeActive((val) => newVal);
+
+    localStorage.setItem("darkThemeActive", newVal);
   };
 
   const handleSoundOffCheckboxChange = () => {
-    setSilentModeActive((val) => !val);
+    const newVal = !silentModeActive;
+    setSilentModeActive((val) => newVal);
+    localStorage.setItem("silentModeActive", newVal);
   };
 
-  const [isChecked, setIsChecked] = useState(false);
-
-  const handleCheckboxChange = () => {
-    setIsChecked(!isChecked);
-    setDarkThemeActive((val) => !val);
-  };
   let position = "-100%";
 
   if (settingDrawerIsOpen) {
@@ -47,105 +45,137 @@ function SettingsDrawerDesktop({ controllers }) {
   }
 
   return (
-    <Wrapper
-      position={position}
-      ref={menuRef}
-      darkThemeActive={darkThemeActive}
-    >
+    <div>
       <Outer
-        onClick={() => {
-          setSettingsDrawerIsOpen((val) => false);
-        }}
-      ></Outer>
+        isOpen={settingDrawerIsOpen}
+        onClick={() => setSettingsDrawerIsOpen(false)}
+      >
+        {/* Your content here */}
+      </Outer>
 
-      <Drawer darkThemeActive={darkThemeActive}>
-        <div style={{ height: "50px" }}></div>
-        <div style={{ height: "50px" }}>
-          <p style={{ fontweight: "600" }}>
-            {userData?.user.firstName ||
-              userAuth0?.name ||
-              userAuth0.family_name ||
-              userAuth0.email}
-          </p>
-        </div>
-        <Box>
-          <p
-            style={{
-              color: darkThemeActive
-                ? ThemeStyles.lightThemePrimaryFrontColor
-                : ThemeStyles.darkThemePrimaryFontColor,
-            }}
-          >
-            Sound Effects
-          </p>
+      <Wrapper
+        position={position}
+        ref={menuRef}
+        darkThemeActive={darkThemeActive}
+      >
+        <Drawer darkThemeActive={darkThemeActive}>
+          <div style={{ height: "50px" }}></div>
+          <div style={{ height: "50px" }}>
+            <p style={{ fontweight: "600" }}>
+              {userData?.user.firstName ||
+                userAuth0?.name ||
+                userAuth0.family_name ||
+                userAuth0.email}
+            </p>
+          </div>
+          <Box>
+            <p
+              style={{
+                color: darkThemeActive
+                  ? ThemeStyles.lightThemePrimaryFrontColor
+                  : ThemeStyles.darkThemePrimaryFontColor,
+              }}
+            >
+              Sound Effects
+            </p>
 
-          {silentModeActive ? (
-            <HiOutlineSpeakerXMark
-              size={20}
-              fill={darkThemeActive ? "darkgrey" : "white"}
-              stroke={darkThemeActive ? "darkgrey" : "white"}
-            />
-          ) : (
-            <HiOutlineSpeakerWave
-              size={20}
-              fill={darkThemeActive ? "darkgrey" : "white"}
-              stroke={darkThemeActive ? "darkgrey" : "white"}
-            />
-          )}
+            {silentModeActive ? (
+              <HiOutlineSpeakerXMark
+                size={20}
+                fill={darkThemeActive ? "darkgrey" : "white"}
+                stroke={darkThemeActive ? "darkgrey" : "white"}
+              />
+            ) : (
+              <HiOutlineSpeakerWave
+                size={20}
+                fill={darkThemeActive ? "darkgrey" : "white"}
+                stroke={darkThemeActive ? "darkgrey" : "white"}
+              />
+            )}
 
-          <Label class="switch">
-            <Input type="checkbox" onChange={handleSoundOffCheckboxChange} />
-            <Span></Span>
-          </Label>
-        </Box>
-        <Box>
-          <p
-            style={{
-              color: darkThemeActive
-                ? ThemeStyles.lightThemePrimaryFrontColor
-                : ThemeStyles.darkThemePrimaryFontColor,
-            }}
-          >
-            Dark Mode
-          </p>
+            <Label class="switch">
+              <SilentModeInput
+                silentModeActive={silentModeActive}
+                // checked={silentModeActive}
+                type="checkbox"
+                onClick={handleSoundOffCheckboxChange}
+              />
+              <SilentModeSpan silentModeActive={silentModeActive}>
+                {" "}
+                <LightInnerSpan
+                  silentModeActive={silentModeActive}
+                ></LightInnerSpan>
+              </SilentModeSpan>
+            </Label>
+          </Box>
+          <Box>
+            <p
+              style={{
+                color: darkThemeActive
+                  ? ThemeStyles.lightThemePrimaryFrontColor
+                  : ThemeStyles.darkThemePrimaryFontColor,
+              }}
+            >
+              Dark Mode
+            </p>
 
-          {darkThemeActive ? (
-            <LuFlashlight
-              size={20}
-              style={{ position: "relative", left: "8px" }}
-              fill={darkThemeActive ? "darkgrey" : "white"}
-              stroke={"darkgrey"}
-            />
-          ) : (
-            <LuFlashlightOff
-              size={20}
-              style={{ position: "relative", left: "8px" }}
-              fill={darkThemeActive ? "" : "white"}
-              stroke="white"
-            />
-          )}
+            {darkThemeActive ? (
+              <LuFlashlight
+                size={20}
+                style={{ position: "relative", left: "8px" }}
+                fill={"darkgrey"}
+                stroke={"darkgrey"}
+              />
+            ) : (
+              <LuFlashlightOff
+                size={20}
+                style={{ position: "relative", left: "8px" }}
+                fill={darkThemeActive ? "white" : "white"}
+                stroke="white"
+              />
+            )}
 
-          <Label class="switch">
-            <Input onChange={handleDarkModeCheckboxChange} type="checkbox" />
-            <Span></Span>
-          </Label>
-        </Box>
-        <LogoutBtn />
-      </Drawer>
-    </Wrapper>
+            <Label>
+              <DarkThemeInput
+                darkThemeActive={darkThemeActive}
+                onClick={handleDarkModeCheckboxChange}
+                type="checkbox"
+              />
+              <DarkThemeSpan darkThemeActive={darkThemeActive}>
+                {" "}
+                <DarkInnerSpan
+                  darkThemeActive={darkThemeActive}
+                ></DarkInnerSpan>{" "}
+              </DarkThemeSpan>
+            </Label>
+          </Box>
+          <LogoutBtn />
+        </Drawer>
+      </Wrapper>
+    </div>
   );
 }
 
 export default SettingsDrawerDesktop;
 
 const Outer = styled.div`
-  // background-color: grey;
+  background-color: rgba(0, 0, 0, 0.5);
   height: 100vh;
   width: 100vw;
   position: absolute;
   z-index: -20;
   top: 0;
   right: 0;
+  transition: 0.15s;
+  opacity: 0;
+  pointer-events: none;
+
+  ${({ isOpen }) =>
+    isOpen &&
+    css`
+      opacity: 1;
+      pointer-events: auto;
+    `}
 `;
 
 const Drawer = styled.div`
@@ -186,7 +216,7 @@ const Wrapper = styled.div`
   width: 200px;
   position: absolute;
   z-index: 0;
-  transition: 0.3s;
+  transition: 0.15s;
   top: 0px;
   right: ${(props) => props.position};
   display: flex;
@@ -202,17 +232,18 @@ const Box = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-left: 10px;
-  margin-right: 20px;
-  padding-left: 6px;
-  padding-right: 6px;
-
-  border-bottom: 1px solid ${ThemeStyles.highlightSecondaryColor};
 
   &:hover {
     transition: 0s;
     background-color: rgb(0, 240, 255, 0.2);
     border-radius: 5px;
+  }
+
+  p {
+    color: ${(props) =>
+      props.darkThemeActive
+        ? ThemeStyles.lightThemePrimaryFrontColor
+        : ThemeStyles.darkThemePrimaryFontColor};
   }
 `;
 
@@ -223,27 +254,23 @@ const Label = styled.label`
   height: 22px;
 `;
 
-const Input = styled.input`
+const SilentModeInput = styled.input`
   opacity: 0;
   width: 0;
   height: 0;
-
-  &:checked + span {
-    background-color: rgb(0, 250, 250);
-  }
-
-  &:focus + span {
-    box-shadow: 0 0 1px #2196f3;
-  }
-
-  &:checked + span::before {
-    transform: translateX(26px);
-  }
 `;
 
-const Span = styled.span`
+const DarkThemeInput = styled.input`
+  opacity: 0;
+  width: 0;
+  height: 0;
+`;
+
+const DarkThemeSpan = styled.span`
   position: absolute;
   cursor: pointer;
+  display: flex;
+  align-items: center;
   top: 0;
   left: 0;
   right: 0;
@@ -252,25 +279,49 @@ const Span = styled.span`
   -webkit-transition: 0.4s;
   transition: 0.2s;
   border-radius: 34px;
-
-  &:before {
-    position: absolute;
-    content: "";
-    height: 15px;
-    width: 15px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: 0.4s;
-    transition: 0.2s;
-    border-radius: 50%;
-  }
+  background-color: ${(props) =>
+    props.darkThemeActive ? "lightgrey" : "rgb(0,245, 245)"};
 `;
 
-const BtnDiv = styled.div`
+const SilentModeSpan = styled.span`
+  position: absolute;
+  cursor: pointer;
   display: flex;
-  flex-direction: row;
-  // border: 1px solid;
-  width: 100%;
-  margin-top: 30px;
+  align-items: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.2s;
+  border-radius: 34px;
+  background-color: ${(props) =>
+    props.silentModeActive ? "rgb(0,245, 245)" : "lightgrey"};
+`;
+
+const DarkInnerSpan = styled.span`
+  position: absolute;
+  content: "";
+  height: 15px;
+  width: 15px;
+  left: ${(props) => (props.darkThemeActive ? "4px" : "30px")};
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.2s;
+  border-radius: 50%;
+`;
+
+const LightInnerSpan = styled.span`
+  position: absolute;
+  content: "";
+  height: 15px;
+  width: 15px;
+  left: ${(props) => (props.silentModeActive ? "30px" : "4px")};
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.2s;
+  border-radius: 50%;
 `;

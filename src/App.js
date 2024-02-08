@@ -10,12 +10,7 @@ import {
   useGetUserByEmailQuery,
   useCreateUserMutation,
 } from "./features/api/UserData/userDataSlice";
-import NavigationBarMobile from "./components/Navigation/NavigationBarMobile";
-import AnimatedPercentageScore from "./pages/Dashboard/AnimatedPercentageScore";
-import spslogo from "./assets/images/spslogo.png";
-import styled from "styled-components";
-import { device } from "./styles/breakpoints";
-import { GiCorkHat } from "react-icons/gi";
+
 import UserPreferencesOnSignupModal from "./pages/UserPreferencesOnSignup/UserPreferencesOnSignupModal";
 
 export const UserContext = createContext();
@@ -38,8 +33,9 @@ function App() {
     courseView: "false",
   });
 
-  const [darkThemeActive, setDarkThemeActive] = useState(true);
-  const [silentModeActive, setSilentModeActive] = useState(false);
+  const [darkThemeActive, setDarkThemeActive] = useState();
+  console.log("🚀 ~ App ~ darkThemeActive:", darkThemeActive);
+  const [silentModeActive, setSilentModeActive] = useState();
 
   const userAuth0 = user;
 
@@ -104,63 +100,21 @@ function App() {
     setSilentModeActive,
   };
 
+  useEffect(() => {
+    const silentModeActiveVal = localStorage.getItem("silentModeActive");
+
+    setDarkThemeActive(silentModeActiveVal);
+
+    const darkThemeActiveVal = localStorage.getItem("darkThemeActive");
+
+    setDarkThemeActive(darkThemeActiveVal);
+  }, []);
+
   return (
-    // <UserContext.Provider value={userContextValues}>
-    //   <div>
-    //     {!isAuthenticated && (
-    //       <div
-    //         style={{
-    //           display: "flex",
-    //           flexDirection: "column",
-    //           alignItems: "center",
-    //         }}
-    //       >
-    //         {" "}
-    //         <h1 style={{ fontWeight: "500", color: "rgb(0, 240, 240)" }}>
-    //           SPS online
-    //         </h1>
-    //         <img style={{ height: "230px" }} src={spslogo} alt="" />
-    //         <Login></Login>
-    //       </div>
-    //     )}
-
-    //     {/* {isAuthenticated && !isSchoolRegistered && UserPreferencesOnSignupModal} */}
-
-    //     {isAuthenticated && !isSchoolRegistered && (
-    //       <UserPreferencesOnSignupModal />
-    //     )}
-
-    //     {isAuthenticated && isSchoolRegistered && (
-    //       <BrowserRouter>
-    //         {/* <Drawer /> */}
-    //         <Header></Header>
-    //         <Routing />
-    //       </BrowserRouter>
-    //     )}
-    //   </div>
-    // </UserContext.Provider>
-
     <UserContext.Provider value={userContextValues}>
       <BrowserRouter>
         <div>
-          {!isAuthenticated && (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              {" "}
-              <h1 style={{ fontWeight: "500", color: "rgb(0, 240, 240)" }}>
-                SPS online
-              </h1>
-              <img style={{ height: "230px" }} src={spslogo} alt="" />
-              <Login></Login>
-            </div>
-          )}
-
-          {/* {isAuthenticated && !isSchoolRegistered && UserPreferencesOnSignupModal} */}
+          {!isAuthenticated && <Login />}
 
           {loginCompleted && !isSchoolandUserPreferencesCompleted && (
             <UserPreferencesOnSignupModal
