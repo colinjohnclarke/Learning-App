@@ -1,16 +1,18 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useContext } from "react";
 import styled from "styled-components";
 import { ThemeStyles } from "../../../styles/ThemeStyles";
-import { device } from "../../../styles/breakpoints";
-import SelectSchool from "../SelectSchool/SelectSchool";
+
 import Years from "./Years";
 import { FcNext } from "react-icons/fc";
 import { IoCalendarNumberOutline } from "react-icons/io5";
+import { UserContext } from "../../../App";
+import { device } from "../../../styles/breakpoints";
 
 function SelectYear() {
   const [selectedYear, setSelectedYear] = useState("");
   const [isDropDownDisplayed, setIsDropDownDisplayed] = useState(false);
   const dropdownRef = useRef(null);
+  const { darkThemeActive } = useContext(UserContext);
 
   // useEffect(() => {
   //   const handleOutsideClick = (e) => {
@@ -41,13 +43,15 @@ function SelectYear() {
         }}
       >
         {" "}
-        <LabelText>Select Year</LabelText>
+        <LabelText darkThemeActive={darkThemeActive}>Select Year</LabelText>
         <IoCalendarNumberOutline
-          style={{ marginLeft: "15px", position: "relative", left: "12px" }}
+          stroke={darkThemeActive ? "" : "white"}
+          style={{ marginLeft: "15px", position: "relative", left: "14px" }}
         />
       </div>
 
       <DropdownButton
+        darkThemeActive={darkThemeActive}
         onClick={() => {
           setIsDropDownDisplayed((val) => !val);
         }}
@@ -62,6 +66,7 @@ function SelectYear() {
         />
       </DropdownButton>
       <DropdownOptions
+        darkThemeActive={darkThemeActive}
         ref={dropdownRef}
         style={{ height: isDropDownDisplayed ? "200px" : "0px" }}
         // onClick={(e) => e.stopPropagation()}
@@ -72,6 +77,7 @@ function SelectYear() {
             onClick={() => {
               setSelectedYear(year);
               setIsDropDownDisplayed((val) => false);
+              localStorage.setItem("yearGroup", year);
             }}
           >
             {year}
@@ -88,6 +94,14 @@ const Wrapper = styled.div`
   width: 100%;
   min-width: 300px;
   position: relative;
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
+
+  // @media ${device.tablet} {
+  //   width: 300px;
+  // }
 `;
 
 const Btn = styled.button`
@@ -104,6 +118,12 @@ const LabelText = styled.label`
   font-size: 13px;
   position: relative;
   right: 5px;
+
+  background: transparent;
+  color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryFrontColor
+      : ThemeStyles.darkThemePrimaryFontColor};
 `;
 
 const DropdownContainer = styled.div`
@@ -127,8 +147,20 @@ const DropdownButton = styled.button`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
 
-  box-shadow: ${ThemeStyles.lightThemeMainBoxShadow};
+  color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryFrontColor
+      : ThemeStyles.darkThemePrimaryFontColor};
+
+  box-shadow: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemeMainBoxShadow
+      : ThemeStyles.darkThemeMainBoxShadow};
 `;
 
 const DropdownOptions = styled.div`
@@ -146,6 +178,18 @@ const DropdownOptions = styled.div`
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   font-size: 13px;
+
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
+
+  div {
+    color: ${(props) =>
+      props.darkThemeActive
+        ? ThemeStyles.lightThemePrimaryFrontColor
+        : ThemeStyles.darkThemePrimaryFontColor};
+  }
 `;
 
 const OptionItem = styled.div`

@@ -8,6 +8,8 @@ import { LuFlashlightOff } from "react-icons/lu";
 import { HiOutlineSpeakerWave } from "react-icons/hi2";
 import { HiOutlineSpeakerXMark } from "react-icons/hi2";
 import MainActionBtn from "../../../components/Buttons/MainActionBtn";
+import { CiSettings } from "react-icons/ci";
+import { IDLE_NAVIGATION } from "@remix-run/router";
 
 function CustomiseUserExperience({
   setDisplayCustomiseUserExperience,
@@ -21,41 +23,62 @@ function CustomiseUserExperience({
     setSilentModeActive,
   } = useContext(UserContext);
 
-  const [uodate, setUpdate] = useState(false);
-  console.log("🚀 ~ darkThemeActive:", darkThemeActive);
-
-  useEffect(() => {
-    setUpdate(!uodate);
-  }, []);
-
   const handleDarkModeCheckboxChange = (e) => {
     e.preventDefault();
     const newVal = !darkThemeActive;
     setDarkThemeActive(newVal);
-    localStorage.setItem("darkThemeActive", newVal);
   };
 
   const handleSoundOffCheckboxChange = (e) => {
     e.preventDefault();
     const newValue = !silentModeActive;
     setSilentModeActive(newValue);
-    localStorage.setItem("silentModeActive", newValue);
   };
 
-  const handleClick = () => {
+  const handleSaveBtnClicked = (e) => {
+    e.preventDefault();
     setDisplayCustomiseUserExperience(false);
-    setIsShoolandUserPreferencesCompleted((val) => true);
+    setIsShoolandUserPreferencesCompleted(true);
+
+    const silentModeActiveVal = silentModeActive;
+    const darkThemeActiveVal = darkThemeActive;
+
+    if (
+      localStorage.getItem("silentModeActive") === undefined ||
+      localStorage.getItem("silentModeActive") === null
+    ) {
+      localStorage.setItem("silentModeActive", false);
+    }
+
+    if (
+      localStorage.getItem("darkThemeActive") === undefined ||
+      localStorage.getItem("darkThemeActive") === null
+    ) {
+      localStorage.setItem("darkThemeActive", true);
+    } else if (
+      localStorage.getItem("silentModeActive") === "true" ||
+      localStorage.getItem("silentModeActive") === "false"
+    ) {
+      localStorage.setItem("silentModeActive", silentModeActiveVal);
+    } else if (
+      localStorage.getItem("darkThemeActive") === "true" ||
+      localStorage.getItem("darkThemeActive") === "false"
+    ) {
+      localStorage.setItem("darkThemeActive", darkThemeActiveVal);
+    }
   };
 
-  const handleBackBtnClicked = () => {
+  const handleBackBtnClicked = (e) => {
+    e.preventDefault();
     setDisplayCustomiseUserExperience(false);
     setDisplayStudentAndSchoolWrapper(true);
   };
 
   return (
     <ModalContent darkThemeActive={darkThemeActive}>
-      <h2>Preferences</h2>
-      <p> You can always change later!</p>
+      <h2>Settings</h2>
+
+      <CiSettings size={40} fill={darkThemeActive ? "" : "white"} />
       <Box>
         <p
           style={{
@@ -137,6 +160,7 @@ function CustomiseUserExperience({
           </DarkThemeSpan>
         </Label>
       </Box>
+
       <BtnDiv>
         <MainActionBtn
           darkThemeActive={darkThemeActive}
@@ -147,7 +171,9 @@ function CustomiseUserExperience({
           <p style={{ fontSize: "15px" }}>Previous</p>
         </MainActionBtn>
         <MainActionBtn
-          onClick={handleClick}
+          onClick={(e) => {
+            handleSaveBtnClicked(e);
+          }}
           darkThemeActive={darkThemeActive}
           style={{ width: "100%" }}
         >
@@ -155,6 +181,8 @@ function CustomiseUserExperience({
           <p style={{ fontSize: "15px" }}>Save</p>
         </MainActionBtn>
       </BtnDiv>
+      <div style={{ height: "40px" }}></div>
+      <p style={{ fontSize: "13px" }}> You can always change these later!</p>
     </ModalContent>
   );
 }
@@ -162,7 +190,7 @@ function CustomiseUserExperience({
 export default CustomiseUserExperience;
 
 const ModalContent = styled.div`
-  height: 300px;
+  height: 450px;
   width: 60%;
   max-width: 500px;
   position: relative;
@@ -172,16 +200,16 @@ const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  box-shadow: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemeMainBoxShadow
+      : ThemeStyles.darkThemeMainBoxShadow};
 
   background-color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor
       : ThemeStyles.darkThemePrimaryBackgroundColor};
-
-  @media ${device.tablet} {
-    width: 300px;
-  }
 
   p,
   h2 {
@@ -189,6 +217,10 @@ const ModalContent = styled.div`
       props.darkThemeActive
         ? ThemeStyles.lightThemePrimaryFrontColor
         : ThemeStyles.darkThemePrimaryFontColor};
+  }
+
+  @media ${device.tablet} {
+    width: 300px;
   }
 `;
 
@@ -272,7 +304,7 @@ const SilentModeSpan = styled.span`
   transition: 0.2s;
   border-radius: 34px;
   background-color: ${(props) =>
-    props.silentModeActive ? "rgb(0,245, 245)" : "lightgrey"};
+    props.silentModeActive ? "lightgrey)" : "rgb(0,245, 245)"};
 `;
 
 const DarkInnerSpan = styled.span`
@@ -293,7 +325,7 @@ const LightInnerSpan = styled.span`
   content: "";
   height: 15px;
   width: 15px;
-  left: ${(props) => (props.silentModeActive ? "30px" : "4px")};
+  left: ${(props) => (props.silentModeActive ? "4px" : "30px")};
   bottom: 4px;
   background-color: white;
   -webkit-transition: 0.4s;

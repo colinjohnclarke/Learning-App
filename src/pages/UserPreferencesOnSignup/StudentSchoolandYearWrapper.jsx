@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import { device } from "../../styles/breakpoints";
 import SelectSchool from "./SelectSchool/SelectSchool";
 import MainActionBtn from "../../components/Buttons/MainActionBtn";
+import { GiArchiveRegister } from "react-icons/gi";
+import { UserContext } from "../../App";
 
 import SelectYear from "./SelectYear/SelectYear";
 
@@ -11,17 +13,20 @@ function StudentSchoolandYearWrapper({
   setDisplayStudentAndSchoolWrapper,
   setDisplayCustomiseUserExperience,
 }) {
+  const { darkThemeActive } = useContext(UserContext);
   const handleClick = () => {
     setDisplayStudentAndSchoolWrapper(false);
     setDisplayCustomiseUserExperience(true);
   };
 
   return (
-    <ModalContent style={{ boxShadow: ThemeStyles.darkThemeMainBoxShadow }}>
+    <ModalContent darkThemeActive={darkThemeActive}>
       <h2>Complete your signup</h2>
+      <GiArchiveRegister fill={darkThemeActive ? "" : "white"} size={45} />
       <SelectSchool />
       <SelectYear />
       <MainActionBtn
+        darkThemeActive={darkThemeActive}
         onClick={handleClick}
         style={{ width: "100%", marginTop: "20px", marginTop: "40px" }}
       >
@@ -34,31 +39,8 @@ function StudentSchoolandYearWrapper({
 
 export default StudentSchoolandYearWrapper;
 
-const P = styled.p`
-  padding-right: 10px;
-  color: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemePrimaryFrontColor
-      : ThemeStyles.darkThemePrimaryFontColor};
-`;
-
-const Name = styled.div`
-  padding-left: 10px;
-  color: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemePrimaryFrontColor
-      : ThemeStyles.darkThemePrimaryFontColor};
-`;
-
-const ModalForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
 const ModalContent = styled.div`
-  height: 300px;
+  height: 450px;
   width: 60%;
   max-width: 500px;
   position: relative;
@@ -68,9 +50,24 @@ const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  // border: 1px solid red;
-  box-shadow: 0px 0px 30px 30px;
+  justify-content: space-between;
+  box-shadow: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemeMainBoxShadow
+      : ThemeStyles.darkThemeMainBoxShadow};
+
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
+
+  p,
+  h2 {
+    color: ${(props) =>
+      props.darkThemeActive
+        ? ThemeStyles.lightThemePrimaryFrontColor
+        : ThemeStyles.darkThemePrimaryFontColor};
+  }
 
   @media ${device.tablet} {
     width: 300px;

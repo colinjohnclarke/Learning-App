@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useGetUserSchoolQuery } from "../../../features/api/UserData/userSchool";
 import styled from "styled-components";
 import { ThemeStyles } from "../../../styles/ThemeStyles";
 import { IoSchoolOutline } from "react-icons/io5";
+import { UserContext } from "../../../App";
 
 function SelectSchool() {
   const [schoolQuery, setSchoolQuery] = useState("");
@@ -11,35 +12,49 @@ function SelectSchool() {
 
   const [placeholderText, setPlaceHolderText] = useState("Start by typing...");
 
+  const { darkThemeActive } = useContext(UserContext);
+
   let searchResult;
   if (data && !isLoading) {
     searchResult = data?.data.map((school) => (
       <OptionItem
+        darkThemeActive={darkThemeActive}
         onClick={(e) => {
           setSelectedSchool((val) => school);
           setPlaceHolderText((val) => school.name);
           setSchoolQuery((val) => "");
 
-          console.log(e.target.value);
+          localStorage.setItem("schoolName", school.name);
+          localStorage.setItem("schoolLocalAuthority", school.la);
+          localStorage.setItem("schoolTown", school.town);
         }}
         key={school.id}
       >
         {school.name && (
-          <SchoolName>
+          <SchoolName darkThemeActive={darkThemeActive}>
             <p style={{ fontWeight: "500", fontSize: "13px" }}>{school.name}</p>
           </SchoolName>
         )}
         {school.town && school.la && (
-          <SchoolLocation>
-            <LocationInfo style={{ fontWeight: "300", fontSize: "12px" }}>
+          <SchoolLocation darkThemeActive={darkThemeActive}>
+            <LocationInfo
+              darkThemeActive={darkThemeActive}
+              style={{ fontWeight: "300", fontSize: "12px" }}
+            >
               {school.town}&nbsp;
             </LocationInfo>
 
-            <LocationInfo style={{ fontWeight: "300", fontSize: "12px" }}>
+            <LocationInfo
+              darkThemeActive={darkThemeActive}
+              style={{ fontWeight: "300", fontSize: "12px" }}
+            >
               {" "}
               {school.la}
             </LocationInfo>
-            <LocationInfo style={{ fontWeight: "300", fontSize: "12px" }}>
+            <LocationInfo
+              darkThemeActive={darkThemeActive}
+              style={{ fontWeight: "300", fontSize: "12px" }}
+            >
               {" "}
               &nbsp;{school.postcode}
             </LocationInfo>
@@ -50,7 +65,7 @@ function SelectSchool() {
   }
 
   return (
-    <Wrapper>
+    <Wrapper darkThemeActive={darkThemeActive}>
       <div
         style={{
           display: "flex",
@@ -61,10 +76,14 @@ function SelectSchool() {
       >
         {" "}
         <LabelText>Select School</LabelText>
-        <IoSchoolOutline style={{ marginLeft: "15px" }} />
+        <IoSchoolOutline
+          stroke={darkThemeActive ? "" : "white"}
+          style={{ marginLeft: "15px" }}
+        />
       </div>
 
       <Input
+        darkThemeActive={darkThemeActive}
         style={{ fontSize: "12px" }}
         placeholder={placeholderText}
         value={schoolQuery}
@@ -88,18 +107,30 @@ const Wrapper = styled.div`
   min-width: 300px;
   position: relative;
   margin: 20px;
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
 `;
 
 const SchoolName = styled.div`
   margin-top: 15px;
   padding: 0;
   margin: 0;
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
 `;
 
 const SchoolLocation = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 15px;
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
 `;
 
 const Input = styled.input`
@@ -107,15 +138,26 @@ const Input = styled.input`
   border-radius: 5px;
   padding-left: 5px;
   width: 100%;
-  box-shadow: ${ThemeStyles.lightThemeMainBoxShadow};
+  box-shadow: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemeMainBoxShadow
+      : ThemeStyles.darkThemeMainBoxShadow};
   border: none;
+
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
 
   &::placeholder {
     font-size: 13px;
     font-weight: 400;
     fontstyle: italic;
     letter-spacing: 0px;
-    color: rgb(58, 57, 57);
+    color: ${(props) =>
+      props.darkThemeActive
+        ? ThemeStyles.lightThemePrimaryFrontColor
+        : ThemeStyles.darkThemePrimaryFontColor};
     margin-left: 10px;
   }
 `;
@@ -124,6 +166,11 @@ const LabelText = styled.label`
   font-size: 13px;
   position: relative;
   right: 5px;
+  background: transparent;
+  color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryFrontColor
+      : ThemeStyles.darkThemePrimaryFontColor};
 `;
 
 const SearchResult = styled.div`
@@ -141,6 +188,10 @@ const SearchResult = styled.div`
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
     rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   font-size: 13px;
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
 `;
 
 const OptionItem = styled.div`
@@ -152,6 +203,10 @@ const OptionItem = styled.div`
   align-items: left;
   justify-content: space-around;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 0px 2px -1px;
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
 
   &:hover {
     background-color: rgb(0, 245, 245, 0.1);
@@ -160,4 +215,9 @@ const OptionItem = styled.div`
 
 const LocationInfo = styled.p`
   margin: 0;
+
+  color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryFrontColor
+      : ThemeStyles.darkThemePrimaryFontColor};
 `;

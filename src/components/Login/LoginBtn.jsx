@@ -19,7 +19,7 @@ const LoginBtn = () => {
       >
         {" "}
         <MainActionBtn
-          darkThemeActive
+          darkThemeActive={darkThemeActive}
           style={{ width: "350px", height: "50px" }}
           onClick={() => loginWithRedirect()}
         >

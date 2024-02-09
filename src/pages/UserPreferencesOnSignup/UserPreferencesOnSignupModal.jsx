@@ -24,37 +24,48 @@ function UserPreferencesOnSignupModal({
   } = useContext(UserContext);
 
   return (
-    <ModalWrapper darkThemeActive={darkThemeActive}>
-      {displayStudentAndSchoolWrapper && !displayCustomiseUserExperience && (
-        <StudentSchoolandYearWrapper
-          setDisplayStudentAndSchoolWrapper={setDisplayStudentAndSchoolWrapper}
-          setDisplayCustomiseUserExperience={setDisplayCustomiseUserExperience}
-          className={"animate__animated  animate__fadeIn"}
-        />
-      )}
+    <div>
+      <h1> HEJHJHJH{JSON.stringify(darkThemeActive)}</h1>
+      <ModalWrapper darkThemeActive={darkThemeActive}>
+        {displayStudentAndSchoolWrapper && !displayCustomiseUserExperience && (
+          <StudentSchoolandYearWrapper
+            setDisplayStudentAndSchoolWrapper={
+              setDisplayStudentAndSchoolWrapper
+            }
+            setDisplayCustomiseUserExperience={
+              setDisplayCustomiseUserExperience
+            }
+            className={"animate__animated  animate__fadeIn"}
+          />
+        )}
 
-      {displayCustomiseUserExperience && !displayStudentAndSchoolWrapper && (
-        <CustomiseUserExperience
-          setIsShoolandUserPreferencesCompleted={
-            setIsShoolandUserPreferencesCompleted
-          }
-          setDisplayCustomiseUserExperience={setDisplayCustomiseUserExperience}
-          setDisplayStudentAndSchoolWrapper={setDisplayStudentAndSchoolWrapper}
-        />
-      )}
-    </ModalWrapper>
+        {displayCustomiseUserExperience && !displayStudentAndSchoolWrapper && (
+          <CustomiseUserExperience
+            setIsShoolandUserPreferencesCompleted={
+              setIsShoolandUserPreferencesCompleted
+            }
+            setDisplayCustomiseUserExperience={
+              setDisplayCustomiseUserExperience
+            }
+            setDisplayStudentAndSchoolWrapper={
+              setDisplayStudentAndSchoolWrapper
+            }
+          />
+        )}
+      </ModalWrapper>
+    </div>
   );
 }
 
 export default UserPreferencesOnSignupModal;
 
 const ModalWrapper = styled.div`
-  position: fixed;
-  z-index: 1000;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  // position: fixed;
+  // z-index: 1000;
+  // top: 0;
+  // left: 0;
+  // width: 100%;
+  // height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -62,11 +73,11 @@ const ModalWrapper = styled.div`
   background: ${(props) =>
     props.darkThemeActive
       ? `linear-gradient(
-          225deg,
-          rgba(0, 200, 200, 0.4) 0%,
-          rgba(0, 200, 200, 0.4) 20%,
-          rgba(0, 200, 200, 0.3) 60%,
-          rgba(39, 106, 245, 0.3) 100%
-        )`
-      : ThemeStyles.darkThemeSecondaryBackgroundColor};
+        225deg,
+        rgba(0, 100, 200, 0.3) 0%,
+        rgba(0, 200, 200, 0.3) 30%,
+        rgba(0, 240, 240, 0.3) 60%,
+        rgba(39, 106, 245, 0.3) 100%
+      )`
+      : `linear-gradient(    225deg, rgb(58,80,107)   0%, #1c2541 50%,  #0b132b 100%)`};
 `;

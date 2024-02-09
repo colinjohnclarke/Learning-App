@@ -12,6 +12,7 @@ import {
 } from "./features/api/UserData/userDataSlice";
 
 import UserPreferencesOnSignupModal from "./pages/UserPreferencesOnSignup/UserPreferencesOnSignupModal";
+import { GiCardKingClubs } from "react-icons/gi";
 
 export const UserContext = createContext();
 
@@ -34,8 +35,33 @@ function App() {
   });
 
   const [darkThemeActive, setDarkThemeActive] = useState();
-  console.log("🚀 ~ App ~ darkThemeActive:", darkThemeActive);
   const [silentModeActive, setSilentModeActive] = useState();
+  const [isDataFromLocalStorage, setIsDataFromLocalStorage] = useState();
+
+  // useEffect(() => {
+  //   const silentModeActiveVal = Boolean(
+  //     localStorage.getItem("silentModeActive")
+  //   );
+
+  //   setSilentModeActive(() => silentModeActiveVal);
+  // }, []);
+
+  useEffect(() => {
+    const storedDarkThemeActive = localStorage.getItem("darkThemeActive");
+    const storedSilentModeActive = localStorage.getItem("silentModeActive");
+
+    if (storedDarkThemeActive === "true") {
+      setDarkThemeActive(true);
+    } else {
+      setDarkThemeActive(false);
+    }
+
+    if (storedSilentModeActive === "true") {
+      setSilentModeActive(true);
+    } else {
+      setSilentModeActive(false);
+    }
+  }, []);
 
   const userAuth0 = user;
 
@@ -100,23 +126,29 @@ function App() {
     setSilentModeActive,
   };
 
-  useEffect(() => {
-    const silentModeActiveVal = localStorage.getItem("silentModeActive");
-
-    setDarkThemeActive(silentModeActiveVal);
-
-    const darkThemeActiveVal = localStorage.getItem("darkThemeActive");
-
-    setDarkThemeActive(darkThemeActiveVal);
-  }, []);
+  let localStorageData;
+  if (
+    localStorage.getItem("darkThemeActive") === null ||
+    localStorage.getItem("silentModeActive") === null
+  ) {
+    localStorageData = false;
+    console.log("Key does not exist!");
+  } else if (
+    localStorage.getItem("darkThemeActive") !== null &&
+    localStorage.getItem("silentModeActive") !== null
+  ) {
+    localStorageData = true;
+    console.log("Key exists!");
+  }
 
   return (
     <UserContext.Provider value={userContextValues}>
       <BrowserRouter>
-        <div>
-          {!isAuthenticated && <Login />}
+        {!isAuthenticated && <Login />}
 
-          {loginCompleted && !isSchoolandUserPreferencesCompleted && (
+        {loginCompleted &&
+          !localStorageData &&
+          !isSchoolandUserPreferencesCompleted && (
             <UserPreferencesOnSignupModal
               setIsShoolandUserPreferencesCompleted={
                 setIsShoolandUserPreferencesCompleted
@@ -124,15 +156,14 @@ function App() {
             />
           )}
 
-          {loginCompleted && isSchoolandUserPreferencesCompleted && (
-            <div>
-              {" "}
-              <Drawer />
-              <Header></Header>
-              <Routing />{" "}
-            </div>
-          )}
-        </div>
+        {loginCompleted && localStorageData && (
+          <div>
+            {" "}
+            <Drawer />
+            <Header></Header>
+            <Routing />{" "}
+          </div>
+        )}
       </BrowserRouter>
     </UserContext.Provider>
   );
