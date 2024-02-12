@@ -5,7 +5,7 @@ import { ThemeStyles } from "../../../styles/ThemeStyles";
 import { IoSchoolOutline } from "react-icons/io5";
 import { UserContext } from "../../../App";
 
-function SelectSchool() {
+function SelectSchool({ setSchool }) {
   const [schoolQuery, setSchoolQuery] = useState("");
   const { data, isLoading } = useGetUserSchoolQuery(schoolQuery);
   const [selectedSchool, setSelectedSchool] = useState({});
@@ -27,6 +27,7 @@ function SelectSchool() {
           localStorage.setItem("schoolName", school.name);
           localStorage.setItem("schoolLocalAuthority", school.la);
           localStorage.setItem("schoolTown", school.town);
+          setSchool((val) => school);
         }}
         key={school.id}
       >
@@ -75,9 +76,9 @@ function SelectSchool() {
         }}
       >
         {" "}
-        <LabelText>Select School</LabelText>
+        <LabelText darkThemeActive={darkThemeActive}> Select School</LabelText>
         <IoSchoolOutline
-          stroke={darkThemeActive ? "" : "white"}
+          stroke={darkThemeActive ? "black" : "white"}
           style={{ marginLeft: "15px" }}
         />
       </div>
@@ -117,20 +118,14 @@ const SchoolName = styled.div`
   margin-top: 15px;
   padding: 0;
   margin: 0;
-  background-color: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemePrimaryBackgroundColor
-      : ThemeStyles.darkThemePrimaryBackgroundColor};
+  background: transparent;
 `;
 
 const SchoolLocation = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 15px;
-  background-color: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemePrimaryBackgroundColor
-      : ThemeStyles.darkThemePrimaryBackgroundColor};
+  background: transparent;
 `;
 
 const Input = styled.input`
@@ -160,6 +155,11 @@ const Input = styled.input`
         : ThemeStyles.darkThemePrimaryFontColor};
     margin-left: 10px;
   }
+
+  color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryFrontColor
+      : ThemeStyles.darkThemePrimaryFontColor};
 `;
 
 const LabelText = styled.label`
@@ -195,7 +195,7 @@ const SearchResult = styled.div`
 `;
 
 const OptionItem = styled.div`
-  height: 45px;
+  // height: 55px;
   padding: 3px;
   cursor: pointer;
   display: flex;
@@ -203,13 +203,9 @@ const OptionItem = styled.div`
   align-items: left;
   justify-content: space-around;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 0px 2px -1px;
-  background-color: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemePrimaryBackgroundColor
-      : ThemeStyles.darkThemePrimaryBackgroundColor};
 
   &:hover {
-    background-color: rgb(0, 245, 245, 0.1);
+    background-color: rgb(0, 245, 245, 0.4);
   }
 `;
 
@@ -221,3 +217,7 @@ const LocationInfo = styled.p`
       ? ThemeStyles.lightThemePrimaryFrontColor
       : ThemeStyles.darkThemePrimaryFontColor};
 `;
+// background-color: ${(props) =>
+//   props.darkThemeActive
+//     ? ThemeStyles.lightThemePrimaryBackgroundColor
+//     : ThemeStyles.darkThemePrimaryBackgroundColor};

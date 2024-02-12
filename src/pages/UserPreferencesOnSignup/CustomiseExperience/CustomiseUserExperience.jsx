@@ -182,7 +182,7 @@ function CustomiseUserExperience({
         </MainActionBtn>
       </BtnDiv>
       <div style={{ height: "40px" }}></div>
-      <p style={{ fontSize: "13px" }}> You can always change these later!</p>
+      <p style={{ fontSize: "13px" }}> You can always change these later in settings!</p>
     </ModalContent>
   );
 }

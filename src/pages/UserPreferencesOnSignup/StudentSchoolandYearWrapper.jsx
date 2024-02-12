@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import { device } from "../../styles/breakpoints";
@@ -6,6 +6,7 @@ import SelectSchool from "./SelectSchool/SelectSchool";
 import MainActionBtn from "../../components/Buttons/MainActionBtn";
 import { GiArchiveRegister } from "react-icons/gi";
 import { UserContext } from "../../App";
+import { useUpdateUserSchoolMutation } from "../../features/api/UserData/updateUserSchool";
 
 import SelectYear from "./SelectYear/SelectYear";
 
@@ -13,18 +14,51 @@ function StudentSchoolandYearWrapper({
   setDisplayStudentAndSchoolWrapper,
   setDisplayCustomiseUserExperience,
 }) {
-  const { darkThemeActive } = useContext(UserContext);
+  const { darkThemeActive, userData } = useContext(UserContext);
+  console.log("🚀 ~ userData:", userData);
+
+  const [school, setSchool] = useState({});
+
+  const [year, setYear] = useState("");
+
+  const [updateUserSchool] = useUpdateUserSchoolMutation();
+
+  const schoolDetails = {
+    id: userData?.user._id,
+    ...school,
+    year,
+    // totalXP: userData?.user.totalXP,
+    // totalQuestionsAttempted: user?.user.totalQuestionsAttempted,
+    // totalTimeElapsed: userData?.user.totalTimeElapsed,
+  };
+
+  console.log("🚀 ~ schoolDetails:", schoolDetails);
+
+  const updateSchoolDetails = async () => {
+    try {
+      const result = await updateUserSchool(schoolDetails);
+      console.log("🚀 ~ updateSchoolDetails ~ result:", result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleClick = () => {
     setDisplayStudentAndSchoolWrapper(false);
     setDisplayCustomiseUserExperience(true);
+    updateSchoolDetails();
   };
 
   return (
     <ModalContent darkThemeActive={darkThemeActive}>
-      <h2>Complete your signup</h2>
+      <h2>
+        Complete your signup {year}
+        {school.name}
+      </h2>
+
       <GiArchiveRegister fill={darkThemeActive ? "" : "white"} size={45} />
-      <SelectSchool />
-      <SelectYear />
+      <SelectSchool setSchool={setSchool} />
+      <SelectYear setYear={setYear} />
       <MainActionBtn
         darkThemeActive={darkThemeActive}
         onClick={handleClick}

@@ -11,6 +11,7 @@ import { userDataSlice } from "../features/api/UserData/userDataSlice";
 import { enrolledCourseDataSlice } from "../features/api/UserData/enrolledCourseDataSlice";
 import { dailyXpGoalSlice } from "../features/api/UserData/dailyXPGoal";
 import { userSchoolSlice } from "../features/api/UserData/userSchool";
+import { updateUserSchoolSlice } from "../features/api/UserData/updateUserSchool";
 
 export const store = configureStore({
   reducer: {
@@ -26,12 +27,14 @@ export const store = configureStore({
     [enrolledCourseDataSlice.reducerPath]: enrolledCourseDataSlice.reducer,
     [dailyXpGoalSlice.reducerPath]: dailyXpGoalSlice.reducer,
     [userSchoolSlice.reducerPath]: userSchoolSlice.reducer,
+    [updateUserSchoolSlice.reducerPath]: updateUserSchoolSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
       userDataSlice.middleware,
       enrolledCourseDataSlice.middleware,
       dailyXpGoalSlice.middleware,
-      userSchoolSlice.middleware
+      userSchoolSlice.middleware,
+      updateUserSchoolSlice.middleware
     ),
 });

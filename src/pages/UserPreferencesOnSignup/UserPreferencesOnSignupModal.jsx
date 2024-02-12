@@ -24,48 +24,37 @@ function UserPreferencesOnSignupModal({
   } = useContext(UserContext);
 
   return (
-    <div>
-      <h1> HEJHJHJH{JSON.stringify(darkThemeActive)}</h1>
-      <ModalWrapper darkThemeActive={darkThemeActive}>
-        {displayStudentAndSchoolWrapper && !displayCustomiseUserExperience && (
-          <StudentSchoolandYearWrapper
-            setDisplayStudentAndSchoolWrapper={
-              setDisplayStudentAndSchoolWrapper
-            }
-            setDisplayCustomiseUserExperience={
-              setDisplayCustomiseUserExperience
-            }
-            className={"animate__animated  animate__fadeIn"}
-          />
-        )}
+    <ModalWrapper darkThemeActive={darkThemeActive}>
+      {displayStudentAndSchoolWrapper && !displayCustomiseUserExperience && (
+        <StudentSchoolandYearWrapper
+          setDisplayStudentAndSchoolWrapper={setDisplayStudentAndSchoolWrapper}
+          setDisplayCustomiseUserExperience={setDisplayCustomiseUserExperience}
+          className={"animate__animated  animate__fadeIn"}
+        />
+      )}
 
-        {displayCustomiseUserExperience && !displayStudentAndSchoolWrapper && (
-          <CustomiseUserExperience
-            setIsShoolandUserPreferencesCompleted={
-              setIsShoolandUserPreferencesCompleted
-            }
-            setDisplayCustomiseUserExperience={
-              setDisplayCustomiseUserExperience
-            }
-            setDisplayStudentAndSchoolWrapper={
-              setDisplayStudentAndSchoolWrapper
-            }
-          />
-        )}
-      </ModalWrapper>
-    </div>
+      {displayCustomiseUserExperience && !displayStudentAndSchoolWrapper && (
+        <CustomiseUserExperience
+          setIsShoolandUserPreferencesCompleted={
+            setIsShoolandUserPreferencesCompleted
+          }
+          setDisplayCustomiseUserExperience={setDisplayCustomiseUserExperience}
+          setDisplayStudentAndSchoolWrapper={setDisplayStudentAndSchoolWrapper}
+        />
+      )}
+    </ModalWrapper>
   );
 }
 
 export default UserPreferencesOnSignupModal;
 
 const ModalWrapper = styled.div`
-  // position: fixed;
-  // z-index: 1000;
-  // top: 0;
-  // left: 0;
-  // width: 100%;
-  // height: 100%;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -8,7 +8,7 @@ import { IoCalendarNumberOutline } from "react-icons/io5";
 import { UserContext } from "../../../App";
 import { device } from "../../../styles/breakpoints";
 
-function SelectYear() {
+function SelectYear({ setYear }) {
   const [selectedYear, setSelectedYear] = useState("");
   const [isDropDownDisplayed, setIsDropDownDisplayed] = useState(false);
   const dropdownRef = useRef(null);
@@ -28,10 +28,6 @@ function SelectYear() {
   //   return () => document.removeEventListener("click", handleOutsideClick);
   // }, []);
 
-  const handleYearChange = (event) => {
-    setSelectedYear(event.target.value);
-  };
-
   return (
     <Wrapper>
       <div
@@ -40,13 +36,21 @@ function SelectYear() {
           flexDirection: "row",
           width: "100%",
           padding: "10px",
+          backgroundColor: darkThemeActive
+            ? ThemeStyles.lightThemePrimaryBackgroundColor
+            : ThemeStyles.darkThemePrimaryBackgroundColor,
         }}
       >
         {" "}
         <LabelText darkThemeActive={darkThemeActive}>Select Year</LabelText>
         <IoCalendarNumberOutline
-          stroke={darkThemeActive ? "" : "white"}
-          style={{ marginLeft: "15px", position: "relative", left: "14px" }}
+          stroke={darkThemeActive ? "black" : "white"}
+          style={{
+            marginLeft: "15px",
+            position: "relative",
+            left: "14px",
+            bottom: "2px",
+          }}
         />
       </div>
 
@@ -78,6 +82,7 @@ function SelectYear() {
               setSelectedYear(year);
               setIsDropDownDisplayed((val) => false);
               localStorage.setItem("yearGroup", year);
+              setYear(year);
             }}
           >
             {year}
@@ -94,10 +99,6 @@ const Wrapper = styled.div`
   width: 100%;
   min-width: 300px;
   position: relative;
-  background-color: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemePrimaryBackgroundColor
-      : ThemeStyles.darkThemePrimaryBackgroundColor};
 
   // @media ${device.tablet} {
   //   width: 300px;
@@ -120,6 +121,11 @@ const LabelText = styled.label`
   right: 5px;
 
   background: transparent;
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
+
   color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryFrontColor
@@ -135,7 +141,7 @@ const DropdownButton = styled.button`
   width: 100%;
   height: 40px;
   // padding: 8px;
-  // border: 1px solid #ccc;
+
   border: none;
   border-radius: 5px;
   font-size: 12px;
@@ -170,7 +176,7 @@ const DropdownOptions = styled.div`
   width: 100%;
   // max-height: 100px;
   overflow-y: auto;
-  // border: 1px solid #ccc;
+
   border-top: none;
   border-radius: 0 0 4px 4px;
   background-color: #fff;
@@ -195,6 +201,7 @@ const DropdownOptions = styled.div`
 const OptionItem = styled.div`
   padding: 8px;
   cursor: pointer;
+
   style= {
      {
       fontsize: "13px";
