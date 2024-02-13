@@ -15,7 +15,6 @@ function StudentSchoolandYearWrapper({
   setDisplayCustomiseUserExperience,
 }) {
   const { darkThemeActive, userData } = useContext(UserContext);
-  console.log("🚀 ~ userData:", userData);
 
   const [school, setSchool] = useState({});
 
@@ -27,12 +26,7 @@ function StudentSchoolandYearWrapper({
     id: userData?.user._id,
     ...school,
     year,
-    // totalXP: userData?.user.totalXP,
-    // totalQuestionsAttempted: user?.user.totalQuestionsAttempted,
-    // totalTimeElapsed: userData?.user.totalTimeElapsed,
   };
-
-  console.log("🚀 ~ schoolDetails:", schoolDetails);
 
   const updateSchoolDetails = async () => {
     try {

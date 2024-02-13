@@ -148,6 +148,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
   background-color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor
@@ -159,6 +160,7 @@ const Padding = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 50px;
 
   @media ${device.desktop} {
     width: 100%;

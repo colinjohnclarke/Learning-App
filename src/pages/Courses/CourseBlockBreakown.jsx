@@ -11,6 +11,7 @@ import imageUrlBuilder from "@sanity/image-url";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 
 function CourseBlockBreakdown({ data, completedBlocks, blocksRemaining }) {
+  console.log("🚀 ~ CourseBlockBreakdown ~ completedBlocks:", completedBlocks)
   console.log("🚀 ~ CourseBlockBreakdown ~ data:", data);
   const builder = imageUrlBuilder(sanityClient);
 
@@ -24,7 +25,7 @@ function CourseBlockBreakdown({ data, completedBlocks, blocksRemaining }) {
     const findBlock = completedBlocks?.find((subBlock) => {
       return subBlock.blockName === block.blockName;
     });
-
+    console.log("🚀 ~ findBlock ~ findBlock:", findBlock);
     const content = block.coverImage ? (
       <img
         alt=""

@@ -36,7 +36,6 @@ function PostBlockPointsReveal() {
         onClick={() => {
           setdisplayAnimateBlockScore((val) => !val);
           setDisplaySummary((val) => true);
-          // updateUserDataFN();
         }}
         style={{ position: "relative", zIndex: "300", top: "100px" }}
       ></ContinueBtn>

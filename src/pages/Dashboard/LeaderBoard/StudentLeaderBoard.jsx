@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import { LeaderBoardFakeData } from "./StudentLeaderBoardFakeData";
+
 import { rankData } from "./LeaderBoardRankData";
 import { device } from "../../../styles/breakpoints";
 import { useGetTop10UsersQuery } from "../../../features/api/UserData/userDataSlice";
@@ -11,11 +11,10 @@ import { ThemeStyles } from "../../../styles/ThemeStyles";
 import { UserContext } from "../../../App";
 
 function StudentLeaderBoard() {
-  // console.log(useGetTop10UsersQuery);
-
   const { darkThemeActive } = useContext(UserContext);
 
   const { data, error, isLoading } = useGetTop10UsersQuery();
+ 
 
   const newArr = data ? [...data] : [];
 

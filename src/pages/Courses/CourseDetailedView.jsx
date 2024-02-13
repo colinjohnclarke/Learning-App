@@ -79,8 +79,10 @@ function CourseDetailedView() {
   const blocksCompleted = userData?.user.blocksCompleted;
 
   const completedBlocks = blocksCompleted?.filter((block) => {
-    return block.courseName === courseName && block.Subject === subject;
+    return block.courseName === courseName;
   });
+
+  console.log("🚀  course detailed view ~ completedBlocks:", completedBlocks);
 
   const blocksRemaining = blocks?.filter((block) => {
     return !completedBlocks.some((obj2) => obj2.blockName === block.blockName);

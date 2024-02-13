@@ -405,7 +405,10 @@ function Main() {
         Subject: subject,
         updateXP: currentblockprogressdata.userScore,
         updateTimeElapsed: elapsedTime,
-        courseName,
+        updatePercentageScore:
+          (currentblockprogressdata.userScore /
+            currentblockprogressdata.pointsAvailable) *
+          100,
       };
 
       await updateEnrolledCourse(updatedDetails);

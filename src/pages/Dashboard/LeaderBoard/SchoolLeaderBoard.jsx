@@ -1,20 +1,16 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import { schoolLeaderBoardFakeData } from "./SchoolLeaderBoardFakeData";
 import { rankData } from "./LeaderBoardRankData";
 import "animate.css";
 import { device } from "../../../styles/breakpoints";
 import { ThemeStyles } from "../../../styles/ThemeStyles";
 import { UserContext } from "../../../App";
+import { useGetTop10SchoolXPQuery } from "../../../features/api/UserData/SchoolData/schoolXPoints";
 
 function SchoolLeaderBoard() {
   const { darkThemeActive } = useContext(UserContext);
 
-  schoolLeaderBoardFakeData.sort(function (a, b) {
-    return b.xp - a.xp;
-  });
-
-  const data = rankData;
+  const { data } = useGetTop10SchoolXPQuery();
 
   return (
     <Wrapper darkThemeActive={darkThemeActive}>
@@ -28,7 +24,7 @@ function SchoolLeaderBoard() {
         </TableHead>
 
         <TableBody darkThemeActive={darkThemeActive}>
-          {schoolLeaderBoardFakeData.map((item, index) => {
+          {data?.getSchoolXpoints.map((item, index) => {
             const borderBottomStyle =
               index === 2
                 ? `1px solid ${ThemeStyles.highlightPrimaryColor}`
@@ -36,12 +32,12 @@ function SchoolLeaderBoard() {
 
             let rankElement = <></>;
 
-            if (data[index].display) {
+            if (rankData[index].display) {
               rankElement = (
                 <img
                   style={{ height: "30px" }}
-                  src={data[index].display}
-                  alt={data[index].position}
+                  src={rankData[index].display}
+                  alt={rankData[index].position}
                 />
               );
             } else {
@@ -64,7 +60,7 @@ function SchoolLeaderBoard() {
                       : `${ThemeStyles.darkThemeMainBoxShadow}, rgba(0, 0, 0, 0.15) 0px 3px 1px 0px`,
                   }}
                 >
-                  <P>{data[index].position}</P>
+                  <P>{rankData[index].position}</P>
                 </div>
               );
             }
@@ -79,7 +75,7 @@ function SchoolLeaderBoard() {
                   justifyContent: "center",
                   alignItems: "center",
                 }}
-                src={item.cartoonImg}
+                src={rankData[index].cartoonImg}
               ></img>
             );
 
@@ -131,7 +127,10 @@ function SchoolLeaderBoard() {
                         {item.name}
                       </P>
 
-                      <Location> {item.location}</Location>
+                      <Location>
+                        {" "}
+                        {item.town}, {item.postcode}
+                      </Location>
                     </div>
 
                     <div style={{ paddingRight: "20px" }}> {cartoon}</div>
@@ -143,7 +142,7 @@ function SchoolLeaderBoard() {
                     borderBottom: borderBottomStyle,
                   }}
                 >
-                  <P darkThemeActive={darkThemeActive}>{item.xp}</P>
+                  <P darkThemeActive={darkThemeActive}>{item.totalXP}</P>
                 </Td>
               </Tr>
             );

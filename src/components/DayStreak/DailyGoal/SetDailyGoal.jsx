@@ -27,9 +27,9 @@ function SetDailyGoal({ modalIsOpen, setModalIsOpen }) {
   const [updateDailyXpGoal, isLoading, isError, error, data] =
     useUpdateDailyXpGoalMutation();
 
-  console.log("🚀 ~ SetDailyGoal ~ data:", data);
+
   const isSuccess = data !== undefined && data !== null;
-  console.log("🚀 ~ SetDailyGoal ~ isSuccess:", isSuccess);
+
 
   const toggleModal = () => {
     setModalIsOpen(!modalIsOpen);
@@ -43,7 +43,7 @@ function SetDailyGoal({ modalIsOpen, setModalIsOpen }) {
     };
 
     const update = await updateDailyXpGoal(updatedDailyXPGoal);
-    console.log("🚀 ~ handleSubmit ~ update:", update);
+    
   };
 
   const selected = {
@@ -125,7 +125,7 @@ function SetDailyGoal({ modalIsOpen, setModalIsOpen }) {
         onClick={(e) => {
           e.preventDefault();
           setSelectedOption(option.xp);
-          console.log("TEST", e.target.value);
+       
         }}
         darkThemeActive={darkThemeActive}
       >

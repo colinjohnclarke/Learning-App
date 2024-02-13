@@ -19,42 +19,49 @@ import HeaderColoredHightlight from "./HeaderColoredHightlight";
 
 function RecentCourses() {
   const courses = FetchCoursefromSanity();
+  console.log("🚀 ~ RecentCourses ~ courses:", courses);
   const builder = imageUrlBuilder(sanityClient);
   const { userData, darkThemeActive } = useContext(UserContext);
 
   const { data } = useGetAllEnrolledCoursesDataQuery(userData?.user._id);
+  console.log("🚀 ~ RecentCourses ~ data:", data); // no subject saved
 
   const imgurlFor = (source) => {
     return builder.image(source);
   };
 
+  // map through each course saved in enrolled courses DB obj
   const list = data?.enrolledCourses?.map((item, index) => {
+    // search courses from sanity
     const result = courses.find((subItem) => {
+      // return so we we get saved course details from sanity eg cover image and subject
       return subItem.courseName === item.courseName;
     });
+    console.log("🚀 ~ result ~ result:", result);
 
+    // filter the courses from sanity as they contain a complete list of all courses so we only need ones which match this courseName
     const blocks = courses
       .filter((course) => {
         return course.courseName === item.courseName;
       })
+
+      //sort so items are in correct block order
       .sort((a, b) => {
         return a.blockPositioninCourse - b.blockPositioninCourse;
       });
 
-    // find which blocks user has completed and update continue button to start next block
-    const blocksCompleted = userData?.user.blocksCompleted;
+    console.log("🚀 ~ list ~ blocks:", blocks);
 
-    const completedBlocks = blocksCompleted?.filter((block) => {
-      return (
-        block.courseName === item.courseName && block.Subject === item.Subject
-      );
+    // store list of completed blocks from user
+    const blocksCompletedfromDB = userData?.user.blocksCompleted;
+    console.log("🚀 ~ list ~ blocksCompletedfromDB:", blocksCompletedfromDB);
+
+    // blocks completed from DB dont have subject saved
+    const completedBlocks = blocksCompletedfromDB?.filter((block) => {
+      return block.courseName === item.courseName;
     });
 
-    const blocksRemaining = blocks?.filter((block) => {
-      return !completedBlocks.some(
-        (obj2) => obj2.blockName === block.blockName
-      );
-    });
+    console.log("🚀 ~ completedBlocks ~ completedBlocks:", completedBlocks);
 
     const CoursePercentageCompletion =
       (completedBlocks.length / blocks.length) * 100;
@@ -82,7 +89,7 @@ function RecentCourses() {
           style={{
             textDecoration: "none",
           }}
-          to={`/courses/${item.Subject}/${item.courseName}`}
+          to={`/courses/${result?.subject}/${result?.courseName}`}
         >
           <Box darkThemeActive={darkThemeActive}>
             <Text>
@@ -101,7 +108,7 @@ function RecentCourses() {
                     fontWeight: "600",
                   }}
                 >
-                  {item.Subject}
+                  {result?.subject}
                 </p>
                 <p
                   style={{
@@ -110,7 +117,7 @@ function RecentCourses() {
                     // padding: "12px",
                   }}
                 >
-                  {item.courseName}
+                  {result?.courseName}
                 </p>
               </div>
               <p
@@ -149,7 +156,7 @@ function RecentCourses() {
         alignItems: "center",
         fontWeight: "500",
         width: "100%",
-       
+
         borderRadius: "5px",
       }}
     >

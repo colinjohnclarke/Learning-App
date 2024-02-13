@@ -27,11 +27,7 @@ function FlameDayStreak() {
   arrOfDatesQuizCompletedLastWeek.sort((a, b) => {
     return new Date(b) - new Date(a);
   });
-  console.log(
-    "🚀 ~ arrOfDatesQuizCompletedLastWeek.sort ~ arrOfDatesQuizCompletedLastWeek:",
-    arrOfDatesQuizCompletedLastWeek
-  );
-
+ 
   let count = 0;
 
   const date = new Date();

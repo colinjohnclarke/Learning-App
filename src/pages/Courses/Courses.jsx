@@ -26,6 +26,7 @@ import NavigationBarMobile from "../../components/Navigation/NavigationBarMobile
 
 function Courses() {
   const courses = FetchCoursefromSanity();
+  console.log("🚀 ~ Courses ~ courses:", courses);
   const { userData, darkThemeActive } = useContext(UserContext);
 
   const [selectStyle, setSelectStyle] = useState({
@@ -185,7 +186,7 @@ function Courses() {
 
   const selectClickHandler = (selection) => {
     setSelection(selection);
-    console.log("selection", selection);
+
     if (selection === "allCoursesAndBlocks") {
       setSelectStyle({ transform: "translateX(200%)", transition: "0.3s" });
     } else if (selection === "enroll") {

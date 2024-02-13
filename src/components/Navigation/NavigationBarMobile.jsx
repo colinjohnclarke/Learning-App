@@ -16,7 +16,7 @@ function NavigationBarMobile() {
   const { darkThemeActive, selectedNav, setSelectedNav } =
     useContext(UserContext);
 
-  console.log("🚀 ~ NavigationBarMobile ~ selectedNav:", selectedNav);
+
 
   useEffect(() => {
     if (selectedNav.Dashboard) {
