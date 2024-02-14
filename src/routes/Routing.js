@@ -9,7 +9,7 @@ import Maths from "../pages/Maths";
 import Biology from "../pages/Main";
 import Courses from "../pages/Courses/Courses";
 import Settings from "../pages/Settings";
-import Profile from "../pages/Dashboard/Profile";
+import Profile from "../pages/Profile/Profile";
 import CourseDetailedView from "../pages/Courses/CourseDetailedView";
 
 function Routing({ navState }) {

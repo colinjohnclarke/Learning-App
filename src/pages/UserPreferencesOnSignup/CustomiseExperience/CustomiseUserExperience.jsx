@@ -9,31 +9,15 @@ import { HiOutlineSpeakerWave } from "react-icons/hi2";
 import { HiOutlineSpeakerXMark } from "react-icons/hi2";
 import MainActionBtn from "../../../components/Buttons/MainActionBtn";
 import { CiSettings } from "react-icons/ci";
-import { IDLE_NAVIGATION } from "@remix-run/router";
+import SoundEffectsToggle from "../../Profile/SoundEffectsToggle";
+import DarkThemeToggle from "../../Profile/DarkThemeToggle";
 
 function CustomiseUserExperience({
   setDisplayCustomiseUserExperience,
   setIsShoolandUserPreferencesCompleted,
   setDisplayStudentAndSchoolWrapper,
 }) {
-  const {
-    darkThemeActive,
-    setDarkThemeActive,
-    silentModeActive,
-    setSilentModeActive,
-  } = useContext(UserContext);
-
-  const handleDarkModeCheckboxChange = (e) => {
-    e.preventDefault();
-    const newVal = !darkThemeActive;
-    setDarkThemeActive(newVal);
-  };
-
-  const handleSoundOffCheckboxChange = (e) => {
-    e.preventDefault();
-    const newValue = !silentModeActive;
-    setSilentModeActive(newValue);
-  };
+  const { darkThemeActive, silentModeActive } = useContext(UserContext);
 
   const handleSaveBtnClicked = (e) => {
     e.preventDefault();
@@ -79,87 +63,8 @@ function CustomiseUserExperience({
       <h2>Settings</h2>
 
       <CiSettings size={40} fill={darkThemeActive ? "" : "white"} />
-      <Box>
-        <p
-          style={{
-            color: darkThemeActive
-              ? ThemeStyles.lightThemePrimaryFrontColor
-              : ThemeStyles.darkThemePrimaryFontColor,
-          }}
-        >
-          Sound Effects
-        </p>
-
-        {silentModeActive ? (
-          <HiOutlineSpeakerXMark
-            size={20}
-            fill={darkThemeActive ? "darkgrey" : "white"}
-            stroke={darkThemeActive ? "darkgrey" : "white"}
-          />
-        ) : (
-          <HiOutlineSpeakerWave
-            size={20}
-            fill={darkThemeActive ? "darkgrey" : "white"}
-            stroke={darkThemeActive ? "darkgrey" : "white"}
-          />
-        )}
-
-        <Label class="switch">
-          <SilentModeInput
-            silentModeActive={silentModeActive}
-            // checked={silentModeActive}
-            type="checkbox"
-            onClick={handleSoundOffCheckboxChange}
-          />
-          <SilentModeSpan silentModeActive={silentModeActive}>
-            {" "}
-            <LightInnerSpan
-              silentModeActive={silentModeActive}
-            ></LightInnerSpan>
-          </SilentModeSpan>
-        </Label>
-      </Box>
-      <Box>
-        <p
-          style={{
-            color: darkThemeActive
-              ? ThemeStyles.lightThemePrimaryFrontColor
-              : ThemeStyles.darkThemePrimaryFontColor,
-          }}
-        >
-          Dark Mode
-        </p>
-
-        {darkThemeActive ? (
-          <LuFlashlight
-            size={20}
-            style={{ position: "relative", left: "8px" }}
-            fill={"darkgrey"}
-            stroke={"darkgrey"}
-          />
-        ) : (
-          <LuFlashlightOff
-            size={20}
-            style={{ position: "relative", left: "8px" }}
-            fill={darkThemeActive ? "white" : "white"}
-            stroke="white"
-          />
-        )}
-
-        <Label>
-          <DarkThemeInput
-            darkThemeActive={darkThemeActive}
-            onClick={handleDarkModeCheckboxChange}
-            type="checkbox"
-          />
-          <DarkThemeSpan darkThemeActive={darkThemeActive}>
-            {" "}
-            <DarkInnerSpan
-              darkThemeActive={darkThemeActive}
-            ></DarkInnerSpan>{" "}
-          </DarkThemeSpan>
-        </Label>
-      </Box>
+      <SoundEffectsToggle />
+      <DarkThemeToggle />
 
       <BtnDiv>
         <MainActionBtn
@@ -181,8 +86,12 @@ function CustomiseUserExperience({
           <p style={{ fontSize: "15px" }}>Save</p>
         </MainActionBtn>
       </BtnDiv>
+
       <div style={{ height: "40px" }}></div>
-      <p style={{ fontSize: "13px" }}> You can always change these later in settings!</p>
+      <p style={{ fontSize: "13px" }}>
+        {" "}
+        You can always change these later in settings!
+      </p>
     </ModalContent>
   );
 }
@@ -190,38 +99,7 @@ function CustomiseUserExperience({
 export default CustomiseUserExperience;
 
 const ModalContent = styled.div`
-  height: 450px;
-  width: 60%;
-  max-width: 500px;
-  position: relative;
-  background-color: #fff;
-  padding: 60px;
-  border-radius: 5px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  box-shadow: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemeMainBoxShadow
-      : ThemeStyles.darkThemeMainBoxShadow};
-
-  background-color: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemePrimaryBackgroundColor
-      : ThemeStyles.darkThemePrimaryBackgroundColor};
-
-  p,
-  h2 {
-    color: ${(props) =>
-      props.darkThemeActive
-        ? ThemeStyles.lightThemePrimaryFrontColor
-        : ThemeStyles.darkThemePrimaryFontColor};
-  }
-
-  @media ${device.tablet} {
-    width: 300px;
-  }
+  width: 100%;
 `;
 
 const BtnDiv = styled.div`

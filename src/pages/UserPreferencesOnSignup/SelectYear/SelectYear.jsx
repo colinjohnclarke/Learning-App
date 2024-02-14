@@ -2,6 +2,7 @@ import React, { useState, useRef, useContext } from "react";
 import styled from "styled-components";
 import { ThemeStyles } from "../../../styles/ThemeStyles";
 
+
 import Years from "./Years";
 import { FcNext } from "react-icons/fc";
 import { IoCalendarNumberOutline } from "react-icons/io5";
@@ -35,7 +36,7 @@ function SelectYear({ setYear }) {
           display: "flex",
           flexDirection: "row",
           width: "100%",
-          padding: "10px",
+          // padding: "10px",
           backgroundColor: darkThemeActive
             ? ThemeStyles.lightThemePrimaryBackgroundColor
             : ThemeStyles.darkThemePrimaryBackgroundColor,
@@ -98,6 +99,7 @@ export default SelectYear;
 const Wrapper = styled.div`
   width: 100%;
   min-width: 300px;
+
   position: relative;
 
   // @media ${device.tablet} {

@@ -67,22 +67,19 @@ function SelectSchool({ setSchool }) {
 
   return (
     <Wrapper darkThemeActive={darkThemeActive}>
-      <div
+      {/* <div
         style={{
           display: "flex",
           flexDirection: "row",
           width: "100%",
-          padding: "10px",
         }}
-      >
-        {" "}
-        <LabelText darkThemeActive={darkThemeActive}> Select School</LabelText>
-        <IoSchoolOutline
-          stroke={darkThemeActive ? "black" : "white"}
-          style={{ marginLeft: "15px" }}
-        />
-      </div>
-
+      > */}{" "}
+      <LabelText darkThemeActive={darkThemeActive}> Select School</LabelText>
+      <IoSchoolOutline
+        stroke={darkThemeActive ? "black" : "white"}
+        style={{ marginLeft: "15px" }}
+      />
+      {/* </div> */}
       <Input
         darkThemeActive={darkThemeActive}
         style={{ fontSize: "12px" }}
@@ -93,7 +90,6 @@ function SelectSchool({ setSchool }) {
         }}
         type="text"
       />
-
       {searchResult && schoolQuery && (
         <SearchResult>{searchResult}</SearchResult>
       )}
@@ -106,8 +102,9 @@ export default SelectSchool;
 const Wrapper = styled.div`
   width: 100%;
   min-width: 300px;
+
   position: relative;
-  margin: 20px;
+
   background-color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor
@@ -131,8 +128,8 @@ const SchoolLocation = styled.div`
 const Input = styled.input`
   height: 40px;
   border-radius: 5px;
-  padding-left: 5px;
-  width: 100%;
+  // padding-left: 5px;
+  width: 99.5%;
   box-shadow: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemeMainBoxShadow
@@ -153,7 +150,7 @@ const Input = styled.input`
       props.darkThemeActive
         ? ThemeStyles.lightThemePrimaryFrontColor
         : ThemeStyles.darkThemePrimaryFontColor};
-    margin-left: 10px;
+    // margin-left: 10px;
   }
 
   color: ${(props) =>
