@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import SelectSchool from "../UserPreferencesOnSignup/SelectSchool/SelectSchool";
 import SelectYear from "../UserPreferencesOnSignup/SelectYear/SelectYear";
 import SoundEffectsToggle from "./SoundEffectsToggle";
@@ -7,48 +7,166 @@ import styled from "styled-components";
 import { device } from "../../styles/breakpoints";
 import { UserContext } from "../../App";
 import { ThemeStyles } from "../../styles/ThemeStyles";
+import { GoPerson } from "react-icons/go";
+import { MdOutlineEmail } from "react-icons/md";
+import { MdEdit } from "react-icons/md";
+import { useAuth0 } from "@auth0/auth0-react";
+import MainActionBtn from "../../components/Buttons/MainActionBtn";
 
 function Settings() {
-  const { darkThemeActive } = useContext(UserContext);
+  const { darkThemeActive, userData } = useContext(UserContext);
+  console.log("🚀 ~ Settings ~ userData:", userData);
+
+  const [school, setSchool] = useState({});
+  const [year, setYear] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+
+  const { user } = useAuth0();
+
   return (
-    <Wrapper>
+    <Wrapper darkThemeActive={darkThemeActive}>
       <div
         style={{
           display: "flex",
           alignItems: "center",
           flexDirection: "column",
-          justifyContent: "center",
-          marginLeft: "20px",
-          marginRight: "20px",
+          justifyContent: "start",
+          width: "100%",
+
           //   border: "1px solid",
         }}
       >
-        <h2> Settings</h2>
+        <div
+          style={{
+            display: "flex",
+            width: "95%",
+            alignItems: "center",
+            fontSize: "13px",
+            margin: "10px",
+            marginLeft: "20px",
+          }}
+        >
+          <Btn darkThemeActive={darkThemeActive}>
+            <MdEdit fill={darkThemeActive ? "rgb(200, 200, 200)" : "white"} />
+          </Btn>
+          <MdOutlineEmail
+            fill={darkThemeActive ? "rgb(200, 200, 200)" : "white"}
+          />{" "}
+          &nbsp;{" "}
+          <P darkThemeActive={darkThemeActive} style={{ fontSize: "13px" }}>
+            Email:{" "}
+          </P>
+          &nbsp;{" "}
+          <P
+            darkThemeActive={darkThemeActive}
+            style={{ fontSize: "13px", fontWeight: "600" }}
+          >
+            {userData?.user.email}
+          </P>
+        </div>
       </div>
       <Row>
-        <Box>
-          <SelectSchool />
-        </Box>
+        <Name>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              width: "100%",
+              // padding: "10px",
+              backgroundColor: darkThemeActive
+                ? ThemeStyles.lightThemePrimaryBackgroundColor
+                : ThemeStyles.darkThemePrimaryBackgroundColor,
+            }}
+          >
+            {" "}
+            <LabelText darkThemeActive={darkThemeActive}> First Name</LabelText>
+            <GoPerson
+              fill={darkThemeActive ? "black" : "white"}
+              style={{
+                marginLeft: "15px",
+                position: "relative",
+                left: "14px",
+                bottom: "2px",
+              }}
+            />
+          </div>
+          <Input
+            onChange={(e) => {
+              setFirstName(e.target.value);
+            }}
+            type="text"
+            placeholder={userData?.user.firstName}
+            darkThemeActive={darkThemeActive}
+          ></Input>{" "}
+        </Name>
 
-        <div style={{ height: "100px" }}></div>
-        <Box>
-          <SelectYear />
-        </Box>
-      </Row>
-      <div style={{ height: "20px" }}></div>
-      <Row>
-        <Box>
-          <LabelText darkThemeActive={darkThemeActive}> First Name</LabelText>
-          <Input darkThemeActive={darkThemeActive}></Input>
-        </Box>
-        <Box>
-          <LabelText darkThemeActive={darkThemeActive}> Last Name</LabelText>
-          <Input darkThemeActive={darkThemeActive}></Input>
-        </Box>
+        <Name>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              width: "100%",
+              // padding: "10px",
+              backgroundColor: darkThemeActive
+                ? ThemeStyles.lightThemePrimaryBackgroundColor
+                : ThemeStyles.darkThemePrimaryBackgroundColor,
+            }}
+          >
+            {" "}
+            <LabelText darkThemeActive={darkThemeActive}> Last Name</LabelText>
+            <GoPerson
+              fill={darkThemeActive ? "black" : "white"}
+              style={{
+                marginLeft: "15px",
+                position: "relative",
+                left: "14px",
+                bottom: "2px",
+              }}
+            />
+          </div>
+          <Input
+            onChange={(e) => {
+              setLastName(e.target.value);
+            }}
+            type="text"
+            placeholder={userData?.user.lastName}
+            darkThemeActive={darkThemeActive}
+          ></Input>
+        </Name>
+        <Year>
+          {" "}
+          <SelectYear setYear={setYear} />
+        </Year>
+
+        <School>
+          {" "}
+          <SelectSchool setSchool={setSchool} />
+        </School>
       </Row>
 
-      <div style={{ marginLeft: "20px" }}>
-        <SoundEffectsToggle /> <DarkThemeToggle />;
+      <MainActionBtn
+        style={{ margin: "50px" }}
+        darkThemeActive={darkThemeActive}
+      >
+        {" "}
+        Save Settings
+      </MainActionBtn>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "start",
+          width: "90%",
+          justifyContent: "start",
+          margin: "20px",
+        }}
+      >
+        <Box>
+          {" "}
+          <SoundEffectsToggle /> <DarkThemeToggle />
+        </Box>
       </div>
     </Wrapper>
   );
@@ -57,42 +175,75 @@ function Settings() {
 export default Settings;
 
 const Row = styled.div`
-  width: 100%;
+  width: 90%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  align-items: start;
   justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  //   border: 3px solid;
 
-  @media ${device.tablet} {
-    justify-content: space-around;
-  }
+  min-height: 350px;
+`;
+
+const P = styled.p`
+  color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryFrontColor
+      : ThemeStyles.darkThemePrimaryFontColor};
 `;
 
 const Box = styled.div`
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  max-width: 350px;
 
   @media ${device.tablet} {
-    width: 45%;
+  }
+`;
+
+const Year = styled.div`
+  width: 99.5%;
+
+  @media ${device.mobileL} {
+    width: 97%;
   }
 
   @media ${device.tablet} {
+    width: 100%;
+  }
+`;
+
+const School = styled.div`
+  width: 96%;
+
+  @media ${device.mobileL} {
+    width: 97%;
+  }
+  @media ${device.tablet} {
+    width: 100%;
   }
 `;
 
 const Name = styled.div`
-  min-width: 300px;
-  width: 98%;
+  width: 96%;
+  @media ${device.tablet} {
+    width: 99%;
+  }
 `;
 
 const Wrapper = styled.div`
   width: 100%;
+  margin-top: 100px;
   max-width: 900px;
   display: flex;
   flex-direction: column;
-  justify-content: start;
-  //   border: 2px solid red;
+  justify-content: center;
+  align-items: center;
+
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
 `;
 
 const Input = styled.input`
@@ -138,4 +289,36 @@ const LabelText = styled.label`
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryFrontColor
       : ThemeStyles.darkThemePrimaryFontColor};
+`;
+
+const Btn = styled.button`
+  position: relative;
+  left: 4px;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 0.5px lightgrey;
+  margin-right: 15px;
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
+
+  box-shadow: ${(props) =>
+    props.darkThemeActive
+      ? `${ThemeStyles.lightThemeMainBoxShadow}, rgba(0, 0, 0, 0.15) 0px 3px 2px 2px`
+      : `${ThemeStyles.darkThemeMainBoxShadow}`};
+
+  &:hover {
+    background-color: rgb(39, 106, 245, 0.05);
+  }
+
+  &:active {
+    transform: translateY(2px);
+    box-shadow: none;
+  }
 `;

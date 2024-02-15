@@ -2,7 +2,6 @@ import React, { useState, useRef, useContext } from "react";
 import styled from "styled-components";
 import { ThemeStyles } from "../../../styles/ThemeStyles";
 
-
 import Years from "./Years";
 import { FcNext } from "react-icons/fc";
 import { IoCalendarNumberOutline } from "react-icons/io5";
@@ -13,8 +12,10 @@ function SelectYear({ setYear }) {
   const [selectedYear, setSelectedYear] = useState("");
   const [isDropDownDisplayed, setIsDropDownDisplayed] = useState(false);
   const dropdownRef = useRef(null);
-  const { darkThemeActive } = useContext(UserContext);
+  const { darkThemeActive, userData } = useContext(UserContext);
 
+  const savedSchoolYear =
+    userData?.user.yearGroup || localStorage.getItem("yearGroup");
   // useEffect(() => {
   //   const handleOutsideClick = (e) => {
   //     console.log(e);
@@ -61,7 +62,11 @@ function SelectYear({ setYear }) {
           setIsDropDownDisplayed((val) => !val);
         }}
       >
-        {selectedYear || <p style={{ fontSize: "13px" }}>Select year</p>}
+        {selectedYear || (
+          <p style={{ fontSize: "13px" }}>
+            {savedSchoolYear ? savedSchoolYear : "select year"}
+          </p>
+        )}
 
         <FcNext
           style={{
@@ -98,9 +103,10 @@ export default SelectYear;
 
 const Wrapper = styled.div`
   width: 100%;
-  min-width: 300px;
-
+  height: 100%;
   position: relative;
+  z-index: 50;
+  // min-width: 300px;
 
   // @media ${device.tablet} {
   //   width: 300px;
@@ -141,8 +147,8 @@ const DropdownContainer = styled.div`
 
 const DropdownButton = styled.button`
   width: 100%;
-  height: 40px;
-  // padding: 8px;
+  height: 45px;
+  padding: 8px;
 
   border: none;
   border-radius: 5px;
@@ -169,6 +175,13 @@ const DropdownButton = styled.button`
     props.darkThemeActive
       ? ThemeStyles.lightThemeMainBoxShadow
       : ThemeStyles.darkThemeMainBoxShadow};
+
+  p {
+    color: ${(props) =>
+      props.darkThemeActive
+        ? ThemeStyles.lightThemePrimaryFrontColor
+        : ThemeStyles.darkThemePrimaryFontColor};
+  }
 `;
 
 const DropdownOptions = styled.div`

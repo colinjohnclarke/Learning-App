@@ -12,7 +12,10 @@ function SelectSchool({ setSchool }) {
 
   const [placeholderText, setPlaceHolderText] = useState("Start by typing...");
 
-  const { darkThemeActive } = useContext(UserContext);
+  const { darkThemeActive, userData } = useContext(UserContext);
+
+  const schoolSavedInDB =
+    userData?.user.schoolDetails.name || localStorage.getItem("schoolName");
 
   let searchResult;
   if (data && !isLoading) {
@@ -83,7 +86,7 @@ function SelectSchool({ setSchool }) {
       <Input
         darkThemeActive={darkThemeActive}
         style={{ fontSize: "12px" }}
-        placeholder={placeholderText}
+        placeholder={schoolSavedInDB || "Start by typing"}
         value={schoolQuery}
         onChange={(e) => {
           setSchoolQuery(e.target.value);
@@ -101,9 +104,10 @@ export default SelectSchool;
 
 const Wrapper = styled.div`
   width: 100%;
-  min-width: 300px;
+  // min-width: 300px;
 
   position: relative;
+  z-index: 22;
 
   background-color: ${(props) =>
     props.darkThemeActive
@@ -116,6 +120,13 @@ const SchoolName = styled.div`
   padding: 0;
   margin: 0;
   background: transparent;
+
+  p {
+    color: ${(props) =>
+      props.darkThemeActive
+        ? ThemeStyles.lightThemePrimaryFrontColor
+        : ThemeStyles.darkThemePrimaryFontColor};
+  }
 `;
 
 const SchoolLocation = styled.div`
@@ -146,11 +157,11 @@ const Input = styled.input`
     font-weight: 400;
     fontstyle: italic;
     letter-spacing: 0px;
+    padding: 5px;
     color: ${(props) =>
       props.darkThemeActive
         ? ThemeStyles.lightThemePrimaryFrontColor
         : ThemeStyles.darkThemePrimaryFontColor};
-    // margin-left: 10px;
   }
 
   color: ${(props) =>
@@ -189,6 +200,10 @@ const SearchResult = styled.div`
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor
       : ThemeStyles.darkThemePrimaryBackgroundColor};
+  color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryFrontColor
+      : ThemeStyles.darkThemePrimaryFontColor};
 `;
 
 const OptionItem = styled.div`
@@ -214,7 +229,3 @@ const LocationInfo = styled.p`
       ? ThemeStyles.lightThemePrimaryFrontColor
       : ThemeStyles.darkThemePrimaryFontColor};
 `;
-// background-color: ${(props) =>
-//   props.darkThemeActive
-//     ? ThemeStyles.lightThemePrimaryBackgroundColor
-//     : ThemeStyles.darkThemePrimaryBackgroundColor};

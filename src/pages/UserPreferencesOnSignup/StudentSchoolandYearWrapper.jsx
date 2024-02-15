@@ -51,8 +51,16 @@ function StudentSchoolandYearWrapper({
       </h2>
 
       <GiArchiveRegister fill={darkThemeActive ? "" : "white"} size={45} />
-      <SelectSchool setSchool={setSchool} />
-      <SelectYear setYear={setYear} />
+      <Box>
+        {" "}
+        <SelectSchool setSchool={setSchool} />
+      </Box>
+
+      <Box>
+        {" "}
+        <SelectYear setYear={setYear} />
+      </Box>
+
       <MainActionBtn
         darkThemeActive={darkThemeActive}
         onClick={handleClick}
@@ -100,4 +108,8 @@ const ModalContent = styled.div`
   @media ${device.tablet} {
     width: 300px;
   }
+`;
+
+const Box = styled.div`
+  width: 100%;
 `;

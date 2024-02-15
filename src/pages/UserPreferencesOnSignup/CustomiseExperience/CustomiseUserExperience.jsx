@@ -61,10 +61,19 @@ function CustomiseUserExperience({
   return (
     <ModalContent darkThemeActive={darkThemeActive}>
       <h2>Settings</h2>
-
       <CiSettings size={40} fill={darkThemeActive ? "" : "white"} />
-      <SoundEffectsToggle />
-      <DarkThemeToggle />
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "start",
+          width: "100%",
+          marginTop: "40px",
+        }}
+      >
+        <SoundEffectsToggle />
+        <DarkThemeToggle />
+      </div>
 
       <BtnDiv>
         <MainActionBtn
@@ -100,6 +109,10 @@ export default CustomiseUserExperience;
 
 const ModalContent = styled.div`
   width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 const BtnDiv = styled.div`

@@ -60,7 +60,7 @@ export default DarkThemeToggle;
 
 const Box = styled.div`
   height: 50px;
-  width: 300px;
+  width: 100%;
   border: none;
   display: flex;
   align-items: center;
