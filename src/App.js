@@ -12,13 +12,11 @@ import {
 } from "./features/api/UserData/userDataSlice";
 
 import UserPreferencesOnSignupModal from "./pages/UserPreferencesOnSignup/UserPreferencesOnSignupModal";
-import { GiCardKingClubs } from "react-icons/gi";
 
 export const UserContext = createContext();
 
 function App() {
   const { isAuthenticated, user } = useAuth0();
-
   const [loginCompleted, setLoginCompleted] = useState(false);
 
   const [
@@ -36,15 +34,8 @@ function App() {
 
   const [darkThemeActive, setDarkThemeActive] = useState();
   const [silentModeActive, setSilentModeActive] = useState();
-  const [isDataFromLocalStorage, setIsDataFromLocalStorage] = useState();
-
-  // useEffect(() => {
-  //   const silentModeActiveVal = Boolean(
-  //     localStorage.getItem("silentModeActive")
-  //   );
-
-  //   setSilentModeActive(() => silentModeActiveVal);
-  // }, []);
+  const [userData, setUserData] = useState([]);
+  console.log("🚀 ~ App ~ userData:", userData);
 
   useEffect(() => {
     const storedDarkThemeActive = localStorage.getItem("darkThemeActive");
@@ -68,12 +59,11 @@ function App() {
   // use email to fetch userData from mongoDB
   const { data } = useGetUserByEmailQuery(user?.email);
 
-  let userData;
-
-  if (data) {
-    userData = data;
-    console.log("🚀 ~ App ~ userData:", userData);
-  }
+  useEffect(() => {
+    if (data) {
+      setUserData(data);
+    }
+  }, [data]);
 
   let createUserRequired = false;
 
@@ -116,6 +106,7 @@ function App() {
   }, [createUserRequired, isAuthenticated, data]);
 
   const userContextValues = {
+    setUserData,
     userData,
     darkThemeActive,
     setDarkThemeActive,

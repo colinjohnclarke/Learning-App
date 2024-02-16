@@ -12,18 +12,50 @@ import { MdOutlineEmail } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
 import { useAuth0 } from "@auth0/auth0-react";
 import MainActionBtn from "../../components/Buttons/MainActionBtn";
+import { useUpdatePersonalInformationMutation } from "../../features/api/UserData/updatePersonalInformation";
 
 function Settings() {
-  const { darkThemeActive, userData } = useContext(UserContext);
+  const { darkThemeActive, userData, setUserData } = useContext(UserContext);
   console.log("🚀 ~ Settings ~ userData:", userData);
 
-  const [school, setSchool] = useState({});
-  const [year, setYear] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
+  const [updatePersonalInformation] = useUpdatePersonalInformationMutation();
+
+  const [school, setSchool] = useState(userData?.user.schoolDetails);
+  const [year, setYear] = useState(userData?.user.yearGroup);
+  const [firstName, setFirstName] = useState(userData?.user.firstName);
+  const [lastName, setLastName] = useState(userData?.user.lastName);
 
   const { user } = useAuth0();
+
+  let schoolDetails = {
+    id: userData?.user._id,
+    ...school,
+    year,
+    firstName,
+    lastName,
+  };
+
+  const updateSchoolDetails = async () => {
+    try {
+      const result = await updatePersonalInformation(schoolDetails);
+
+      if (result) {
+        console.log("result", result?.data);
+
+        setUserData((prev) => result?.data);
+      }
+
+      console.log("🚀 ~ Settings ~ userData:", userData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleClick = () => {
+    updateSchoolDetails();
+
+    console.log("clicked");
+  };
 
   return (
     <Wrapper darkThemeActive={darkThemeActive}>
@@ -45,12 +77,12 @@ function Settings() {
             alignItems: "center",
             fontSize: "13px",
             margin: "10px",
-            marginLeft: "20px",
+            marginLeft: "34px",
           }}
         >
-          <Btn darkThemeActive={darkThemeActive}>
+          {/* <Btn darkThemeActive={darkThemeActive}>
             <MdEdit fill={darkThemeActive ? "rgb(200, 200, 200)" : "white"} />
-          </Btn>
+          </Btn> */}
           <MdOutlineEmail
             fill={darkThemeActive ? "rgb(200, 200, 200)" : "white"}
           />{" "}
@@ -66,6 +98,8 @@ function Settings() {
             {userData?.user.email}
           </P>
         </div>
+
+        {userData?.user._id}
       </div>
       <Row>
         <Name>
@@ -96,8 +130,9 @@ function Settings() {
             onChange={(e) => {
               setFirstName(e.target.value);
             }}
+            value={firstName}
             type="text"
-            placeholder={userData?.user.firstName}
+            placeholder={firstName}
             darkThemeActive={darkThemeActive}
           ></Input>{" "}
         </Name>
@@ -131,6 +166,7 @@ function Settings() {
               setLastName(e.target.value);
             }}
             type="text"
+            value={lastName}
             placeholder={userData?.user.lastName}
             darkThemeActive={darkThemeActive}
           ></Input>
@@ -146,13 +182,6 @@ function Settings() {
         </School>
       </Row>
 
-      <MainActionBtn
-        style={{ margin: "50px" }}
-        darkThemeActive={darkThemeActive}
-      >
-        {" "}
-        Save Settings
-      </MainActionBtn>
       <div
         style={{
           display: "flex",
@@ -168,6 +197,18 @@ function Settings() {
           <SoundEffectsToggle /> <DarkThemeToggle />
         </Box>
       </div>
+
+      <MainActionBtn
+        onClick={() => {
+          handleClick();
+          console.log("clicked");
+        }}
+        style={{ margin: "50px" }}
+        darkThemeActive={darkThemeActive}
+      >
+        {" "}
+        Save Settings
+      </MainActionBtn>
     </Wrapper>
   );
 }
