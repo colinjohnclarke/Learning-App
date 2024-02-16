@@ -19,12 +19,12 @@ import HeaderColoredHightlight from "./HeaderColoredHightlight";
 
 function RecentCourses() {
   const courses = FetchCoursefromSanity();
-  console.log("🚀 ~ RecentCourses ~ courses:", courses);
+  // console.log("🚀 ~ RecentCourses ~ courses:", courses);
   const builder = imageUrlBuilder(sanityClient);
   const { userData, darkThemeActive } = useContext(UserContext);
 
   const { data } = useGetAllEnrolledCoursesDataQuery(userData?.user._id);
-  console.log("🚀 ~ RecentCourses ~ data:", data); // no subject saved
+  // console.log("🚀 ~ RecentCourses ~ data:", data); // no subject saved
 
   const imgurlFor = (source) => {
     return builder.image(source);
@@ -37,7 +37,7 @@ function RecentCourses() {
       // return so we we get saved course details from sanity eg cover image and subject
       return subItem.courseName === item.courseName;
     });
-    console.log("🚀 ~ result ~ result:", result);
+    // console.log("🚀 ~ result ~ result:", result);
 
     // filter the courses from sanity as they contain a complete list of all courses so we only need ones which match this courseName
     const blocks = courses
@@ -50,18 +50,18 @@ function RecentCourses() {
         return a.blockPositioninCourse - b.blockPositioninCourse;
       });
 
-    console.log("🚀 ~ list ~ blocks:", blocks);
+    // console.log("🚀 ~ list ~ blocks:", blocks);
 
     // store list of completed blocks from user
     const blocksCompletedfromDB = userData?.user.blocksCompleted;
-    console.log("🚀 ~ list ~ blocksCompletedfromDB:", blocksCompletedfromDB);
+    // console.log("🚀 ~ list ~ blocksCompletedfromDB:", blocksCompletedfromDB);
 
     // blocks completed from DB dont have subject saved
     const completedBlocks = blocksCompletedfromDB?.filter((block) => {
       return block.courseName === item.courseName;
     });
 
-    console.log("🚀 ~ completedBlocks ~ completedBlocks:", completedBlocks);
+    // console.log("🚀 ~ completedBlocks ~ completedBlocks:", completedBlocks);
 
     const CoursePercentageCompletion =
       (completedBlocks.length / blocks.length) * 100;

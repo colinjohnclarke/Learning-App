@@ -34,7 +34,7 @@ function App() {
 
   const [darkThemeActive, setDarkThemeActive] = useState();
   const [silentModeActive, setSilentModeActive] = useState();
-  const [userData, setUserData] = useState([]);
+  const [userData, setUserData] = useState({});
   console.log("🚀 ~ App ~ userData:", userData);
 
   useEffect(() => {
@@ -62,6 +62,7 @@ function App() {
   useEffect(() => {
     if (data) {
       setUserData(data);
+      localStorage.setItem("userId", data.user._id);
     }
   }, [data]);
 

@@ -28,12 +28,13 @@ function Settings() {
   const { user } = useAuth0();
 
   let schoolDetails = {
-    id: userData?.user._id,
+    id: userData?.user._id || localStorage.getItem("userId"),
     ...school,
     year,
     firstName,
     lastName,
   };
+  console.log("🚀 ~ Settings ~ schoolDetails:", schoolDetails)
 
   const updateSchoolDetails = async () => {
     try {
@@ -41,7 +42,6 @@ function Settings() {
 
       if (result) {
         console.log("result", result?.data);
-
         setUserData((prev) => result?.data);
       }
 

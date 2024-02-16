@@ -15,7 +15,9 @@ function SelectSchool({ setSchool }) {
   const { darkThemeActive, userData } = useContext(UserContext);
 
   const schoolSavedInDB =
-    userData?.user.schoolDetails.name || localStorage.getItem("schoolName");
+    userData?.user.schoolDetails.name ||
+    localStorage.getItem("schoolName") ||
+    null;
 
   let searchResult;
   if (data && !isLoading) {

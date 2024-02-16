@@ -45,10 +45,7 @@ function StudentSchoolandYearWrapper({
 
   return (
     <ModalContent darkThemeActive={darkThemeActive}>
-      <h2>
-        Complete your signup {year}
-        {school.name}
-      </h2>
+      <h2>Complete your signup {year}</h2>
 
       <GiArchiveRegister fill={darkThemeActive ? "" : "white"} size={45} />
       <Box>
