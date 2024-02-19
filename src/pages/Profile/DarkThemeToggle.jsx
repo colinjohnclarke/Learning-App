@@ -20,6 +20,7 @@ function DarkThemeToggle() {
           color: darkThemeActive
             ? ThemeStyles.lightThemePrimaryFrontColor
             : ThemeStyles.darkThemePrimaryFontColor,
+          fontSize: "14px",
         }}
       >
         Dark Mode

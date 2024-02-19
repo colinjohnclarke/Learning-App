@@ -19,7 +19,7 @@ import GridLoader from "react-spinners/GridLoader";
 import { IoMdClose } from "react-icons/io";
 
 function SetDailyGoal({ modalIsOpen, setModalIsOpen }) {
-  const { darkThemeActive, userData } = useContext(UserContext);
+  const { darkThemeActive, userData, setUserData } = useContext(UserContext);
   const [selectedOption, setSelectedOption] = useState();
 
   const [displayDailyGoalUpdate, setDisplayDailyGoalUpdate] = useState(false);
@@ -27,9 +27,7 @@ function SetDailyGoal({ modalIsOpen, setModalIsOpen }) {
   const [updateDailyXpGoal, isLoading, isError, error, data] =
     useUpdateDailyXpGoalMutation();
 
-
   const isSuccess = data !== undefined && data !== null;
-
 
   const toggleModal = () => {
     setModalIsOpen(!modalIsOpen);
@@ -42,8 +40,11 @@ function SetDailyGoal({ modalIsOpen, setModalIsOpen }) {
       XPGoal: selectedOption,
     };
 
-    const update = await updateDailyXpGoal(updatedDailyXPGoal);
-    
+    const updatedUser = await updateDailyXpGoal(updatedDailyXPGoal);
+  
+    if (updatedUser) {
+      setUserData((prev) => updatedUser.data);
+    }
   };
 
   const selected = {
@@ -125,7 +126,6 @@ function SetDailyGoal({ modalIsOpen, setModalIsOpen }) {
         onClick={(e) => {
           e.preventDefault();
           setSelectedOption(option.xp);
-       
         }}
         darkThemeActive={darkThemeActive}
       >
@@ -188,9 +188,7 @@ function SetDailyGoal({ modalIsOpen, setModalIsOpen }) {
           <ConfettiDashboard></ConfettiDashboard>
           <ModalTitle darkThemeActive={darkThemeActive}>
             Daily Goal set to {selectedOption} XP .
-            <P darkThemeActive={darkThemeActive}>
-              You will see the changes when the page refreshes!
-            </P>
+            <div style={{ height: "20px" }}></div>
             <TbTargetArrow
               stroke={
                 darkThemeActive

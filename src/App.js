@@ -11,7 +11,7 @@ import {
   useCreateUserMutation,
 } from "./features/api/UserData/userDataSlice";
 
-import UserPreferencesOnSignupModal from "./pages/UserPreferencesOnSignup/UserPreferencesOnSignupModal";
+import UserPreferencesOnSignupModal from "./pages/GatherUserDataOnsignup/UserPreferencesOnSignupModal";
 
 export const UserContext = createContext();
 

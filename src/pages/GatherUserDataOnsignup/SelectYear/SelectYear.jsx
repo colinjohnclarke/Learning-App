@@ -37,6 +37,8 @@ function SelectYear({ setYear }) {
           display: "flex",
           flexDirection: "row",
           width: "100%",
+          marginLeft: "7px",
+          marginBottom: "10px",
           // padding: "10px",
           backgroundColor: darkThemeActive
             ? ThemeStyles.lightThemePrimaryBackgroundColor
@@ -102,10 +104,9 @@ function SelectYear({ setYear }) {
 export default SelectYear;
 
 const Wrapper = styled.div`
-  width: 100%;
   height: 100%;
   position: relative;
-  z-index: 50;
+  z-index: 10;
   // min-width: 300px;
 
   // @media ${device.tablet} {
@@ -138,11 +139,6 @@ const LabelText = styled.label`
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryFrontColor
       : ThemeStyles.darkThemePrimaryFontColor};
-`;
-
-const DropdownContainer = styled.div`
-  position: relative;
-  width: 100%;
 `;
 
 const DropdownButton = styled.button`

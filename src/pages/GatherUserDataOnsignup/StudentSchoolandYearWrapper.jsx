@@ -4,21 +4,28 @@ import { ThemeStyles } from "../../styles/ThemeStyles";
 import { device } from "../../styles/breakpoints";
 import SelectSchool from "./SelectSchool/SelectSchool";
 import MainActionBtn from "../../components/Buttons/MainActionBtn";
-import { GiArchiveRegister } from "react-icons/gi";
+import SelectYear from "./SelectYear/SelectYear";
+
 import { UserContext } from "../../App";
 import { useUpdateUserSchoolMutation } from "../../features/api/UserData/updateUserSchool";
 
-import SelectYear from "./SelectYear/SelectYear";
+import { FcGraduationCap } from "react-icons/fc";
 
-function StudentSchoolandYearWrapper({
-  setDisplayStudentAndSchoolWrapper,
-  setDisplayCustomiseUserExperience,
-}) {
+function StudentSchoolandYearWrapper({ navigateSignup }) {
   const { darkThemeActive, userData } = useContext(UserContext);
 
   const [school, setSchool] = useState({});
 
   const [year, setYear] = useState("");
+
+  const {
+    displayConfirmUserNames,
+    setDisplayConfirmUserNames,
+    displayStudentAndSchoolWrapper,
+    setDisplayStudentAndSchoolWrapper,
+    displayCustomiseUserExperience,
+    setDisplayCustomiseUserExperience,
+  } = navigateSignup;
 
   const [updateUserSchool] = useUpdateUserSchoolMutation();
 
@@ -37,35 +44,49 @@ function StudentSchoolandYearWrapper({
     }
   };
 
-  const handleClick = () => {
+  const handleSaveBtnClick = () => {
     setDisplayStudentAndSchoolWrapper(false);
     setDisplayCustomiseUserExperience(true);
     updateSchoolDetails();
   };
 
+  const handlePrevBtnClicked = () => {
+    setDisplayCustomiseUserExperience(false);
+    setDisplayStudentAndSchoolWrapper(false);
+    setDisplayConfirmUserNames(true);
+  };
+
   return (
     <ModalContent darkThemeActive={darkThemeActive}>
-      <h2>Complete your signup {year}</h2>
-
-      <GiArchiveRegister fill={darkThemeActive ? "" : "white"} size={45} />
+      <h2> Your school details</h2>
+      <FcGraduationCap size={50} stroke={darkThemeActive ? "" : "white"} />
       <Box>
         {" "}
         <SelectSchool setSchool={setSchool} />
       </Box>
-
       <Box>
         {" "}
         <SelectYear setYear={setYear} />
       </Box>
+      <div style={{ display: "flex", width: "100%" }}>
+        <MainActionBtn
+          darkThemeActive={darkThemeActive}
+          onClick={handlePrevBtnClicked}
+          style={{ width: "100%", marginTop: "20px", marginTop: "40px" }}
+        >
+          {" "}
+          previous
+        </MainActionBtn>
 
-      <MainActionBtn
-        darkThemeActive={darkThemeActive}
-        onClick={handleClick}
-        style={{ width: "100%", marginTop: "20px", marginTop: "40px" }}
-      >
-        {" "}
-        Save
-      </MainActionBtn>
+        <MainActionBtn
+          darkThemeActive={darkThemeActive}
+          onClick={handleSaveBtnClick}
+          style={{ width: "100%", marginTop: "20px", marginTop: "40px" }}
+        >
+          {" "}
+          save
+        </MainActionBtn>
+      </div>
     </ModalContent>
   );
 }

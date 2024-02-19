@@ -2,50 +2,51 @@ import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import "animate.css";
 import { UserContext } from "../../App";
-import { device
- } from "../../styles/breakpoints";
+import { device } from "../../styles/breakpoints";
 import StudentSchoolandYearWrapper from "./StudentSchoolandYearWrapper";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import CustomiseUserExperience from "./CustomiseExperience/CustomiseUserExperience";
+import ConfirmUserFirstName from "./UserNames/ConfirmUserNames";
 
 function UserPreferencesOnSignupModal({
   setIsShoolandUserPreferencesCompleted,
 }) {
+  const [displayConfirmUserNames, setDisplayConfirmUserNames] = useState(true);
   const [displayStudentAndSchoolWrapper, setDisplayStudentAndSchoolWrapper] =
-    useState(true);
+    useState(false);
 
   const [displayCustomiseUserExperience, setDisplayCustomiseUserExperience] =
     useState(false);
 
-  const {
-    darkThemeActive,
-    setDarkThemeActive,
-    silentModeActive,
-    setSilentModeActive,
-  } = useContext(UserContext);
+  const { darkThemeActive } = useContext(UserContext);
+
+  const navigateSignup = {
+    displayConfirmUserNames,
+    setDisplayConfirmUserNames,
+    displayStudentAndSchoolWrapper,
+    setDisplayStudentAndSchoolWrapper,
+    displayCustomiseUserExperience,
+    setDisplayCustomiseUserExperience,
+  };
 
   return (
     <ModalWrapper darkThemeActive={darkThemeActive}>
+      {displayConfirmUserNames && (
+        <ConfirmUserFirstName navigateSignup={navigateSignup} />
+      )}
       {displayStudentAndSchoolWrapper && !displayCustomiseUserExperience && (
         <StudentSchoolandYearWrapper
-          setDisplayStudentAndSchoolWrapper={setDisplayStudentAndSchoolWrapper}
-          setDisplayCustomiseUserExperience={setDisplayCustomiseUserExperience}
+          navigateSignup={navigateSignup}
           className={"animate__animated  animate__fadeIn"}
         />
       )}
-
       {displayCustomiseUserExperience && !displayStudentAndSchoolWrapper && (
-        <CustomiseUserExperienceWrapper>
+        <CustomiseUserExperienceWrapper darkThemeActive={darkThemeActive}>
           {" "}
           <CustomiseUserExperience
+            navigateSignup={navigateSignup}
             setIsShoolandUserPreferencesCompleted={
               setIsShoolandUserPreferencesCompleted
-            }
-            setDisplayCustomiseUserExperience={
-              setDisplayCustomiseUserExperience
-            }
-            setDisplayStudentAndSchoolWrapper={
-              setDisplayStudentAndSchoolWrapper
             }
           />
         </CustomiseUserExperienceWrapper>
@@ -102,7 +103,8 @@ const CustomiseUserExperienceWrapper = styled.div`
       : ThemeStyles.darkThemePrimaryBackgroundColor};
 
   p,
-  h2 {
+  h2,
+  div {
     color: ${(props) =>
       props.darkThemeActive
         ? ThemeStyles.lightThemePrimaryFrontColor

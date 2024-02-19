@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
-import SelectSchool from "../UserPreferencesOnSignup/SelectSchool/SelectSchool";
-import SelectYear from "../UserPreferencesOnSignup/SelectYear/SelectYear";
+import SelectSchool from "../GatherUserDataOnsignup/SelectSchool/SelectSchool";
+import SelectYear from "../GatherUserDataOnsignup/SelectYear/SelectYear";
 import SoundEffectsToggle from "./SoundEffectsToggle";
 import DarkThemeToggle from "./DarkThemeToggle";
 import styled from "styled-components";
@@ -13,6 +13,8 @@ import { MdEdit } from "react-icons/md";
 import { useAuth0 } from "@auth0/auth0-react";
 import MainActionBtn from "../../components/Buttons/MainActionBtn";
 import { useUpdatePersonalInformationMutation } from "../../features/api/UserData/updatePersonalInformation";
+import InputField from "../GatherUserDataOnsignup/UserNames/InputField";
+import ConfirmChangeofPersonalDataModal from "./ConfirmChangeofPersonalDataModal";
 
 function Settings() {
   const { darkThemeActive, userData, setUserData } = useContext(UserContext);
@@ -28,17 +30,21 @@ function Settings() {
   const { user } = useAuth0();
 
   let schoolDetails = {
-    id: userData?.user._id || localStorage.getItem("userId"),
-    ...school,
+    id: userData?.user._id,
+    schoolName: school.name,
+    schoolTown: school.town,
+    schoolLa: school.la || "",
+    schoolPostCode: school.postcode,
     year,
     firstName,
     lastName,
   };
-  console.log("🚀 ~ Settings ~ schoolDetails:", schoolDetails)
+  console.log("🚀 ~ Settings ~ schoolDetails:", schoolDetails);
 
   const updateSchoolDetails = async () => {
     try {
       const result = await updatePersonalInformation(schoolDetails);
+      console.log("🚀 ~ updateSchoolDetails ~ result:", result.user);
 
       if (result) {
         console.log("result", result?.data);
@@ -51,14 +57,48 @@ function Settings() {
     }
   };
 
-  const handleClick = () => {
+  const confirmUpdateDetails = () => {
     updateSchoolDetails();
-
     console.log("clicked");
   };
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleConfirmModal = () => {
+    confirmUpdateDetails();
+    setIsModalOpen(false);
+  };
+
+  const nameIcon = (
+    <GoPerson
+      fill={darkThemeActive ? "black" : "white"}
+      style={{
+        marginLeft: "15px",
+        position: "relative",
+        left: "14px",
+        bottom: "2px",
+      }}
+    />
+  );
+
   return (
     <Wrapper darkThemeActive={darkThemeActive}>
+      {isModalOpen && (
+        <ConfirmChangeofPersonalDataModal
+          confirmUpdateDetails={confirmUpdateDetails}
+          isOpen={isModalOpen}
+          onCancel={handleCloseModal}
+          onConfirm={handleConfirmModal}
+        />
+      )}
       <div
         style={{
           display: "flex",
@@ -80,9 +120,9 @@ function Settings() {
             marginLeft: "34px",
           }}
         >
-          {/* <Btn darkThemeActive={darkThemeActive}>
+          <Btn darkThemeActive={darkThemeActive}>
             <MdEdit fill={darkThemeActive ? "rgb(200, 200, 200)" : "white"} />
-          </Btn> */}
+          </Btn>
           <MdOutlineEmail
             fill={darkThemeActive ? "rgb(200, 200, 200)" : "white"}
           />{" "}
@@ -98,88 +138,33 @@ function Settings() {
             {userData?.user.email}
           </P>
         </div>
-
-        {userData?.user._id}
       </div>
       <Row>
-        <Name>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              width: "100%",
-              // padding: "10px",
-              backgroundColor: darkThemeActive
-                ? ThemeStyles.lightThemePrimaryBackgroundColor
-                : ThemeStyles.darkThemePrimaryBackgroundColor,
-            }}
-          >
-            {" "}
-            <LabelText darkThemeActive={darkThemeActive}> First Name</LabelText>
-            <GoPerson
-              fill={darkThemeActive ? "black" : "white"}
-              style={{
-                marginLeft: "15px",
-                position: "relative",
-                left: "14px",
-                bottom: "2px",
-              }}
-            />
-          </div>
-          <Input
-            onChange={(e) => {
-              setFirstName(e.target.value);
-            }}
-            value={firstName}
-            type="text"
+        <Selection>
+          <InputField
+            icon={nameIcon}
+            text={"First Name"}
             placeholder={firstName}
-            darkThemeActive={darkThemeActive}
-          ></Input>{" "}
-        </Name>
+            setStateFN={setFirstName}
+          ></InputField>
+        </Selection>
 
-        <Name>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              width: "100%",
-              // padding: "10px",
-              backgroundColor: darkThemeActive
-                ? ThemeStyles.lightThemePrimaryBackgroundColor
-                : ThemeStyles.darkThemePrimaryBackgroundColor,
-            }}
-          >
-            {" "}
-            <LabelText darkThemeActive={darkThemeActive}> Last Name</LabelText>
-            <GoPerson
-              fill={darkThemeActive ? "black" : "white"}
-              style={{
-                marginLeft: "15px",
-                position: "relative",
-                left: "14px",
-                bottom: "2px",
-              }}
-            />
-          </div>
-          <Input
-            onChange={(e) => {
-              setLastName(e.target.value);
-            }}
-            type="text"
-            value={lastName}
-            placeholder={userData?.user.lastName}
-            darkThemeActive={darkThemeActive}
-          ></Input>
-        </Name>
-        <Year>
-          {" "}
-          <SelectYear setYear={setYear} />
-        </Year>
+        <Selection>
+          <InputField
+            icon={nameIcon}
+            text={"Last Name"}
+            placeholder={lastName}
+            setStateFN={setLastName}
+          ></InputField>
+        </Selection>
 
-        <School>
-          {" "}
+        <Selection>
           <SelectSchool setSchool={setSchool} />
-        </School>
+        </Selection>
+
+        <Selection style={{ width: "101%" }}>
+          <SelectYear setYear={setYear} />
+        </Selection>
       </Row>
 
       <div
@@ -200,8 +185,8 @@ function Settings() {
 
       <MainActionBtn
         onClick={() => {
-          handleClick();
           console.log("clicked");
+          handleOpenModal();
         }}
         style={{ margin: "50px" }}
         darkThemeActive={darkThemeActive}
@@ -242,33 +227,13 @@ const Box = styled.div`
   }
 `;
 
-const Year = styled.div`
-  width: 99.5%;
+const Selection = styled.div`
+  width: 100%;
 
   @media ${device.mobileL} {
-    width: 97%;
   }
 
   @media ${device.tablet} {
-    width: 100%;
-  }
-`;
-
-const School = styled.div`
-  width: 96%;
-
-  @media ${device.mobileL} {
-    width: 97%;
-  }
-  @media ${device.tablet} {
-    width: 100%;
-  }
-`;
-
-const Name = styled.div`
-  width: 96%;
-  @media ${device.tablet} {
-    width: 99%;
   }
 `;
 

@@ -22,6 +22,7 @@ function SoundEffectsToggle() {
           color: darkThemeActive
             ? ThemeStyles.lightThemePrimaryFrontColor
             : ThemeStyles.darkThemePrimaryFontColor,
+          fontSize: "14px",
         }}
       >
         Sound Effects

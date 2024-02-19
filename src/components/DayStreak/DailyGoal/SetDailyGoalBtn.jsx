@@ -4,8 +4,7 @@ import { ThemeStyles } from "../../../styles/ThemeStyles";
 import { MdEdit } from "react-icons/md";
 import { UserContext } from "../../../App";
 import SetDailyGoalModal from "./SetDailyGoalModal";
-import { arrOfDatesQuizCompletedLastWeek } from "../FlameDayStreak";
-import DataFromPrevWeek from "../DataFromPrevWeek";
+
 import XPPointsScoredToday from "./XPPointsScoredToday";
 
 function SetDailyGoalBtn() {

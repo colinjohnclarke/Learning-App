@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { ThemeStyles } from "../../../styles/ThemeStyles";
 import { IoSchoolOutline } from "react-icons/io5";
 import { UserContext } from "../../../App";
+import InputField from "../UserNames/InputField";
 
 function SelectSchool({ setSchool }) {
   const [schoolQuery, setSchoolQuery] = useState("");
@@ -14,10 +15,14 @@ function SelectSchool({ setSchool }) {
 
   const { darkThemeActive, userData } = useContext(UserContext);
 
-  const schoolSavedInDB =
-    userData?.user.schoolDetails.name ||
-    localStorage.getItem("schoolName") ||
-    null;
+  let schoolSavedInDB = userData.user.schoolDetails.name;
+
+  const schoolIcon = (
+    <IoSchoolOutline
+      stroke={darkThemeActive ? "black" : "white"}
+      style={{ marginLeft: "15px" }}
+    />
+  );
 
   let searchResult;
   if (data && !isLoading) {
@@ -72,29 +77,13 @@ function SelectSchool({ setSchool }) {
 
   return (
     <Wrapper darkThemeActive={darkThemeActive}>
-      {/* <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          width: "100%",
-        }}
-      > */}{" "}
-      <LabelText darkThemeActive={darkThemeActive}> Select School</LabelText>
-      <IoSchoolOutline
-        stroke={darkThemeActive ? "black" : "white"}
-        style={{ marginLeft: "15px" }}
-      />
-      {/* </div> */}
-      <Input
-        darkThemeActive={darkThemeActive}
-        style={{ fontSize: "12px" }}
-        placeholder={schoolSavedInDB || "Start by typing"}
-        value={schoolQuery}
-        onChange={(e) => {
-          setSchoolQuery(e.target.value);
-        }}
-        type="text"
-      />
+      <InputField
+        icon={schoolIcon}
+        placeholder={schoolSavedInDB ? schoolSavedInDB : "Start by typing"}
+        setStateFN={setSchoolQuery}
+        text={"Select School"}
+      ></InputField>
+
       {searchResult && schoolQuery && (
         <SearchResult>{searchResult}</SearchResult>
       )}
@@ -106,7 +95,6 @@ export default SelectSchool;
 
 const Wrapper = styled.div`
   width: 100%;
-  // min-width: 300px;
 
   position: relative;
   z-index: 22;
@@ -138,54 +126,9 @@ const SchoolLocation = styled.div`
   background: transparent;
 `;
 
-const Input = styled.input`
-  height: 40px;
-  border-radius: 5px;
-  // padding-left: 5px;
-  width: 99.5%;
-  box-shadow: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemeMainBoxShadow
-      : ThemeStyles.darkThemeMainBoxShadow};
-  border: none;
-
-  background-color: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemePrimaryBackgroundColor
-      : ThemeStyles.darkThemePrimaryBackgroundColor};
-
-  &::placeholder {
-    font-size: 13px;
-    font-weight: 400;
-    fontstyle: italic;
-    letter-spacing: 0px;
-    padding: 5px;
-    color: ${(props) =>
-      props.darkThemeActive
-        ? ThemeStyles.lightThemePrimaryFrontColor
-        : ThemeStyles.darkThemePrimaryFontColor};
-  }
-
-  color: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemePrimaryFrontColor
-      : ThemeStyles.darkThemePrimaryFontColor};
-`;
-
-const LabelText = styled.label`
-  font-size: 13px;
-  position: relative;
-  right: 5px;
-  background: transparent;
-  color: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemePrimaryFrontColor
-      : ThemeStyles.darkThemePrimaryFontColor};
-`;
-
 const SearchResult = styled.div`
   position: absolute;
-  z-index: 2;
+  z-index: 25;
   top: 100%;
   left: 0;
   width: 100%;
@@ -211,6 +154,8 @@ const SearchResult = styled.div`
 const OptionItem = styled.div`
   // height: 55px;
   padding: 3px;
+  position: relative;
+  z-index: 30;
   cursor: pointer;
   display: flex;
   flex-direction: column;

@@ -8,16 +8,23 @@ import { LuFlashlightOff } from "react-icons/lu";
 import { HiOutlineSpeakerWave } from "react-icons/hi2";
 import { HiOutlineSpeakerXMark } from "react-icons/hi2";
 import MainActionBtn from "../../../components/Buttons/MainActionBtn";
-import { CiSettings } from "react-icons/ci";
+import { FcAutomatic } from "react-icons/fc";
 import SoundEffectsToggle from "../../Profile/SoundEffectsToggle";
 import DarkThemeToggle from "../../Profile/DarkThemeToggle";
 
 function CustomiseUserExperience({
-  setDisplayCustomiseUserExperience,
+  navigateSignup,
   setIsShoolandUserPreferencesCompleted,
-  setDisplayStudentAndSchoolWrapper,
 }) {
   const { darkThemeActive, silentModeActive } = useContext(UserContext);
+  const {
+    displayConfirmUserNames,
+    setDisplayConfirmUserNames,
+    displayStudentAndSchoolWrapper,
+    setDisplayStudentAndSchoolWrapper,
+    displayCustomiseUserExperience,
+    setDisplayCustomiseUserExperience,
+  } = navigateSignup;
 
   const handleSaveBtnClicked = (e) => {
     e.preventDefault();
@@ -60,8 +67,9 @@ function CustomiseUserExperience({
 
   return (
     <ModalContent darkThemeActive={darkThemeActive}>
-      <h2>Settings</h2>
-      <CiSettings size={40} fill={darkThemeActive ? "" : "white"} />
+      <h2>Preferences</h2>
+      <div style={{ height: "20px" }}></div>
+      <FcAutomatic size={50} fill={darkThemeActive ? "" : "white"} />
       <div
         style={{
           display: "flex",
@@ -74,6 +82,12 @@ function CustomiseUserExperience({
         <SoundEffectsToggle />
         <DarkThemeToggle />
       </div>
+
+      <div style={{ height: "40px" }}></div>
+      <p style={{ fontSize: "13px" }}>
+        {" "}
+        You can always change these later in settings!
+      </p>
 
       <BtnDiv>
         <MainActionBtn
@@ -95,12 +109,6 @@ function CustomiseUserExperience({
           <p style={{ fontSize: "15px" }}>Save</p>
         </MainActionBtn>
       </BtnDiv>
-
-      <div style={{ height: "40px" }}></div>
-      <p style={{ fontSize: "13px" }}>
-        {" "}
-        You can always change these later in settings!
-      </p>
     </ModalContent>
   );
 }
@@ -113,6 +121,19 @@ const ModalContent = styled.div`
   align-items: center;
   flex-direction: column;
   justify-content: space-between;
+
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
+
+  p,
+  h2 {
+    color: ${(props) =>
+      props.darkThemeActive
+        ? ThemeStyles.lightThemePrimaryFrontColor
+        : ThemeStyles.darkThemePrimaryFontColor};
+  }
 `;
 
 const BtnDiv = styled.div`

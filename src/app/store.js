@@ -14,6 +14,7 @@ import { userSchoolSlice } from "../features/api/UserData/userSchool";
 import { updateUserSchoolSlice } from "../features/api/UserData/updateUserSchool";
 import { schoolXPpointsSlice } from "../features/api/UserData/SchoolData/schoolXPoints";
 import { updatePersonalInformationSlice } from "../features/api/UserData/updatePersonalInformation";
+import { updateUserNamesSlice } from "../features/api/UserData/updateUserNames";
 
 export const store = configureStore({
   reducer: {
@@ -33,6 +34,7 @@ export const store = configureStore({
     [schoolXPpointsSlice.reducerPath]: schoolXPpointsSlice.reducer,
     [updatePersonalInformationSlice.reducerPath]:
       updatePersonalInformationSlice.reducer,
+    [updateUserNamesSlice.reducerPath]: updateUserNamesSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -42,6 +44,7 @@ export const store = configureStore({
       userSchoolSlice.middleware,
       updateUserSchoolSlice.middleware,
       schoolXPpointsSlice.middleware,
-      updatePersonalInformationSlice.middleware
+      updatePersonalInformationSlice.middleware,
+      updateUserNamesSlice.middleware
     ),
 });
