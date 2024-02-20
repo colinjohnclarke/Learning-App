@@ -1,31 +1,33 @@
-import "../App.css";
+import "../../App.css";
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { useParams } from "react-router-dom";
 import "animate.css";
-import { PortableText } from "@portabletext/react";
-import imageUrlBuilder from "@sanity/image-url";
-import sanityClient from "../createclient";
+import sanityClient from "../../createclient";
 import styled from "styled-components";
-import MCQ from "../components/MCQ/MCQ";
-import StudentTextInputWrapper from "../components/SingleStudentInput/StudentTextInputWrapper";
-import DualBoxSelectionWrapper from "../components/DualSelection/DualBoxSelectionWrapper";
-import DragandDropWrapper from "../components/Drag&Drop/DragandDropWrapper";
-import ContinueBtn from "../components/Buttons/ContinueBtn";
-import GapFillWrapper from "../components/GapFill/GapFillWrapper";
-import IncorrectWordWrapper from "../components/IncorrectWordIdentifier/IncorrectWordWrapper";
-import FillMissingValuesTable from "../components/Tables/MissingData/FillMissingValues";
-import LineChart from "../components/Charts/Line/LineChart";
-import LargeTable from "../components/Tables/TableFromLineData";
-import Scatter from "../components/Charts/Scatter/Scatter";
-import MovingSliderWrapper from "../components/MovingSlider/MovingSliderWrapper";
-import TextSlideShowWrapper from "../components/TextSlideShow/TextSlideShowWrapper";
+import MCQ from "../../components/MCQ/MCQ";
+import LabellingWrapper from "../../components/Labelling/LabellingWrapper";
+import StudentTextInputWrapper from "../../components/SingleStudentInput/StudentTextInputWrapper";
+import DualBoxSelectionWrapper from "../../components/DualSelection/DualBoxSelectionWrapper";
+import DragandDropWrapper from "../../components/Drag&Drop/DragandDropWrapper";
+import ContinueBtn from "../../components/Buttons/ContinueBtn";
+import GapFillWrapper from "../../components/GapFill/GapFillWrapper";
+import IncorrectWordWrapper from "../../components/IncorrectWordIdentifier/IncorrectWordWrapper";
+import FillMissingValuesTable from "../../components/Tables/MissingData/FillMissingValues";
+import LineChart from "../../components/Charts/Line/LineChart";
+import LargeTable from "../../components/Tables/TableFromLineData";
+import Scatter from "../../components/Charts/Scatter/Scatter";
+import MovingSliderWrapper from "../../components/MovingSlider/MovingSliderWrapper";
+import TextSlideShowWrapper from "../../components/TextSlideShow/TextSlideShowWrapper";
 import { useSelector, useDispatch } from "react-redux";
-import { updateProgressPercentage } from "../features/ProgressBar/ProgressBar";
-import PostBlockPointsReveal from "../components/Data/PostBlockPointsReveal/PostBlockPointsReveal";
+import { updateProgressPercentage } from "../../features/ProgressBar/ProgressBar";
+import PostBlockPointsReveal from "../../components/Data/PostBlockPointsReveal/PostBlockPointsReveal";
 import { GrNext } from "react-icons/gr";
 import GridLoader from "react-spinners/GridLoader";
-import ImagefromSanity from "../config/sanity/ImagefromSanity";
-import { ThemeStyles } from "../styles/ThemeStyles";
+import ImagefromSanity from "../../config/sanity/ImagefromSanity";
+import { ThemeStyles } from "../../styles/ThemeStyles";
+import objectToArray from "./ObjectToArray";
+
+import RemoveBlockItemsWithoutData from "./OrderingItems/RemoveBlockItemsWithoutData";
 
 import {
   updateBlockCompleted,
@@ -35,68 +37,44 @@ import {
   resetPointsAvailableArr,
   resetSlideNumber,
   updatePercentage,
-} from "../features/CurrentBlockProgressData/currentblockprogressdata";
-import { useUpdateUserDataMutation } from "../features/api/UserData/userDataSlice";
+} from "../../features/CurrentBlockProgressData/currentblockprogressdata";
+import { useUpdateUserDataMutation } from "../../features/api/UserData/userDataSlice";
 
-import { useUpdateEnrolledCourseMutation } from "../features/api/UserData/enrolledCourseDataSlice";
+import { useUpdateEnrolledCourseMutation } from "../../features/api/UserData/enrolledCourseDataSlice";
 
-import { UserContext } from "../App";
-import CheckScoreBtn from "../components/Buttons/CheckScoreBtn";
-import StartQuizBtn from "../components/Buttons/StartQuizBtn";
-import { device } from "../styles/breakpoints";
-import CourseDetails from "../components/CourseDetails/CourseDetails";
+import { UserContext } from "../../App";
+import CheckScoreBtn from "../../components/Buttons/CheckScoreBtn";
+import StartQuizBtn from "../../components/Buttons/StartQuizBtn";
+import { device } from "../../styles/breakpoints";
+import CourseDetails from "../../components/CourseDetails/CourseDetails";
+import FetchBlockDataFromSanity from "./FetchBlockDataFromSanity";
+import RemoveItemsWithoutData from "./OrderingItems/RemoveBlockItemsWithoutData";
 
 function Main() {
-  // console.log("🚀 ~ file: Main.jsx:47 ~ Main ~ navState:", navState);
-  const [data, setData] = useState([]);
+  const { userData, darkThemeActive } = useContext(UserContext);
 
+  const [blockData, setBlockData] = useState([]);
+  console.log("🚀 ~ Main ~ blockData:", blockData);
   const [showPointsSummary, setShowPointsSummary] = useState(false);
   const [itemDisplayed, setItemDisplayed] = useState([]);
   const [blockDataSubmittedtoDB, setBlockDataSubmittedtoDB] = useState(false);
-
   const dispatch = useDispatch();
-
+  /// use params from search function
+  const { subject, courseName, blockName } = useParams();
   const currentblockprogressdata = useSelector(
     (state) => state.currentblockprogressdata
   );
-
-  /// use params from search function
-  const { subject, courseName, blockName } = useParams();
-
   const startTimeRef = useRef(Date.now());
 
-  const { userData, darkThemeActive } = useContext(UserContext);
-
-  // const { selectedNav, setSelectedNav } = navState;
-
-  useEffect(() => {
-    sanityClient
-      .fetch(
-        `*[_type == "${subject}" && name == "${blockName}" ]
-        { subject_skills[]->, coverImage, slider, incorrect_words_from_text, order_items_drag_drop,
-                    name, tags, textblock1, textblock2, textblock3, textblock4, textblock5,  hint, problem_keywords[]->,  example_problem, MCQ_INPUTS, MCQ_MATH_INPUTS,  student_text_input, gap_fill, incorrect_words_from_text, table, line_graph_data,
-                    standard_tables, standard_table_variable_names
-                    }`
-      )
-      .then((result) => setData(result[0]))
-      .catch(console.error);
-
-    window.scrollTo(0, 0);
-  }, []);
-
-  // useEffect(() => {
-  //   setSelectedNav((prevState) => ({ courseView: "true" }));
-
-  //   console.log("COLINSSSS", selectedNav);
-  // }, []);
-
-  // console.log("selectedNav", selectedNav);
+  // fetch data based on subject and blockname from
+  FetchBlockDataFromSanity(subject, blockName, setBlockData);
 
   const {
     subject_skills,
     skills,
     problem_keywords,
     tags,
+    labelling,
     MCQ_INPUTS,
     order_items_drag_drop,
     slider,
@@ -105,44 +83,32 @@ function Main() {
     standard_table_variable_names,
     standard_tables,
     student_text_input,
-    table,
+    table, 
     line_graph_data,
-  } = data;
+  } = blockData;
+  console.log("🚀 ~ Main ~ blockData:", blockData);
 
   const slideShowDataArr = [
-    data.textblock1,
-    data.textblock2,
-    data.textblock3,
-    data.textblock4,
-    data.textblock5,
+    blockData.textblock1,
+    blockData.textblock2,
+    blockData.textblock3,
+    blockData.textblock4,
+    blockData.textblock5,
   ];
 
-  function objectToArray(obj) {
-    return Object.entries(obj).map(([key, value]) => {
-      if (typeof value === "object" && value !== null) {
-        return { key, children: objectToArray(value) };
-      } else {
-        return { key, value };
-      }
-    });
-  }
+  // convert OBJ to Array so can be used ordered into position
 
-  const arr = objectToArray(data);
+  const convertedArrFromObj = objectToArray(blockData);
+  console.log("🚀 ~ Main ~ convertedArrFromObj:", convertedArrFromObj);
 
-  const newData = arr.flatMap((item) => {
-    const type = item.key;
-    const position = item.children?.flatMap((subItem) => {
-      const positionVal = subItem.children
-        ?.filter((subsub) => subsub.key === "position")
-        ?.map((subsub) => subsub.value);
+  // Remove empty items from array
 
-      return { positionVal };
-    });
+  const blockItemsWithoutBlanks =
+    RemoveBlockItemsWithoutData(convertedArrFromObj);
 
-    return item.children ? { type, position } : null;
-  });
+  console.log("🚀 ~ Main ~ blockItemsWithoutBlanks:", blockItemsWithoutBlanks);
 
-  const filterNullValues = newData
+  const filterNullValues = blockItemsWithoutBlanks
     .filter(
       (item) => item !== null && item.position && item.position.length !== 0
     ) // Add null and position existence check
@@ -174,6 +140,8 @@ function Main() {
     .sort((a, b) => {
       return a.position - b.position;
     });
+
+  // render AFL components based on type
 
   const itemData = testData.map((item) => {
     let component = null;
@@ -211,6 +179,10 @@ function Main() {
         component = (
           <DragandDropWrapper data={[order_items_drag_drop[item.index]]} />
         );
+        break;
+
+      case "labelling":
+        component = <LabellingWrapper data={[labelling[item.index]]} />;
         break;
       default:
         component = <></>;
@@ -292,7 +264,7 @@ function Main() {
     <CourseDetails
       darkThemeActive={darkThemeActive}
       className="animate__animated animate__fadeIn"
-      data={data.coverImage || ""}
+      data={blockData.coverImage || ""}
       subject={subject}
       courseName={courseName}
       blockName={blockName}
@@ -472,7 +444,7 @@ function Main() {
   );
   return (
     <Wrapper darkThemeActive={darkThemeActive}>
-      {data.length === 0 && loader}
+      {blockData.length === 0 && loader}
       {renderedItems}
       {showPointsSummary && <PostBlockPointsReveal />}
     </Wrapper>

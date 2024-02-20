@@ -18,6 +18,10 @@ export const UserContext = createContext();
 function App() {
   const { isAuthenticated, user } = useAuth0();
   const [loginCompleted, setLoginCompleted] = useState(false);
+  const userAuth0 = user;
+
+  // use email to fetch userData from mongoDB
+  const { data } = useGetUserByEmailQuery(user?.email);
 
   const [
     isSchoolandUserPreferencesCompleted,
@@ -35,6 +39,7 @@ function App() {
   const [darkThemeActive, setDarkThemeActive] = useState();
   const [silentModeActive, setSilentModeActive] = useState();
   const [userData, setUserData] = useState({});
+
   console.log("🚀 ~ App ~ userData:", userData);
 
   useEffect(() => {
@@ -54,24 +59,19 @@ function App() {
     }
   }, []);
 
-  const userAuth0 = user;
-
-  // use email to fetch userData from mongoDB
-  const { data } = useGetUserByEmailQuery(user?.email);
-
+  let createUserRequired = false;
   useEffect(() => {
     if (data) {
       setUserData(data);
       localStorage.setItem("userId", data.user._id);
     }
+
+    // if ! data returned then user doesnt exist in DB so need to create user
+    if (!data) {
+      createUserRequired = true; // Remove the 'let' here to update the existing variable
+    }
   }, [data]);
 
-  let createUserRequired = false;
-
-  // if ! data returned then user doesnt exist in DB so need to create user
-  if (!data) {
-    createUserRequired = true; // Remove the 'let' here to update the existing variable
-  }
   const [createUser, { isLoading, isSuccess, isError, error }] =
     useCreateUserMutation();
 
@@ -148,7 +148,7 @@ function App() {
             />
           )}
 
-        {loginCompleted && localStorageData && (
+        {loginCompleted && localStorageData && data && (
           <div>
             {" "}
             <Drawer />

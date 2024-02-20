@@ -334,7 +334,6 @@ const HeaderContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
   transition: 0.3s;
   background: linear-gradient(
     -225deg,

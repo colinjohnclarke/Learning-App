@@ -1,12 +1,12 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Main from "../pages/Main";
+import Main from "../pages/Main/Main";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import LandingPage from "../pages/LandingPage";
 import Login from "../pages/Login";
 import Testmath from "../pages/TestMath";
 import Maths from "../pages/Maths";
-import Biology from "../pages/Main";
+import Biology from "../pages/Main/Main";
 import Courses from "../pages/Courses/Courses";
 import Settings from "../pages/Settings";
 import Profile from "../pages/Profile/Profile";
