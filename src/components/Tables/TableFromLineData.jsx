@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { AgGridReact } from "ag-grid-react"; // the AG Grid React Component
 import "ag-grid-community/styles/ag-grid.css"; // Core grid CSS, always needed
 import "ag-grid-community/styles/ag-theme-alpine.css"; // Optional theme CS
@@ -72,35 +72,3 @@ function LargeTable(props) {
 }
 
 export default LargeTable;
-
-// defineField({
-//   name: 'standard_table_variable_names',
-//   title: 'table_variable_names',
-//   type: 'object',
-//   fields: [
-//     {type: 'string', name: 'variable1_name'},
-//     {type: 'string', name: 'variable2_name'},
-//     {type: 'string', name: 'variable3_name'},
-//     {type: 'string', name: 'variable4_name'},
-//     {type: 'string', name: 'variable5_name'},
-//   ],
-// }),
-
-// defineField({
-//   name: 'standard_tables',
-//   type: 'array',
-//   title: 'standard_tables',
-//   of: [
-//     defineArrayMember({
-//       type: 'object',
-//       name: 'tag',
-//       fields: [
-//         {type: 'string', name: 'variable1_value'},
-//         {type: 'string', name: 'variable2_value'},
-//         {type: 'string', name: 'variable3_value'},
-//         {type: 'string', name: 'variable4_value'},
-//         {type: 'string', name: 'variable5_value'},
-//       ],
-//     }),
-//   ],
-// }),

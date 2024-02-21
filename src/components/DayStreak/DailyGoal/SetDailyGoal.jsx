@@ -1,21 +1,15 @@
 import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { TbTargetArrow } from "react-icons/tb";
-import MainActionBtn from "../../Buttons/MainActionBtn";
 import { UserContext } from "../../../App";
 import {
   darkThemeSecondaryBackgroundColor,
   ThemeStyles,
 } from "../../../styles/ThemeStyles";
-import { RxCross2 } from "react-icons/rx";
-import DailyGoalUpdated from "./DailyGoalUpdated";
-import animate from "animate.css";
 import ConfettiDashboard from "../../Effects/ConfettiDashboard";
 import { device } from "../../../styles/breakpoints";
-
 import { DiRubyRough } from "react-icons/di";
 import { useUpdateDailyXpGoalMutation } from "../../../features/api/UserData/dailyXPGoal";
-import GridLoader from "react-spinners/GridLoader";
 import { IoMdClose } from "react-icons/io";
 
 function SetDailyGoal({ modalIsOpen, setModalIsOpen }) {
@@ -26,8 +20,6 @@ function SetDailyGoal({ modalIsOpen, setModalIsOpen }) {
 
   const [updateDailyXpGoal, isLoading, isError, error, data] =
     useUpdateDailyXpGoalMutation();
-
-  const isSuccess = data !== undefined && data !== null;
 
   const toggleModal = () => {
     setModalIsOpen(!modalIsOpen);
@@ -41,7 +33,7 @@ function SetDailyGoal({ modalIsOpen, setModalIsOpen }) {
     };
 
     const updatedUser = await updateDailyXpGoal(updatedDailyXPGoal);
-  
+
     if (updatedUser) {
       setUserData((prev) => updatedUser.data);
     }

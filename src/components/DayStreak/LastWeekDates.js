@@ -1,5 +1,3 @@
-import React from "react";
-
 function LastWeekDates() {
   const currentDate = new Date();
   const previousDates = [];

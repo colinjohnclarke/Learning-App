@@ -7,7 +7,9 @@ import { ThemeStyles } from "../../styles/ThemeStyles";
 function MainActionBtn({ ...atributes }) {
   const { darkThemeActive } = useContext(UserContext);
 
-  return <Btn darkThemeActive type="button" {...atributes}></Btn>;
+  return (
+    <Btn darkThemeActive={darkThemeActive} type="button" {...atributes}></Btn>
+  );
 }
 
 export default MainActionBtn;

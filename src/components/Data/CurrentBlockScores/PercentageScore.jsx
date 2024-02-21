@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "animate.css";
-import ContinueBtn from "../../Buttons/ContinueBtn";
-import styled from "styled-components";
 
 function PercentageScore(props) {
   const [val, setVal] = useState(0);
@@ -29,23 +27,18 @@ function PercentageScore(props) {
   }, [val, intervalbetweenCounts]);
 
   return (
-
-      <p
-        style={{
-          fontWeight: "600",
-          fontSize: "1.2rem",
-          color: textColor,
-          transition: "0.2s",
-        }}
-        className={animateclass}
-      >
-        {val} %
-      </p>
-   
-
+    <p
+      style={{
+        fontWeight: "600",
+        fontSize: "1.2rem",
+        color: textColor,
+        transition: "0.2s",
+      }}
+      className={animateclass}
+    >
+      {val} %
+    </p>
   );
 }
 
 export default PercentageScore;
-
-

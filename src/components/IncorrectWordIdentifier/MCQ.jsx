@@ -7,7 +7,6 @@ function MCQ({
   wordIsSelected,
   incorrectWord,
   mcqCheckWord1Ref,
-
   MCQoptionsforreplacementword,
   correctWord,
   mcq,

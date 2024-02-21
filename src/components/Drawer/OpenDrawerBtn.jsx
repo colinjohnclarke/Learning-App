@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import { RxHamburgerMenu } from "react-icons/rx";
 import { useDispatch, useSelector } from "react-redux";
 import { setDrawerIsOpen } from "../../features/Drawer/DrawerSlice";
 import { UserContext } from "../../App";

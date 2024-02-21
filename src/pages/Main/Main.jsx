@@ -2,33 +2,17 @@ import "../../App.css";
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { useParams } from "react-router-dom";
 import "animate.css";
-import sanityClient from "../../createclient";
 import styled from "styled-components";
-import MCQ from "../../components/MCQ/MCQ";
-import LabellingWrapper from "../../components/Labelling/LabellingWrapper";
-import StudentTextInputWrapper from "../../components/SingleStudentInput/StudentTextInputWrapper";
-import DualBoxSelectionWrapper from "../../components/DualSelection/DualBoxSelectionWrapper";
-import DragandDropWrapper from "../../components/Drag&Drop/DragandDropWrapper";
 import ContinueBtn from "../../components/Buttons/ContinueBtn";
-import GapFillWrapper from "../../components/GapFill/GapFillWrapper";
-import IncorrectWordWrapper from "../../components/IncorrectWordIdentifier/IncorrectWordWrapper";
-import FillMissingValuesTable from "../../components/Tables/MissingData/FillMissingValues";
-import LineChart from "../../components/Charts/Line/LineChart";
-import LargeTable from "../../components/Tables/TableFromLineData";
-import Scatter from "../../components/Charts/Scatter/Scatter";
-import MovingSliderWrapper from "../../components/MovingSlider/MovingSliderWrapper";
 import TextSlideShowWrapper from "../../components/TextSlideShow/TextSlideShowWrapper";
 import { useSelector, useDispatch } from "react-redux";
 import { updateProgressPercentage } from "../../features/ProgressBar/ProgressBar";
 import PostBlockPointsReveal from "../../components/Data/PostBlockPointsReveal/PostBlockPointsReveal";
-import { GrNext } from "react-icons/gr";
 import GridLoader from "react-spinners/GridLoader";
-import ImagefromSanity from "../../config/sanity/ImagefromSanity";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import objectToArray from "./ObjectToArray";
-
+import FilterBlockDataNullValues from "./OrderingItems/FilterBlockDataNullValues";
 import RemoveBlockItemsWithoutData from "./OrderingItems/RemoveBlockItemsWithoutData";
-
 import {
   updateBlockCompleted,
   resetUserScore,
@@ -39,16 +23,15 @@ import {
   updatePercentage,
 } from "../../features/CurrentBlockProgressData/currentblockprogressdata";
 import { useUpdateUserDataMutation } from "../../features/api/UserData/userDataSlice";
-
 import { useUpdateEnrolledCourseMutation } from "../../features/api/UserData/enrolledCourseDataSlice";
-
 import { UserContext } from "../../App";
 import CheckScoreBtn from "../../components/Buttons/CheckScoreBtn";
 import StartQuizBtn from "../../components/Buttons/StartQuizBtn";
 import { device } from "../../styles/breakpoints";
 import CourseDetails from "../../components/CourseDetails/CourseDetails";
 import FetchBlockDataFromSanity from "./FetchBlockDataFromSanity";
-import RemoveItemsWithoutData from "./OrderingItems/RemoveBlockItemsWithoutData";
+import CreateArrayOfItemsInPosition from "./OrderingItems/CreateArrayOfItemsInPosition";
+import CreateArrayOfAflComponents from "./CreateArrayOfAflComponents";
 
 function Main() {
   const { userData, darkThemeActive } = useContext(UserContext);
@@ -69,32 +52,7 @@ function Main() {
   // fetch data based on subject and blockname from
   FetchBlockDataFromSanity(subject, blockName, setBlockData);
 
-  const {
-    subject_skills,
-    skills,
-    problem_keywords,
-    tags,
-    labelling,
-    MCQ_INPUTS,
-    order_items_drag_drop,
-    slider,
-    gap_fill,
-    incorrect_words_from_text,
-    standard_table_variable_names,
-    standard_tables,
-    student_text_input,
-    table, 
-    line_graph_data,
-  } = blockData;
   console.log("🚀 ~ Main ~ blockData:", blockData);
-
-  const slideShowDataArr = [
-    blockData.textblock1,
-    blockData.textblock2,
-    blockData.textblock3,
-    blockData.textblock4,
-    blockData.textblock5,
-  ];
 
   // convert OBJ to Array so can be used ordered into position
 
@@ -108,94 +66,24 @@ function Main() {
 
   console.log("🚀 ~ Main ~ blockItemsWithoutBlanks:", blockItemsWithoutBlanks);
 
-  const filterNullValues = blockItemsWithoutBlanks
-    .filter(
-      (item) => item !== null && item.position && item.position.length !== 0
-    ) // Add null and position existence check
-    .sort((a, b) => a.position - b.position);
+  const filterBlockDataNullValues = FilterBlockDataNullValues(
+    blockItemsWithoutBlanks
+  );
 
-  const GetVal = filterNullValues.flatMap((item) => ({
-    type: item.type,
-    position: item.position.map((item) => item.positionVal),
-  }));
-
-  const flat = GetVal.filter((item) =>
-    item.position.some((item) => item && item.length !== 0)
-  ).map((item) => ({ type: item.type, position: item.position.flat() }));
-
-  const testData = flat
-    .flatMap((item) => {
-      let type = item.type;
-
-      const mapcomp = item.position.map((subItem, index) => {
-        return {
-          position: subItem,
-          type,
-          index,
-        };
-      });
-
-      return mapcomp;
-    })
-    .sort((a, b) => {
-      return a.position - b.position;
-    });
+  const arrayOfItemsWithPosition = CreateArrayOfItemsInPosition(
+    filterBlockDataNullValues
+  );
 
   // render AFL components based on type
-
-  const itemData = testData.map((item) => {
-    let component = null;
-
-    switch (item.type) {
-      case "MCQ_INPUTS":
-        component = <MCQ data={[MCQ_INPUTS[item.index]]} />;
-        break;
-      case "student_text_input":
-        component = (
-          <StudentTextInputWrapper data={[student_text_input[item.index]]} />
-        );
-        break;
-      case "table":
-        component = <FillMissingValuesTable data={[table[item.index]]} />;
-        break;
-      case "incorrect_words_from_text":
-        component = (
-          <IncorrectWordWrapper
-            data={[incorrect_words_from_text[item.index]]}
-          />
-        );
-        break;
-      case "gap_fill":
-        component = <GapFillWrapper data={[gap_fill[item.index]]} />;
-        break;
-      // case "slider":
-      //   component = <MovingSliderWrapper data={[slider[item.index]]} />;
-      //   break;
-
-      case "slider":
-        component = <DualBoxSelectionWrapper data={[slider[item.index]]} />;
-        break;
-      case "order_items_drag_drop":
-        component = (
-          <DragandDropWrapper data={[order_items_drag_drop[item.index]]} />
-        );
-        break;
-
-      case "labelling":
-        component = <LabellingWrapper data={[labelling[item.index]]} />;
-        break;
-      default:
-        component = <></>;
-        break;
-    }
-
-    return component;
-  });
+  const arrayOfAflComponents = CreateArrayOfAflComponents(
+    arrayOfItemsWithPosition,
+    blockData
+  );
 
   let itemDisplayedInitialState = null;
 
-  if (itemData) {
-    itemDisplayedInitialState = itemData.map((item) => false);
+  if (arrayOfAflComponents) {
+    itemDisplayedInitialState = arrayOfAflComponents.map((item) => false);
   }
 
   useEffect(() => {
@@ -206,7 +94,7 @@ function Main() {
       : itemDisplayedInitialState.length,
   ]);
 
-  let displayedItems = itemData.map((item, index) => ({
+  let displayedItems = arrayOfAflComponents.map((item, index) => ({
     component: item,
     displayed: itemDisplayed[index],
   }));
@@ -247,6 +135,14 @@ function Main() {
       });
     }, 0);
   };
+
+  const slideShowDataArr = [
+    blockData.textblock1,
+    blockData.textblock2,
+    blockData.textblock3,
+    blockData.textblock4,
+    blockData.textblock5,
+  ];
 
   // when start quiz is clicked, state the displayed object Arr at position 1 to true so quiz startrs
 
@@ -300,15 +196,16 @@ function Main() {
             >
               {item.component}
 
-              {index < itemData.length && index !== itemData.length - 1 && (
-                <ContinueBtn
-                  onClick={() => {
-                    handleContinueBtnClicked(index + 1);
-                  }}
-                />
-              )}
+              {index < arrayOfAflComponents.length &&
+                index !== arrayOfAflComponents.length - 1 && (
+                  <ContinueBtn
+                    onClick={() => {
+                      handleContinueBtnClicked(index + 1);
+                    }}
+                  />
+                )}
 
-              {index === itemData.length - 1 && (
+              {index === arrayOfAflComponents.length - 1 && (
                 <CheckScoreBtn
                   onClick={() => {
                     setShowPointsSummary(true);

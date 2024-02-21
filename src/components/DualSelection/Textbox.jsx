@@ -21,7 +21,6 @@ function Textbox({
   text,
   isCorrect,
   isSelected,
-
   isAlgebra,
   updateStateFunctions,
 }) {
@@ -155,18 +154,3 @@ const Text = styled.p`
     }
   }
 `;
-
-//   @media ${(device.mobileS, device.mobileM, device.mobileL)} {
-//     width: 100%;
-//     p {
-//       font-size: 16px;
-//     }
-
-//   }
-
-//   @media ${device.laptop} {
-//     width: 70%;
-//     p {
-//       font-size: 17px;
-//     }
-// `;

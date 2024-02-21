@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import styled, { keyframes } from "styled-components";
 import PercentageScore from "./PercentageScore";
 import { useSelector } from "react-redux";
-
 import { UserContext } from "../../../App";
 import { ThemeStyles } from "../../../styles/ThemeStyles";
 

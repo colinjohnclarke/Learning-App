@@ -1,11 +1,8 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { device } from "../../styles/breakpoints";
-import { useDispatch, useSelector } from "react-redux";
+
 import Textbox from "./Textbox";
-import { resetSliderSelectionIndex0 } from "../../features/DualSelection/dualselectionquestiondataSliceIndex0";
-import { resetSliderSelectionIndex1 } from "../../features/DualSelection/dualselectionquestiondataSliceIndex1";
-import MathsMLfromString from "../../config/sanity/MathsMLfromString";
 
 function DualBox({
   index,

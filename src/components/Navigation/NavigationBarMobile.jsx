@@ -1,22 +1,17 @@
 import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import { AiOutlineDashboard } from "react-icons/ai";
-
 import { device } from "../../styles/breakpoints";
 import { Link } from "react-router-dom";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import { GiBookshelf } from "react-icons/gi";
 import { CiSettings } from "react-icons/ci";
-
 import { BsPerson } from "react-icons/bs";
 import { UserContext } from "../../App";
 
 function NavigationBarMobile() {
-  const [navHeight, setNavHeight] = useState(50);
   const { darkThemeActive, selectedNav, setSelectedNav } =
     useContext(UserContext);
-
-
 
   useEffect(() => {
     if (selectedNav.Dashboard) {
@@ -34,18 +29,6 @@ function NavigationBarMobile() {
     fontSize: "10px",
   };
   const transition = { transition: "0.3s" };
-
-  // let selectorPosition = "7.5%";
-
-  // if (selectedNav.Dasboard) {
-  //   selectorPosition = "7.5%";
-  // } else if (selectedNav.Courses) {
-  //   selectorPosition = "32.5%";
-  // } else if (selectedNav.Profile) {
-  //   selectorPosition = "57.5%";
-  // } else if (selectedNav.Settings) {
-  //   selectorPosition = "82.5%";
-  // }
 
   if (selectedNav.Dashboard) {
   } else if (selectedNav.Courses) {
@@ -162,15 +145,4 @@ const Li = styled.li`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-`;
-
-const Selector = styled.div`
-  height: 3px;
-  width: 10%;
-  background-color: rgb(0, 240, 245);
-  position: absolute;
-  top: 0px;
-  border-radius: 10px;
-  transition: 0.2s;
-  left: 7%;
 `;

@@ -14,13 +14,6 @@ function Drawer() {
 
   const dispatch = useDispatch();
 
-  // let drawerStyle = {
-  //   width: "0",
-  //   transition: "0.3s",
-  //   // display: "none",
-  //   // position: "relative",
-  // };
-
   const opendrawerStyle = {
     width: "320px",
     transition: "0.4s",
@@ -79,8 +72,6 @@ function Drawer() {
         ></div>
 
         <ul style={{ listStyle: "square", margin: "0", padding: "0" }}>
-
-          
           <Subjects />
         </ul>
       </Wrapper>

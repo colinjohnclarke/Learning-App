@@ -10,7 +10,6 @@ import "animate.css";
 import { UserContext } from "../../App";
 
 const MCQAnswerButtons = ({
-  index,
   isCorrect,
   text,
   isAlgebra,
@@ -135,7 +134,6 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
- 
 `;
 
 const Box = styled.div`

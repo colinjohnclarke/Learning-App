@@ -22,8 +22,6 @@ import { useGetAllEnrolledCoursesDataQuery } from "../../features/api/UserData/e
 import { useAuth0 } from "@auth0/auth0-react";
 
 function CoursesDashBoard() {
-
-
   const [seeAllCoursesDisplayed, setSeeAllCoursesDisplayed] = useState(false);
   const [recentCoursesDisplayed, setRecentCoursesDisplayed] = useState(true);
   const [displayFilter, setDisplayFilter] = useState(false);

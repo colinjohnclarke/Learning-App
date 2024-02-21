@@ -22,18 +22,6 @@ function SearchCourse() {
   const { darkThemeActive } = useContext(UserContext);
   const navigate = useNavigate();
 
-  // let contentNameFromSanity = "biology_blocks";
-  // let blockName = "photosynthesis_required_practical";
-
-  // useEffect(() => {
-  //   sanityClient
-  //     .fetch(`*[_type == "${contentNameFromSanity}"  ] {name}`)
-  //     .then((result) => setQueryResult((res) => result))
-  //     .catch(console.error);
-  // }, []);
-
-  // console.log("queryResult", queryResult);
-
   const searchCourse = (val) => {
     let result = coursesfromSanity.filter(
       (course) =>

@@ -4,7 +4,6 @@ import { ThemeStyles } from "../../../styles/ThemeStyles";
 import { MdEdit } from "react-icons/md";
 import { UserContext } from "../../../App";
 import SetDailyGoalModal from "./SetDailyGoalModal";
-
 import XPPointsScoredToday from "./XPPointsScoredToday";
 
 function SetDailyGoalBtn() {
@@ -59,11 +58,6 @@ function SetDailyGoalBtn() {
 }
 
 export default SetDailyGoalBtn;
-
-// background-color: ${(props) =>
-//     props.darkThemeActive
-//       ? ThemeStyles.lightThemePrimaryBackgroundColor
-//       : ThemeStyles.darkThemeSecondaryBackgroundColor};
 
 const Wrapper = styled.div`
   padding: 10px;
@@ -125,32 +119,3 @@ const Btn = styled.button`
     box-shadow: none;
   }
 `;
-//   height: 30px;
-//   width: 30px;
-//   border-radius: 50px;
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   justify-content: center;
-
-//   background-color: ${(props) =>
-//     props.darkThemeActive
-//       ? "lightgrey"
-//       : ThemeStyles.darkThemeTertiaryBackgroundColor};
-
-//   border-radius: 50%;
-//   border: none;
-//   margin-left: 2px;
-
-//   box-shadow: ${(props) =>
-//     props.darkThemeActive
-//       ? ThemeStyles.lightThemeMainBoxShadow
-//       : ThemeStyles.darkThemeMainBoxShadow};
-
-//   &:hover {
-//     box-shadow: rgb(0, 255, 255) 0px 0px 2px 1px,
-//       rgb(39, 106, 245, 0.7) 2px 2px 2px 1px;
-
-//     background-color: #e0e0e0;
-//   }
-// `;

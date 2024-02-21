@@ -1,14 +1,10 @@
 import React, { useContext } from "react";
-import FlameDayStreak from "./FlameDayStreak";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import styled from "styled-components";
 import { UserContext } from "../../App";
-import { FaCheck } from "react-icons/fa";
-import { GiCheckMark } from "react-icons/gi";
 import { FaCheckCircle } from "react-icons/fa";
 import { arrOfDatesQuizCompletedLastWeek } from "./FlameDayStreak";
 import { AiFillQuestionCircle } from "react-icons/ai";
-
 import { dayOfWeekMap } from "./DailyGoal/XPointsGraph";
 import LastWeekDates from "./LastWeekDates";
 

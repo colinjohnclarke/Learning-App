@@ -3,8 +3,7 @@ import styled from "styled-components";
 import sanityClient from "../../createclient";
 import DOMPurify from "dompurify";
 import imageUrlBuilder from "@sanity/image-url";
-import { myPortableTextComponents } from "../../config/sanity/portableText";
-import { PortableText } from "@portabletext/react";
+
 import Test from "../../components/Geogebra/Test";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import { UserContext } from "../../App";

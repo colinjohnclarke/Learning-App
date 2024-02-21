@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { subjects, menuItems } from "./DummyData";
+import { menuItems } from "./DummyData";
 import styled from "styled-components";
 import DrawerMenuItemsBtn from "./DrawerMenuItemsBtn";
 import { useSelector } from "react-redux";

@@ -1,10 +1,6 @@
-import React, { useState, useContext } from "react";
+import React from "react";
 import styled from "styled-components";
-import { TbTargetArrow } from "react-icons/tb";
-import MainActionBtn from "../../Buttons/MainActionBtn";
-import { UserContext } from "../../../App";
 import { ThemeStyles } from "../../../styles/ThemeStyles";
-import { RxCross2 } from "react-icons/rx";
 
 function DailyGoalUpdated() {
   return <ModalContent>DailyGoalUpdated</ModalContent>;

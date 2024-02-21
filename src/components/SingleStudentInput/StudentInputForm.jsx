@@ -4,16 +4,11 @@ import { colors } from "../../styles/colors";
 import MainActionBtn from "../Buttons/MainActionBtn";
 import { BiHelpCircle } from "react-icons/bi";
 import Score from "../Data/CurrentQuestionScores/Score";
-
 import { myPortableTextComponents } from "../../config/sanity/portableText";
 import "animate.css";
 import { device } from "../../styles/breakpoints";
 import { UserContext } from "../../App";
-
-// sanity imports
-import sanityClient from "../../createclient";
 import { PortableText } from "@portabletext/react";
-import imageUrlBuilder from "@sanity/image-url";
 import HelpBtn from "../Buttons/HelpBtn";
 import {
   darkThemePrimaryBackgroundColor,

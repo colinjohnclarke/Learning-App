@@ -14,12 +14,6 @@ function Scatter(props) {
 
   const columnDefs = [];
 
-  //   for (let index = 0; namearr[index] !== undefined; index++) {
-  //     columnDefs.push({
-  //       field: namearr[index],
-  //     });
-  //   }
-
   // create two arrays from each data variable
   const variable1Arr = [];
 

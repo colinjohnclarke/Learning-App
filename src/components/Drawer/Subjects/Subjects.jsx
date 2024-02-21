@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
 import { subjects } from "../DummyData";
 import DrawerMenuItemsBtn from "../DrawerMenuItemsBtn";
-
 import "animate.css";
 import { useSelector } from "react-redux";
-import { GrNext } from "react-icons/gr";
 
 function Subjects() {
   const [anmateclass, setAnimateClass] = useState("");

@@ -1,9 +1,6 @@
-import React, { useContext } from "react";
-import styled from "styled-components";
-import { device } from "../../styles/breakpoints";
+import { useContext } from "react";
 import { UserContext } from "../../App";
 import LastWeekDates from "./LastWeekDates";
-
 
 function DataFromPrevWeek() {
   const { userData } = useContext(UserContext);

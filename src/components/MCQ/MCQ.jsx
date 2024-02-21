@@ -1,14 +1,12 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import MCQblock from "./MCQblock";
 import MCQTeacherResponse from "./MCQTeacherResponse";
 import Score from "../Data/CurrentQuestionScores/Score";
-import { useSelector } from "react-redux";
+
 import { device } from "../../styles/breakpoints";
 
 function MCQ({ data }) {
-
-
   const [correctAnswerIsSelected, setCorrectAnswerIsSelected] = useState(false);
   const [incorrectAnswerIsSelected, setIncorrectAnswerIsSelected] =
     useState(false);

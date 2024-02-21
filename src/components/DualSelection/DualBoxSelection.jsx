@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import DualBox from "./DualBox";
-import ResetBtn from "../Buttons/ResetBtn";
 import Score from "../Data/CurrentQuestionScores/Score";
 import { device } from "../../styles/breakpoints";
 

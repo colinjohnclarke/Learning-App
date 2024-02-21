@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
-import DailyGoal from "./DailyGoal/XPointsGraph";
+
 import styled from "styled-components";
 import { UserContext } from "../../App";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import DayStreakPanel from "./DayStreakPanel";
-import { device } from "../../styles/breakpoints";
+
 import XPointsGraph from "./DailyGoal/XPointsGraph";
 import XPRemainingToCompleteGoal from "./DailyGoal/XPRemainingToCompleteGoal";
 
@@ -52,17 +52,7 @@ function DashboardStreakXPProgressView() {
           <XPRemainingToCompleteGoal></XPRemainingToCompleteGoal>
         </div>
 
-        {/* <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            height: "100%",
-            width: "100%",
-          }}
-        > */}
         <XPointsGraph />
-
-        {/* </div> */}
       </Graph>
     </Wrapper>
   );

@@ -3,11 +3,8 @@ import styled from "styled-components";
 import { useSelector } from "react-redux";
 import "animate.css";
 import AnimateCountFunction from "../../functions/AnimateCountFunction";
-
 import { correctstyle } from "../../../styles/colors";
-
 import { UserContext } from "../../../App";
-
 import { ThemeStyles } from "../../../styles/ThemeStyles";
 
 function ExperiencePoints() {

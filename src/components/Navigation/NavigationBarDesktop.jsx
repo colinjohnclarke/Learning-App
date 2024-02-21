@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { device } from "../../styles/breakpoints";
 
-
 function NavigationBarDesktop() {
   return (
     <Wrapper>
@@ -22,26 +21,6 @@ function NavigationBarDesktop() {
       <Link to={"/profile"} style={{ textDecoration: "none" }}>
         <P>Profile</P>
       </Link>
-      {/* <Link
-        to={"/settings"}
-        style={{
-          textDecoration: "none",
-        }}
-      >
-        <DashLink>
-          <div
-            onMouseOver={() => changeFontColortoSelected()}
-            onMouseLeave={() => changeFontColortoUNSelected()}
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-    
-          </div>
-        </DashLink>
-      </Link> */}
     </Wrapper>
   );
 }

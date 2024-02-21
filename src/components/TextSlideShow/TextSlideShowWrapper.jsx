@@ -12,7 +12,6 @@ import {
 function TextSlideShowWrapper({ data, length }) {
   const filterEmptySlideContent = data.filter((item) => item !== null);
 
-
   const [currentslide, setCurrentSlide] = useState(0);
   const [width, setWidth] = useState(window.innerWidth);
   const dispatch = useDispatch();
@@ -62,5 +61,4 @@ export default React.memo(TextSlideShowWrapper);
 const Wrapper = styled.div`
   // padding: 40px;
   width: 100%;
-
 `;

@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 import styled from "styled-components";
 import LastWeekDates from "./LastWeekDates";
 import DataFromPrevWeek from "./DataFromPrevWeek";
-import { dayOfWeekMap } from "./DailyGoal/XPointsGraph";
+
 
 export const arrOfDatesQuizCompletedLastWeek = [];
 

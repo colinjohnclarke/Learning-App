@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import SelectSchool from "../GatherUserDataOnsignup/SelectSchool/SelectSchool";
 import SelectYear from "../GatherUserDataOnsignup/SelectYear/SelectYear";
 import SoundEffectsToggle from "./SoundEffectsToggle";
@@ -22,10 +22,19 @@ function Settings() {
 
   const [updatePersonalInformation] = useUpdatePersonalInformationMutation();
 
-  const [school, setSchool] = useState(userData?.user.schoolDetails);
-  const [year, setYear] = useState(userData?.user.yearGroup);
-  const [firstName, setFirstName] = useState(userData?.user.firstName);
-  const [lastName, setLastName] = useState(userData?.user.lastName);
+  const [school, setSchool] = useState(null);
+  const [year, setYear] = useState(null);
+  const [firstName, setFirstName] = useState(null);
+  const [lastName, setLastName] = useState(null);
+
+  useEffect(() => {
+    if (userData?.user) {
+      setSchool(userData.user.schoolDetails);
+      setYear(userData.user.yearGroup);
+      setFirstName(userData.user.firstName);
+      setLastName(userData.user.lastName);
+    }
+  }, [userData]);
 
   const { user } = useAuth0();
 

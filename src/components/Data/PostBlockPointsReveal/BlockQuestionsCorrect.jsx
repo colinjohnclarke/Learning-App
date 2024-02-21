@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { useSelector } from "react-redux";
 import AnimateCountFunction from "../../functions/AnimateCountFunction";
 import { UserContext } from "../../../App";
-
 import { ThemeStyles } from "../../../styles/ThemeStyles";
 
 function BlockQuestionsCorrect() {

@@ -3,7 +3,6 @@ import styled from "styled-components";
 import "animate.css";
 import { useDispatch, useSelector } from "react-redux";
 import { setDrawerIsOpen } from "../../features/Drawer/DrawerSlice";
-
 import { RxHamburgerMenu } from "react-icons/rx";
 
 function CloseDrawerBtn() {

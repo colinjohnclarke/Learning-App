@@ -1,16 +1,10 @@
 import React, { useState, useContext } from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
-import ContinueBtn from "../../Buttons/ContinueBtn";
 import ExperiencePoints from "../ExperiencePoints/ExperiencePoints";
-import SetGoalBtn from "../../Buttons/SetGoalBtn";
-
 import PercentagePoints from "./PercentagePoints";
 import BlockQuestionsCorrect from "./BlockQuestionsCorrect";
-import AnimatedBlockScore from "../CurrentBlockScores/AnimatedBlockScore";
 import "animate.css";
 import { UserContext } from "../../../App";
-
 import { ThemeStyles } from "../../../styles/ThemeStyles";
 import ConfettiDashboard from "../../Effects/ConfettiDashboard";
 

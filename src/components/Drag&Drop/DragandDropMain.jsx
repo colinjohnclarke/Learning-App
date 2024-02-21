@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useContext, Children } from "react";
 import styled from "styled-components";
-import { DragDropContext, Draggable } from "react-beautiful-dnd";
-import { StrictModeDroppable as Droppable } from "./StrictModeDroppable";
 import "animate.css";
 import DragandDropItem from "./DragandDropItem";
 import { device } from "../../styles/breakpoints";
@@ -19,7 +17,6 @@ import {
 import {
   arrayMove,
   SortableContext,
-  sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 

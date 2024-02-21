@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-
 import styled from "styled-components";
 import { device } from "../../styles/breakpoints";
-import { useDraggable } from "@dnd-kit/core";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import MathMLfromString from "../../config/sanity/MathsMLfromString";
@@ -18,20 +16,13 @@ import {
 function DragandDropItem(props) {
   const [fontsize, setFontSize] = useState("16px");
 
-  const [dimensions, setDimensions] = useState({
-    width: window.innerWidth,
-  });
   const { darkThemeActive } = useContext(UserContext);
-
-  let statements = props.statements;
 
   const gettext = props.text;
   let iscorrect = props.iscorrect;
   let helpneeded = props.helpneeded;
   const allcorrect = props.allcorrect;
   const isAlgebra = props.isAlgebra;
-
-  const correct_answer_input_color = "rgba(137, 240, 158, 0.34)";
 
   let itemstyle = { normalboxstyledragItem };
 
@@ -40,7 +31,6 @@ function DragandDropItem(props) {
   } else if (!iscorrect && helpneeded) {
     itemstyle = incorrectstyle;
   }
-  let textStyle = {};
 
   let textColor = {};
 

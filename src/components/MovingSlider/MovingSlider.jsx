@@ -14,17 +14,11 @@ function MovingSlider({
   slidersRandom,
   updateStateFunctions,
 }) {
-  const dispatch = useDispatch();
-
   const sliderCorrect = useSelector((state) => state.sliderSliceIndex0reducer);
   const sliderCorrectList = [];
 
-  const {
-    correctAnswerIsSelected,
-    setCorrectAnswerIsSelected,
-    incorrectAnswerIsSelected,
-    setIncorrectAnswerIsSelected,
-  } = updateStateFunctions;
+  const { correctAnswerIsSelected, setCorrectAnswerIsSelected } =
+    updateStateFunctions;
 
   for (let i = 0; i < 4; i++) {
     sliderCorrectList.push(sliderCorrect[`slider${i}correct`]);

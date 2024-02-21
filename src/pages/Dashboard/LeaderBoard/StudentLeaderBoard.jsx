@@ -14,7 +14,6 @@ function StudentLeaderBoard() {
   const { darkThemeActive } = useContext(UserContext);
 
   const { data, error, isLoading } = useGetTop10UsersQuery();
- 
 
   const newArr = data ? [...data] : [];
 

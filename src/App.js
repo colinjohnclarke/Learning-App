@@ -60,6 +60,7 @@ function App() {
   }, []);
 
   let createUserRequired = false;
+
   useEffect(() => {
     if (data) {
       setUserData(data);
@@ -133,6 +134,11 @@ function App() {
     console.log("Key exists!");
   }
 
+  console.log("loginCompleted", loginCompleted);
+
+  console.log("localStorageData", localStorageData);
+
+  console.log("data", data);
   return (
     <UserContext.Provider value={userContextValues}>
       <BrowserRouter>

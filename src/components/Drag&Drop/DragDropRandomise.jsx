@@ -5,17 +5,10 @@ import DragandDropMain from "./DragandDropMain";
 import { device } from "../../styles/breakpoints";
 
 function DragDropRandomise({ data, updateStateFunctions }) {
-
   const [reset, setReset] = useState(false);
   const [sorted, setSorted] = useState([]);
 
-  const {
-    rerunRandomiseRequired,
-    setrerunRandomiseRequired,
-    correctAnswerIsSelected,
-    setCorrectAnswerSelected,
-  } = updateStateFunctions;
-
+  const { rerunRandomiseRequired } = updateStateFunctions;
 
   // create random nums
 
@@ -64,7 +57,6 @@ function DragDropRandomise({ data, updateStateFunctions }) {
 export default DragDropRandomise;
 
 const Wrapper = styled.div`
- 
   display: flex;
   flex-direction: column;
   justify-content: center;
