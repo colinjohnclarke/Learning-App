@@ -3,17 +3,17 @@ import styled from "styled-components";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import { UserContext } from "../../App";
 import FetchCoursefromSanity from "../Dashboard/CourseFilter/FetchCoursefromSanity";
-import AllBlocksAndCourses from "./AllBlocksAndCourses";
 import { device } from "../../styles/breakpoints";
-import { Link } from "react-router-dom";
 import sanityClient from "../../createclient";
 import imageUrlBuilder from "@sanity/image-url";
-import GridLoader from "react-spinners/GridLoader";
+import presentation from '../../assets/images/presentation.svg'
+
+
 import { CiCircleRemove } from "react-icons/ci";
 import "animate.css";
 import SearchCourses from "../Dashboard/CourseFilter/SearchCourses";
 import CourseSearchResult from "../Dashboard/CourseSearchResult";
-import bookshelf from "../../assets/images/bookshelf.png";
+
 import CourseFilterButtonSide from "../Dashboard/CourseFilter/CourseFilterButtonSide";
 
 function CourseFIlterResultDesktop({
@@ -60,15 +60,10 @@ function CourseFIlterResultDesktop({
       >
         <p>Start by searching or filtering...</p>
 
-        <img
-          style={{
-            height: "160px",
-            width: "160px",
-            borderRadius: "5px",
-          }}
-          src={bookshelf}
-          alt=""
-        />
+
+      
+
+    
       </div>
     );
   }

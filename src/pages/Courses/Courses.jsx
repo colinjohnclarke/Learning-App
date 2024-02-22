@@ -1,26 +1,22 @@
 import React, { useContext, useState, useEffect } from "react";
 import styled from "styled-components";
 import DashboardHeader from "../Dashboard/DashboardHeader";
-import bookshelf from "../../assets/images/bookshelf.png";
-import SearchCourse from "../../components/Search/SearchCourse";
 import FetchCoursefromSanity from "../Dashboard/CourseFilter/FetchCoursefromSanity";
 import { device } from "../../styles/breakpoints";
-import { Link, useLocation } from "react-router-dom";
+import { Link,  } from "react-router-dom";
 import { defaultCoursesImages } from "../Dashboard/CourseFilter/DefaultCourseImages";
 import sanityClient from "../../createclient";
 import imageUrlBuilder from "@sanity/image-url";
-import CourseFilterButton from "../../components/Buttons/CourseFilterBtn";
-import PlaceHolderImg from "./PlaceHolderImg";
+
 import RecentCourses from "./RecentCourses";
 import { UserContext } from "../../App";
 import {
   useGetAllEnrolledCoursesDataQuery,
-  useAddEnrolledCourseMutation,
-  useGetUserByEmailQuery,
+
 } from "../../features/api/UserData/enrolledCourseDataSlice";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import EnrollForCourse from "./EnrollForCourse";
-import { maxHeight } from "@mui/system";
+
 import HeaderColoredHightlight from "./HeaderColoredHightlight";
 import NavigationBarMobile from "../../components/Navigation/NavigationBarMobile";
 

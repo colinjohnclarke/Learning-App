@@ -2,13 +2,10 @@ import React, { useContext } from "react";
 import styled from "styled-components";
 import DashboardHeader from "../Dashboard/DashboardHeader";
 import { ThemeStyles } from "../../styles/ThemeStyles";
-import { device } from "../../styles/breakpoints";
+
 import { UserContext } from "../../App";
 import NavigationBarMobile from "../../components/Navigation/NavigationBarMobile";
-import SelectSchool from "../GatherUserDataOnsignup/SelectSchool/SelectSchool";
-import SelectYear from "../GatherUserDataOnsignup/SelectYear/SelectYear";
-import SoundEffectsToggle from "./SoundEffectsToggle";
-import DarkThemeToggle from "./DarkThemeToggle";
+
 import Settings from "./Settings";
 
 function Profile() {

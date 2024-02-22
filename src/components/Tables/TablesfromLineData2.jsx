@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState  } from "react";
 import styled from "styled-components";
-import Geogebra from "react-geogebra";
+// import Geogebra from "react-geogebra";
 // import { GGBApplet } from "react-geogebra";
 // import { GeoGebraBook } from "geogebra-embed-api";
 // import { GGBApplet } from "geogebra-ggbapplet";

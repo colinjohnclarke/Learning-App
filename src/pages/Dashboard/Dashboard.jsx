@@ -11,20 +11,12 @@ import SearchCourse from "../../components/Search/SearchCourse";
 import "animate.css";
 import { device } from "../../styles/breakpoints";
 import { useAuth0 } from "@auth0/auth0-react";
-import sanityClient from "../../createclient";
-import GridLoader from "react-spinners/GridLoader";
+import Loader from "../../components/Loader";
 import Weekday from "../../components/Weekday";
 import DashboardStreakXPProgressView from "../../components/DayStreak/DashboardStreakXPProgressView";
-
-import SelectSchool from "../GatherUserDataOnsignup/SelectSchool/SelectSchool";
-
 import NavigationBarMobile from "../../components/Navigation/NavigationBarMobile";
-
-import { useGetUserByEmailQuery } from "../../features/api/UserData/userDataSlice";
 import { ThemeStyles } from "../../styles/ThemeStyles";
-
 import ConfettiDashboard from "../../components/Effects/ConfettiDashboard";
-import FlameDayStreak from "../../components/DayStreak/FlameDayStreak";
 
 function Dashboard() {
   const { userData, darkThemeActive } = useContext(UserContext);
@@ -49,16 +41,7 @@ function Dashboard() {
   };
   window.scrollTo(0, 0);
 
-  const loader = (
-    <Loader>
-      <GridLoader
-        color={"rgb(0, 250, 250, 0.5)"}
-        size={25}
-        aria-label="Loading Spinner"
-        data-testid="loader"
-      />
-    </Loader>
-  );
+
 
   return (
     <Wrapper darkThemeActive={darkThemeActive}>
@@ -66,7 +49,8 @@ function Dashboard() {
 
       <DashboardHeader />
       <Padding>
-        {/* {!data && loader} */}
+  
+  
 
         <Main>
           <Greeting darkThemeActive={darkThemeActive}>
@@ -148,6 +132,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
 
   background-color: ${(props) =>
     props.darkThemeActive
@@ -265,23 +250,3 @@ const Box = styled.div`
   }
 `;
 
-// const Course = styled.div`
-//   width: 98%;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: space-between;
-//   align-items: center;
-//   // margin: 7px;
-// `;
-
-const Loader = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  z-index: 100;
-  background-color: rgba(239, 239, 249);
-`;

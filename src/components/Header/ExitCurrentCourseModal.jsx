@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { device } from "../../styles/breakpoints";
 import { UserContext } from "../../App";
 import { ThemeStyles } from "../../styles/ThemeStyles";
-import { RxCross2 } from "react-icons/rx";
 import MainActionBtn from "../Buttons/MainActionBtn";
 import { BsExclamationDiamondFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";

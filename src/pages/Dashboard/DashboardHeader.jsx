@@ -1,9 +1,6 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import OpenDrawerBtn from "../../components/Drawer/OpenDrawerBtn";
-
 import { device } from "../../styles/breakpoints";
-import spslogo from "../../assets/images/spslogo.png";
 import { UserContext } from "../../App";
 import NavigationBarDesktop from "../../components/Navigation/NavigationBarDesktop";
 import { ThemeStyles } from "../../styles/ThemeStyles";
@@ -17,8 +14,9 @@ function DashboardHeader() {
 
   return (
     <Wrapper darkThemeActive={darkThemeActive}>
-      <OpenDrawerBtn />
+      
 
+      <div style={{width: '30px'}} ></div>
       <Logo
         style={{
           display: "flex",
@@ -31,10 +29,7 @@ function DashboardHeader() {
         <p style={{ fontWeight: "500", color: "rgb(0, 230, 230)" }}>
           SPS online
         </p>
-        {/* <img style={{ height: "40px" }} src={spslogo} alt="" /> */}
       </Logo>
-
-      {/* <LogoutBtn> Logout</LogoutBtn> */}
 
       <NavigationBarDesktop />
 
@@ -44,8 +39,6 @@ function DashboardHeader() {
       </Data>
 
       <SettingsBtnHeaderBar />
-
-      {/* <Signup /> */}
     </Wrapper>
   );
 }
@@ -64,10 +57,16 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   border-radius: 5px;
-
   position: fixed;
   top: 0px;
   z-index: 100;
+
+
+  box-shadow: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemeMainBoxShadow
+      : ThemeStyles.darkThemeMainBoxShadow};
+
 
   p {
     color: ${(props) =>

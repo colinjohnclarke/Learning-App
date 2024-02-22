@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useGetUserSchoolQuery } from "../../../features/api/UserData/userSchool";
 import styled from "styled-components";
 import { ThemeStyles } from "../../../styles/ThemeStyles";
@@ -6,15 +6,21 @@ import { IoSchoolOutline } from "react-icons/io5";
 import { UserContext } from "../../../App";
 import InputField from "../UserNames/InputField";
 
-function SelectSchool({ setSchool }) {
-  const [schoolQuery, setSchoolQuery] = useState("");
-  const { data, isLoading } = useGetUserSchoolQuery(schoolQuery);
-  const [selectedSchool, setSelectedSchool] = useState({});
 
-  const [placeholderText, setPlaceHolderText] = useState("Start by typing...");
+function SelectSchool({ setSchool, school }) {
+  const [schoolQuery, setSchoolQuery] = useState("");
+  const [sendQuery, setSendQuery] = useState("");
+  const [newSchoolSelected, setNewSchoolSelected] = useState(false);
+
+  const { data, isLoading } = useGetUserSchoolQuery(sendQuery);
+
+  useEffect(() => {
+    if (schoolQuery.length > 5) {
+      setSendQuery(schoolQuery);
+    }
+  }, [schoolQuery]);
 
   const { darkThemeActive, userData } = useContext(UserContext);
-
   let schoolSavedInDB = userData.user.schoolDetails.name;
 
   const schoolIcon = (
@@ -25,19 +31,17 @@ function SelectSchool({ setSchool }) {
   );
 
   let searchResult;
-  if (data && !isLoading) {
+  if (data && !isLoading && !newSchoolSelected) {
     searchResult = data?.data.map((school) => (
       <OptionItem
         darkThemeActive={darkThemeActive}
         onClick={(e) => {
-          setSelectedSchool((val) => school);
-          setPlaceHolderText((val) => school.name);
-          setSchoolQuery((val) => "");
-
+          setSchoolQuery((val) => school.name);
           localStorage.setItem("schoolName", school.name);
           localStorage.setItem("schoolLocalAuthority", school.la);
           localStorage.setItem("schoolTown", school.town);
           setSchool((val) => school);
+          setNewSchoolSelected((prev) => true);
         }}
         key={school.id}
       >
@@ -73,14 +77,25 @@ function SelectSchool({ setSchool }) {
         )}
       </OptionItem>
     ));
+  } else if (!data & !newSchoolSelected) {
+    searchResult = (
+      <OptionItem darkThemeActive={darkThemeActive} style={{ height: "50px" }}>
+        <p style={{ marginLeft: "10px", fontSize: "13px" }}>keep typing...</p>
+      </OptionItem>
+    );
+  } else if (newSchoolSelected) {
+    searchResult = <></>;
+    console.log("newScgool selected");
   }
 
   return (
     <Wrapper darkThemeActive={darkThemeActive}>
       <InputField
+        setNewSchoolSelected={setNewSchoolSelected}
         icon={schoolIcon}
         placeholder={schoolSavedInDB ? schoolSavedInDB : "Start by typing"}
         setStateFN={setSchoolQuery}
+        value={schoolQuery}
         text={"Select School"}
       ></InputField>
 
@@ -95,7 +110,6 @@ export default SelectSchool;
 
 const Wrapper = styled.div`
   width: 100%;
-
   position: relative;
   z-index: 22;
 

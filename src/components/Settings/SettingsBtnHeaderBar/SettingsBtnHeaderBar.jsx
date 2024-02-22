@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import styled from "styled-components";
-import { IoIosArrowDropdown } from "react-icons/io";
+
 import SettingsDrawerDesktop from "../SettingsDrawerDesktop";
 import { UserContext } from "../../../App";
 import { ThemeStyles } from "../../../styles/ThemeStyles";

@@ -4,8 +4,6 @@ import styled from "styled-components";
 import FetchCoursefromSanity from "../Dashboard/CourseFilter/FetchCoursefromSanity";
 import CourseBlockBreakown from "./CourseBlockBreakown";
 import DashboardHeader from "../Dashboard/DashboardHeader";
-import completedAnimation from "../../assets/images/completedAnimation.gif";
-
 import sanityClient from "../../createclient";
 import imageUrlBuilder from "@sanity/image-url";
 import { device } from "../../styles/breakpoints";
@@ -229,16 +227,6 @@ function CourseDetailedView() {
           color="rgb(0, 245, 245)"
           percentage={CoursePercentageCompletion || 0}
           fontColor=""
-        />
-        <img
-          style={{
-            height: "100px",
-            width: "100px",
-            borderRadius: "5px",
-            margin: "10px",
-          }}
-          src={completedAnimation}
-          alt=""
         />
       </div>
     );

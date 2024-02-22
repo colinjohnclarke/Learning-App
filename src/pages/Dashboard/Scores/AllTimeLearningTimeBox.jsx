@@ -1,9 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import AnimateCountFunction from "../../../components/functions/AnimateCountFunction";
-import { FcClock } from "react-icons/fc";
-
-import { BsSmartwatch } from "react-icons/bs";
 
 function AllTimeLearningTimeBox({ data }) {
   let allTimeLearningTime;

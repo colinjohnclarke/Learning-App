@@ -173,14 +173,7 @@ table {
   flex-direction: row-reverse;
   justify-content: center;
   align-items: center;
-  /* position: relative;
-  transform-origin: center bottom;
-  animation-name: flicker;
-  animation-duration: 3ms;
-  animation-delay: 200ms;
-  animation-timing-function: ease-in;
-  animation-iteration-count: infinite;
-  animation-direction: alternate; */
+
 }
 
 .flameContainer {

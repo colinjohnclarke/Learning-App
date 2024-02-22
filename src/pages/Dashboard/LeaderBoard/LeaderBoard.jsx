@@ -1,6 +1,5 @@
 import React from "react";
-import UserLeaderBoard from "./StudentLeaderBoard";
-import SchoolLeaderBoard from "./SchoolLeaderBoard";
+
 import styled from "styled-components";
 import LeaderBoardSelect from "./LeaderBoardSelect";
 

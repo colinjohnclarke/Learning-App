@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import AnimateCountFunction from "../../../components/functions/AnimateCountFunction";
-import { GoQuestion } from "react-icons/go";
+
 function AllTimeQuestionsAnsweredBox({ data }) {
   let questionAttempted;
   if (data) {

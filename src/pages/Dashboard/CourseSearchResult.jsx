@@ -9,8 +9,6 @@ import { UserContext } from "../../App";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import FetchCoursefromSanity from "./CourseFilter/FetchCoursefromSanity";
 
-import bookshelf from "../../assets/images/bookshelf.png";
-
 function CourseSearchResult({ termsArr, searchBarTerms }) {
   const courses = FetchCoursefromSanity();
 
@@ -58,16 +56,6 @@ function CourseSearchResult({ termsArr, searchBarTerms }) {
         }}
       >
         <p>Start by searching or filtering...</p>
-
-        <img
-          style={{
-            height: "160px",
-            width: "160px",
-            borderRadius: "5px",
-          }}
-          src={bookshelf}
-          alt=""
-        />
       </div>
     );
   }
@@ -170,16 +158,6 @@ function CourseSearchResult({ termsArr, searchBarTerms }) {
       }}
     >
       <p>Start by searching or filtering...</p>
-
-      <img
-        style={{
-          height: "160px",
-          width: "160px",
-          borderRadius: "5px",
-        }}
-        src={bookshelf}
-        alt=""
-      />
     </div>
   );
 }

@@ -2,9 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import { UserContext } from "../../App";
-import { BsSmartwatch } from "react-icons/bs";
+
 import { DiRubyRough } from "react-icons/di";
-import { IoIosFlame } from "react-icons/io";
+
 import FlameDayStreak from "../../components/DayStreak/FlameDayStreak";
 
 function UserProgressData() {

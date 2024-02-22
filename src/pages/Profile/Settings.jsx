@@ -10,7 +10,6 @@ import { ThemeStyles } from "../../styles/ThemeStyles";
 import { GoPerson } from "react-icons/go";
 import { MdOutlineEmail } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
-import { useAuth0 } from "@auth0/auth0-react";
 import MainActionBtn from "../../components/Buttons/MainActionBtn";
 import { useUpdatePersonalInformationMutation } from "../../features/api/UserData/updatePersonalInformation";
 import InputField from "../GatherUserDataOnsignup/UserNames/InputField";
@@ -28,7 +27,7 @@ function Settings() {
   const [lastName, setLastName] = useState(null);
 
   useEffect(() => {
-    if (userData?.user) {
+    if (userData.user) {
       setSchool(userData.user.schoolDetails);
       setYear(userData.user.yearGroup);
       setFirstName(userData.user.firstName);
@@ -36,14 +35,12 @@ function Settings() {
     }
   }, [userData]);
 
-  const { user } = useAuth0();
-
   let schoolDetails = {
     id: userData?.user._id,
-    schoolName: school.name,
-    schoolTown: school.town,
-    schoolLa: school.la || "",
-    schoolPostCode: school.postcode,
+    schoolName: school?.name,
+    schoolTown: school?.town,
+    schoolLa: school?.la || "",
+    schoolPostCode: school?.postcode,
     year,
     firstName,
     lastName,
@@ -168,7 +165,7 @@ function Settings() {
         </Selection>
 
         <Selection>
-          <SelectSchool setSchool={setSchool} />
+          <SelectSchool setSchool={setSchool} school={school} />
         </Selection>
 
         <Selection style={{ width: "101%" }}>

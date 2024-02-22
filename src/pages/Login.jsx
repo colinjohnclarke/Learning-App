@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import LoginBtn from "../components/Login/LoginBtn";
 import LogoutBtn from "../components/Login/LogoutBtn";
-import spslogo from "../assets/images/spslogo.png";
+import spslogo from "../assets/images/spslogo.svg";
 import { UserContext } from "../App";
 
 function Login() {
@@ -38,7 +38,6 @@ function Login() {
           width: "60%",
           maxWidth: "500px",
           position: "relative",
-          backgroundColor: "#fff",
           padding: "60px",
           borderRadius: "5px",
         }}
@@ -48,14 +47,15 @@ function Login() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            boxShadow: "0px 0px 20px #fff",
+           
           }}
         >
           <h1 style={{ fontWeight: "500", color: "rgb(0, 240, 240)" }}>
             SPS online
           </h1>{" "}
-          <img style={{ height: "230px" }} src={spslogo} alt="" />
+          <img style={{ height: "230px",  marginBottom: '40px' }} src={spslogo} alt="" />
         </div>
+        
         <LoginBtn darkThemeActive={darkThemeActive} />
         <LogoutBtn />
       </div>

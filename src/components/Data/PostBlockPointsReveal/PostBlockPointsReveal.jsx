@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, {  useState, useContext } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import ContinueBtn from "../../Buttons/ContinueBtn";

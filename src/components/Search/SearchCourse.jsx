@@ -1,14 +1,9 @@
 import React, { useState, useContext } from "react";
-
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { BsSearch } from "react-icons/bs";
-import { AiOutlineClose } from "react-icons/ai";
 import { device } from "../../styles/breakpoints";
-import { allCoursesList } from "../../pages/Dashboard/AllCoursesList";
 import CourseSearchResult from "../../pages/Dashboard/CourseSearchResult";
-import { Link } from "react-router-dom";
-import sanityClient from "../../createclient";
 import FetchCoursefromSanity from "../../pages/Dashboard/CourseFilter/FetchCoursefromSanity";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import { UserContext } from "../../App";

@@ -5,16 +5,10 @@ import styled from "styled-components";
 import { device } from "../../styles/breakpoints";
 import AnimatedPercentageScore from "../Dashboard/AnimatedPercentageScore";
 import FetchCoursefromSanity from "../Dashboard/CourseFilter/FetchCoursefromSanity";
-import { defaultCoursesImages } from "../Dashboard/CourseFilter/DefaultCourseImages";
 import sanityClient from "../../createclient";
 import imageUrlBuilder from "@sanity/image-url";
-import Header from "../../components/Header/Header";
-import exam from "../../assets/images/exam.png";
 import { useGetAllEnrolledCoursesDataQuery } from "../../features/api/UserData/enrolledCourseDataSlice";
-import { useAuth0 } from "@auth0/auth0-react";
 import { ThemeStyles } from "../../styles/ThemeStyles";
-import CoursePercentageCompletion from "../../components/functions/CoursePercentageCompletion";
-import AddCourseBtn from "../../components/Buttons/AddCourseBtn";
 import HeaderColoredHightlight from "./HeaderColoredHightlight";
 
 function RecentCourses() {

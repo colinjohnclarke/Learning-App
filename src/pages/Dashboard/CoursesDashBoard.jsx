@@ -1,25 +1,18 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link, useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 import styled from "styled-components";
-import { recentCourseList } from "./RecentCourseList";
-import { allCoursesList } from "./AllCoursesList";
+
 import { device } from "../../styles/breakpoints";
 import CourseFilter from "./CourseFilter/CourseFilter";
 import CourseFilterBtn from "../../components/Buttons/CourseFilterBtn";
 import { CourseFilterContext } from "./CourseFilter/CourseFilterContext";
 import FetchCoursefromSanity from "./CourseFilter/FetchCoursefromSanity";
-import { defaultCoursesImages } from "./CourseFilter/DefaultCourseImages";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import sanityClient from "../../createclient";
 import imageUrlBuilder from "@sanity/image-url";
-import AnimatedPercentageScore from "./AnimatedPercentageScore";
-import working from "../../assets/images/working.jpg";
-import AddCourseBtn from "../../components/Buttons/AddCourseBtn";
-import { UserContext } from "../../App";
 import RecentCourses from "../Courses/RecentCourses";
-import { useGetAllEnrolledCoursesDataQuery } from "../../features/api/UserData/enrolledCourseDataSlice";
-import { useAuth0 } from "@auth0/auth0-react";
+
 
 function CoursesDashBoard() {
   const [seeAllCoursesDisplayed, setSeeAllCoursesDisplayed] = useState(false);

@@ -1,7 +1,5 @@
 import React, { useContext } from "react";
 import styled, { css } from "styled-components";
-
-import MainActionBtn from "../../Buttons/MainActionBtn";
 import { UserContext } from "../../../App";
 import { ThemeStyles } from "../../../styles/ThemeStyles";
 import SetDailyGoal from "./SetDailyGoal";

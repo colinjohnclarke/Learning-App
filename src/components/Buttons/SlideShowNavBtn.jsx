@@ -1,8 +1,6 @@
 import React, { useContext } from "react";
 import { UserContext } from "../../App";
 import styled from "styled-components";
-import { ThemeStyles } from "../../styles/ThemeStyles";
-import { GNext } from "react-icons/gr";
 
 function SlideShowNavBtn({ children, ...attributes }) {
   const { darkThemeActive } = useContext(UserContext);

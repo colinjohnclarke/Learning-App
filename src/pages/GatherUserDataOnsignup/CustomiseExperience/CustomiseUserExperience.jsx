@@ -2,11 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { UserContext } from "../../../App";
 import { ThemeStyles } from "../../../styles/ThemeStyles";
-import { device } from "../../../styles/breakpoints";
-import { LuFlashlight } from "react-icons/lu";
-import { LuFlashlightOff } from "react-icons/lu";
-import { HiOutlineSpeakerWave } from "react-icons/hi2";
-import { HiOutlineSpeakerXMark } from "react-icons/hi2";
+
 import MainActionBtn from "../../../components/Buttons/MainActionBtn";
 import { FcAutomatic } from "react-icons/fc";
 import SoundEffectsToggle from "../../Profile/SoundEffectsToggle";

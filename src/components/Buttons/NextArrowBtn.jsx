@@ -1,6 +1,6 @@
-import React, { useState, useRef } from "react";
+import React from "react";
 import styled, { keyframes } from "styled-components";
-import { GrLinkNext } from "react-icons/gr";
+
 
 function NextArrowBtn({ refVal, currentslide, setCurrentSlide }) {
   const iconStyle = {

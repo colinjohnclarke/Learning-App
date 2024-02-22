@@ -4,7 +4,7 @@ import { device } from "../../styles/breakpoints";
 import styled from "styled-components";
 import Score from "../../components/Data/CurrentQuestionScores/Score";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 function MovingSlider({
   data,

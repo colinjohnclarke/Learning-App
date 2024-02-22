@@ -8,7 +8,7 @@ import TextSlideShowWrapper from "../../components/TextSlideShow/TextSlideShowWr
 import { useSelector, useDispatch } from "react-redux";
 import { updateProgressPercentage } from "../../features/ProgressBar/ProgressBar";
 import PostBlockPointsReveal from "../../components/Data/PostBlockPointsReveal/PostBlockPointsReveal";
-import GridLoader from "react-spinners/GridLoader";
+import Loader from "../../components/Loader";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import objectToArray from "./ObjectToArray";
 import FilterBlockDataNullValues from "./OrderingItems/FilterBlockDataNullValues";
@@ -32,6 +32,7 @@ import CourseDetails from "../../components/CourseDetails/CourseDetails";
 import FetchBlockDataFromSanity from "./FetchBlockDataFromSanity";
 import CreateArrayOfItemsInPosition from "./OrderingItems/CreateArrayOfItemsInPosition";
 import CreateArrayOfAflComponents from "./CreateArrayOfAflComponents";
+import Header from "../../components/Header/Header";
 
 function Main() {
   const { userData, darkThemeActive } = useContext(UserContext);
@@ -327,21 +328,12 @@ function Main() {
     }
   }, [blockDataSubmittedtoDB]);
 
-  const loader = (
-    <Loader>
-      <GridLoader
-        color={"rgb(0, 250, 250, 0.5)"}
-        // loading={loading}
-        // cssOverride={override}
-        size={25}
-        aria-label="Loading Spinner"
-        data-testid="loader"
-      />
-    </Loader>
-  );
+ 
+
   return (
     <Wrapper darkThemeActive={darkThemeActive}>
-      {blockData.length === 0 && loader}
+      <Header/>
+      {blockData.length === 0 && <Loader></Loader>}
       {renderedItems}
       {showPointsSummary && <PostBlockPointsReveal />}
     </Wrapper>
@@ -360,23 +352,7 @@ const Wrapper = styled.div`
       : ThemeStyles.darkThemePrimaryBackgroundColor};
 `;
 
-const SlideWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
 
-const Loader = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  z-index: 100;
-  background-color: rgba(239, 239, 249, 1);
-`;
 
 const Container = styled.div`
   display: flex;

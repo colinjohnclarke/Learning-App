@@ -4,7 +4,7 @@ import NextArrowBtn from "../Buttons/NextArrowBtn";
 import "animate.css";
 // import StartQuizBtn from "../Buttons/StartQuizBtn";
 // import SlideLocator from "./SlideLocator";
-import { useSelector } from "react-redux";
+
 // import { updateStartQuiz } from "../../features/CurrentBlockProgressData/currentblockprogressdata";
 import BlockText from "../../config/sanity/BlockText";
 

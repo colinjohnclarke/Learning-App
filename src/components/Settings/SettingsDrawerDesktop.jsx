@@ -5,7 +5,6 @@ import { device } from "../../styles/breakpoints";
 import { UserContext } from "../../App";
 import LogoutBtn from "../Login/LogoutBtn";
 import { ThemeStyles } from "../../styles/ThemeStyles";
-import { CiLineHeight } from "react-icons/ci";
 import { LuFlashlight } from "react-icons/lu";
 import { LuFlashlightOff } from "react-icons/lu";
 import { HiOutlineSpeakerWave } from "react-icons/hi2";

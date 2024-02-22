@@ -2,8 +2,8 @@ import React, { useEffect, useState, useContext, createContext } from "react";
 import "./App.css";
 import Routing from "./routes/Routing";
 import { BrowserRouter } from "react-router-dom";
-import Header from "./components/Header/Header";
-import Drawer from "./components/Drawer/Drawer";
+
+
 import Login from "./pages/Login";
 import { useAuth0 } from "@auth0/auth0-react";
 import {
@@ -157,8 +157,8 @@ function App() {
         {loginCompleted && localStorageData && data && (
           <div>
             {" "}
-            <Drawer />
-            <Header></Header>
+        
+           
             <Routing />{" "}
           </div>
         )}

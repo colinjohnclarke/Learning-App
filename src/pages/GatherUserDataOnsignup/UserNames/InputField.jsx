@@ -3,11 +3,19 @@ import styled from "styled-components";
 import { ThemeStyles } from "../../../styles/ThemeStyles";
 import { UserContext } from "../../../App";
 
-function InputField({ text, setStateFN, icon, placeholder }) {
+function InputField({
+  value,
+  setStateFN,
+  icon,
+  placeholder,
+  text,
+  setNewSchoolSelected,
+}) {
   const { darkThemeActive } = useContext(UserContext);
 
   const handleChange = (e) => {
     setStateFN(e.target.value);
+    setNewSchoolSelected(false);
   };
   return (
     <div
@@ -33,6 +41,7 @@ function InputField({ text, setStateFN, icon, placeholder }) {
         onChange={handleChange}
         type="text"
         darkThemeActive={darkThemeActive}
+        value={value}
       ></Input>
     </div>
   );
@@ -58,7 +67,7 @@ const Input = styled.input`
       : ThemeStyles.darkThemePrimaryBackgroundColor};
 
   &::placeholder {
-    font-size: 10px;
+    font-size: 13px;
     font-weight: 400;
     fontstyle: italic;
     letter-spacing: 0px;

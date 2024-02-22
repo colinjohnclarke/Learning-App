@@ -3,14 +3,13 @@ import styled from "styled-components";
 import "@splidejs/react-splide/css/skyblue";
 import TextSectionDesktop from "./TextSectionDesktop";
 // import StartQuizBtn from "../Buttons/StartQuizBtn";
-import { GrLinkNext } from "react-icons/gr";
+
 import SlideLocator from "./SlideLocator";
 import "animate.css";
 // import { updateStartQuiz } from "../../features/CurrentBlockProgressData/currentblockprogressdata";
 import SlideShowNavBtn from "../Buttons/SlideShowNavBtn";
 import { device } from "../../styles/breakpoints";
 import { useDispatch } from "react-redux";
-import { GrNext } from "react-icons/gr";
 import { FcNext } from "react-icons/fc";
 
 function DesktopHorizontalSlideDeck({
