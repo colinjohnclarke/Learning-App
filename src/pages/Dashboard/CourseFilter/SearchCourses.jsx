@@ -1,15 +1,9 @@
 import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { BsSearch } from "react-icons/bs";
-import { AiOutlineClose } from "react-icons/ai";
 import { device } from "../../../styles/breakpoints";
-import { allCoursesList } from "../AllCoursesList";
-import { Link } from "react-router-dom";
-import sanityClient from "../../../createclient";
-import FetchCoursefromSanity from "./FetchCoursefromSanity";
 import { UserContext } from "../../../App";
 import { ThemeStyles } from "../../../styles/ThemeStyles";
-import CourseSearchResult from "../CourseSearchResult";
 import { RxCross2 } from "react-icons/rx";
 
 function SearchCourses({ setSearchBarTerms, searchBarTerms }) {

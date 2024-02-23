@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { device } from "../../styles/breakpoints";
 import AnimatedPercentageScore from "../Dashboard/AnimatedPercentageScore";
-import FetchCoursefromSanity from "../Dashboard/CourseFilter/FetchCoursefromSanity";
+import FetchBlocksfromSanity from "./FetchBlocksFromSanity";
 import sanityClient from "../../createclient";
 import imageUrlBuilder from "@sanity/image-url";
 import { useGetAllEnrolledCoursesDataQuery } from "../../features/api/UserData/enrolledCourseDataSlice";
@@ -12,7 +12,7 @@ import { ThemeStyles } from "../../styles/ThemeStyles";
 import HeaderColoredHightlight from "./HeaderColoredHightlight";
 
 function RecentCourses() {
-  const courses = FetchCoursefromSanity();
+  const courses = FetchBlocksfromSanity();
   // console.log("🚀 ~ RecentCourses ~ courses:", courses);
   const builder = imageUrlBuilder(sanityClient);
   const { userData, darkThemeActive } = useContext(UserContext);

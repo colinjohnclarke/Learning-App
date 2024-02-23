@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { BsSearch } from "react-icons/bs";
 import { device } from "../../styles/breakpoints";
 import CourseSearchResult from "../../pages/Dashboard/CourseSearchResult";
-import FetchCoursefromSanity from "../../pages/Dashboard/CourseFilter/FetchCoursefromSanity";
+import FetchBlocksfromSanity from "../../pages/Courses/FetchBlocksFromSanity";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import { UserContext } from "../../App";
 
@@ -12,7 +12,7 @@ function SearchCourse() {
   const [searchedResult, setSearchedResult] = useState("");
   const [displaySearchResults, setDisplaySearchResult] = useState(false);
 
-  const coursesfromSanity = FetchCoursefromSanity();
+  const coursesfromSanity = FetchBlocksfromSanity();
 
   const { darkThemeActive } = useContext(UserContext);
   const navigate = useNavigate();

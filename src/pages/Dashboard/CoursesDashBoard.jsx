@@ -6,7 +6,7 @@ import { device } from "../../styles/breakpoints";
 import CourseFilter from "./CourseFilter/CourseFilter";
 import CourseFilterBtn from "../../components/Buttons/CourseFilterBtn";
 import { CourseFilterContext } from "./CourseFilter/CourseFilterContext";
-import FetchCoursefromSanity from "./CourseFilter/FetchCoursefromSanity";
+import FetchBlocksfromSanity from "../Courses/FetchBlocksFromSanity";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import sanityClient from "../../createclient";
@@ -51,7 +51,7 @@ function CoursesDashBoard() {
 
   console.log(subject, courseName, blockName);
 
-  const courses = FetchCoursefromSanity();
+  const courses = FetchBlocksfromSanity();
 
   const selected = {
     fontWeight: "500",

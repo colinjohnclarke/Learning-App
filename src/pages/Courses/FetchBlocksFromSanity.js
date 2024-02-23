@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import sanityClient from "../../../createclient";
+import { useEffect, useState } from "react";
+import sanityClient from "../../createclient";
 
-function FetchCoursefromSanity() {
+function FetchBlocksfromSanity() {
   const [queryResult, setQueryResult] = useState([]);
 
   useEffect(() => {
@@ -14,4 +14,4 @@ function FetchCoursefromSanity() {
   return queryResult;
 }
 
-export default FetchCoursefromSanity;
+export default FetchBlocksfromSanity;

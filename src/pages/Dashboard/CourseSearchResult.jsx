@@ -7,11 +7,14 @@ import imageUrlBuilder from "@sanity/image-url";
 import sanityClient from "../../createclient";
 import { UserContext } from "../../App";
 import { ThemeStyles } from "../../styles/ThemeStyles";
-import FetchCoursefromSanity from "./CourseFilter/FetchCoursefromSanity";
+// import FetchBlocksfromSanity from "../Courses/FetchBlocksFromSanity";
+import FetchCoursesFromSanity from "../Courses/FetchCoursesFromSanity";
+import AnimatedSearchIcon from "../../assets/animations/AnimatedSearchIcon";
+import { GiCardKingClubs } from "react-icons/gi";
 
 function CourseSearchResult({ termsArr, searchBarTerms }) {
-  const courses = FetchCoursefromSanity();
-
+  const courses = FetchCoursesFromSanity();
+  console.log("🚀 ~ CourseSearchResult ~ termsArr:", termsArr);
   // const newArr = data ? [...data] : [];
   // console.log("🚀 ~ CourseSearchResult ~ newArr:", newArr);
 
@@ -20,19 +23,11 @@ function CourseSearchResult({ termsArr, searchBarTerms }) {
   const { darkThemeActive } = useContext(UserContext);
 
   let filteredCourses;
-
-  if (termsArr.length) {
-    filteredCourses = courses?.filter((item) => {
-      return (
-        (item.name && termsArr.some((term) => item.name.includes(term))) ||
-        (item.blockName &&
-          termsArr.some((term) => item.blockName.includes(term))) ||
-        (item.courseName &&
-          termsArr.some((term) => item.courseName.includes(term))) ||
-        (item.subject && termsArr.some((term) => item.subject.includes(term)))
-      );
-    });
-  }
+  // this not working
+  filteredCourses = courses.filter((item) => {
+    const subject = item.subject.map((details) => details.name).toString();
+    return subject && termsArr.includes(subject);
+  });
 
   if (searchBarTerms) {
     filteredCourses = courses.filter(
@@ -55,7 +50,7 @@ function CourseSearchResult({ termsArr, searchBarTerms }) {
           flexDirection: "column",
         }}
       >
-        <p>Start by searching or filtering...</p>
+        <p>Start by searching or filtering..2.</p>
       </div>
     );
   }
@@ -85,64 +80,58 @@ function CourseSearchResult({ termsArr, searchBarTerms }) {
     ) : null;
 
     return (
-      <Wrapper>
-        <Link
-          className=" animate__animated animate__fadeIn"
-          style={{
-            display: "flex",
-            width: "100%",
-            textDecoration: "none",
-            animationDelay: `${index / 20}s`,
-          }}
-          to={`/courses/${item.subject}/${item.courseName}`}
-        >
-          <Box darkThemeActive={darkThemeActive}>
-            <Text>
-              <Subject
-                style={{
-                  fontSize: "12px",
-                  listStyle: "none",
-                  paddingLeft: "10px",
-                  fontWeight: "600",
-                }}
-              >
-                {item.subject}:
-              </Subject>
-              <p
-                style={{
-                  fontSize: "12px",
-                  listStyle: "none",
-                  paddingLeft: "10px",
-                }}
-              >
-                {item.courseName}
-              </p>
+      <></>
+      // <Wrapper>
+      // <Link
+      //   className="animate__animated animate__fadeIn"
+      //   style={{
+      //     display: "flex",
+      //     width: "100%",
+      //     textDecoration: "none",
+      //     animationDelay: `${index / 20}s`,
+      //   }}
+      //   to={`/courses/${subject}/${course.courseName}`}
+      //   key={index}
+      // >
+      //   <Box darkThemeActive={darkThemeActive}>
+      //     <Text>
+      //       <p
+      //         style={{
+      //           fontSize: "13px",
+      //           listStyle: "none",
+      //           paddingLeft: "10px",
+      //           fontWeight: "heavy",
+      //           fontWeight: "800",
+      //         }}
+      //       >
+      //         {subject} :
+      //       </p>
+      //       <p
+      //         style={{
+      //           fontSize: "13px",
+      //           listStyle: "none",
+      //           padding: "3px",
+      //           marginRight: "10px",
+      //         }}
+      //       >
+      //         {course.courseName}
+      //       </p>
+      //     </Text>
 
-              <p
-                style={{
-                  fontSize: "12px",
-                  listStyle: "none",
-                  paddingLeft: "10px",
-                }}
-              >
-                {item.blockName}
-              </p>
-            </Text>
-
-            {content ? (
-              <Image> {content}</Image>
-            ) : (
-              <Img
-                src={
-                  imgurl
-                    ? imgurl.imageUrl
-                    : "https://stpauls.fra1.digitaloceanspaces.com/wp-content/uploads/2022/04/28130914/SPS-logo-centred-POS.png"
-                }
-              ></Img>
-            )}
-          </Box>
-        </Link>
-      </Wrapper>
+      //     <Img
+      //       alt=""
+      //       style={{
+      //         objectFit: "cover",
+      //       }}
+      //       src={
+      //         imgurlFor(course.coverImage.asset._ref)
+      //           ? imgurlFor(course.coverImage.asset._ref)
+      //           : "https://stpauls.fra1.digitaloceanspaces.com/wp-content/uploads/2022/04/28130914/SPS-logo-centred-POS.png"
+      //       }
+      //     />
+      //   </Box>
+      // </Link>
+      // </Wrapper>
     );
   });
 
@@ -152,12 +141,14 @@ function CourseSearchResult({ termsArr, searchBarTerms }) {
     <div
       style={{
         display: "flex",
-        justifyContent: "center",
+        justifyContent: "space-between",
         alignItems: "center",
         flexDirection: "column",
       }}
     >
-      <p>Start by searching or filtering...</p>
+      <p style={{ marginBottom: "50px" }}>Start by searching or filtering...</p>
+
+      <AnimatedSearchIcon darkThemeActive={darkThemeActive} />
     </div>
   );
 }

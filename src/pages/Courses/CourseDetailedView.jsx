@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import FetchCoursefromSanity from "../Dashboard/CourseFilter/FetchCoursefromSanity";
+import FetchBlocksfromSanity from "./FetchBlocksFromSanity";
 import CourseBlockBreakown from "./CourseBlockBreakown";
 import DashboardHeader from "../Dashboard/DashboardHeader";
 import sanityClient from "../../createclient";
@@ -35,7 +35,7 @@ function CourseDetailedView() {
   const navigate = useNavigate();
   const [addCourseBtnClicked, setAddCourseBtnClicked] = useState(false);
   const [addEnrolledCourse] = useAddEnrolledCourseMutation();
-  const course = FetchCoursefromSanity();
+  const course = FetchBlocksfromSanity();
   const [width, setWidth] = useState(window.innerWidth);
   const builder = imageUrlBuilder(sanityClient);
   const { userData, darkThemeActive } = useContext(UserContext);

@@ -1,29 +1,19 @@
 import React, { useContext, useState, useEffect } from "react";
 import styled from "styled-components";
 import DashboardHeader from "../Dashboard/DashboardHeader";
-import FetchCoursefromSanity from "../Dashboard/CourseFilter/FetchCoursefromSanity";
 import { device } from "../../styles/breakpoints";
-import { Link,  } from "react-router-dom";
-import { defaultCoursesImages } from "../Dashboard/CourseFilter/DefaultCourseImages";
-import sanityClient from "../../createclient";
-import imageUrlBuilder from "@sanity/image-url";
-
 import RecentCourses from "./RecentCourses";
 import { UserContext } from "../../App";
-import {
-  useGetAllEnrolledCoursesDataQuery,
-
-} from "../../features/api/UserData/enrolledCourseDataSlice";
+import AllCourses from "./AllCourses";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import EnrollForCourse from "./EnrollForCourse";
-
 import HeaderColoredHightlight from "./HeaderColoredHightlight";
 import NavigationBarMobile from "../../components/Navigation/NavigationBarMobile";
+import FetchCoursesFromSanity from "./FetchCoursesFromSanity";
 
 function Courses() {
-  const courses = FetchCoursefromSanity();
-  console.log("🚀 ~ Courses ~ courses:", courses);
-  const { userData, darkThemeActive } = useContext(UserContext);
+
+  const {  darkThemeActive } = useContext(UserContext);
 
   const [selectStyle, setSelectStyle] = useState({
     position: "relative",
@@ -32,153 +22,12 @@ function Courses() {
 
   const [selection, setSelection] = useState("recentCourses");
 
-  const builder = imageUrlBuilder(sanityClient);
-
   // const [addEnrolledCourse] = useAddEnrolledCourseMutation();
-  const { data } = useGetAllEnrolledCoursesDataQuery(userData?.user._id);
+  // const { data } = useGetAllEnrolledCoursesDataQuery(userData?.user._id);
 
-  const imgurlFor = (source) => {
-    return builder.image(source);
-  };
 
-  const allCoursesSorted = courses.sort((a, b) =>
-    a.courseName.localeCompare(b.courseName)
-  );
-
-  const filteredData = allCoursesSorted.filter((item, index, arr) => {
-    return index === arr.findIndex((obj) => obj.courseName === item.courseName);
-  });
-
-  const courseslist = filteredData.map((item, index) => {
-    let imgurl = defaultCoursesImages.find((subItem) => {
-      return subItem.subject === item.subject;
-    });
-
-    return (
-      <Link
-        className="animate__animated animate__fadeIn"
-        style={{
-          display: "flex",
-          width: "100%",
-          textDecoration: "none",
-          animationDelay: `${index / 20}s`,
-        }}
-        to={`/courses/${item.subject}/${item.courseName}`}
-      >
-        <Box darkThemeActive={darkThemeActive}>
-          <Text>
-            {" "}
-            <p
-              style={{
-                fontSize: "13px",
-                listStyle: "none",
-                paddingLeft: "10px",
-                fontWeight: "600",
-              }}
-            >
-              {item.subject}
-            </p>
-            <p
-              style={{
-                fontSize: "13px",
-                listStyle: "none",
-                padding: "12px",
-              }}
-            >
-              {item.courseName}
-            </p>
-          </Text>
-
-          <Img
-            src={
-              imgurl
-                ? imgurl.imageUrl
-                : "https://stpauls.fra1.digitaloceanspaces.com/wp-content/uploads/2022/04/28130914/SPS-logo-centred-POS.png"
-            }
-          ></Img>
-        </Box>
-      </Link>
-    );
-  });
-
-  const allBlocks = courses.map((item, index) => {
-    const content = item.coverImage ? (
-      <img
-        alt=""
-        style={{
-          height: "100px",
-          width: "100px",
-        }}
-        src={imgurlFor(item.coverImage.asset._ref)}
-      />
-    ) : null;
-
-    let imgurl = defaultCoursesImages.find((subItem) => {
-      return subItem.subject === item.subject;
-    });
-
-    // filterCompletedBlocks = blocksCompleted?.filter(
-    //   (subItem) => subItem.blockName === item.blockName
-    // );
-
-    // let highestPercentageScore;
-
-    // if (filterCompletedBlocks) {
-    //   highestPercentageScore = Math.round(
-    //     filterCompletedBlocks[0]?.PercentageScores
-    //   );
-    // }
-
-    return (
-      <Link
-        className="animate__animated animate__fadeIn"
-        style={{
-          display: "flex",
-          width: "100%",
-          textDecoration: "none",
-          animationDelay: `${index / 20}s`,
-        }}
-        to={`/courses/${item.subject}/${item.courseName}/${item.blockName}`}
-      >
-        <Box darkThemeActive={darkThemeActive}>
-          <Text>
-            {" "}
-            <p
-              style={{
-                fontSize: "13px",
-                listStyle: "none",
-                paddingLeft: "10px",
-                fontWeight: "600",
-              }}
-            >
-              {item.subject}
-            </p>
-            <p
-              style={{
-                fontSize: "13px",
-                listStyle: "none",
-                padding: "12px",
-              }}
-            >
-              {item.blockName}
-            </p>
-          </Text>
-
-          {content ? (
-            <Image>{content}</Image>
-          ) : (
-            <Img
-              src={
-                imgurl
-                  ? imgurl.imageUrl
-                  : "https://stpauls.fra1.digitaloceanspaces.com/wp-content/uploads/2022/04/28130914/SPS-logo-centred-POS.png"
-              }
-            ></Img>
-          )}
-        </Box>
-      </Link>
-    );
-  });
+  const allCourses = FetchCoursesFromSanity()
+  console.log("🚀 ~ Courses ~ allCourses:", allCourses)
 
   const selectClickHandler = (selection) => {
     setSelection(selection);
@@ -255,8 +104,8 @@ function Courses() {
           >
             <HeaderColoredHightlight content={"All courses"} />
             <p style={{ fontWeight: "500" }}> All Courses </p>
-            {courseslist}
-
+            <AllCourses/>
+         
             <div
               style={{
                 fontWeight: "500",

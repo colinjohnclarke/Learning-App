@@ -1,9 +1,9 @@
 import { useContext } from "react";
 import { UserContext } from "../../App";
-import FetchCoursefromSanity from "../../pages/Dashboard/CourseFilter/FetchCoursefromSanity";
+import FetchBlocksfromSanity from "../../pages/Courses/FetchBlocksFromSanity";
 
 function CoursePercentageCompletion({ subject, courseName }) {
-  const course = FetchCoursefromSanity();
+  const course = FetchBlocksfromSanity();
   const { userData } = useContext(UserContext);
 
   const blocks = course
