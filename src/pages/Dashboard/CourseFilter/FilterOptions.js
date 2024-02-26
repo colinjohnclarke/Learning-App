@@ -1,7 +1,19 @@
 export const FilterOptions = [
   {
     name: "Age Group",
-    options: ["Teacher CPD", "11+", "Primary", "BTEC", "KS3", "KS4", "KS5"],
+    options: [
+      "Teacher CPD",
+      "11+",
+      "Primary",
+      "BTEC",
+      "KS3",
+      "KS4",
+      "KS5",
+      "KS2",
+      "GCSE",
+      "AS-level",
+      "A-level",
+    ],
   },
   {
     name: "Subject",
@@ -19,6 +31,7 @@ export const FilterOptions = [
       "Music",
       "History",
       "Maths",
+      "Economics",
     ],
   },
   {
@@ -33,17 +46,20 @@ export const FilterOptions = [
       "Graph Analysis",
       "Pattern Recognition",
       "Logical Reasoning",
-      "Verbal Reasoning",
-      "Numerical Reasoning",
-      "Graph Analysis",
-      "Pattern Recognition",
       "Critical Thinking",
       "Deductive Reasoning",
       "Statistical Analysis",
+      "Evaluation of Text",
+      "Interpret sources",
+      "Manipulate Fractions",
+      "Describe Tabulated Data",
+      "Substitute Values",
+      "Deduce conclusions from graphical data",
+      "Rearranging Equations",
     ],
   },
-  {
-    name: "Tier",
-    options: ["Higher", "Foundation"],
-  },
+  // {
+  //   name: "Tier",
+  //   options: ["Higher", "Foundation"],
+  // },
 ];

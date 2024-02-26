@@ -41,17 +41,12 @@ function Dashboard() {
   };
   window.scrollTo(0, 0);
 
-
-
   return (
     <Wrapper darkThemeActive={darkThemeActive}>
       {dashBoardViewed && <ConfettiDashboard />}
 
       <DashboardHeader />
       <Padding>
-  
-  
-
         <Main>
           <Greeting darkThemeActive={darkThemeActive}>
             <Welcome>
@@ -132,7 +127,6 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
 
   background-color: ${(props) =>
     props.darkThemeActive
@@ -249,4 +243,3 @@ const Box = styled.div`
         : ThemeStyles.darkThemePrimaryFontColor};
   }
 `;
-

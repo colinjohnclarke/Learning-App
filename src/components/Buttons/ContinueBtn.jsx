@@ -45,7 +45,7 @@ const Btn = styled.button`
 
   &:hover {
     transform: translateY(-2px);
-    background-color: rgba(0, 240, 240, 1);
+    background-color: rgba(0, 240, 245, 1);
     color: white;
   }
 

@@ -9,7 +9,7 @@
   /* 
   font-family: Manrope, sans-serif; */
 
-  /* font-family: Montserrat; */
+  font-family: Montserrat;
 
   /* font-family: "Lato", sans-serif; */
   /* font-family: "Poppins", sans-serif; */
@@ -17,7 +17,7 @@
   font-family: "Quicksand", sans-serif; */
   /* font-family: "Dosis", sans-serif; */
 
-  font-family: "Quicksand", sans-serif;
+  /* font-family: "Quicksand", sans-serif; */
 
   /* font-family: "Varela Round", sans-serif; */
 
@@ -173,7 +173,6 @@ table {
   flex-direction: row-reverse;
   justify-content: center;
   align-items: center;
-
 }
 
 .flameContainer {
@@ -250,8 +249,6 @@ table {
   }
 }
 
-
-
 /* svg{
   position:absolute;
   top:50%;
@@ -260,40 +257,38 @@ table {
   max-height:128px;
 } */
 
-
-.magnify{
+.magnify {
   /* fill:#f8f8f8; */
-  animation:search 2s infinite ease;
+  animation: search 2s infinite ease;
 }
-.doc{
+.doc {
   /* fill:#d8d8d2; */
-  animation:flyby 2s infinite ease;
+  animation: flyby 2s infinite ease;
 }
-
 
 @keyframes search {
-  0%{
-    transform:translate(40px, 40px) scale(.6);
+  0% {
+    transform: translate(40px, 40px) scale(0.6);
   }
-  50%{
-    transform:translate(20px, 20px) scale(.6);
+  50% {
+    transform: translate(20px, 20px) scale(0.6);
   }
-  100%{
-    transform:translate(40px, 40px) scale(.6);
+  100% {
+    transform: translate(40px, 40px) scale(0.6);
   }
 }
 
 @keyframes flyby {
-  0%{
-    transform:translate(-20px, 20px) scale(.2);
-    opacity:0
+  0% {
+    transform: translate(-20px, 20px) scale(0.2);
+    opacity: 0;
   }
-  50%{
-    transform:translate(30px, 20px) scale(.5);
-    opacity:1
+  50% {
+    transform: translate(30px, 20px) scale(0.5);
+    opacity: 1;
   }
-  100%{
-    transform:translate(100px, 20px) scale(.2);
-    opacity:0
+  100% {
+    transform: translate(100px, 20px) scale(0.2);
+    opacity: 0;
   }
 }

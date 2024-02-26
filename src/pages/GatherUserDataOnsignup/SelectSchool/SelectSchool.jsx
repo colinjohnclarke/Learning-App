@@ -6,11 +6,10 @@ import { IoSchoolOutline } from "react-icons/io5";
 import { UserContext } from "../../../App";
 import InputField from "../UserNames/InputField";
 
-
 function SelectSchool({ setSchool, school }) {
   const [schoolQuery, setSchoolQuery] = useState("");
   const [sendQuery, setSendQuery] = useState("");
-  const [newSchoolSelected, setNewSchoolSelected] = useState(false);
+  const [newOptionSelected, setNewOptionSelected] = useState(false);
 
   const { data, isLoading } = useGetUserSchoolQuery(sendQuery);
 
@@ -31,7 +30,7 @@ function SelectSchool({ setSchool, school }) {
   );
 
   let searchResult;
-  if (data && !isLoading && !newSchoolSelected) {
+  if (data && !isLoading && !newOptionSelected) {
     searchResult = data?.data.map((school) => (
       <OptionItem
         darkThemeActive={darkThemeActive}
@@ -41,7 +40,7 @@ function SelectSchool({ setSchool, school }) {
           localStorage.setItem("schoolLocalAuthority", school.la);
           localStorage.setItem("schoolTown", school.town);
           setSchool((val) => school);
-          setNewSchoolSelected((prev) => true);
+          setNewOptionSelected((prev) => true);
         }}
         key={school.id}
       >
@@ -77,13 +76,13 @@ function SelectSchool({ setSchool, school }) {
         )}
       </OptionItem>
     ));
-  } else if (!data & !newSchoolSelected) {
+  } else if (!data & !newOptionSelected) {
     searchResult = (
       <OptionItem darkThemeActive={darkThemeActive} style={{ height: "50px" }}>
         <p style={{ marginLeft: "10px", fontSize: "13px" }}>keep typing...</p>
       </OptionItem>
     );
-  } else if (newSchoolSelected) {
+  } else if (newOptionSelected) {
     searchResult = <></>;
     console.log("newScgool selected");
   }
@@ -91,7 +90,7 @@ function SelectSchool({ setSchool, school }) {
   return (
     <Wrapper darkThemeActive={darkThemeActive}>
       <InputField
-        setNewSchoolSelected={setNewSchoolSelected}
+        setNewOptionSelected={setNewOptionSelected}
         icon={schoolIcon}
         placeholder={schoolSavedInDB ? schoolSavedInDB : "Start by typing"}
         setStateFN={setSchoolQuery}

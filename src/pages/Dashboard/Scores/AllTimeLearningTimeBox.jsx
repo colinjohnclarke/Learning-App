@@ -18,7 +18,9 @@ function AllTimeLearningTimeBox({ data }) {
   // }
 
   if (allTimeLearningTime) {
-    const animiationCounter = AnimateCountFunction(allTimeLearningTime);
+    const animiationCounter = AnimateCountFunction(
+      Math.floor(allTimeLearningTime)
+    );
     counter = animiationCounter.counter;
   }
 

@@ -94,8 +94,7 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   transition: 0.3s;
-  //   background-color: white;
-  //   box-shadow: 0px 0px 30px 4px rgba(174, 196, 216, 0.25);
+
   border-radius: 5px;
 `;
 
@@ -157,7 +156,6 @@ const Image = styled.div`
 `;
 
 const OverView = styled.div`
-  color: white;
   min-height: 50px;
   display: flex;
   flex-direction: row;
@@ -166,17 +164,15 @@ const OverView = styled.div`
   width: 100%;
 
   border-radius: 5px;
-  box-shadow: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemeMainBoxShadow
-      : ThemeStyles.darkThemeMainBoxShadow};
+
   font-weight: 500;
+
   //   background-color: rgb(255, 255, 255);
-  background: linear-gradient(
-    225deg,
-    rgba(39, 106, 245, 0.5) 0%,
-    rgba(0, 200, 200, 1) 100%
-  );
+  // background: linear-gradient(
+  //   225deg,
+  //   rgba(39, 106, 245, 0.5) 0%,
+  //   rgba(0, 200, 200, 1) 100%
+  // );
   margin-bottom: 10px;
   margin-top: 10px;
 `;

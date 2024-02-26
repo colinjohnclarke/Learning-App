@@ -25,6 +25,8 @@ function Settings() {
   const [year, setYear] = useState(null);
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
+  const [newFirstNameEntered, setNewFirstNameEntered] = useState(false);
+  const [newLastNameEntered, setNewLastNameEntered] = useState(false);
 
   useEffect(() => {
     if (userData.user) {
@@ -148,6 +150,7 @@ function Settings() {
       <Row>
         <Selection>
           <InputField
+            setNewOptionSelected={setNewFirstNameEntered}
             icon={nameIcon}
             text={"First Name"}
             placeholder={firstName}
@@ -157,6 +160,7 @@ function Settings() {
 
         <Selection>
           <InputField
+            setNewOptionSelected={setNewLastNameEntered}
             icon={nameIcon}
             text={"Last Name"}
             placeholder={lastName}
@@ -194,7 +198,7 @@ function Settings() {
           console.log("clicked");
           handleOpenModal();
         }}
-        style={{ margin: "50px" }}
+        style={{ margin: "50px", width: "250px" }}
         darkThemeActive={darkThemeActive}
       >
         {" "}

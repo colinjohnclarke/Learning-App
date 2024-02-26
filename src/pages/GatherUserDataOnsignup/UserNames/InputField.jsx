@@ -9,13 +9,13 @@ function InputField({
   icon,
   placeholder,
   text,
-  setNewSchoolSelected,
+  setNewOptionSelected,
 }) {
   const { darkThemeActive } = useContext(UserContext);
 
   const handleChange = (e) => {
     setStateFN(e.target.value);
-    setNewSchoolSelected(false);
+    setNewOptionSelected(false);
   };
   return (
     <div

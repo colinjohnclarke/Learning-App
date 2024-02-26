@@ -27,6 +27,7 @@ import GridLoader from "react-spinners/GridLoader";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 
 import { UserContext } from "../../App";
+import ContinueBtn from "../../components/Buttons/ContinueBtn";
 
 function CourseDetailedView() {
   const [breakdownDisplayed, setBreakdownIsDisplayed] = useState(true);
@@ -80,8 +81,6 @@ function CourseDetailedView() {
     return block.courseName === courseName;
   });
 
-  console.log("🚀  course detailed view ~ completedBlocks:", completedBlocks);
-
   const blocksRemaining = blocks?.filter((block) => {
     return !completedBlocks.some((obj2) => obj2.blockName === block.blockName);
   });
@@ -119,12 +118,10 @@ function CourseDetailedView() {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
-          color: "white",
         }}
       >
         <h2
           style={{
-            color: "white",
             fontWeight: "400",
             fontSize: "1.2rem",
           }}
@@ -158,58 +155,52 @@ function CourseDetailedView() {
     headerBannerContent = (
       <div
         style={{
-          margin: "10px",
+          fontWeight: "500",
           display: "flex",
-          flexDirection: "column",
           alignItems: "center",
+          justifyContent: "space-between",
+          padding: "20px",
         }}
       >
-        <div
+        <div>
+          <p
+            style={{
+              color: darkThemeActive
+                ? ThemeStyles.lightThemePrimaryFrontColor
+                : ThemeStyles.darkThemePrimaryFontColor,
+            }}
+          >
+            Next Section:
+          </p>
+          <p
+            style={{
+              color: darkThemeActive
+                ? ThemeStyles.lightThemePrimaryFrontColor
+                : ThemeStyles.darkThemePrimaryFontColor,
+            }}
+          >
+            {" "}
+            {blocksRemaining[0]?.blockName}
+          </p>
+        </div>
+
+        <MainActionBtn
+          onClick={() => {
+            navigate(
+              `/courses/${subject}/${courseName}/${blocksRemaining[0].blockName}`
+            );
+          }}
           style={{
-            width: "100%",
+            height: "50px",
+            width: "200px",
             display: "flex",
-            flexDirection: "row",
             alignItems: "center",
-            justifyContent: "space-between",
+            backgroundColor: "rgb(0,230,240)",
+            color: "white",
           }}
         >
-          <h3
-            style={{
-              fontWeight: "500",
-              fontSize: "1.2rem",
-              color: "white",
-            }}
-          >
-            Next Section: {blocksRemaining[0]?.blockName}
-          </h3>
-          <MainActionBtn
-            onClick={() => {
-              navigate(
-                `/courses/${subject}/${courseName}/${blocksRemaining[0].blockName}`
-              );
-            }}
-            style={{
-              height: "50px",
-              width: "60%",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <p
-              style={{
-                fontSize: "16px",
-                color: "rgb(0, 250, 250)",
-              }}
-            >
-              Continue!
-            </p>
-          </MainActionBtn>
-        </div>
-        <AnimatedPercentageScore
-          color="rgb(0, 245, 245)"
-          percentage={CoursePercentageCompletion || 0}
-          fontColor=""
-        />
+          Continue!
+        </MainActionBtn>
       </div>
     );
   } else {
@@ -222,17 +213,12 @@ function CourseDetailedView() {
           flexDirection: "row",
         }}
       >
-        <h1 style={{ color: "white" }}>completed!! </h1>
-        <AnimatedPercentageScore
-          color="rgb(0, 245, 245)"
-          percentage={CoursePercentageCompletion || 0}
-          fontColor=""
-        />
+        <h1>completed!! </h1>
       </div>
     );
   }
 
-  return (
+  return data ? (
     <Main darkThemeActive={darkThemeActive}>
       <DashboardHeader></DashboardHeader>
       <div
@@ -250,62 +236,66 @@ function CourseDetailedView() {
             <HeaderContent>
               <div
                 style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "space-between",
+                  padding: "20px",
+                  color: darkThemeActive
+                    ? ThemeStyles.lightThemePrimaryFrontColor
+                    : ThemeStyles.darkThemePrimaryFontColor,
                 }}
               >
-                <h2
-                  style={{
-                    fontWeight: "500",
-                    fontSize: "1.4rem",
-                    color: "white",
-                  }}
-                >
-                  {subject} : {courseName}
-                </h2>
-
-                {data ? (
-                  headerBannerContent
-                ) : (
-                  <GridLoader
-                    color={"rgb(0, 250, 250, 0.5)"}
-                    // loading={loading}
-                    // cssOverride={override}
-                    size={25}
-                    aria-label="Loading Spinner"
-                    data-testid="loader"
-                  />
-                )}
+                {subject} : {courseName}
+                <div style={{ height: "20px" }}></div>
+                <AnimatedPercentageScore
+                  color="rgb(0, 245, 245)"
+                  percentage={CoursePercentageCompletion || 0}
+                  fontColor=""
+                />
               </div>
-
-              <UserdataWrapper>
-                <Box darkThemeActive={darkThemeActive}>
-                  <AllTimeLearningTimeBox
-                    data={data?.courseData?.timeElapsedForCurrentCourse || 0}
-                  />
-                </Box>
-                {/* <Box darkThemeActive={darkThemeActive}>
-                  {" "}
-                  <AllTimeQuestionsAnsweredBox data={data.courseData} />
-                </Box> */}
-                <Box darkThemeActive={darkThemeActive}>
-                  {" "}
-                  <AllTimeXPBox
-                    data={data?.courseData?.XPForCurrentCourse || 0}
-                  />
-                </Box>
-              </UserdataWrapper>
             </HeaderContent>
+            <UserdataWrapper>
+              <Box
+                style={{ marginRight: "4px" }}
+                darkThemeActive={darkThemeActive}
+              >
+                <AllTimeLearningTimeBox
+                  data={data?.courseData?.timeElapsedForCurrentCourse || 0}
+                />
+              </Box>
+              <Box
+                style={{ marginRight: "4px", marginLeft: "4px" }}
+                darkThemeActive={darkThemeActive}
+              >
+                {" "}
+                <AllTimeQuestionsAnsweredBox
+                  data={data.courseData?.XPForCurrentCourse}
+                />
+              </Box>
+              <Box
+                style={{ marginLeft: "4px" }}
+                darkThemeActive={darkThemeActive}
+              >
+                {" "}
+                <AllTimeXPBox
+                  data={data?.courseData?.XPForCurrentCourse || 0}
+                />
+              </Box>
+            </UserdataWrapper>
+
+            <div style={{ height: "10px" }}></div>
+            <NextSection darkThemeActive={darkThemeActive}>
+              {" "}
+              {headerBannerContent}
+            </NextSection>
           </Header>
 
+          <div style={{ height: "60px" }}></div>
           <CourseBlockBreakown
             controllers={{ breakdownDisplayed, setBreakdownIsDisplayed }}
             completedBlocks={completedBlocks}
             blocksRemaining={blocksRemaining}
             data={blocks}
           ></CourseBlockBreakown>
+
+          <div style={{ height: "60px" }}></div>
         </Wrapper>
         <div style={{ height: "10px" }}></div>
         <SearchCourse />
@@ -313,27 +303,39 @@ function CourseDetailedView() {
         <LeaderBoard />
       </div>
     </Main>
+  ) : (
+    <GridLoader
+      color={"rgb(0, 250, 250, 0.5)"}
+      // loading={loading}
+      // cssOverride={override}
+      size={25}
+      aria-label="Loading Spinner"
+      data-testid="loader"
+    />
   );
 }
 
 export default CourseDetailedView;
 
-const HeaderContent = styled.div`
+const HeaderContent = styled.h1`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   transition: 0.3s;
-  background: linear-gradient(
-    -225deg,
-    rgb(115, 46, 255, 1) 0%,
-    rgba(0, 200, 200, 1) 70%,
-    rgba(0, 200, 200, 1) 80%,
-    rgba(39, 106, 245, 1) 100%
-  );
+  // background: linear-gradient(
+  //   -225deg,
+  //   rgb(115, 46, 255, 1) 0%,
+  //   rgba(0, 200, 200, 1) 100%
+  // );
+  background-color: ;
+
   border-radius: 5px;
 
   width: 100%;
-  padding-bottom: 10px;
+  padding: 10px;
+  font-size: 20px;
+  font-weight: 400;
 
   @media ${device.tablet} {
     width: 100%;
@@ -356,6 +358,20 @@ const Wrapper = styled.div`
   }
 `;
 
+const NextSection = styled.div`
+  width: 100%;
+  border-radius: 5px;
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
+
+  box-shadow: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemeMainBoxShadow
+      : ThemeStyles.darkThemeMainBoxShadow};
+`;
+
 const Main = styled.div`
   height: 100vh;
   width: 100%;
@@ -363,6 +379,7 @@ const Main = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
   background-color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor
@@ -399,8 +416,6 @@ margin-top: 10px;
 const Box = styled.div`
   height: 100%;
   width: 100%;
-  margin: 4px;
-  max-width: 200px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -412,6 +427,11 @@ const Box = styled.div`
       ? ThemeStyles.lightThemePrimaryBackgroundColor
       : ThemeStyles.darkThemePrimaryBackgroundColor};
 
+  box-shadow: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemeMainBoxShadow
+      : ThemeStyles.darkThemeMainBoxShadow};
+
   p {
     color: ${(props) =>
       props.darkThemeActive
@@ -422,20 +442,13 @@ const Box = styled.div`
 
 const UserdataWrapper = styled.div`
   // padding-top: 10px;
-  width: 96%;
+  width: 100%;
   height: 70px;
-  // padding: 20px;
 
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
-  // margin: 10px;
-  // max-width: 500px;
-
-  @media ${device.tablet} {
-    // width: 50%;
-    // transition: 0s;
-  }
 `;
 
 const Button = styled.button`

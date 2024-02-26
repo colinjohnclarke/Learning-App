@@ -12,8 +12,7 @@ import NavigationBarMobile from "../../components/Navigation/NavigationBarMobile
 import FetchCoursesFromSanity from "./FetchCoursesFromSanity";
 
 function Courses() {
-
-  const {  darkThemeActive } = useContext(UserContext);
+  const { darkThemeActive } = useContext(UserContext);
 
   const [selectStyle, setSelectStyle] = useState({
     position: "relative",
@@ -25,9 +24,7 @@ function Courses() {
   // const [addEnrolledCourse] = useAddEnrolledCourseMutation();
   // const { data } = useGetAllEnrolledCoursesDataQuery(userData?.user._id);
 
-
-  const allCourses = FetchCoursesFromSanity()
-  console.log("🚀 ~ Courses ~ allCourses:", allCourses)
+  const allCourses = FetchCoursesFromSanity();
 
   const selectClickHandler = (selection) => {
     setSelection(selection);
@@ -104,8 +101,8 @@ function Courses() {
           >
             <HeaderColoredHightlight content={"All courses"} />
             <p style={{ fontWeight: "500" }}> All Courses </p>
-            <AllCourses/>
-         
+            <AllCourses />
+
             <div
               style={{
                 fontWeight: "500",

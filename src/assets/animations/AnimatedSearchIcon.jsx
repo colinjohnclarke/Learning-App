@@ -1,7 +1,5 @@
 import React from 'react';
 
-
-
 const AnimatedSearchIcon = ({darkThemeActive}) => (
 
   <svg  fill={darkThemeActive ? "grey" : 'white'}      stroke='rgb(0,245,245)' viewBox="0 0 128 128" width="100px" height="120px">

@@ -11,6 +11,7 @@ import CourseSearchResult from "../Dashboard/CourseSearchResult";
 import CourseFilterButtonSide from "../Dashboard/CourseFilter/CourseFilterButtonSide";
 import CourseFIlterTermsButtons from "../Dashboard/CourseFilter/CourseFIlterTermsButtons";
 
+
 function CourseFIlterResultDesktop({
   filterState,
   dropDownState,
@@ -56,8 +57,6 @@ function CourseFIlterResultDesktop({
     );
   }
 
-
-
   return (
     <Wrapper darkThemeActive={darkThemeActive}>
       <div
@@ -98,8 +97,12 @@ function CourseFIlterResultDesktop({
         </div>
 
         <div style={{ height: "10px", width: "100%" }}></div>
-        <CourseFIlterTermsButtons setFilterTermsArr={setFilterTermsArr} termsArr={termsArr}></CourseFIlterTermsButtons>
+        <CourseFIlterTermsButtons
+          setFilterTermsArr={setFilterTermsArr}
+          termsArr={termsArr}
+        ></CourseFIlterTermsButtons>
       </div>
+ 
 
       <CourseSearchResult
         searchBarTerms={searchBarTerms}
@@ -120,7 +123,6 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: start;
   font-weight: 400;
-
   align-items: center;
   border-radius: 5px;
   padding: 15px;
@@ -194,7 +196,6 @@ const Loader = styled.div`
   justify-content: center;
   z-index: 100;
 `;
-
 
 const Img = styled.img`
   height: 100%;
