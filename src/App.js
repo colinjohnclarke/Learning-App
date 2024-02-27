@@ -2,32 +2,29 @@ import React, { useEffect, useState, useContext, createContext } from "react";
 import "./App.css";
 import Routing from "./routes/Routing";
 import { BrowserRouter } from "react-router-dom";
-
-
 import Login from "./pages/Login";
 import { useAuth0 } from "@auth0/auth0-react";
+import checkLocalStorageForThemePrefs from "./components/Data/LocalStorage/checkLocalStorageForThemePrefs";
+import UserThemePrefsLocalStorage from "./components/Data/LocalStorage/UserThemePrefsLocalStorage";
 import {
   useGetUserByEmailQuery,
   useCreateUserMutation,
 } from "./features/api/UserData/userDataSlice";
-
 import UserPreferencesOnSignupModal from "./pages/GatherUserDataOnsignup/UserPreferencesOnSignupModal";
 
 export const UserContext = createContext();
 
 function App() {
   const { isAuthenticated, user } = useAuth0();
+  console.log("🚀 ~ App ~ isAuthenticated:", isAuthenticated);
   const [loginCompleted, setLoginCompleted] = useState(false);
-  const userAuth0 = user;
-
-  // use email to fetch userData from mongoDB
-  const { data } = useGetUserByEmailQuery(user?.email);
-
   const [
     isSchoolandUserPreferencesCompleted,
     setIsShoolandUserPreferencesCompleted,
   ] = useState(false);
-
+  const [darkThemeActive, setDarkThemeActive] = useState();
+  const [silentModeActive, setSilentModeActive] = useState();
+  const [userData, setUserData] = useState({});
   const [selectedNav, setSelectedNav] = useState({
     Dashboard: "true",
     Courses: "false",
@@ -36,45 +33,27 @@ function App() {
     courseView: "false",
   });
 
-  const [darkThemeActive, setDarkThemeActive] = useState();
-  const [silentModeActive, setSilentModeActive] = useState();
-  const [userData, setUserData] = useState({});
+  const userAuth0 = user;
+
+  const [createUser] = useCreateUserMutation();
+
+  // use email to fetch userData from mongoDB
+  const { data } = useGetUserByEmailQuery(user?.email);
 
   console.log("🚀 ~ App ~ userData:", userData);
 
-  useEffect(() => {
-    const storedDarkThemeActive = localStorage.getItem("darkThemeActive");
-    const storedSilentModeActive = localStorage.getItem("silentModeActive");
-
-    if (storedDarkThemeActive === "true") {
-      setDarkThemeActive(true);
-    } else {
-      setDarkThemeActive(false);
-    }
-
-    if (storedSilentModeActive === "true") {
-      setSilentModeActive(true);
-    } else {
-      setSilentModeActive(false);
-    }
-  }, []);
-
   let createUserRequired = false;
+
+  if (!data) {
+    createUserRequired = true; // Remove the 'let' here to update the existing variable
+  }
 
   useEffect(() => {
     if (data) {
       setUserData(data);
       localStorage.setItem("userId", data.user._id);
     }
-
-    // if ! data returned then user doesnt exist in DB so need to create user
-    if (!data) {
-      createUserRequired = true; // Remove the 'let' here to update the existing variable
-    }
   }, [data]);
-
-  const [createUser, { isLoading, isSuccess, isError, error }] =
-    useCreateUserMutation();
 
   useEffect(() => {
     if (isAuthenticated && data) {
@@ -94,6 +73,7 @@ function App() {
             emailVerified: user.email_verified,
             // password: user.password,
           });
+          console.log("response", response);
           return response;
         } catch (error) {
           return null; // Return null if there's an error
@@ -101,6 +81,7 @@ function App() {
       };
 
       const newlyCreatedUser = createNewUser();
+
       newlyCreatedUser.then((response) => {
         setLoginCompleted(true);
       });
@@ -119,31 +100,17 @@ function App() {
     setSilentModeActive,
   };
 
-  let localStorageData;
-  if (
-    localStorage.getItem("darkThemeActive") === null ||
-    localStorage.getItem("silentModeActive") === null
-  ) {
-    localStorageData = false;
-    console.log("Key does not exist!");
-  } else if (
-    localStorage.getItem("darkThemeActive") !== null &&
-    localStorage.getItem("silentModeActive") !== null
-  ) {
-    localStorageData = true;
-    console.log("Key exists!");
-  }
+  let localStorageData = checkLocalStorageForThemePrefs();
 
-  console.log("loginCompleted", loginCompleted);
-
-  console.log("localStorageData", localStorageData);
-
-  console.log("data", data);
   return (
     <UserContext.Provider value={userContextValues}>
+      <UserThemePrefsLocalStorage
+        setSilentModeActive={setSilentModeActive}
+        setDarkThemeActive={setDarkThemeActive}
+      />
+
       <BrowserRouter>
         {!isAuthenticated && <Login />}
-
         {loginCompleted &&
           !localStorageData &&
           !isSchoolandUserPreferencesCompleted && (
@@ -157,8 +124,6 @@ function App() {
         {loginCompleted && localStorageData && data && (
           <div>
             {" "}
-        
-           
             <Routing />{" "}
           </div>
         )}

@@ -40,15 +40,24 @@ function CourseDetailedView() {
   const [width, setWidth] = useState(window.innerWidth);
   const builder = imageUrlBuilder(sanityClient);
   const { userData, darkThemeActive } = useContext(UserContext);
+  console.log("🚀 ~ CourseDetailedView ~ userData:", userData);
 
   const id = userData?.user._id;
 
   // get the course overview data from mongodb for animated user data display
   const { data } = useGetEnrolledCourseDataQuery({ courseName, id });
 
+  const courseObj = userData?.user.enrolledCourses.find(
+    (course) => course.courseName === courseName
+  );
+
+  const courseId = courseObj?._id;
+  console.log("🚀 ~ CourseDetailedView ~ courseId:", courseId);
+
   useEffect(() => {
     const addCourse = async () => {
-      const course = { subject, courseName, id };
+      const course = { subject, courseName, id, courseId };
+
       try {
         const buttonContent = await addEnrolledCourse(course);
         setButtonContent((val) => "Start...");
@@ -58,7 +67,7 @@ function CourseDetailedView() {
     };
 
     if (addCourseBtnClicked) {
-      addCourse();
+      const result = addCourse({ subject, courseName, id, courseId });
     }
   }, [addCourseBtnClicked]);
 
@@ -80,6 +89,8 @@ function CourseDetailedView() {
   const completedBlocks = blocksCompleted?.filter((block) => {
     return block.courseName === courseName;
   });
+
+  console.log("🚀  course detailed view ~ completedBlocks:", completedBlocks);
 
   const blocksRemaining = blocks?.filter((block) => {
     return !completedBlocks.some((obj2) => obj2.blockName === block.blockName);
@@ -234,14 +245,7 @@ function CourseDetailedView() {
         <Wrapper>
           <Header darkThemeActive={darkThemeActive}>
             <HeaderContent>
-              <div
-                style={{
-                  padding: "20px",
-                  color: darkThemeActive
-                    ? ThemeStyles.lightThemePrimaryFrontColor
-                    : ThemeStyles.darkThemePrimaryFontColor,
-                }}
-              >
+              <div style={{ padding: "20px" }}>
                 {subject} : {courseName}
                 <div style={{ height: "20px" }}></div>
                 <AnimatedPercentageScore
@@ -265,9 +269,7 @@ function CourseDetailedView() {
                 darkThemeActive={darkThemeActive}
               >
                 {" "}
-                <AllTimeQuestionsAnsweredBox
-                  data={data.courseData?.XPForCurrentCourse}
-                />
+                <AllTimeQuestionsAnsweredBox data={data.courseData} />
               </Box>
               <Box
                 style={{ marginLeft: "4px" }}
