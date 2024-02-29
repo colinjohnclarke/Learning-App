@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import styled from "styled-components";
 import DashboardHeader from "../Dashboard/DashboardHeader";
 import { ThemeStyles } from "../../styles/ThemeStyles";
@@ -9,7 +9,11 @@ import NavigationBarMobile from "../../components/Navigation/NavigationBarMobile
 import Settings from "./Settings";
 
 function Profile() {
-  const { darkThemeActive } = useContext(UserContext);
+  const { darkThemeActive, setSelectedNav } = useContext(UserContext);
+
+  useEffect(() => {
+    setSelectedNav((prevState) => ({ ["Profile"]: "true" }));
+  }, []);
   return (
     <Wrapper darkThemeActive={darkThemeActive}>
       <DashboardHeader />

@@ -9,10 +9,10 @@ import AnimatedPercentageScore from "../Dashboard/AnimatedPercentageScore";
 import sanityClient from "../../createclient";
 import imageUrlBuilder from "@sanity/image-url";
 import { ThemeStyles } from "../../styles/ThemeStyles";
+import { fontSize } from "@mui/system";
+import { DiRubyRough } from "react-icons/di";
 
 function CourseBlockBreakdown({ data, completedBlocks, blocksRemaining }) {
-  console.log("🚀 ~ CourseBlockBreakdown ~ completedBlocks:", completedBlocks);
-  console.log("🚀 ~ CourseBlockBreakdown ~ data:", data);
   const builder = imageUrlBuilder(sanityClient);
 
   const { darkThemeActive } = useContext(UserContext);
@@ -20,12 +20,17 @@ function CourseBlockBreakdown({ data, completedBlocks, blocksRemaining }) {
   const imgurlFor = (source) => {
     return builder.image(source);
   };
-
+  // the data below is from the list of blocks stored in sanity making up a "course"
   const allBlocksinCourse = data?.map((block, index) => {
+    // map through each block in 'completed blocks array from db and return details
     const findBlock = completedBlocks?.find((subBlock) => {
-      return subBlock.blockName === block.blockName;
+      return (
+        subBlock.blockName === block.blockName &&
+        subBlock.subject === block.subject
+      );
     });
     console.log("🚀 ~ findBlock ~ findBlock:", findBlock);
+
     const content = block.coverImage ? (
       <img
         alt=""
@@ -55,18 +60,43 @@ function CourseBlockBreakdown({ data, completedBlocks, blocksRemaining }) {
         to={`/courses/${block.subject}/${block.courseName}/${block.blockName}`}
       >
         <Box darkThemeActive={darkThemeActive}>
-          {" "}
-          <Text style={{ fontSize: "12px", fontWeight: "500" }}>
+          <Text
+            style={{
+              fontSize: "13px",
+              listStyle: "none",
+              paddingLeft: "10px",
+              fontWeight: "600",
+            }}
+          >
             Part&nbsp; {index + 1}) &nbsp;{block.blockName}
           </Text>
-          {findBlock ? (
-            <AnimatedPercentageScore
-              color="rgb(0, 240, 245)"
-              percentage={findBlock?.PercentageScores}
-            />
-          ) : (
-            <></>
+
+          {findBlock && (
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <p style={{ fontSize: "12px", fontWeight: "600" }}> Top Score:</p>
+              <AnimatedPercentageScore
+                color="rgb(0, 240, 245)"
+                percentage={findBlock?.percentageScores}
+              />
+
+              <ShadedCard>
+                {" "}
+                <p
+                  style={{
+                    color: "white",
+                    margin: "4px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  {" "}
+                  <DiRubyRough size={20} fill="rgb(138,43,226)" />
+                  {findBlock?.XPScored}
+                </p>
+              </ShadedCard>
+            </div>
           )}
+
           <Image>{content}</Image>
         </Box>
       </Link>
@@ -110,40 +140,39 @@ const Text = styled.p`
 `;
 
 const Box = styled.a`
-  height: 100%;
+  position: relative;
+  height: 60px;
   width: 100%;
   min-width: 290px;
-  //   padding: 4px;
-
+  // padding: 4px;
+  margin: 4px;
   border-radius: 5px;
   text-decoration: none;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-
-  background-color: rgb(255, 255, 255);
-
-  &:hover {
-    box-shadow: rgb(0, 255, 255) 0px 0px 2px 1px,
-      rgb(39, 106, 245, 0.7) 2px 2px 2px 1px;
+  strong {
+    color: ${(props) =>
+      props.darkThemeActive
+        ? ThemeStyles.lightThemePrimaryFrontColor
+        : ThemeStyles.darkThemePrimaryFontColor};
   }
+
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? "white"
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
 
   box-shadow: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemeMainBoxShadow
       : ThemeStyles.darkThemeMainBoxShadow};
 
-  background-color: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemePrimaryBackgroundColor
-      : ThemeStyles.darkThemePrimaryBackgroundColor};
-
-  p {
-    color: ${(props) =>
-      props.darkThemeActive
-        ? ThemeStyles.lightThemePrimaryFrontColor
-        : ThemeStyles.darkThemePrimaryFontColor};
+  &:hover {
+    box-shadow: rgb(0, 255, 255) 0px 0px 2px 1px,
+      rgb(39, 106, 245, 0.7) 2px 2px 2px 1px;
+    background-color: rgb(39, 106, 245, 0.01);
   }
 `;
 
@@ -175,4 +204,43 @@ const OverView = styled.div`
   // );
   margin-bottom: 10px;
   margin-top: 10px;
+`;
+
+const ShadedCard = styled.p`
+  height: 100%;
+  width: 33.3%;
+  border-radius: 5px;
+  max-width: 100px;
+  display: flex;
+  align-items: end;
+  justify-content: end;
+  font-size: 10px;
+  clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 25% 100%, 0% 50%);
+  background: linear-gradient(
+    to bottom right,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 1)
+  );
+  /* Fallback for older browsers */
+  background: -webkit-linear-gradient(
+    top left,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 1)
+  );
+  background: -moz-linear-gradient(
+    top left,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 1)
+  );
+  background: -o-linear-gradient(top left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+  background: linear-gradient(
+    to bottom right,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 1)
+  );
+  opacity: 1;
+  color: white;
+  position: absolute;
+  right: 0px;
+  z-index: 22;
 `;

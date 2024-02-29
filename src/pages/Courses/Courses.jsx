@@ -9,22 +9,19 @@ import { ThemeStyles } from "../../styles/ThemeStyles";
 import EnrollForCourse from "./EnrollForCourse";
 import HeaderColoredHightlight from "./HeaderColoredHightlight";
 import NavigationBarMobile from "../../components/Navigation/NavigationBarMobile";
-import FetchCoursesFromSanity from "./FetchCoursesFromSanity";
 
 function Courses() {
-  const { darkThemeActive } = useContext(UserContext);
+  const { darkThemeActive, setSelectedNav } = useContext(UserContext);
 
   const [selectStyle, setSelectStyle] = useState({
     position: "relative",
     left: "0%",
   });
+  useEffect(() => {
+    setSelectedNav((prevState) => ({ ["Courses"]: "true" }));
+  }, []);
 
   const [selection, setSelection] = useState("recentCourses");
-
-  // const [addEnrolledCourse] = useAddEnrolledCourseMutation();
-  // const { data } = useGetAllEnrolledCoursesDataQuery(userData?.user._id);
-
-  const allCourses = FetchCoursesFromSanity();
 
   const selectClickHandler = (selection) => {
     setSelection(selection);
@@ -55,8 +52,6 @@ function Courses() {
 
   return (
     <Wrapper darkThemeActive={darkThemeActive}>
-      {/* <CourseFilter /> */}
-
       <Padding />
 
       <SelectionDiv>
@@ -89,31 +84,7 @@ function Courses() {
 
         {selection === "enroll" && <EnrollForCourse />}
 
-        {selection === "allCoursesAndBlocks" && (
-          <div
-            style={{
-              width: "100%",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <HeaderColoredHightlight content={"All courses"} />
-            <p style={{ fontWeight: "500" }}> All Courses </p>
-            <AllCourses />
-
-            <div
-              style={{
-                fontWeight: "500",
-                display: "flex",
-                flexDirection: "column",
-                width: "100%",
-                height: "auto",
-              }}
-            ></div>
-          </div>
-        )}
+        {selection === "allCoursesAndBlocks" && <AllCourses />}
       </Main>
       <NavigationBarMobile />
     </Wrapper>
@@ -124,7 +95,7 @@ export default Courses;
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;

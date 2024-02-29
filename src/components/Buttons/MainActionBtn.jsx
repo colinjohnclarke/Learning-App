@@ -4,6 +4,7 @@ import { device } from "../../styles/breakpoints";
 import { UserContext } from "../../App";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 
+
 function MainActionBtn({ ...atributes }) {
   const { darkThemeActive } = useContext(UserContext);
 
@@ -33,6 +34,7 @@ const Btn = styled.button`
 
   box-shadow: rgb(0, 255, 255) 0px 0px 2px 1px,
     rgb(39, 106, 245, 0.7) 2px 2px 2px 1px;
+    
   color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryFrontColor

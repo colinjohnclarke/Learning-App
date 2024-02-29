@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import FetchBlocksfromSanity from "./FetchBlocksFromSanity";
@@ -7,29 +8,36 @@ import DashboardHeader from "../Dashboard/DashboardHeader";
 import sanityClient from "../../createclient";
 import imageUrlBuilder from "@sanity/image-url";
 import { device } from "../../styles/breakpoints";
-import AllTimeLearningTimeBox from "../Dashboard/Scores/AllTimeLearningTimeBox";
-import AllTimeQuestionsAnsweredBox from "../Dashboard/Scores/AllTimeQuestionsAnsweredBox";
-import AllTimeXPBox from "../Dashboard/Scores/AllTimeXPBox";
 import AnimatedPercentageScore from "../Dashboard/AnimatedPercentageScore";
 import { IoChevronBack } from "react-icons/io5";
 import SearchCourse from "../../components/Search/SearchCourse";
 import LeaderBoard from "../Dashboard/LeaderBoard/LeaderBoard";
 import MainActionBtn from "../../components/Buttons/MainActionBtn";
+import Loader from "../../components/Loader";
+import { VscDebugStart } from "react-icons/vsc";
+import ContinueBtn from "../../components/Buttons/ContinueBtn";
+import ConfettiDashboard from "../../components/Effects/ConfettiDashboard";
+import AnimatedSuccessIcon from "../../assets/animations/AnimatedSuccessIcon";
+
 import {
   useGetEnrolledCourseDataQuery,
   useGetAllEnrolledCoursesDataQuery,
   useAddEnrolledCourseMutation,
   useDeleteEnrolledCourse,
 } from "../../features/api/UserData/enrolledCourseDataSlice";
-
-import GridLoader from "react-spinners/GridLoader";
+import {
+  useGetUserByEmailQuery,
+  useCreateUserMutation,
+} from "../../features/api/UserData/userDataSlice";
+import NavigationBarMobile from "../../components/Navigation/NavigationBarMobile";
+import CourseUserData from "./CourseUserData";
 
 import { ThemeStyles } from "../../styles/ThemeStyles";
 
 import { UserContext } from "../../App";
-import ContinueBtn from "../../components/Buttons/ContinueBtn";
 
 function CourseDetailedView() {
+  const { isAuthenticated, user } = useAuth0();
   const [breakdownDisplayed, setBreakdownIsDisplayed] = useState(true);
   const { subject, courseName } = useParams();
   const [buttonContent, setButtonContent] = useState("Start Learning");
@@ -40,26 +48,33 @@ function CourseDetailedView() {
   const [width, setWidth] = useState(window.innerWidth);
   const builder = imageUrlBuilder(sanityClient);
   const { userData, darkThemeActive } = useContext(UserContext);
-  console.log("🚀 ~ CourseDetailedView ~ userData:", userData);
+
+  const { data, refetch } = useGetUserByEmailQuery(user?.email);
+  console.log("🚀 ~ CourseDetailedView ~ data:", data);
 
   const id = userData?.user._id;
-
-  // get the course overview data from mongodb for animated user data display
-  const { data } = useGetEnrolledCourseDataQuery({ courseName, id });
 
   const courseObj = userData?.user.enrolledCourses.find(
     (course) => course.courseName === courseName
   );
 
   const courseId = courseObj?._id;
-  console.log("🚀 ~ CourseDetailedView ~ courseId:", courseId);
 
   useEffect(() => {
     const addCourse = async () => {
       const course = { subject, courseName, id, courseId };
 
       try {
-        const buttonContent = await addEnrolledCourse(course);
+        const result = await addEnrolledCourse(course)
+          .then((result) => {
+            console.log("🚀 ~ ~ result:", result);
+          })
+          .catch((error) => {
+            console.log("🔥 An error occurred:", error);
+          });
+
+        refetch();
+        // setUserData(result);
         setButtonContent((val) => "Start...");
       } catch (error) {
         console.log(error);
@@ -67,7 +82,7 @@ function CourseDetailedView() {
     };
 
     if (addCourseBtnClicked) {
-      const result = addCourse({ subject, courseName, id, courseId });
+      addCourse();
     }
   }, [addCourseBtnClicked]);
 
@@ -137,28 +152,47 @@ function CourseDetailedView() {
             fontSize: "1.2rem",
           }}
         >
-          Not started yet!
+          Not started
         </h2>
         {!addCourseBtnClicked ? (
-          <MainActionBtn
+          <ContinueBtn
             onClick={() => {
               setAddCourseBtnClicked((val) => true);
             }}
-            style={{ width: "200px" }}
+            style={{
+              // height: "50px",
+              width: "200px",
+              // display: "flex",
+              // alignItems: "center",
+              // backgroundColor: "rgb(0,230,240)",
+              // justifyContent: "space-between",
+              // fontSize: "15px",
+              // color: "white",
+            }}
           >
-            <p style={{ fontSize: "14px" }}>{buttonContent}</p>
-          </MainActionBtn>
+            {buttonContent}
+            {/* <VscDebugStart size={30} fill={"white"} /> */}
+          </ContinueBtn>
         ) : (
-          <MainActionBtn
+          <ContinueBtn
             onClick={() => {
               navigate(
                 `/courses/${subject}/${courseName}/${blocks[0].blockName}`
               );
             }}
-            style={{ width: "200px" }}
+            style={{
+              // height: "50px",
+              width: "200px",
+              // display: "flex",
+              // alignItems: "center",
+              // justifyContent: "space-between",
+              // fontSize: "15px",
+              // backgroundColor: "rgb(0,230,240)",
+            }}
           >
-            <p style={{ fontSize: "14px" }}>{buttonContent}</p>
-          </MainActionBtn>
+            {buttonContent}
+            {/* <VscDebugStart size={30} fill={"white"} /> */}
+          </ContinueBtn>
         )}
       </div>
     );
@@ -195,43 +229,64 @@ function CourseDetailedView() {
           </p>
         </div>
 
-        <MainActionBtn
+        <ContinueBtn
           onClick={() => {
             navigate(
               `/courses/${subject}/${courseName}/${blocksRemaining[0].blockName}`
             );
           }}
           style={{
-            height: "50px",
-            width: "200px",
-            display: "flex",
             alignItems: "center",
-            backgroundColor: "rgb(0,230,240)",
-            color: "white",
           }}
         >
           Continue!
-        </MainActionBtn>
+          {/* <VscDebugStart size={30} fill={"white"} /> */}
+        </ContinueBtn>
       </div>
     );
-  } else {
+  } else if (!blocksRemaining.length && blocksCompleted.length) {
     headerBannerContent = (
       <div
         style={{
           display: "flex",
-          justifyContent: "center",
+          flexDirection: "column",
+          justifyContent: "space-between",
           alignItems: "center",
-          flexDirection: "row",
         }}
       >
-        <h1>completed!! </h1>
+        <ConfettiDashboard></ConfettiDashboard>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-around",
+            alignItems: "center",
+            flexDirection: "row",
+            height: "150px",
+            borderRadius: "5px",
+            position: "relative",
+          }}
+        >
+          <h1
+            style={{
+              fontWeight: "500",
+              color: "rgb(0,250, 250)",
+              padding: "20px",
+            }}
+          >
+            Completed{" "}
+          </h1>
+          <AnimatedSuccessIcon />
+        </div>
       </div>
     );
   }
 
-  return data ? (
+  return !data ? (
+    <Loader />
+  ) : (
     <Main darkThemeActive={darkThemeActive}>
       <DashboardHeader></DashboardHeader>
+
       <div
         style={{
           maxWidth: "900px",
@@ -245,7 +300,7 @@ function CourseDetailedView() {
         <Wrapper>
           <Header darkThemeActive={darkThemeActive}>
             <HeaderContent>
-              <div style={{ padding: "20px" }}>
+              <div style={{ padding: "20px", color: "white" }}>
                 {subject} : {courseName}
                 <div style={{ height: "20px" }}></div>
                 <AnimatedPercentageScore
@@ -255,32 +310,8 @@ function CourseDetailedView() {
                 />
               </div>
             </HeaderContent>
-            <UserdataWrapper>
-              <Box
-                style={{ marginRight: "4px" }}
-                darkThemeActive={darkThemeActive}
-              >
-                <AllTimeLearningTimeBox
-                  data={data?.courseData?.timeElapsedForCurrentCourse || 0}
-                />
-              </Box>
-              <Box
-                style={{ marginRight: "4px", marginLeft: "4px" }}
-                darkThemeActive={darkThemeActive}
-              >
-                {" "}
-                <AllTimeQuestionsAnsweredBox data={data.courseData} />
-              </Box>
-              <Box
-                style={{ marginLeft: "4px" }}
-                darkThemeActive={darkThemeActive}
-              >
-                {" "}
-                <AllTimeXPBox
-                  data={data?.courseData?.XPForCurrentCourse || 0}
-                />
-              </Box>
-            </UserdataWrapper>
+
+            <CourseUserData data={data} />
 
             <div style={{ height: "10px" }}></div>
             <NextSection darkThemeActive={darkThemeActive}>
@@ -304,16 +335,8 @@ function CourseDetailedView() {
         <div style={{ height: "20px" }}></div>
         <LeaderBoard />
       </div>
+      <NavigationBarMobile />
     </Main>
-  ) : (
-    <GridLoader
-      color={"rgb(0, 250, 250, 0.5)"}
-      // loading={loading}
-      // cssOverride={override}
-      size={25}
-      aria-label="Loading Spinner"
-      data-testid="loader"
-    />
   );
 }
 
@@ -325,17 +348,17 @@ const HeaderContent = styled.h1`
   align-items: center;
   justify-content: center;
   transition: 0.3s;
-  // background: linear-gradient(
-  //   -225deg,
-  //   rgb(115, 46, 255, 1) 0%,
-  //   rgba(0, 200, 200, 1) 100%
-  // );
-  background-color: ;
-
+  background: linear-gradient(
+    225deg,
+    rgba(0, 200, 200, 0.4) 0%,
+    rgba(0, 200, 200, 0.7) 20%,
+    rgba(0, 200, 200, 1) 60%,
+    rgba(39, 106, 245, 0.7) 100%
+  );
   border-radius: 5px;
 
   width: 100%;
-  padding: 10px;
+
   font-size: 20px;
   font-weight: 400;
 
@@ -398,92 +421,8 @@ margin-top: 10px;
   transition: 0.3s;
   border-radius: 5px;
   width: 100%; 
-
-
-
-
-
-
- 
-
-
   @media ${device.laptop} {
     marginTop: 80px
   }
 
-
-
-`;
-
-const Box = styled.div`
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  background-color: white;
-  border-radius: 5px;
-  background-color: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemePrimaryBackgroundColor
-      : ThemeStyles.darkThemePrimaryBackgroundColor};
-
-  box-shadow: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemeMainBoxShadow
-      : ThemeStyles.darkThemeMainBoxShadow};
-
-  p {
-    color: ${(props) =>
-      props.darkThemeActive
-        ? ThemeStyles.lightThemePrimaryFrontColor
-        : ThemeStyles.darkThemePrimaryFontColor};
-  }
-`;
-
-const UserdataWrapper = styled.div`
-  // padding-top: 10px;
-  width: 100%;
-  height: 70px;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const Button = styled.button`
-  border-radius: 100%;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  justify-content: end;
-  align-items: center;
-  z-index: 20;
-  border: none;
-  background: linear-gradient(
-    225deg,
-    rgba(0, 200, 200, 1) 0%,
-
-    rgba(39, 106, 245, 1) 100%
-  );
-  box-shadow: 0px 0px 20px 4px rgba(174, 196, 216, 0.85);
-
-  &:hover {
-    box-shadow: rgb(0, 255, 255) 0px 0px 2px 1px,
-      rgb(39, 106, 245, 0.7) 2px 2px 2px 1px;
-    background-color: rgb(39, 106, 245, 0.05);
-  }
-
-  &:active {
-    transform: translateY(3px);
-    background-color: rgba(0, 240, 240, 1);
-    box-shadow: none;
-  }
-  display: none;
-
-  @media ${device.tablet} {
-    display: flex;
-  }
 `;

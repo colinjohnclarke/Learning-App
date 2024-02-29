@@ -38,38 +38,62 @@ function Main() {
   const { userData, darkThemeActive } = useContext(UserContext);
 
   const [blockData, setBlockData] = useState([]);
-  console.log("🚀 ~ Main ~ blockData:", blockData);
+
   const [showPointsSummary, setShowPointsSummary] = useState(false);
   const [itemDisplayed, setItemDisplayed] = useState([]);
   const [blockDataSubmittedtoDB, setBlockDataSubmittedtoDB] = useState(false);
   const dispatch = useDispatch();
   /// use params from search function
   const { subject, courseName, blockName } = useParams();
+
   const currentblockprogressdata = useSelector(
     (state) => state.currentblockprogressdata
   );
   const startTimeRef = useRef(Date.now());
+  FetchBlockDataFromSanity(subject, blockName, setBlockData);
+
+  //ordering items
+
+  // remove textblock data from block data obj as not ordered
 
   // fetch data based on subject and blockname from
-  FetchBlockDataFromSanity(subject, blockName, setBlockData);
 
   console.log("🚀 ~ Main ~ blockData:", blockData);
 
   // convert OBJ to Array so can be used ordered into position
 
   const convertedArrFromObj = objectToArray(blockData);
-  console.log("🚀 ~ Main ~ convertedArrFromObj:", convertedArrFromObj);
+  // console.log("🚀 ~ Main ~ convertedArrFromObj:", convertedArrFromObj);
+
+  const removeItemsNamesArr = [
+    "textblock1",
+    "textblock2",
+    "textblock3",
+    "textblock4",
+    "textblock5",
+    "coverImage",
+    "name",
+    "problem_keywords",
+    "tags",
+  ];
+
+  const removedNonQuizElementsList = convertedArrFromObj?.filter((item) => {
+    return !removeItemsNamesArr.includes(item.key);
+  });
 
   // Remove empty items from array
 
-  const blockItemsWithoutBlanks =
-    RemoveBlockItemsWithoutData(convertedArrFromObj);
+  const blockItemsWithoutBlanks = RemoveBlockItemsWithoutData(
+    removedNonQuizElementsList
+  );
 
-  console.log("🚀 ~ Main ~ blockItemsWithoutBlanks:", blockItemsWithoutBlanks);
+  // console.log("🚀 ~ Main ~ blockItemsWithoutBlanks:", blockItemsWithoutBlanks);
 
   const filterBlockDataNullValues = FilterBlockDataNullValues(
     blockItemsWithoutBlanks
   );
+
+  // console.log("filterBlockDataNullValues", filterBlockDataNullValues);
 
   const arrayOfItemsWithPosition = CreateArrayOfItemsInPosition(
     filterBlockDataNullValues
@@ -99,6 +123,7 @@ function Main() {
     component: item,
     displayed: itemDisplayed[index],
   }));
+  // console.log("🚀 ~ displayedItems ~ displayedItems:", displayedItems);
 
   const itemRefs = [
     useRef(null),
@@ -203,7 +228,10 @@ function Main() {
                     onClick={() => {
                       handleContinueBtnClicked(index + 1);
                     }}
-                  />
+                  >
+                    {" "}
+                    Continue
+                  </ContinueBtn>
                 )}
 
               {index === arrayOfAflComponents.length - 1 && (
@@ -297,6 +325,7 @@ function Main() {
             updateCompletionStatus: showPointsSummary,
             updateQuestionsAttempted:
               currentblockprogressdata.questionsAttempted,
+
             updatePercentageScore:
               (currentblockprogressdata.userScore /
                 currentblockprogressdata.pointsAvailable) *
@@ -328,11 +357,9 @@ function Main() {
     }
   }, [blockDataSubmittedtoDB]);
 
- 
-
   return (
     <Wrapper darkThemeActive={darkThemeActive}>
-      <Header/>
+      <Header />
       {blockData.length === 0 && <Loader></Loader>}
       {renderedItems}
       {showPointsSummary && <PostBlockPointsReveal />}
@@ -351,8 +378,6 @@ const Wrapper = styled.div`
       ? ThemeStyles.lightThemePrimaryBackgroundColor
       : ThemeStyles.darkThemePrimaryBackgroundColor};
 `;
-
-
 
 const Container = styled.div`
   display: flex;

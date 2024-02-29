@@ -10,15 +10,15 @@ import imageUrlBuilder from "@sanity/image-url";
 import { useGetAllEnrolledCoursesDataQuery } from "../../features/api/UserData/enrolledCourseDataSlice";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import HeaderColoredHightlight from "./HeaderColoredHightlight";
+import ContinueBtn from "../../components/Buttons/ContinueBtn";
 
 function RecentCourses() {
   const courses = FetchBlocksfromSanity();
   // console.log("🚀 ~ RecentCourses ~ courses:", courses);
   const builder = imageUrlBuilder(sanityClient);
-  const { userData, darkThemeActive } = useContext(UserContext);
+  const { userData, darkThemeActive, selectedNav } = useContext(UserContext);
 
   const { data } = useGetAllEnrolledCoursesDataQuery(userData?.user._id);
-  // console.log("🚀 ~ RecentCourses ~ data:", data); // no subject saved
 
   const imgurlFor = (source) => {
     return builder.image(source);
@@ -156,23 +156,22 @@ function RecentCourses() {
     >
       {/* <PaddingBox /> */}
       <HeaderColoredHightlight content={"Your recent Courses"} />
-      <Grid>
-        {list}
-        <Box
-          darkThemeActive={darkThemeActive}
-          style={{
-            height: "80px",
-            width: "100%",
-            minWidth: "290px",
-            marginTop: "12px",
-            borderRadius: "5px",
-          }}
-        >
-          <Button>
-            <Link to={"/courses"}> + Enroll for course </Link>
-          </Button>
-        </Box>
-      </Grid>
+      <Grid>{list}</Grid>
+      {selectedNav.Dashboard && (
+        <ContinueBtn style={{ color: "white" }}>
+          <Link
+            style={{
+              textDecoration: "none",
+              color: "white",
+              fontWeight: "500",
+            }}
+            to={"/courses"}
+          >
+            {" "}
+            Enroll For Course{" "}
+          </Link>
+        </ContinueBtn>
+      )}
     </Main>
   );
 }
@@ -283,31 +282,5 @@ const Image = styled.div`
   clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 25% 100%, 0% 50%);
 
   @media ${device.mobileL} {
-  }
-`;
-
-const Button = styled.div`
-  border: 2px dotted;
-  border-radius: 5px;
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-
-  a {
-    transition: 0.1s;
-    text-decoration: none;
-  }
-
-  &:hover {
-    a {
-      font-size: 1.2rem;
-      transition: 0.1s;
-      color: rgba(0, 240, 240);
-      text-decoration: none;
-    }
   }
 `;

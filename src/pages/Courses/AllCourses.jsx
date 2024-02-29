@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import { UserContext } from "../../App";
 import { device } from "../../styles/breakpoints";
+import HeaderColoredHightlight from "./HeaderColoredHightlight";
 
 function AllCourses() {
   const { darkThemeActive } = useContext(UserContext);
@@ -96,7 +97,12 @@ function AllCourses() {
     );
   });
 
-  return courses;
+  return (
+    <Wrapper>
+      <HeaderColoredHightlight content={"All courses"} />
+      {courses}
+    </Wrapper>
+  );
 }
 
 export default AllCourses;
@@ -108,6 +114,7 @@ const Wrapper = styled.div`
   align-items: center;
   width: 100%;
   transition: 1s;
+  height: 100%;
 `;
 const Box = styled.a`
   position: relative;

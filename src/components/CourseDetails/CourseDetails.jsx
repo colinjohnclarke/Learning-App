@@ -26,7 +26,7 @@ function CourseDetails({
         height: "100px",
         width: "100px",
       }}
-      src={imgurlFor(data.asset._ref)}
+      src={imgurlFor(data?.asset._ref)}
     />
   ) : null;
 

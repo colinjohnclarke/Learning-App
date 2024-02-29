@@ -19,7 +19,8 @@ import { ThemeStyles } from "../../styles/ThemeStyles";
 import ConfettiDashboard from "../../components/Effects/ConfettiDashboard";
 
 function Dashboard() {
-  const { userData, darkThemeActive } = useContext(UserContext);
+  const { userData, darkThemeActive, setSelectedNav } = useContext(UserContext);
+
   console.log("🚀 ~ Dashboard ~ userData:", userData);
 
   const user = useAuth0();
@@ -30,6 +31,9 @@ function Dashboard() {
 
   const [dashBoardViewed, setDashBoardViewed] = useState(false);
 
+  useEffect(() => {
+    setSelectedNav((prevState) => ({ ["Dashboard"]: "true" }));
+  }, []);
   useEffect(() => {
     setDashBoardViewed((val) => !val);
   }, [userData]);

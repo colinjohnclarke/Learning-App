@@ -10,12 +10,17 @@ function ContinueBtn({ children, ...atributes }) {
   const { darkThemeActive } = useContext(UserContext);
   return (
     <Btn darkThemeActive={darkThemeActive} type="button" {...atributes}>
-      Continue
+      {children}
     </Btn>
   );
 }
 
 export default ContinueBtn;
+
+// background-color: ${(props) =>
+//   props.darkThemeActive
+//     ? ThemeStyles.lightThemePrimaryBackgroundColor
+//     : ThemeStyles.darkThemePrimaryBackgroundColor};
 
 const Btn = styled.button`
   display: flex;
@@ -27,10 +32,8 @@ const Btn = styled.button`
   height: 50px;
   width: 350px;
   border-radius: 5px;
-  background-color: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemePrimaryBackgroundColor
-      : ThemeStyles.darkThemePrimaryBackgroundColor};
+  background-color: rgba(0, 240, 245, 1);
+  color: white;
 
   box-shadow: ${(props) =>
     props.darkThemeActive
@@ -38,25 +41,13 @@ const Btn = styled.button`
       : ThemeStyles.darkThemeMainBoxShadow};
 
   transition: 0.3s;
-
   border: 2px solid rgba(0, 240, 240, 0.8);
-  color: rgba(0, 240, 240, 0.8);
   font-weight: 400;
 
   &:hover {
     transform: translateY(-2px);
-    background-color: rgba(0, 240, 245, 1);
+    background-color: rgba(0, 250, 250, 1);
     color: white;
-  }
-
-  &:active {
-    transform: translateY(3px);
-    background-color: rgba(0, 240, 240, 1);
-    box-shadow: none;
-  }
-
-  p {
-    font-size: 15px;
   }
 
   @media ${device.tablet} {

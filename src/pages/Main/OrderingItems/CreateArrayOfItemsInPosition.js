@@ -1,14 +1,14 @@
 const CreateArrayOfItemsInPosition = (filterBlockDataNullValues) => {
-  filterBlockDataNullValues.flatMap((item) => ({
+  const arrOfObj = filterBlockDataNullValues.flatMap((item) => ({
     type: item.type,
     position: item.position.map((item) => item.positionVal),
   }));
 
-  const flat = filterBlockDataNullValues
+  const flat = arrOfObj
     .filter((item) => item.position.some((item) => item && item.length !== 0))
     .map((item) => ({ type: item.type, position: item.position.flat() }));
 
-  const testData = flat
+  const data = flat
     .flatMap((item) => {
       let type = item.type;
 
@@ -26,6 +26,6 @@ const CreateArrayOfItemsInPosition = (filterBlockDataNullValues) => {
       return a.position - b.position;
     });
 
-  return testData;
+  return data;
 };
 export default CreateArrayOfItemsInPosition;
