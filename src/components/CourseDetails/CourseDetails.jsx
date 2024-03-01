@@ -67,7 +67,7 @@ const Details = styled.div`
   margin-bottom: 4px;
   padding-top: 50px;
   min-height: 100px;
-  width: 100%;
+  width: 98%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -127,7 +127,7 @@ const Image = styled.div`
 `;
 
 const Box = styled.div`
-  width: 50%;
+  // width: 50%;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -137,6 +137,6 @@ const Box = styled.div`
   padding-left: 10px;
 
   @media ${device.mobileL} {
-    padding-left: 40px;
+    padding-left: 20px;
   }
 `;

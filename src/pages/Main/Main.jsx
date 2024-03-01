@@ -10,9 +10,7 @@ import { updateProgressPercentage } from "../../features/ProgressBar/ProgressBar
 import PostBlockPointsReveal from "../../components/Data/PostBlockPointsReveal/PostBlockPointsReveal";
 import Loader from "../../components/Loader";
 import { ThemeStyles } from "../../styles/ThemeStyles";
-import objectToArray from "./ObjectToArray";
-import FilterBlockDataNullValues from "./OrderingItems/FilterBlockDataNullValues";
-import RemoveBlockItemsWithoutData from "./OrderingItems/RemoveBlockItemsWithoutData";
+
 import {
   updateBlockCompleted,
   resetUserScore,
@@ -30,82 +28,28 @@ import StartQuizBtn from "../../components/Buttons/StartQuizBtn";
 import { device } from "../../styles/breakpoints";
 import CourseDetails from "../../components/CourseDetails/CourseDetails";
 import FetchBlockDataFromSanity from "./FetchBlockDataFromSanity";
-import CreateArrayOfItemsInPosition from "./OrderingItems/CreateArrayOfItemsInPosition";
-import CreateArrayOfAflComponents from "./CreateArrayOfAflComponents";
 import Header from "../../components/Header/Header";
+
+import OrderItemsMain from "./OrderingItems/OrderItemsMain";
 
 function Main() {
   const { userData, darkThemeActive } = useContext(UserContext);
-
   const [blockData, setBlockData] = useState([]);
-
   const [showPointsSummary, setShowPointsSummary] = useState(false);
   const [itemDisplayed, setItemDisplayed] = useState([]);
   const [blockDataSubmittedtoDB, setBlockDataSubmittedtoDB] = useState(false);
   const dispatch = useDispatch();
   /// use params from search function
   const { subject, courseName, blockName } = useParams();
+  FetchBlockDataFromSanity(subject, blockName, setBlockData);
 
   const currentblockprogressdata = useSelector(
     (state) => state.currentblockprogressdata
   );
   const startTimeRef = useRef(Date.now());
-  FetchBlockDataFromSanity(subject, blockName, setBlockData);
-
-  //ordering items
-
-  // remove textblock data from block data obj as not ordered
-
-  // fetch data based on subject and blockname from
-
-  console.log("🚀 ~ Main ~ blockData:", blockData);
-
-  // convert OBJ to Array so can be used ordered into position
-
-  const convertedArrFromObj = objectToArray(blockData);
-  // console.log("🚀 ~ Main ~ convertedArrFromObj:", convertedArrFromObj);
-
-  const removeItemsNamesArr = [
-    "textblock1",
-    "textblock2",
-    "textblock3",
-    "textblock4",
-    "textblock5",
-    "coverImage",
-    "name",
-    "problem_keywords",
-    "tags",
-  ];
-
-  const removedNonQuizElementsList = convertedArrFromObj?.filter((item) => {
-    return !removeItemsNamesArr.includes(item.key);
-  });
-
-  // Remove empty items from array
-
-  const blockItemsWithoutBlanks = RemoveBlockItemsWithoutData(
-    removedNonQuizElementsList
-  );
-
-  // console.log("🚀 ~ Main ~ blockItemsWithoutBlanks:", blockItemsWithoutBlanks);
-
-  const filterBlockDataNullValues = FilterBlockDataNullValues(
-    blockItemsWithoutBlanks
-  );
-
-  // console.log("filterBlockDataNullValues", filterBlockDataNullValues);
-
-  const arrayOfItemsWithPosition = CreateArrayOfItemsInPosition(
-    filterBlockDataNullValues
-  );
-
-  // render AFL components based on type
-  const arrayOfAflComponents = CreateArrayOfAflComponents(
-    arrayOfItemsWithPosition,
-    blockData
-  );
 
   let itemDisplayedInitialState = null;
+  const arrayOfAflComponents = OrderItemsMain(blockData);
 
   if (arrayOfAflComponents) {
     itemDisplayedInitialState = arrayOfAflComponents.map((item) => false);
@@ -123,7 +67,6 @@ function Main() {
     component: item,
     displayed: itemDisplayed[index],
   }));
-  // console.log("🚀 ~ displayedItems ~ displayedItems:", displayedItems);
 
   const itemRefs = [
     useRef(null),
@@ -381,7 +324,6 @@ const Wrapper = styled.div`
 
 const Container = styled.div`
   display: flex;
-  // border: 1px solid red;
   border: none;
   flex-direction: column;
   justify-content: center;
@@ -396,7 +338,7 @@ const Container = styled.div`
     props.darkThemeActive
       ? ThemeStyles.lightThemeMainBoxShadow
       : ThemeStyles.darkThemeMainBoxShadow};
-  width: 100%;
+  width: 98%;
   scroll-padding: 120px;
   scroll-margin: 47px;
 

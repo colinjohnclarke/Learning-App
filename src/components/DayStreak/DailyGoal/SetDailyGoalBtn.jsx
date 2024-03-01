@@ -6,7 +6,7 @@ import { UserContext } from "../../../App";
 import SetDailyGoalModal from "./SetDailyGoalModal";
 import XPPointsScoredToday from "./XPPointsScoredToday";
 
-function SetDailyGoalBtn() {
+function SetDailyGoalBtn({ ...attributes }) {
   const { darkThemeActive, userData } = useContext(UserContext);
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -23,12 +23,15 @@ function SetDailyGoalBtn() {
         modalIsOpen={modalIsOpen}
         setModalIsOpen={setModalIsOpen}
       />
-      <Wrapper darkThemeActive={darkThemeActive}>
+      <Wrapper {...attributes} darkThemeActive={darkThemeActive}>
         <Inner>
           <div
             style={{
               fontSize: "13px",
               fontWeight: "500",
+              display: "flex",
+              justifyContent: "start",
+              alignItems: "center",
               color: darkThemeActive
                 ? ThemeStyles.lightThemePrimaryFrontColor
                 : ThemeStyles.darkThemePrimaryFontColor,
@@ -38,6 +41,9 @@ function SetDailyGoalBtn() {
           </div>
           <div
             style={{
+              display: "flex",
+              justifyContent: "start",
+              alignItems: "start",
               fontSize: "12px",
               color: darkThemeActive
                 ? ThemeStyles.lightThemePrimaryFrontColor

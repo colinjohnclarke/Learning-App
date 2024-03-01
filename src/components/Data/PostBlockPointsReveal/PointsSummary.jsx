@@ -7,16 +7,31 @@ import "animate.css";
 import { UserContext } from "../../../App";
 import { ThemeStyles } from "../../../styles/ThemeStyles";
 import ConfettiDashboard from "../../Effects/ConfettiDashboard";
+import AnimatedSuccessIcon from "../../../assets/animations/AnimatedSuccessIcon";
+import NativatetoDashBoard from "../../Buttons/NativatetoDashBoard";
+import SetDailyGoalBtn from "../../DayStreak/DailyGoal/SetDailyGoalBtn";
+import NavigateToCourseDetails from "../../Buttons/NavigateToCourseDetails";
 
 function PointsSummary() {
   const { darkThemeActive } = useContext(UserContext);
   return (
     <PointsReveal darkThemeActive={darkThemeActive}>
-      <ConfettiDashboard />
-      <PercentagePoints></PercentagePoints>
-      <BlockQuestionsCorrect></BlockQuestionsCorrect>
-      <ExperiencePoints></ExperiencePoints>
-      {/* <SetGoalBtn> Set Goal</SetGoalBtn> */}
+      <ConfettiDashboard style={{ zIndex: "200" }} />
+      <AnimatedSuccessIcon />
+
+      <div>
+        <PercentagePoints></PercentagePoints>
+        <BlockQuestionsCorrect></BlockQuestionsCorrect>
+        <ExperiencePoints></ExperiencePoints>
+      </div>
+
+      <div>
+        <NativatetoDashBoard></NativatetoDashBoard>
+        <div style={{ height: "20px" }}></div>
+        <NavigateToCourseDetails></NavigateToCourseDetails>
+      </div>
+
+      <SetDailyGoalBtn> </SetDailyGoalBtn>
     </PointsReveal>
   );
 }
@@ -29,7 +44,7 @@ const PointsReveal = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
 
   background-color: ${(props) =>

@@ -16,7 +16,7 @@ function Header() {
       <ProgressBar></ProgressBar>
 
       <SettingsBtnHeaderBar />
-     
+
       {/* <LogoutBtn></LogoutBtn>
 
       <div>hdjshjs</div> */}
@@ -34,7 +34,7 @@ const Wrapper = styled.div`
       ? ThemeStyles.lightThemePrimaryBackgroundColor
       : ThemeStyles.darkThemePrimaryBackgroundColor};
 
-  width: 100%;
+  width: 100vw;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -45,11 +45,6 @@ const Wrapper = styled.div`
       : ThemeStyles.darkThemeMainBoxShadow};
   position: fixed;
   z-index: 100;
-
-  
-
-
-
 
   @media ${device.tablet} {
     height: 60px;

@@ -33,8 +33,10 @@ function AnimatedBlockScore() {
   return (
     <Wrapper darkThemeActive={darkThemeActive}>
       <p style={{ fontWeight: "600", textSize: "1.3rem" }}>
-        {percentage > 25 && <p>Well done!</p>}
-        <p>You scored...</p>
+        {percentage > 25 && (
+          <p style={{ fontWeight: "600", textSize: "1.3rem" }}>Well done!</p>
+        )}
+        <p style={{ fontWeight: "600", textSize: "1.3rem" }}>You scored...</p>
       </p>
       <Outer>
         <Inner>

@@ -17,11 +17,6 @@ function ContinueBtn({ children, ...atributes }) {
 
 export default ContinueBtn;
 
-// background-color: ${(props) =>
-//   props.darkThemeActive
-//     ? ThemeStyles.lightThemePrimaryBackgroundColor
-//     : ThemeStyles.darkThemePrimaryBackgroundColor};
-
 const Btn = styled.button`
   display: flex;
   flex-direction: row;

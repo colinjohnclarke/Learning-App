@@ -1,4 +1,4 @@
-import React, {  useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import ContinueBtn from "../../Buttons/ContinueBtn";
@@ -38,7 +38,10 @@ function PostBlockPointsReveal() {
           setDisplaySummary((val) => true);
         }}
         style={{ position: "relative", zIndex: "300", top: "100px" }}
-      ></ContinueBtn>
+      >
+        {" "}
+        <p style={{ color: "white", fontWeight: "600" }}>Continue</p>{" "}
+      </ContinueBtn>
     </PercentageScoreRevealAnimate>
   );
 
@@ -53,7 +56,7 @@ function PostBlockPointsReveal() {
     >
       <PointsSummary></PointsSummary>
 
-      <NativatetoDashBoard></NativatetoDashBoard>
+ 
     </Summary>
   );
 

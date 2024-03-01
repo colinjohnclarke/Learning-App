@@ -60,5 +60,5 @@ export default React.memo(TextSlideShowWrapper);
 
 const Wrapper = styled.div`
   // padding: 40px;
-  width: 100%;
+  width: 98%;
 `;

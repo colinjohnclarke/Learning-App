@@ -62,10 +62,14 @@ function CourseBlockBreakdown({ data, completedBlocks, blocksRemaining }) {
         <Box darkThemeActive={darkThemeActive}>
           <Text
             style={{
-              fontSize: "13px",
+              fontSize: "11px",
               listStyle: "none",
               paddingLeft: "10px",
-              fontWeight: "600",
+              textAlign: "start",
+              fontWeight: "400",
+              // display: "flex",
+              // justifyContent: "center",
+              // alignItem: "start",
             }}
           >
             Part&nbsp; {index + 1}) &nbsp;{block.blockName}
@@ -73,7 +77,7 @@ function CourseBlockBreakdown({ data, completedBlocks, blocksRemaining }) {
 
           {findBlock && (
             <div style={{ display: "flex", alignItems: "center" }}>
-              <p style={{ fontSize: "12px", fontWeight: "600" }}> Top Score:</p>
+              <p style={{ fontSize: "11px", fontWeight: "600" }}> Top Score:</p>
               <AnimatedPercentageScore
                 color="rgb(0, 240, 245)"
                 percentage={findBlock?.percentageScores}

@@ -7,31 +7,47 @@ import { UserContext } from "../../App";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import { device } from "../../styles/breakpoints";
 
-function CourseUserData({ data }) {
+function CourseHeadlineUserData({ data, courseName, subject }) {
   const { darkThemeActive } = useContext(UserContext);
+
+  let time = 0;
+  let xp = 0;
+
+  const filterCourses = data?.user.quizScores.filter(
+    (quiz) => quiz.subject == subject && quiz.courseName === courseName
+  );
+
+  if (data) {
+    filterCourses.forEach((element) => {
+      time = time + element.timeElapsed;
+    });
+
+    filterCourses.forEach((element) => {
+      xp = xp + element.XPScored;
+    });
+  }
+
   return (
     <UserdataWrapper>
       <Box style={{ marginRight: "4px" }} darkThemeActive={darkThemeActive}>
-        <AllTimeLearningTimeBox
-          data={data?.courseData?.timeElapsedForCurrentCourse || 0}
-        />
+        <AllTimeLearningTimeBox data={data ? time : 0} />
       </Box>
       <Box
         style={{ marginRight: "4px", marginLeft: "4px" }}
         darkThemeActive={darkThemeActive}
       >
         {" "}
-        <AllTimeQuestionsAnsweredBox data={data.courseData} />
+        <AllTimeQuestionsAnsweredBox data={data ? xp / 10 : 0} />
       </Box>
       <Box style={{ marginLeft: "4px" }} darkThemeActive={darkThemeActive}>
         {" "}
-        <AllTimeXPBox data={data?.courseData?.XPForCurrentCourse || 0} />
+        <AllTimeXPBox data={data ? xp : 0} />
       </Box>
     </UserdataWrapper>
   );
 }
 
-export default CourseUserData;
+export default CourseHeadlineUserData;
 
 const Box = styled.div`
   height: 100%;

@@ -2,10 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import NextArrowBtn from "../Buttons/NextArrowBtn";
 import "animate.css";
-// import StartQuizBtn from "../Buttons/StartQuizBtn";
-// import SlideLocator from "./SlideLocator";
-
-// import { updateStartQuiz } from "../../features/CurrentBlockProgressData/currentblockprogressdata";
 import BlockText from "../../config/sanity/BlockText";
 
 function TextSection({
@@ -59,7 +55,7 @@ export default TextSection;
 
 const Wrapper = styled.section`
   padding-top: 5vh;
-  border-bottom: 0.5px solid grey;
+
   display: flex;
   flex-direction: column;
   overflow: hidden;

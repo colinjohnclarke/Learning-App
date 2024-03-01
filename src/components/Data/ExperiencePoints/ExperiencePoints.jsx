@@ -34,7 +34,7 @@ export default ExperiencePoints;
 
 const Wrapper = styled.div`
   height: 60px;
-  width: 250px;
+  width: 350px;
   border-radius: 5px;
   display: flex;
   align-items: center;

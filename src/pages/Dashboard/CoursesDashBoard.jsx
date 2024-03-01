@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
-import {  useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 import { device } from "../../styles/breakpoints";
 import CourseFilter from "./CourseFilter/CourseFilter";
-import CourseFilterBtn from "../../components/Buttons/CourseFilterBtn";
 import { CourseFilterContext } from "./CourseFilter/CourseFilterContext";
 import FetchBlocksfromSanity from "../Courses/FetchBlocksFromSanity";
 import Skeleton from "react-loading-skeleton";
@@ -12,33 +11,23 @@ import "react-loading-skeleton/dist/skeleton.css";
 import sanityClient from "../../createclient";
 import imageUrlBuilder from "@sanity/image-url";
 import RecentCourses from "../Courses/RecentCourses";
-
+import ContinueBtn from "../../components/Buttons/ContinueBtn";
+import { Link } from "react-router-dom";
 
 function CoursesDashBoard() {
-  const [seeAllCoursesDisplayed, setSeeAllCoursesDisplayed] = useState(false);
+  const [seeRecommenedCourses, setSeeRecommendedCourses] = useState(false);
   const [recentCoursesDisplayed, setRecentCoursesDisplayed] = useState(true);
   const [displayFilter, setDisplayFilter] = useState(false);
   const [dropDownClicked, setDropdownClicked] = useState(Array(6).fill(false));
 
-  // const user = useContext(UserContext);
-
-  // const blocksCompleted = userData?.user.blocksCompleted || undefined;
-
-  // const { data } = useGetAllEnrolledCoursesDataQuery(userData?.user._id);
-
-  // console.log(
-  //   "🚀 ~ file: CoursesDashBoard.jsx:35 ~ CoursesDashBoard ~ data999:",
-  //   data
-  // );
-
   const handleSchoolLeaderBoardClick = () => {
-    setSeeAllCoursesDisplayed((val) => !val);
+    setSeeRecommendedCourses((val) => !val);
     setRecentCoursesDisplayed((val) => !val);
   };
 
   const handleStudentLeaderBoardClick = () => {
     setRecentCoursesDisplayed((val) => !val);
-    setSeeAllCoursesDisplayed((val) => !val);
+    setSeeRecommendedCourses((val) => !val);
   };
 
   const builder = imageUrlBuilder(sanityClient);
@@ -73,281 +62,57 @@ function CoursesDashBoard() {
     transition: " ease-in-out 0.3s",
   };
 
-  let filterCompletedBlocks = [];
-
-  // const allCourses = courses.map((item) => {
-  //   const content = item.coverImage ? (
-  //     <img
-  //       alt=""
-  //       style={{
-  //         height: "100px",
-  //         width: "100px",
-  //       }}
-  //       src={imgurlFor(item.coverImage.asset._ref)}
-  //     />
-  //   ) : null;
-
-  //   let imgurl = defaultCoursesImages.find((subItem) => {
-  //     return subItem.subject === item.subject;
-  //   });
-
-  //   filterCompletedBlocks = blocksCompleted?.filter(
-  //     (subItem) => subItem.blockName === item.blockName
-  //   );
-
-  //   let highestPercentageScore;
-
-  //   if (filterCompletedBlocks) {
-  //     highestPercentageScore = Math.round(
-  //       filterCompletedBlocks[0]?.PercentageScores
-  //     );
-  //   }
-
-  //   return (
-  //     <Link
-  //       style={{ display: "flex", width: "100%", textDecoration: "none" }}
-  //       to={`/courses/${item.subject}/${item.courseName}/${item.blockName}`}
-  //     >
-  //       <Box>
-  //         <Text>
-  //           {" "}
-  //           <p
-  //             style={{
-  //               fontSize: "13px",
-  //               listStyle: "none",
-  //               paddingLeft: "10px",
-  //               fontWeight: "600",
-  //             }}
-  //           >
-  //             {item.subject} &nbsp;
-  //           </p>
-  //           <p
-  //             style={{
-  //               fontSize: "13px",
-  //               listStyle: "none",
-  //               // padding: "12px",
-  //             }}
-  //           >
-  //             {item.blockName}
-  //           </p>
-  //         </Text>
-
-  //         {highestPercentageScore ? (
-  //           <AnimatedPercentageScore
-  //             color={"rgb(0, 230, 250, 0.8)"}
-  //             // percentage={Math.round(highestPercentageScore)}
-  //             percentage={highestPercentageScore}
-  //           />
-  //         ) : (
-  //           <></>
-  //         )}
-
-  //         {content ? (
-  //           <Image>{content}</Image>
-  //         ) : (
-  //           <Img
-  //             src={
-  //               imgurl
-  //                 ? imgurl.imageUrl
-  //                 : "https://stpauls.fra1.digitaloceanspaces.com/wp-content/uploads/2022/04/28130914/SPS-logo-centred-POS.png"
-  //             }
-  //           ></Img>
-  //         )}
-  //       </Box>
-  //     </Link>
-  //   );
-  // });
-
-  /// recent Blocks
-
-  // const filterAttemptedCourses = blocksCompleted?.filter(
-  //   (course) => course.PercentageScores !== 0
-  // );
-
-  // const recentCourses = filterAttemptedCourses?.map((item) => {
-  //   const imgurlItem = courses.filter((subItem) => {
-  //     return subItem.blockName === item.blockName;
-  //   });
-
-  //   const urlstring = imgurlItem[0]?.coverImage.asset._ref;
-
-  //   let imgurl = defaultCoursesImages.find((subItem) => {
-  //     return subItem.subject === item.subject;
-  //   });
-
-  //   const content = urlstring ? (
-  //     <img
-  //       alt=""
-  //       style={{
-  //         height: "100px",
-  //         width: "100px",
-  //       }}
-  //       src={imgurlFor(urlstring)}
-  //     />
-  //   ) : (
-  //     <> </>
-  //   );
-
-  //   filterCompletedBlocks = blocksCompleted?.filter(
-  //     (subItem) => subItem.blockName === item.blockName
-  //   );
-
-  //   let highestPercentageScore;
-
-  //   if (filterCompletedBlocks) {
-  //     highestPercentageScore = Math.round(
-  //       filterCompletedBlocks[0]?.PercentageScores
-  //     );
-  //   }
-
-  //   const courseList = (
-  //     <Link
-  //       style={{ display: "flex", width: "100%", textDecoration: "none" }}
-  //       to={`/courses/${item.Subject}/${item.courseName}/${item.blockName}`}
-  //     >
-  //       <Box>
-  //         <Text>
-  //           {" "}
-  //           <p
-  //             style={{
-  //               fontSize: "13px",
-  //               listStyle: "none",
-  //               paddingLeft: "10px",
-  //               fontWeight: "600",
-  //             }}
-  //           >
-  //             {item.Subject}
-  //           </p>
-  //           <p
-  //             style={{
-  //               fontSize: "13px",
-  //               listStyle: "none",
-  //               paddingLeft: "10px",
-  //             }}
-  //           >
-  //             {item.blockName}
-  //           </p>
-  //         </Text>
-  //         {highestPercentageScore ? (
-  //           <AnimatedPercentageScore
-  //             // percentage={Math.round(highestPercentageScore)}
-  //             percentage={highestPercentageScore}
-  //           />
-  //         ) : (
-  //           <> </>
-  //         )}
-
-  //         {content ? (
-  //           <Image>{content}</Image>
-  //         ) : (
-  //           <Img
-  //             src={
-  //               imgurl
-  //                 ? imgurl
-  //                 : "https://stpauls.fra1.digitaloceanspaces.com/wp-content/uploads/2022/04/28130914/SPS-logo-centred-POS.png"
-  //             }
-  //           ></Img>
-  //         )}
-  //       </Box>
-  //     </Link>
-  //   );
-
-  //   const addcourseSelection = (
-  //     <div
-  //       style={{
-  //         width: "100%",
-  //         display: "flex",
-  //         justifyContent: "center",
-  //         flexDirection: "row",
-  //         backgroundColor: "white",
-  //         alignItems: "center",
-  //         borderRadius: "5px",
-  //         boxShadow: "0px 0px 30px 4px rgba(174, 196, 216, 0.25)",
-  //       }}
-  //     >
-  //       <div
-  //         style={{
-  //           display: "flex",
-  //           flexDirection: "column",
-  //           justifyContent: "center",
-  //           backgroundColor: "white",
-  //           alignItems: "center",
-  //           fontWeight: "500",
-  //           borderRadius: "5px",
-  //           boxShadow: "0px 0px 30px 4px rgba(174, 196, 216, 0.25)",
-  //         }}
-  //       >
-  //         <img
-  //           style={{ height: "200px", width: "200px" }}
-  //           src={working}
-  //           alt="workinganimatedimage"
-  //         />
-  //         Hmm...No Courses yet
-  //         <Link
-  //           style={{ textDecoration: "none", padding: "20px" }}
-  //           to={"/courses"}
-  //         >
-  //           <AddCourseBtn style={{ width: "350px" }} />
-  //         </Link>
-  //       </div>
-  //     </div>
-  //   );
-
-  //   return addcourseSelection;
-  // });
-
   return (
     <Wrapper>
-      <CourseFilterContext.Provider
-        value={{
-          dropDownClicked,
-          setDropdownClicked,
-          displayFilter,
-          setDisplayFilter,
-        }}
-      >
-        <CourseFilter />
-        <Tags>
-          <Select
-            style={recentCoursesDisplayed ? selected : unselected}
-            onClick={handleSchoolLeaderBoardClick}
-          >
-            Recent...
-          </Select>
+      <Tags>
+        <Select
+          style={recentCoursesDisplayed ? selected : unselected}
+          onClick={handleSchoolLeaderBoardClick}
+        >
+          Recent...
+        </Select>
 
-          <Select
-            style={seeAllCoursesDisplayed ? selected : unselected}
-            onClick={handleStudentLeaderBoardClick}
-          >
-            {" "}
-            Blocks for you
-            {seeAllCoursesDisplayed && (
-              <CourseFilterBtn
-                onClick={(e) => {
-                  e.preventDefault();
-                  setDisplayFilter((val) => !val);
-                }}
-              />
-            )}
-          </Select>
-        </Tags>
+        <Select
+          style={seeRecommenedCourses ? selected : unselected}
+          onClick={handleStudentLeaderBoardClick}
+        >
+          {" "}
+          Recomended
+        </Select>
+      </Tags>
 
-        <SelectionBar
-          style={seeAllCoursesDisplayed ? selectionbarRight : selectionbarLeft}
-        ></SelectionBar>
+      <SelectionBar
+        style={seeRecommenedCourses ? selectionbarRight : selectionbarLeft}
+      ></SelectionBar>
 
-        {recentCoursesDisplayed &&
-          (<RecentCourses /> || <Skeleton height={60} count={3} />)}
-        {
-          seeAllCoursesDisplayed && (
-            // (allCourses || <Skeleton height={60} count={3} />)}
-
-            <Skeleton height={60} count={3} />
-          )
-          /* {<Skeleton height={50} count={3} />}
-        {seeAllCoursesDisplayed && (allCourses || <Skeleton count={3} />)} */
-        }
-      </CourseFilterContext.Provider>
+      {recentCoursesDisplayed &&
+        (<RecentCourses /> || <Skeleton height={60} count={3} />)}
+      {seeRecommenedCourses && (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-around",
+            alignItems: "center",
+          }}
+        >
+          {" "}
+          <p> Start by Enrolling</p>
+          <ContinueBtn style={{ color: "white" }}>
+            <Link
+              style={{
+                textDecoration: "none",
+                color: "white",
+                fontWeight: "500",
+              }}
+              to={"/courses"}
+            >
+              {" "}
+              Enroll For Course{" "}
+            </Link>
+          </ContinueBtn>
+        </div>
+      )}
     </Wrapper>
   );
 }

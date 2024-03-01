@@ -30,7 +30,7 @@ import {
   useCreateUserMutation,
 } from "../../features/api/UserData/userDataSlice";
 import NavigationBarMobile from "../../components/Navigation/NavigationBarMobile";
-import CourseUserData from "./CourseUserData";
+import CourseUserData from "./CourseHeadlineUserData";
 
 import { ThemeStyles } from "../../styles/ThemeStyles";
 
@@ -50,7 +50,6 @@ function CourseDetailedView() {
   const { userData, darkThemeActive } = useContext(UserContext);
 
   const { data, refetch } = useGetUserByEmailQuery(user?.email);
-  console.log("🚀 ~ CourseDetailedView ~ data:", data);
 
   const id = userData?.user._id;
 
@@ -105,8 +104,6 @@ function CourseDetailedView() {
     return block.courseName === courseName;
   });
 
-  console.log("🚀  course detailed view ~ completedBlocks:", completedBlocks);
-
   const blocksRemaining = blocks?.filter((block) => {
     return !completedBlocks.some((obj2) => obj2.blockName === block.blockName);
   });
@@ -160,18 +157,11 @@ function CourseDetailedView() {
               setAddCourseBtnClicked((val) => true);
             }}
             style={{
-              // height: "50px",
               width: "200px",
-              // display: "flex",
-              // alignItems: "center",
-              // backgroundColor: "rgb(0,230,240)",
-              // justifyContent: "space-between",
-              // fontSize: "15px",
-              // color: "white",
             }}
           >
             {buttonContent}
-            {/* <VscDebugStart size={30} fill={"white"} /> */}
+            <VscDebugStart size={30} fill={"white"} />
           </ContinueBtn>
         ) : (
           <ContinueBtn
@@ -181,17 +171,11 @@ function CourseDetailedView() {
               );
             }}
             style={{
-              // height: "50px",
               width: "200px",
-              // display: "flex",
-              // alignItems: "center",
-              // justifyContent: "space-between",
-              // fontSize: "15px",
-              // backgroundColor: "rgb(0,230,240)",
             }}
           >
             {buttonContent}
-            {/* <VscDebugStart size={30} fill={"white"} /> */}
+            <VscDebugStart size={30} fill={"white"} />
           </ContinueBtn>
         )}
       </div>
@@ -311,7 +295,11 @@ function CourseDetailedView() {
               </div>
             </HeaderContent>
 
-            <CourseUserData data={data} />
+            <CourseUserData
+              courseName={courseName}
+              subject={subject}
+              data={data}
+            />
 
             <div style={{ height: "10px" }}></div>
             <NextSection darkThemeActive={darkThemeActive}>
@@ -412,7 +400,7 @@ const Main = styled.div`
 `;
 
 const Header = styled.div`
-margin-top: 10px; 
+
   position: relative: 
   // width: 100%;
   display: flex;
@@ -422,7 +410,7 @@ margin-top: 10px;
   border-radius: 5px;
   width: 100%; 
   @media ${device.laptop} {
-    marginTop: 80px
+    marginTop: 60px
   }
 
 `;

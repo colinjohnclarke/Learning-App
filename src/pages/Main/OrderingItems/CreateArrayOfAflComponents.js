@@ -1,12 +1,12 @@
-import MCQ from "../../components/MCQ/MCQ";
-import StudentTextInputWrapper from "../../components/SingleStudentInput/StudentTextInputWrapper";
-import FillMissingValuesTable from "../../components/Tables/MissingData/FillMissingValues";
-import IncorrectWordWrapper from "../../components/IncorrectWordIdentifier/IncorrectWordWrapper";
-import GapFillWrapper from "../../components/GapFill/GapFillWrapper";
-import MovingSliderWrapper from "../../components/MovingSlider/MovingSliderWrapper";
-import DualBoxSelectionWrapper from "../../components/DualSelection/DualBoxSelectionWrapper";
-import DragandDropWrapper from "../../components/Drag&Drop/DragandDropWrapper";
-import LabellingWrapper from "../../components/Labelling/LabellingWrapper";
+import MCQ from "../../../components/MCQ/MCQ";
+import StudentTextInputWrapper from "../../../components/SingleStudentInput/StudentTextInputWrapper";
+import FillMissingValuesTable from "../../../components/Tables/MissingData/FillMissingValues";
+import IncorrectWordWrapper from "../../../components/IncorrectWordIdentifier/IncorrectWordWrapper";
+import GapFillWrapper from "../../../components/GapFill/GapFillWrapper";
+import MovingSliderWrapper from "../../../components/MovingSlider/MovingSliderWrapper";
+import DualBoxSelectionWrapper from "../../../components/DualSelection/DualBoxSelectionWrapper";
+import DragandDropWrapper from "../../../components/Drag&Drop/DragandDropWrapper";
+import LabellingWrapper from "../../../components/Labelling/LabellingWrapper";
 
 const CreateArrayOfAflComponents = (arrayOfItemsWithPosition, blockData) => {
 
