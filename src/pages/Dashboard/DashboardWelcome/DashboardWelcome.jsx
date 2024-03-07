@@ -1,42 +1,21 @@
 import React, { useContext } from "react";
 
-import { UserContext } from "../../App";
+import { UserContext } from "../../../App";
 import styled from "styled-components";
-import { ThemeStyles } from "../../styles/ThemeStyles";
-import { device } from "../../styles/breakpoints";
-import { useAuth0 } from "@auth0/auth0-react";
-import Weekday from "../../components/Weekday";
+import { ThemeStyles } from "../../../styles/ThemeStyles";
+import { device } from "../../../styles/breakpoints";
+
+import Weekday from "./Weekday";
 
 function DashboardWelcome() {
   const { userData, darkThemeActive } = useContext(UserContext);
 
-  const user = useAuth0();
-  console.log("🚀 ~ DashboardWelcome ~ user:", user);
-
   return (
     <Greeting darkThemeActive={darkThemeActive}>
       <Welcome>
-        <h3 style={{ color: "white" }}>
-          Welcome {userData?.user.firstName || user.user.given_name}
-        </h3>
-
-        <img
-          referrerpolicy="no-referrer"
-          style={{
-            height: "60px",
-            width: "60px",
-            borderRadius: "20px",
-            objectFit: "fill",
-            margin: "10px",
-            // border: "2px solid",
-            boxShadow:
-              "rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px",
-          }}
-          alt="User Avatar"
-          src={user?.user.picture}
-        />
+        <h3 style={{ color: "white" }}>Welcome {userData?.user.firstName}</h3>
       </Welcome>
-      <Weekday />
+      <Weekday  />
     </Greeting>
   );
 }

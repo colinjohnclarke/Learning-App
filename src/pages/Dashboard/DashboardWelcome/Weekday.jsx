@@ -17,8 +17,9 @@ function Weekday() {
     }
 
     return (
-      <Day style={{ border: borderStyle }}>
+      <Day key={dayofweek} style={{ border: borderStyle }}>
         <p
+          data-testid="weekday-day"
           style={{
             color: "white",
             fontSize: "12px",
@@ -30,7 +31,7 @@ function Weekday() {
     );
   });
 
-  return <Wrapper> {list}</Wrapper>;
+  return <Wrapper data-testid="dashboard-weekday"> {list}</Wrapper>;
 }
 
 export default Weekday;

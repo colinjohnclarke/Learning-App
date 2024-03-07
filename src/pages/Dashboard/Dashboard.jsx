@@ -7,7 +7,7 @@ import LeaderBoard from "./LeaderBoard/LeaderBoard";
 import SearchCourse from "../../components/Search/SearchCourse";
 import "animate.css";
 import { device } from "../../styles/breakpoints";
-import DashboardWelcome from "./DashboardWelcome";
+import DashboardWelcome from "./DashboardWelcome/DashboardWelcome";
 import DashboardStreakXPProgressView from "../../components/DayStreak/DashboardStreakXPProgressView";
 import NavigationBarMobile from "../../components/Navigation/NavigationBarMobile";
 import { ThemeStyles } from "../../styles/ThemeStyles";
