@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import DashboardHeader from "./Dashboard/DashboardHeader";
+import DashboardHeader from "./Dashboard/DashboardHeader/DashboardHeader";
 import NavigationBarMobile from "../components/Navigation/NavigationBarMobile";
 // import UserContext from "../App";
 

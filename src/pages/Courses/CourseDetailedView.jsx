@@ -4,7 +4,7 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import FetchBlocksfromSanity from "./FetchBlocksFromSanity";
 import CourseBlockBreakown from "./CourseBlockBreakown";
-import DashboardHeader from "../Dashboard/DashboardHeader";
+import DashboardHeader from "../Dashboard/DashboardHeader/DashboardHeader";
 import sanityClient from "../../createclient";
 import imageUrlBuilder from "@sanity/image-url";
 import { device } from "../../styles/breakpoints";

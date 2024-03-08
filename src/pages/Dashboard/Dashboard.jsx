@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../App";
 import styled from "styled-components";
-import DashboardHeader from "./DashboardHeader";
+import DashboardHeader from "./DashboardHeader/DashboardHeader";
 import CoursesDashBoard from "./CoursesDashBoard";
 import LeaderBoard from "./LeaderBoard/LeaderBoard";
 import SearchCourse from "../../components/Search/SearchCourse";

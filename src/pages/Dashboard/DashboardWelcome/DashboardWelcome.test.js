@@ -2,30 +2,19 @@ import { render, screen } from "@testing-library/react";
 import DashboardWelcome from "./DashboardWelcome";
 import { UserContext } from "../../../App";
 import "@testing-library/jest-dom";
+import { mockUserData } from "../../../tesing/context/mockUserData";
 
-describe.only("Dashboard Welcome", () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
-  test.only("Welcome message displayed", () => {
-    // Mock the UserContext value
-    const mockUserContextValue = {
-      userData: {
-        user: {
-          firstName: "John",
-        },
-      },
-      darkThemeActive: true,
-    };
-
+describe("Dashboard Welcome", () => {
+  console.log(mockUserData);
+  test("Welcome message displayed", () => {
     render(
-      <UserContext.Provider value={mockUserContextValue}>
+      <UserContext.Provider value={mockUserData}>
         <DashboardWelcome />
       </UserContext.Provider>
     );
 
-    const welcomeMessage = screen.getByText(/Welcome John/i);
+    screen.debug();
+    const welcomeMessage = screen.getByText(/Welcome testFirstName/i);
     expect(welcomeMessage).toBeInTheDocument();
 
     const weekdayComponent = screen.getByTestId("dashboard-weekday");

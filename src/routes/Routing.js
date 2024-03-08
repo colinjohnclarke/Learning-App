@@ -1,12 +1,9 @@
 import React, { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import Loader from "../components/Loader";
-
 const Main = lazy(() => import("../pages/Main/Main"));
 const Dashboard = lazy(() => import("../pages/Dashboard/Dashboard"));
-
 const Login = lazy(() => import("../pages/Login"));
-
 const Courses = lazy(() => import("../pages/Courses/Courses"));
 const Settings = lazy(() => import("../pages/Settings"));
 const Profile = lazy(() => import("../pages/Profile/Profile"));

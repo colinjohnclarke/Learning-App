@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import styled from "styled-components";
-import DashboardHeader from "../Dashboard/DashboardHeader";
+import DashboardHeader from "../Dashboard/DashboardHeader/DashboardHeader";
 import { device } from "../../styles/breakpoints";
 import RecentCourses from "./RecentCourses";
 import { UserContext } from "../../App";

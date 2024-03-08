@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import styled from "styled-components";
-import DashboardHeader from "../Dashboard/DashboardHeader";
+import DashboardHeader from "../Dashboard/DashboardHeader/DashboardHeader";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 
 import { UserContext } from "../../App";

@@ -4,22 +4,25 @@ import styled from "styled-components";
 import { device } from "../../styles/breakpoints";
 
 function NavigationBarDesktop() {
+  console.log("WINDOWLOCATION", window.location);
+
+  const style = {
+    padding: "10px",
+    textDecoration: "none",
+    fontWeight: "400",
+    fontSize: "14px",
+  };
   return (
     <Wrapper>
       {" "}
-      <Link
-        to={"/dashboard"}
-        style={{
-          textDecoration: "none",
-        }}
-      >
-        <P>Dashboard</P>
+      <Link data-testid={"dashboard"} to={"/dashboard"} style={style}>
+        Dashboard
       </Link>
-      <Link to={"/courses"} style={{ textDecoration: "none" }}>
-        <P>Courses</P>
+      <Link data-testid={"courses"} to={"/courses"} style={style}>
+        Courses
       </Link>
-      <Link to={"/profile"} style={{ textDecoration: "none" }}>
-        <P>Profile</P>
+      <Link data-testid={"profile"} to={"/profile"} style={style}>
+        Profile
       </Link>
     </Wrapper>
   );

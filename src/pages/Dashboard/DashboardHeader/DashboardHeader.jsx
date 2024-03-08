@@ -1,23 +1,21 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import { device } from "../../styles/breakpoints";
-import { UserContext } from "../../App";
-import NavigationBarDesktop from "../../components/Navigation/NavigationBarDesktop";
-import { ThemeStyles } from "../../styles/ThemeStyles";
-import SettingsBtnHeaderBar from "../../components/Settings/SettingsBtnHeaderBar/SettingsBtnHeaderBar";
+import { device } from "../../../styles/breakpoints";
+import { UserContext } from "../../../App";
+import NavigationBarDesktop from "../../../components/Navigation/NavigationBarDesktop";
+import { ThemeStyles } from "../../../styles/ThemeStyles";
+import SettingsBtnHeaderBar from "../../../components/Settings/SettingsBtnHeaderBar/SettingsBtnHeaderBar";
 
-import UserProgressData from "./UserProgressData";
+import UserProgressData from "../UserProgressData";
 
 function DashboardHeader() {
   const { darkThemeActive } = useContext(UserContext);
-  // const { user } = useAuth0();
 
   return (
     <Wrapper darkThemeActive={darkThemeActive}>
-      
-
-      <div style={{width: '30px'}} ></div>
+      <div style={{ width: "30px" }}></div>
       <Logo
+        data-testid="logo"
         style={{
           display: "flex",
           justifyContent: "center",
@@ -34,8 +32,7 @@ function DashboardHeader() {
       <NavigationBarDesktop />
 
       <Data style={{ position: "relative" }}>
-        {" "}
-        <UserProgressData />
+        <UserProgressData />{" "}
       </Data>
 
       <SettingsBtnHeaderBar />
@@ -61,12 +58,10 @@ const Wrapper = styled.div`
   top: 0px;
   z-index: 100;
 
-
   box-shadow: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemeMainBoxShadow
       : ThemeStyles.darkThemeMainBoxShadow};
-
 
   p {
     color: ${(props) =>

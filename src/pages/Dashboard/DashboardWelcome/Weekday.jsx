@@ -4,20 +4,23 @@ import styled from "styled-components";
 function Weekday() {
   const currentDate = new Date();
   const dayOfWeekIndex = currentDate.getDay();
-
   // Create an array of weekday names
 
   const day = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
 
-  const list = day.map((dayofweek) => {
+  const list = day.map((dayofweek, index) => {
     let borderStyle = "2px white dotted";
 
-    if (dayofweek === day[dayOfWeekIndex]) {
+    if (dayOfWeekIndex === index) {
       borderStyle = "2px white solid";
     }
 
     return (
-      <Day key={dayofweek} style={{ border: borderStyle }}>
+      <Day
+        data-testid={dayofweek}
+        key={dayofweek}
+        style={{ border: borderStyle }}
+      >
         <p
           data-testid="weekday-day"
           style={{

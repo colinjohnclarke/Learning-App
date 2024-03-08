@@ -4,6 +4,7 @@ import "./App.css";
 import { store } from "./app/store";
 import { Provider } from "react-redux";
 import { Auth0Provider } from "@auth0/auth0-react";
+import { BrowserRouter } from "react-router-dom";
 
 import App from "./App";
 
@@ -27,7 +28,9 @@ root.render(
       scope="openid email"
     >
       <Provider store={store}>
-        <App />
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
       </Provider>
     </Auth0Provider>
   </React.StrictMode>

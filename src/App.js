@@ -99,6 +99,7 @@ function App() {
     silentModeActive,
     setSilentModeActive,
   };
+  console.log("🚀 ~ App ~ userContextValues:", userContextValues);
 
   let localStorageData = checkLocalStorageForThemePrefs();
 
@@ -109,25 +110,25 @@ function App() {
         setDarkThemeActive={setDarkThemeActive}
       />
 
-      <BrowserRouter>
-        {!isAuthenticated && <Login />}
-        {loginCompleted &&
-          !localStorageData &&
-          !isSchoolandUserPreferencesCompleted && (
-            <UserPreferencesOnSignupModal
-              setIsShoolandUserPreferencesCompleted={
-                setIsShoolandUserPreferencesCompleted
-              }
-            />
-          )}
-
-        {loginCompleted && localStorageData && data && (
-          <div>
-            {" "}
-            <Routing />{" "}
-          </div>
+      {/* <BrowserRouter> */}
+      {!isAuthenticated && <Login />}
+      {loginCompleted &&
+        !localStorageData &&
+        !isSchoolandUserPreferencesCompleted && (
+          <UserPreferencesOnSignupModal
+            setIsShoolandUserPreferencesCompleted={
+              setIsShoolandUserPreferencesCompleted
+            }
+          />
         )}
-      </BrowserRouter>
+
+      {loginCompleted && localStorageData && data && (
+        <div>
+          {" "}
+          <Routing />{" "}
+        </div>
+      )}
+      {/* </BrowserRouter> */}
     </UserContext.Provider>
   );
 }
