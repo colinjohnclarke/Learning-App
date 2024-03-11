@@ -6,7 +6,12 @@ import { ThemeStyles } from "../../styles/ThemeStyles";
 function MCQbtn({ children, ...atributes }) {
   const { darkThemeActive } = useContext(UserContext);
   return (
-    <Btn darkThemeActive={darkThemeActive} type="button" {...atributes}>
+    <Btn
+      data-testid="answerButton"
+      darkThemeActive={darkThemeActive}
+      type="button"
+      {...atributes}
+    >
       {children}
     </Btn>
   );

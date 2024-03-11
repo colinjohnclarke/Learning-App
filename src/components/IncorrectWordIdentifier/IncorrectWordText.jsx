@@ -184,6 +184,7 @@ function IncorrectWordText({ data, index, updateStateFunctions }) {
       <Text ref={mcqCheckWord1Ref}>
         {data.initial_leading_scentence_word1}
         <IncorrectWord
+          data-testid="incorrectWord1"
           style={word1selected ? correctstyle : normalTextStyle}
           onClick={() => {
             if (!word1selected) {
@@ -197,6 +198,7 @@ function IncorrectWordText({ data, index, updateStateFunctions }) {
         {data.remainder_sentence_word_1}
         {data.initial_leading_scentence_word2}
         <IncorrectWord
+          data-testid="incorrectWord2"
           style={word2selected ? correctstyle : normalTextStyle}
           onClick={() => {
             if (!word2selected) incorrectAnswer2Clicked(mcqCheckWord2Ref);

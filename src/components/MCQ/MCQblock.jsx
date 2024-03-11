@@ -29,6 +29,7 @@ function MCQblock({ item, index, updateStateFunctions }) {
       <ImagefromSanity data={picture}></ImagefromSanity>
       {shuffledOptions.map((option, optionIndex) => (
         <MCQAnswerButtons
+   
           key={optionIndex}
           isAlgebra={isAlgebra}
           updateStateFunctions={updateStateFunctions}

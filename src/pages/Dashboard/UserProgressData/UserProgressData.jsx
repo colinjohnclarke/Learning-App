@@ -1,11 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
-import { ThemeStyles } from "../../styles/ThemeStyles";
-import { UserContext } from "../../App";
-
+import { ThemeStyles } from "../../../styles/ThemeStyles";
+import { UserContext } from "../../../App";
 import { DiRubyRough } from "react-icons/di";
-
-import FlameDayStreak from "../../components/DayStreak/FlameDayStreak";
+import FlameDayStreak from "../../../components/DayStreak/FlameDayStreak";
 
 function UserProgressData() {
   const { userData, darkThemeActive } = useContext(UserContext);

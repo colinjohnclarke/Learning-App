@@ -12,7 +12,7 @@ const IncorrectWordMCQ = (props) => {
     props.updateStateFunctions;
 
   let buttonstyle = {
-    width: "250px",
+    width: "350px",
     border: "none",
   };
 
@@ -21,7 +21,7 @@ const IncorrectWordMCQ = (props) => {
   let buttonDisabled = false;
 
   let showCorrectAnsStyle = {
-    width: "250px",
+    width: "350px",
     display: "flex",
     flexDirection: "row",
     position: "relative",

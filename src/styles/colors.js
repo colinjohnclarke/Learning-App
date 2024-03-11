@@ -1,5 +1,5 @@
 export const colors = {
-  correctColor: "rgba(137, 240, 158, 1 )",
+  correctColor: "rgba(137, 240, 158)",
   incorrectColor: "rgba(240, 137, 137, 0.9)",
   someCorrectColor: "rgba(100, 40, 258)",
   normalInputColor: "white",

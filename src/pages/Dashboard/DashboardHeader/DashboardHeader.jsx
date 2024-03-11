@@ -6,7 +6,7 @@ import NavigationBarDesktop from "../../../components/Navigation/NavigationBarDe
 import { ThemeStyles } from "../../../styles/ThemeStyles";
 import SettingsBtnHeaderBar from "../../../components/Settings/SettingsBtnHeaderBar/SettingsBtnHeaderBar";
 
-import UserProgressData from "../UserProgressData";
+import UserProgressData from "../UserProgressData/UserProgressData";
 
 function DashboardHeader() {
   const { darkThemeActive } = useContext(UserContext);

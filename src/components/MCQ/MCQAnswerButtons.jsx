@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { colors } from "../../styles/colors";
-import MCQbtn from "../Buttons/MCQbtn";
+import MCQbtn from "./MCQbtn";
 import MCQMathButton from "../Buttons/MCQMathButton";
 import { TiTickOutline } from "react-icons/ti";
 import { RxCross2 } from "react-icons/rx";
@@ -40,7 +40,7 @@ const MCQAnswerButtons = ({
     display: "flex",
     flexDirection: "row",
     position: "relative",
-    // justifyContent: "space-around",
+
     border: "none",
     backgroundColor: isCorrect ? colors.correctColor : colors.incorrectColor,
     boxShadow: "0px 0px 30px 4px rgba(174, 196, 216, 0.15)",
@@ -124,7 +124,7 @@ const MCQAnswerButtons = ({
     </MCQbtn>
   );
 
-  return <Wrapper>{btn}</Wrapper>;
+  return <Wrapper data-testid="answerBtn">{btn}</Wrapper>;
 };
 
 export default MCQAnswerButtons;
