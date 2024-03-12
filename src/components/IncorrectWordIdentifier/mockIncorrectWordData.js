@@ -1,4 +1,4 @@
-const mockIncorrectWordData = {
+export const mockIncorrectWordData = {
   MCQ_option_for_replacement_word_: "sound, thermal, kinetic",
   pic_alt: "photosynthesis RPAC apparatus for pondweed and light source",
   incorrect_word_2: "chloroplasts",

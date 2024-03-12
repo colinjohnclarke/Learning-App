@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { colors } from "../../styles/colors";
-import MCQbtn from "../Buttons/MainActionBtn";
+// import MCQbtn from "../Buttons/MainActionBtn";
+import MCQbtn from "../MCQ/MCQbtn";
 import { TiTickOutline } from "react-icons/ti";
 import { RxCross2 } from "react-icons/rx";
 import "animate.css";
@@ -102,7 +103,7 @@ const IncorrectWordMCQ = (props) => {
   ) {
     buttonstyle = showCorrectAnsStyle;
     icon = <RxCross2 fill="white" />;
-    animateclass = "animate__animated animate__wobble animate__faster";
+    animateclass = "animate__animated animate__headShake animate__faster";
     buttonDisabled = true;
   }
 

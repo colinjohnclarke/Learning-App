@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import IncorrectWordText from "./IncorrectWordText";
 
 function IncorrectWordWrapper({ data }) {
+
   const [correctAnswerIsSelected, setCorrectAnswerIsSelected] = useState(false);
 
   const [mcq1State, setMcq1State] = useState({

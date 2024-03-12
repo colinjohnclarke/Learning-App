@@ -1,32 +1,23 @@
 import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { colors } from "../../styles/colors";
-import MainActionBtn from "../Buttons/MainActionBtn";
-import { BiHelpCircle } from "react-icons/bi";
 import Score from "../Data/CurrentQuestionScores/Score";
 import { myPortableTextComponents } from "../../config/sanity/portableText";
 import "animate.css";
 import { device } from "../../styles/breakpoints";
 import { UserContext } from "../../App";
 import { PortableText } from "@portabletext/react";
-import HelpBtn from "../Buttons/HelpBtn";
-import {
-  darkThemePrimaryBackgroundColor,
-  darkThemePrimaryFontColor,
-  ThemeStyles,
-} from "../../styles/ThemeStyles";
+import InputForm from "./InputForm";
+import Hint from "./Hint";
+import { ThemeStyles } from "../../styles/ThemeStyles";
 
 function StudentInputForm({ updateStateFunctions, data, index }) {
   const [helpneeded, setHelpNeeded] = useState(false);
-  // user input state
   const [input, setInput] = useState("");
   const [inputfocused, setInputFocused] = useState(false);
   const [answerSubmitted, setAnswerSubmitted] = useState(false);
   const totalMarksAvailable = data.total_marks_available;
-
   const { darkThemeActive } = useContext(UserContext);
-
-  //constants
 
   const {
     correctAnswerIsSelected,
@@ -80,10 +71,10 @@ function StudentInputForm({ updateStateFunctions, data, index }) {
     // opacity: "0",
     backgroundColor: darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor
-      : darkThemePrimaryBackgroundColor,
+      : ThemeStyles.darkThemePrimaryBackgroundColor,
     color: darkThemeActive
       ? ThemeStyles.lightThemePrimaryFrontColor
-      : darkThemePrimaryFontColor,
+      : ThemeStyles.darkThemePrimaryFontColor,
   };
 
   const spanStyleNormalUnFocused = {
@@ -97,7 +88,7 @@ function StudentInputForm({ updateStateFunctions, data, index }) {
     transition: "0.3s",
     color: darkThemeActive
       ? ThemeStyles.lightThemePrimaryFrontColor
-      : darkThemePrimaryFontColor,
+      : ThemeStyles.darkThemePrimaryFontColor,
   };
 
   let spanStyle = spanStyleNormalUnFocused;
@@ -132,7 +123,7 @@ function StudentInputForm({ updateStateFunctions, data, index }) {
       // pass in acceptable answers from props and check to see if user input matches and update state
     } else {
       const check_answer = correct_expected_answers_listArr.find(
-        (element) => element === input
+        (element) => element.toLowerCase() === input.toLowerCase()
       );
 
       // update text field responses as state depending on correct answer being provided, text response provided and colors of box highlight correct or not
@@ -161,7 +152,7 @@ function StudentInputForm({ updateStateFunctions, data, index }) {
 
   // remove the feedback comments and input box colour as user types in input field
 
-  const handleChange = (e) => {
+  const handleFormChange = (e) => {
     setInput(e.target.value);
     setAnswerSubmitted((val) => false);
 
@@ -178,23 +169,7 @@ function StudentInputForm({ updateStateFunctions, data, index }) {
 
   const helpBtnClickHandler = () => {
     setHelpNeeded(!helpneeded);
-
     return false;
-  };
-
-  const hintstyleHidden = { display: "none" };
-
-  const hintStyle = {
-    display: "flex",
-    margin: "20px",
-    padding: "20px",
-    backgroundColor: darkThemeActive
-      ? ThemeStyles.lightThemePrimaryBackgroundColor
-      : ThemeStyles.darkThemeSecondaryBackgroundColor,
-
-    boxShadow: darkThemeActive
-      ? ThemeStyles.lightThemeMainBoxShadow
-      : ThemeStyles.darkThemeMainBoxShadow,
   };
 
   const handleFocusInput = () => {
@@ -224,88 +199,22 @@ function StudentInputForm({ updateStateFunctions, data, index }) {
       ></PortableText>
 
       {hint && (
-        <>
-          <HelpBtn
-            style={helpneeded ? { display: "none" } : { display: "flex" }}
-            onClick={helpBtnClickHandler}
-          ></HelpBtn>
-
-          <Hint
-            style={helpneeded ? hintStyle : hintstyleHidden}
-            className={
-              helpneeded
-                ? "animate__animated animate__backInRight animate__fast"
-                : ""
-            }
-          >
-            <BiHelpCircle style={{ width: "70px" }} />
-            {hint}
-          </Hint>
-        </>
+        <Hint
+          helpneeded={helpneeded}
+          helpBtnClickHandler={helpBtnClickHandler}
+          hint={hint}
+        />
       )}
 
-      <form
-        style={{
-          fontFamily: "Montserrat",
-        }}
-        onSubmit={handleSubmit}
-      >
-        <div
-          className={animate}
-          onClick={() => {
-            handleFocusInput();
-          }}
-          style={{
-            position: "relative",
-            backgroundColor: selectedInputColor,
-
-            borderRadius: "5px",
-          }}
-        >
-          <input
-            style={{
-              height: "30px",
-              width: "200px",
-              padding: "10px",
-
-              backgroundColor: darkThemeActive
-                ? ThemeStyles.lightThemePrimaryBackgroundColor
-                : ThemeStyles.darkThemePrimaryBackgroundColor,
-
-              color: darkThemeActive
-                ? ThemeStyles.lightThemePrimaryFrontColor
-                : darkThemePrimaryFontColor,
-              border: "3.5px solid rgb(0, 240, 240, 0.5)",
-              borderRadius: "5px",
-              display: "flex",
-              position: "relative",
-              outline: "none",
-              fontSize: "14px",
-              transition: "0.2s",
-            }}
-            required="required"
-            type="text"
-            label={textfieldLabel}
-            onChange={handleChange}
-          />
-
-          <label style={spanStyle}>{textfieldLabel}</label>
-        </div>
-        <div style={{ height: "20px", width: "20px" }}></div>
-
-        <MainActionBtn
-          style={{
-            backgroundColor: "rgb(00, 245, 245)",
-            color: "white",
-            height: "55px",
-            width: "90px",
-          }}
-          type="submit"
-        >
-          {" "}
-          Check
-        </MainActionBtn>
-      </form>
+      <InputForm
+        spanStyle={spanStyle}
+        selectedInputColor={selectedInputColor}
+        animate={animate}
+        handleSubmit={handleSubmit}
+        handleFocusInput={handleFocusInput}
+        textfieldLabel={textfieldLabel}
+        handleFormChange={handleFormChange}
+      />
     </Wrapper>
   );
 }
@@ -331,18 +240,6 @@ const Wrapper = styled.div`
     justify-content: center;
     align-items: center;
   }
-`;
-
-const Hint = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  transition: 0.3s;
-  border-radius: 4px;
-  width: 80%;
-  max-width: 700px;
-  padding: 10px;
 `;
 
 const Question = styled.p`
