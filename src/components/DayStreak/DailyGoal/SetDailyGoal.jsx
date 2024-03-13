@@ -6,7 +6,7 @@ import {
   darkThemeSecondaryBackgroundColor,
   ThemeStyles,
 } from "../../../styles/ThemeStyles";
-import ConfettiDashboard from "../../Effects/ConfettiDashboard";
+import ConfettiDashboard from "../../AnimatedEffects/ConfettiDashboard";
 import { device } from "../../../styles/breakpoints";
 import { DiRubyRough } from "react-icons/di";
 import { useUpdateDailyXpGoalMutation } from "../../../features/api/UserData/dailyXPGoal";

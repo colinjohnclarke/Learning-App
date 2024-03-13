@@ -11,7 +11,7 @@ function ExitCurrentCourseBtn() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   return (
-    <div>
+    <>
       <ExitCurrentCourseModal
         setModalIsOpen={setModalIsOpen}
         modalIsOpen={modalIsOpen}
@@ -26,7 +26,7 @@ function ExitCurrentCourseBtn() {
           size={24}
         />
       </ExitBtn>
-    </div>
+    </>
   );
 }
 

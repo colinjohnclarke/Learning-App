@@ -1,6 +1,6 @@
 import { screen, render } from "@testing-library/react";
 import Hint from "./Hint";
-import InputForm from "./InputForm";
+import InputForm from "../SingleStudentInput/InputForm";
 import { UserContext } from "../../App";
 import { mockUserData } from "../../tesing/context/mockUserData";
 import "@testing-library/jest-dom/extend-expect";

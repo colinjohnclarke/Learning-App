@@ -14,12 +14,7 @@ function Header() {
       {/* <OpenDrawerBtn></OpenDrawerBtn> */}
       <ExitCurrentCourseBtn />
       <ProgressBar></ProgressBar>
-
       <SettingsBtnHeaderBar />
-
-      {/* <LogoutBtn></LogoutBtn>
-
-      <div>hdjshjs</div> */}
     </Wrapper>
   );
 }

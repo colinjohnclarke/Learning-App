@@ -8,7 +8,7 @@ import { device } from "../../styles/breakpoints";
 import { UserContext } from "../../App";
 import { PortableText } from "@portabletext/react";
 import InputForm from "./InputForm";
-import Hint from "./Hint";
+import Hint from "../Hints/Hint";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 
 function StudentInputForm({ updateStateFunctions, data, index }) {

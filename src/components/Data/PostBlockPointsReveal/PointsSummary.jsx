@@ -6,7 +6,7 @@ import BlockQuestionsCorrect from "./BlockQuestionsCorrect";
 import "animate.css";
 import { UserContext } from "../../../App";
 import { ThemeStyles } from "../../../styles/ThemeStyles";
-import ConfettiDashboard from "../../Effects/ConfettiDashboard";
+import ConfettiDashboard from "../../AnimatedEffects/ConfettiDashboard";
 import AnimatedSuccessIcon from "../../../assets/animations/AnimatedSuccessIcon";
 import NativatetoDashBoard from "../../Buttons/NativatetoDashBoard";
 import SetDailyGoalBtn from "../../DayStreak/DailyGoal/SetDailyGoalBtn";

@@ -64,12 +64,15 @@ describe("Intgration test", () => {
     const input = screen.getByRole("textbox");
     expect(input).toBeInTheDocument();
     const user = userEvent.setup();
-
     await user.click(input);
     expect(handleFocusInput).toHaveBeenCalled();
-
     await user.type(input, "colin");
     expect(handleFormChange).toHaveBeenCalled();
+    screen.debug();
+    const submitButton = screen.getByRole("button");
+    expect(submitButton).toBeInTheDocument();
+    await user.click(submitButton);
+    expect(handleSubmit).toHaveBeenCalled();
   });
 });
 

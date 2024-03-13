@@ -10,6 +10,7 @@ import { BiHelpCircle } from "react-icons/bi";
 import { device } from "../../styles/breakpoints";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import { UserContext } from "../../App";
+import Hint from "../Hints/Hint";
 
 function GapFill({ index, data }) {
   const [correctAnswerIsSelected, setCorrectAnswerIsSelected] = useState(false);
@@ -20,15 +21,13 @@ function GapFill({ index, data }) {
   const { acceptable_missing_words, hint, total_marks_available } = data;
 
   const acceptableMissingWordsArr = acceptable_missing_words.split(", ");
-  let isCorrect = acceptableMissingWordsArr.includes(inputFieldGapFill);
+  let isCorrect = acceptableMissingWordsArr
+    .includes(inputFieldGapFill)
+    .toLowerCase();
 
   const toggleHelp = () => {
     setHelpNeeded(!helpNeeded);
   };
-
-  const hintAnimateClass = helpNeeded
-    ? "animate__animated animate__bounceInLeft"
-    : "";
 
   useEffect(() => {
     if (isCorrect) {
@@ -71,34 +70,11 @@ function GapFill({ index, data }) {
       </Text>
 
       {hint && (
-        <>
-          <Hint
-            className={hintAnimateClass}
-            style={
-              helpNeeded
-                ? {
-                    display: "flex",
-                    margin: "20px",
-                    padding: "20px",
-                    backgroundColor: darkThemeActive
-                      ? ThemeStyles.lightThemePrimaryBackgroundColor
-                      : ThemeStyles.darkThemeSecondaryBackgroundColor,
-
-                    boxShadow: darkThemeActive
-                      ? ThemeStyles.lightThemeMainBoxShadow
-                      : ThemeStyles.darkThemeMainBoxShadow,
-                  }
-                : { display: "none" }
-            }
-          >
-            <BiHelpCircle style={{ width: "70px" }} />
-            {hint}
-          </Hint>
-          <HelpBtn
-            style={helpNeeded ? { display: "none" } : { display: "flex" }}
-            onClick={toggleHelp}
-          />
-        </>
+        <Hint
+          hint={hint}
+          helpBtnClickHandler={toggleHelp}
+          helpneeded={helpNeeded}
+        />
       )}
     </Wrapper>
   );

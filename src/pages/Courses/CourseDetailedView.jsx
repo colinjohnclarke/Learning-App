@@ -16,7 +16,7 @@ import MainActionBtn from "../../components/Buttons/MainActionBtn";
 import Loader from "../../components/Loader";
 import { VscDebugStart } from "react-icons/vsc";
 import ContinueBtn from "../../components/Buttons/ContinueBtn";
-import ConfettiDashboard from "../../components/Effects/ConfettiDashboard";
+import ConfettiDashboard from "../../components/AnimatedEffects/ConfettiDashboard";
 import AnimatedSuccessIcon from "../../assets/animations/AnimatedSuccessIcon";
 
 import {
