@@ -9,7 +9,7 @@ import {
   updateSlideNumber,
 } from "../../features/CurrentBlockProgressData/currentblockprogressdata";
 
-function TextSlideShowWrapper({ data, length }) {
+function TextSlideShowWrapper({ data }) {
   const filterEmptySlideContent = data.filter((item) => item !== null);
 
   const [currentslide, setCurrentSlide] = useState(0);
@@ -41,14 +41,14 @@ function TextSlideShowWrapper({ data, length }) {
         <MobileVerticalSlideDeck
           currentslide={currentslide}
           setCurrentSlide={setCurrentSlide}
-          length={length}
+          length={filterEmptySlideContent.length}
           data={filterEmptySlideContent}
         />
       ) : (
         <DesktopHorizontalSlideDeck
           currentslide={currentslide}
           setCurrentSlide={setCurrentSlide}
-          length={length}
+          length={filterEmptySlideContent.length}
           data={filterEmptySlideContent}
         />
       )}
@@ -59,6 +59,5 @@ function TextSlideShowWrapper({ data, length }) {
 export default React.memo(TextSlideShowWrapper);
 
 const Wrapper = styled.div`
-  // padding: 40px;
-  width: 98%;
+  width: 100%;
 `;

@@ -7,17 +7,24 @@ import MainActionBtn from "../Buttons/MainActionBtn";
 import { BsExclamationDiamondFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
+import { useParams } from "react-router-dom";
 
 function ExitCurrentCourseModal({ modalIsOpen, setModalIsOpen }) {
   const { darkThemeActive } = useContext(UserContext);
   const navigate = useNavigate();
+  const params = useParams();
+  console.log("🚀 ~ ExitCurrentCourseModal ~ params:", params);
+
+  const handleModalChange = () => {
+    setModalIsOpen((val) => !val);
+  };
   return (
     <>
       {modalIsOpen && (
         <ModalWrapper darkThemeActive={darkThemeActive}>
           <ModalContent darkThemeActive={darkThemeActive}>
             <ModalExitBtn
-              onClick={() => setModalIsOpen((val) => !val)}
+              onClick={handleModalChange}
               darkThemeActive={darkThemeActive}
             >
               <IoMdClose
@@ -35,23 +42,35 @@ function ExitCurrentCourseModal({ modalIsOpen, setModalIsOpen }) {
             </P>
             <ButtonContainer>
               <MainActionBtn
-                onClick={() => setModalIsOpen((val) => !val)}
-                darkThemeActive={darkThemeActive}
-                style={{ minWidth: "160px" }}
-              >
-                <P> Cancel</P>
-              </MainActionBtn>
-              <MainActionBtn
                 onClick={() => {
                   navigate("/dashboard");
                   setModalIsOpen((val) => !val);
                 }}
                 darkThemeActive={darkThemeActive}
-                style={{ minWidth: "160px" }}
+                style={{ width: "170px", maxHeight: "120px" }}
               >
                 <P> Exit to Dashboard</P>
               </MainActionBtn>
+              <MainActionBtn
+                onClick={() => {
+                  navigate(`/courses/${params.subject}/${params.courseName}/`);
+                  handleModalChange();
+                }}
+                darkThemeActive={darkThemeActive}
+                style={{ width: "170px", maxHeight: "120px" }}
+              >
+                <P darkThemeActive={darkThemeActive}>
+                  {" "}
+                  Exit to {params.courseName} Course
+                </P>
+              </MainActionBtn>
             </ButtonContainer>
+            <Cancel
+              darkThemeActive={darkThemeActive}
+              onClick={handleModalChange}
+            >
+              Cancel
+            </Cancel>
           </ModalContent>
         </ModalWrapper>
       )}
@@ -79,7 +98,27 @@ const ModalWrapper = styled.div`
 `;
 
 const P = styled.p`
+  text-align: center;
   padding-right: 10px;
+  color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryFrontColor
+      : ThemeStyles.darkThemePrimaryFontColor};
+`;
+
+const Cancel = styled.button`
+  cursor: pointer;
+  border: none;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
+
   color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryFrontColor

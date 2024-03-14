@@ -94,19 +94,19 @@ function CoursesDashBoard() {
             flexDirection: "column",
             justifyContent: "space-around",
             alignItems: "center",
+            padding: "20px",
+            marginTop: "10px",
           }}
         >
           {" "}
           <p> Start by Enrolling</p>
           <ContinueBtn style={{ color: "white" }}>
             <Link
-              // style={{
-              //   // textDecoration: "none",
-              //   color: "white",
-              //   fontWeight: "500",
-              //   height: "100%",
-              //   width: "100%",
-              // }}
+              style={{
+                textDecoration: "none",
+                color: "white",
+                fontWeight: "500",
+              }}
               to={"/courses"}
             >
               Enroll For Course
@@ -123,9 +123,6 @@ export default CoursesDashBoard;
 const Wrapper = styled.div`
   width: 100%;
 `;
-
-
-
 
 const Tags = styled.div`
   height: 40px;
@@ -166,8 +163,6 @@ const SelectionBar = styled.div`
     width: 50%;
   }
 `;
-
-
 
 const Image = styled.div`
   height: 100%;

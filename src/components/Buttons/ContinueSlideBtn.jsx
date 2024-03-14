@@ -1,20 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
+import { GrLinkNext } from "react-icons/gr";
 import styled, { keyframes } from "styled-components";
 
-
-function NextArrowBtn({ refVal, currentslide, setCurrentSlide }) {
-  const iconStyle = {
-    transform: "rotate(90deg)",
-    height: "20px",
-    width: "20px",
-  };
-
+function ContinueSlideBtn({
+  refVal,
+  currentslide,
+  setCurrentSlide,
+  index,
+  length,
+}) {
   const scrolltoFn = (elementRef) => {
     elementRef.current?.scrollIntoView({
       alignToTop: true,
       behavior: "smooth",
     });
   };
+
+  const [buttonDisabled, setButtonDisabled] = useState(false);
 
   const handleContinueBtnClicked = (elementRef) => {
     setTimeout(() => {
@@ -26,39 +28,23 @@ function NextArrowBtn({ refVal, currentslide, setCurrentSlide }) {
 
   return (
     <Wrapper
-      // disabled={buttondisabled}
+      disabled={buttonDisabled}
       onClick={() => {
         setCurrentSlide((s) => s + 1);
         // setButtonDisabled((val) => true);
         handleContinueBtnClicked(refVal);
       }}
     >
-      Continue
-      {/* <GrLinkNext style={iconStyle}></GrLinkNext> */}
+      curr = {currentslide} i = {index} length = {length}
     </Wrapper>
   );
 }
 
-export default NextArrowBtn;
-
-const rotate = keyframes`
-0%   { transform: scale(1,1)      translateY(0); }
-3.3%  { transform: scale(1.1,.9)   translateY(0); }
-10%  { transform: scale(.9,1.1)   translateY(-20px); }
-16.6%  { transform: scale(1.05,.95) translateY(0); }
-19%  { transform: scale(1,1)      translateY(-3px); }
-24%  { transform: scale(1,1)      translateY(0); }
-100% { transform: scale(1,1)      translateY(0); }
-`;
+export default ContinueSlideBtn;
 
 const Wrapper = styled.button`
-  // animation: ${rotate} 3s linear infinite;
-  // display: flex;
-  // justify-content: center;
-  // align-items: center;
-  // border: none;
   margin: 60px;
-  height: 50px;
+  height: 100px;
   min-width: 350px;
   border: none;
   border-radius: 4px;

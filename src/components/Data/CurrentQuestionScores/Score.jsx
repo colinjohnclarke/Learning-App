@@ -127,8 +127,8 @@ const Wrapper = styled.div`
   z-index: 10;
   top: 0px;
   right: 0px;
-  background-color: rgba(0, 240, 240, 1);
-  border-radius: 0px 0px 0px 40px;
+  background-color: rgba(0, 245, 245, 1);
+  border-radius: 5px 5px 5px 40px;
   box-shadow: 0px 0px 20px 4px rgba(174, 196, 216, 0.25);
 `;
 

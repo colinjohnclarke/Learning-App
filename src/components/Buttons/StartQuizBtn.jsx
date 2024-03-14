@@ -15,7 +15,7 @@ export default StartQuizBtn;
 const rotate = keyframes`
   0%   { transform: scale(1,1)      translateY(0);  }
   3.3%  { transform: scale(1.1,.9)   translateY(0); }
-  10%  { transform: scale(.9,1.1)   translateY(-20px); }
+  10%  { transform: scale(.9,1.1)   translateY(-10px); }
   16.6%  { transform: scale(1.05,.95) translateY(0); }
   19%  { transform: scale(1,1)      translateY(-3px); }
   24%  { transform: scale(1,1)      translateY(0); }
@@ -30,7 +30,6 @@ const Wrapper = styled.button`
   justify-content: center;
   align-items: center;
   border: none;
-  // margin: 150px;
 
   height: 50px;
   width: 350px;

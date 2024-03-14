@@ -56,6 +56,14 @@ function Main() {
   }
 
   useEffect(() => {
+    dispatch(resetUserScore());
+    dispatch(resetAllSlidesSeen());
+    // dispatch(resetBlockedCompleted());
+    dispatch(resetPointsAvailableArr());
+    dispatch(resetSlideNumber());
+  }, []);
+
+  useEffect(() => {
     setItemDisplayed(itemDisplayedInitialState);
   }, [
     itemDisplayedInitialState === null
@@ -139,10 +147,7 @@ function Main() {
       darkThemeActive={darkThemeActive}
       className="animate__animated animate__fadeIn"
     >
-      <TextSlideShowWrapper
-        length={slideShowDataArr.length}
-        data={slideShowDataArr}
-      />
+      <TextSlideShowWrapper data={slideShowDataArr} />
       {currentblockprogressdata.allSlidesSeen && (
         <StartQuizBtn
           onClick={() => {
@@ -359,7 +364,7 @@ const Container = styled.div`
 
   @media ${device.mobileL} {
     position: relative;
-    width: 100%;
+    width: 98%;
     max-width: 1000px;
     scroll-margin: 75px;
     border: none;

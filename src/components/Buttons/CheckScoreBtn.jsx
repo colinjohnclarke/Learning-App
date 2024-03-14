@@ -20,7 +20,7 @@ const rotate = keyframes`
   19%  { transform: scale(1,1)      translateY(-3px); }
   24%  { transform: scale(1,1)      translateY(0); }
   33% { transform: scale(1,1)      translateY(0); }
-  50%{ background-color: rgba(0,200,200,1) }
+  50%{ background-color: rgba(0,240,240,1) }
   100%{  background-color: rgba(39, 106, 245, 1)}
 `;
 

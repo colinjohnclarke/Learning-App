@@ -29,6 +29,8 @@ const Btn = styled.button`
   border-radius: 5px;
   background-color: rgba(0, 240, 245, 1);
   color: white;
+  cursor: pointer;
+  
 
   box-shadow: ${(props) =>
     props.darkThemeActive

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import NextArrowBtn from "../Buttons/NextArrowBtn";
+import ContinueSlideBtn from "../Buttons/ContinueSlideBtn";
 import "animate.css";
 import BlockText from "../../config/sanity/BlockText";
 
@@ -14,6 +14,10 @@ function TextSection({
   setCurrentSlide,
 }) {
   let animateSection = "";
+  console.log("data", data);
+  console.log("currentslide", currentslide);
+  console.log("index", index);
+  console.log("length", length);
 
   let textStyle = {
     display: "none",
@@ -27,11 +31,13 @@ function TextSection({
   }
 
   const continueArrowButton = (
-    <NextArrowBtn
+    <ContinueSlideBtn
       currentslide={currentslide}
       setCurrentSlide={setCurrentSlide}
       refVal={refVal}
-    ></NextArrowBtn>
+      index={index}
+      length={length}
+    ></ContinueSlideBtn>
   );
 
   return (
@@ -45,7 +51,7 @@ function TextSection({
           overflow: "hidden",
         }}
       >
-        {index + 1 !== length && continueArrowButton}
+        {index !== length - 1 && continueArrowButton}
       </div>
     </Wrapper>
   );
@@ -59,6 +65,7 @@ const Wrapper = styled.section`
   display: flex;
   flex-direction: column;
   overflow: hidden;
+
   min-height: 90vh;
 `;
 

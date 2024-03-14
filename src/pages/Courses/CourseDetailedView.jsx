@@ -308,19 +308,16 @@ function CourseDetailedView() {
             </NextSection>
           </Header>
 
-          <div style={{ height: "60px" }}></div>
           <CourseBlockBreakown
             controllers={{ breakdownDisplayed, setBreakdownIsDisplayed }}
             completedBlocks={completedBlocks}
             blocksRemaining={blocksRemaining}
             data={blocks}
           ></CourseBlockBreakown>
-
-          <div style={{ height: "60px" }}></div>
         </Wrapper>
         <div style={{ height: "10px" }}></div>
         <SearchCourse />
-        <div style={{ height: "20px" }}></div>
+        <div style={{ height: "40px" }}></div>
         <LeaderBoard />
       </div>
       <NavigationBarMobile />

@@ -21,9 +21,9 @@ function GapFill({ index, data }) {
   const { acceptable_missing_words, hint, total_marks_available } = data;
 
   const acceptableMissingWordsArr = acceptable_missing_words.split(", ");
-  let isCorrect = acceptableMissingWordsArr
-    .includes(inputFieldGapFill)
-    .toLowerCase();
+  let isCorrect = acceptableMissingWordsArr.includes(
+    inputFieldGapFill.toLowerCase()
+  );
 
   const toggleHelp = () => {
     setHelpNeeded(!helpNeeded);
@@ -90,25 +90,11 @@ const Wrapper = styled.div`
   position: relative;
   padding-top: 40px;
   width: 100%;
+  min-height: 300px;
 
   @media ${device.mobileL} {
     height: 100%;
   }
-`;
-
-const Hint = styled.p`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  transition: 0.3s;
-  background-color: rgb(128, 48, 192);
-  border-radius: 5px;
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
-  color: black;
-  width: 90%;
-  background-color: rgba(0, 200, 200, 0.29);
-  padding: 10px;
 `;
 
 const Image = styled.div`
