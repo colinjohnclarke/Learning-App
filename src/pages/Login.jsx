@@ -17,10 +17,10 @@ function Login() {
         background: darkThemeActive
           ? `linear-gradient(
             225deg,
-            rgba(0, 100, 200, 0.3) 0%,
-            rgba(0, 200, 200, 0.3) 30%,
-            rgba(0, 240, 240, 0.3) 60%,
-            rgba(39, 106, 245, 0.3) 100%
+            rgba(0, 100, 200, 0.15) 0%,
+            rgba(0, 200, 200, 0.1) 30%,
+            rgba(0, 240, 240, 0.1) 60%,
+            rgba(39, 106, 245, 0.15) 100%
           )`
           : `linear-gradient(225deg, rgb(58,80,107) 0%, #1c2541 50%, #0b132b 100%)`,
 
@@ -47,15 +47,18 @@ function Login() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-           
           }}
         >
           <h1 style={{ fontWeight: "500", color: "rgb(0, 240, 240)" }}>
             SPS online
           </h1>{" "}
-          <img style={{ height: "230px",  marginBottom: '40px' }} src={spslogo} alt="" />
+          <img
+            style={{ height: "230px", marginBottom: "40px" }}
+            src={spslogo}
+            alt=""
+          />
         </div>
-        
+
         <LoginBtn darkThemeActive={darkThemeActive} />
         <LogoutBtn />
       </div>

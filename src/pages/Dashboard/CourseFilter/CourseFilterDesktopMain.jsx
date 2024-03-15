@@ -13,12 +13,7 @@ import { ThemeStyles } from "../../../styles/ThemeStyles";
 import { BiFilter } from "react-icons/bi";
 import { IoMdArrowBack } from "react-icons/io";
 
-function CourseFilterDesktopMain({
-  filterState,
-  dropDownState,
-  sidePanel,
-  
-}) {
+function CourseFilterDesktopMain({ filterState, dropDownState, sidePanel }) {
   const { filterTermsArr, setFilterTermsArr } = filterState;
   const { dropdownsSelected, setDropDownsSelected } = dropDownState;
 
@@ -70,7 +65,6 @@ function CourseFilterDesktopMain({
         <MainActionBtn
           style={{ marginRight: "4px" }}
           onClick={() => {
-            console.log("clicked");
             setFilterTermsArr([]);
           }}
           darkThemeActive={darkThemeActive}

@@ -5,7 +5,6 @@ import "@testing-library/jest-dom";
 import { mockUserData } from "../../../tesing/context/mockUserData";
 
 describe("Dashboard Welcome", () => {
-  console.log(mockUserData);
   test("Welcome message displayed", () => {
     render(
       <UserContext.Provider value={mockUserData}>

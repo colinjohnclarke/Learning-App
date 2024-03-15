@@ -5,7 +5,7 @@ import { UserContext } from "../../../App";
 import { device } from "../../../styles/breakpoints";
 import { GoPerson } from "react-icons/go";
 import InputField from "./InputField";
-import { useUpdateUserNamesMutation } from "../../../features/api/UserData/updateUserNames";
+import { useUpdateUserNamesMutation } from "../../../redux/api/UserData/updateUserNames";
 import MainActionBtn from "../../../components/Buttons/MainActionBtn";
 import { FcReading } from "react-icons/fc";
 

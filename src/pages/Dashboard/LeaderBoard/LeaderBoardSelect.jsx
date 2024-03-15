@@ -24,14 +24,15 @@ function LeaderBoardSelect() {
   const selected = {
     fontWeight: "500",
     transition: "0.3s",
-    color: "rgb(78, 78, 78)",
+    color: "#D3D3D3",
     textAlign: "center",
     // color: "red",
   };
   const unselected = {
     fontWeight: "500",
     transition: "0.3s",
-    color: "#D3D3D3",
+
+    color: "rgb(78, 78, 78)",
     textAlign: "center",
   };
 

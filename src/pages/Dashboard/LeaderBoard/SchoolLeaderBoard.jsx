@@ -5,7 +5,7 @@ import "animate.css";
 import { device } from "../../../styles/breakpoints";
 import { ThemeStyles } from "../../../styles/ThemeStyles";
 import { UserContext } from "../../../App";
-import { useGetTop10SchoolXPQuery } from "../../../features/api/UserData/SchoolData/schoolXPoints";
+import { useGetTop10SchoolXPQuery } from "../../../redux/api/UserData/SchoolData/schoolXPoints";
 
 function SchoolLeaderBoard() {
   const { darkThemeActive } = useContext(UserContext);
@@ -108,12 +108,9 @@ function SchoolLeaderBoard() {
                         display: "flex",
                         flexDirection: "row",
                         alignItems: "start",
-                        // justifyContent: "space-around",
+                        justifyContent: "space-between",
                         height: "40px",
                         width: "100%",
-                        // width: "250px",
-                        // padding: "5px",
-                        // border: "1px solid green",
                       }}
                     >
                       <P
@@ -182,6 +179,7 @@ const Main = styled.table`
 `;
 
 const TableHead = styled.thead`
+  border-radius: 5px;
   background-color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor

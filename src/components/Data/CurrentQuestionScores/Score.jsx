@@ -8,7 +8,7 @@ import {
   updatePointsAvailable,
   updateUserScore,
   reverseUpdatePointsAvailable,
-} from "../../../features/CurrentBlockProgressData/currentblockprogressdata";
+} from "../../../redux/CurrentBlockProgressData/currentblockprogressdata";
 import { UserContext } from "../../../App";
 
 function Score({ scoreData, totalMarksAvailable }) {

@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { rankData } from "./LeaderBoardRankData";
 import { device } from "../../../styles/breakpoints";
-import { useGetTop10UsersQuery } from "../../../features/api/UserData/userDataSlice";
+import { useGetTop10UsersQuery } from "../../../redux/api/UserData/userDataSlice";
 import "animate.css";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";

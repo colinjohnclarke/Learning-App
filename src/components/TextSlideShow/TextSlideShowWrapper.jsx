@@ -7,7 +7,7 @@ import {
   updateCurrentSlide,
   updateAllSlidesSeen,
   updateSlideNumber,
-} from "../../features/CurrentBlockProgressData/currentblockprogressdata";
+} from "../../redux/CurrentBlockProgressData/currentblockprogressdata";
 
 function TextSlideShowWrapper({ data }) {
   const filterEmptySlideContent = data.filter((item) => item !== null);

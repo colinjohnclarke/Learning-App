@@ -43,11 +43,12 @@ function Courses() {
     fontWeight: "500",
     transition: "0.3s",
     color: "rgb(78, 78, 78)",
+    color: "#D3D3D3",
   };
   const unselected = {
     fontWeight: "500",
     transition: "0.3s",
-    color: "#D3D3D3",
+    color: "rgb(78, 78, 78)",
   };
 
   return (
@@ -95,7 +96,7 @@ export default Courses;
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -12,7 +12,7 @@ import {
   setslider1Incorrect,
   setslider2Incorrect,
   setslider3Incorrect,
-} from "../../features/Slider/sliderindex0slice";
+} from "../../redux/Slider/sliderindex0slice";
 
 function Slider({
   isAlgebra,

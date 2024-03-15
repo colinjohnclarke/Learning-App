@@ -11,13 +11,12 @@ import { GoPerson } from "react-icons/go";
 import { MdOutlineEmail } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
 import MainActionBtn from "../../components/Buttons/MainActionBtn";
-import { useUpdatePersonalInformationMutation } from "../../features/api/UserData/updatePersonalInformation";
+import { useUpdatePersonalInformationMutation } from "../../redux/api/UserData/updatePersonalInformation";
 import InputField from "../GatherUserDataOnsignup/UserNames/InputField";
 import ConfirmChangeofPersonalDataModal from "./ConfirmChangeofPersonalDataModal";
 
 function Settings() {
   const { darkThemeActive, userData, setUserData } = useContext(UserContext);
-  console.log("🚀 ~ Settings ~ userData:", userData);
 
   const [updatePersonalInformation] = useUpdatePersonalInformationMutation();
 
@@ -47,27 +46,19 @@ function Settings() {
     firstName,
     lastName,
   };
-  console.log("🚀 ~ Settings ~ schoolDetails:", schoolDetails);
 
   const updateSchoolDetails = async () => {
     try {
       const result = await updatePersonalInformation(schoolDetails);
-      console.log("🚀 ~ updateSchoolDetails ~ result:", result.user);
 
       if (result) {
-        console.log("result", result?.data);
         setUserData((prev) => result?.data);
       }
-
-      console.log("🚀 ~ Settings ~ userData:", userData);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   const confirmUpdateDetails = () => {
     updateSchoolDetails();
-    console.log("clicked");
   };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -195,7 +186,6 @@ function Settings() {
 
       <MainActionBtn
         onClick={() => {
-          console.log("clicked");
           handleOpenModal();
         }}
         style={{ margin: "50px", width: "250px" }}

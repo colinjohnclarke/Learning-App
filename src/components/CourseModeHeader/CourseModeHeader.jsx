@@ -7,7 +7,7 @@ import { UserContext } from "../../App";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import ExitCurrentCourseBtn from "./ExitCurrentCourseBtn";
 
-function Header() {
+function CourseModeHeader() {
   const { darkThemeActive } = useContext(UserContext);
   return (
     <Wrapper darkThemeActive={darkThemeActive}>
@@ -19,7 +19,7 @@ function Header() {
   );
 }
 
-export default Header;
+export default CourseModeHeader;
 
 const Wrapper = styled.div`
   height: 50px;

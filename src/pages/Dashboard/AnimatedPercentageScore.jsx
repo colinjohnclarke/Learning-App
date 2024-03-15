@@ -30,8 +30,8 @@ function AnimatedPercentageScore({ percentage, color, fontColor }) {
         <Inner darkThemeActive={darkThemeActive}>
           <p
             style={{
-              fontSize: "12px",
-              fontWeight: "500",
+              fontSize: "11px",
+              fontWeight: "300",
               color: `${fontColor}`,
             }}
           >

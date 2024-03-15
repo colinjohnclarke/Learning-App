@@ -7,7 +7,7 @@ import MainActionBtn from "../../components/Buttons/MainActionBtn";
 import SelectYear from "./SelectYear/SelectYear";
 
 import { UserContext } from "../../App";
-import { useUpdateUserSchoolMutation } from "../../features/api/UserData/updateUserSchool";
+import { useUpdateUserSchoolMutation } from "../../redux/api/UserData/updateUserSchool";
 
 import { FcGraduationCap } from "react-icons/fc";
 
@@ -38,10 +38,7 @@ function StudentSchoolandYearWrapper({ navigateSignup }) {
   const updateSchoolDetails = async () => {
     try {
       const result = await updateUserSchool(schoolDetails);
-      console.log("🚀 ~ updateSchoolDetails ~ result:", result);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   const handleSaveBtnClick = () => {

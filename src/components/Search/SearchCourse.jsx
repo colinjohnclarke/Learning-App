@@ -4,43 +4,33 @@ import styled from "styled-components";
 import { BsSearch } from "react-icons/bs";
 import { device } from "../../styles/breakpoints";
 import CourseSearchResult from "../../pages/Dashboard/CourseSearchResult";
-import FetchBlocksfromSanity from "../../pages/Courses/FetchBlocksFromSanity";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import { UserContext } from "../../App";
 
 function SearchCourse() {
   const [searchedResult, setSearchedResult] = useState("");
-  const [displaySearchResults, setDisplaySearchResult] = useState(false);
-
-  const coursesfromSanity = FetchBlocksfromSanity();
 
   const { darkThemeActive } = useContext(UserContext);
   const navigate = useNavigate();
-
-  const searchCourse = (val) => {
-    let result = coursesfromSanity.filter(
-      (course) =>
-        course.subject.toLowerCase().includes(val) ||
-        course.blockName.toLowerCase().includes(val) ||
-        course.courseName.toLowerCase().includes(val)
-    );
-
-    setSearchedResult((res) => result);
-  };
-
-  let searchBoxHeight = searchedResult.length * 60 + 60;
 
   return (
     <Outer darkThemeActive={darkThemeActive}>
       <Main darkThemeActive={darkThemeActive}>
         <Wrapper
           onSubmit={(e) => {
+            e.preventDefault();
             navigate(`/courses?query=${searchedResult}`);
           }}
           darkThemeActive={darkThemeActive}
         >
           <div>
-            <BsSearch />
+            <BsSearch
+              fill={
+                darkThemeActive
+                  ? ThemeStyles.lightThemePrimaryFrontColor
+                  : ThemeStyles.darkThemePrimaryFontColor
+              }
+            />
           </div>
           <Input
             onChange={(e) => {
@@ -50,10 +40,7 @@ function SearchCourse() {
             type="text"
             placeholder="Search our courses..."
           ></Input>
-          <h1>{searchedResult}</h1>
         </Wrapper>
-
-        {displaySearchResults && <CourseSearchResult data={searchedResult} />}
       </Main>
     </Outer>
   );
@@ -89,6 +76,13 @@ const Input = styled.input`
 
   font-size: 16px;
 
+  &::placeholder {
+    color: ${(props) =>
+      props.darkThemeActive
+        ? ThemeStyles.lightThemePrimaryFrontColor
+        : ThemeStyles.darkThemePrimaryFontColor};
+  }
+
   color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryFrontColor
@@ -108,6 +102,10 @@ const Main = styled.div`
   align-items: center;
   background-color: white;
   border-radius: 5px;
+  box-shadow: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemeMainBoxShadow
+      : ThemeStyles.darkThemeMainBoxShadow};
 
   background-color: ${(props) =>
     props.darkThemeActive

@@ -29,7 +29,6 @@ function CourseBlockBreakdown({ data, completedBlocks, blocksRemaining }) {
         subBlock.subject === block.subject
       );
     });
-    console.log("🚀 ~ findBlock ~ findBlock:", findBlock);
 
     const content = block.coverImage ? (
       <img
@@ -56,6 +55,7 @@ function CourseBlockBreakdown({ data, completedBlocks, blocksRemaining }) {
           justifyContent: "space-between",
           alignItems: "center",
           borderRadius: "5px",
+          border: "none",
         }}
         to={`/courses/${block.subject}/${block.courseName}/${block.blockName}`}
       >
@@ -67,6 +67,9 @@ function CourseBlockBreakdown({ data, completedBlocks, blocksRemaining }) {
               paddingLeft: "10px",
               textAlign: "start",
               fontWeight: "400",
+              color: darkThemeActive
+                ? ThemeStyles.lightThemePrimaryFontgroundColor
+                : ThemeStyles.darkThemePrimaryFontColor,
               // display: "flex",
               // justifyContent: "center",
               // alignItem: "start",
@@ -77,7 +80,18 @@ function CourseBlockBreakdown({ data, completedBlocks, blocksRemaining }) {
 
           {findBlock && (
             <div style={{ display: "flex", alignItems: "center" }}>
-              <p style={{ fontSize: "11px", fontWeight: "600" }}> Top Score:</p>
+              <p
+                style={{
+                  fontSize: "11px",
+                  fontWeight: "600",
+                  color: darkThemeActive
+                    ? ThemeStyles.lightThemePrimaryFontgroundColor
+                    : ThemeStyles.darkThemePrimaryFontColor,
+                }}
+              >
+                {" "}
+                Top Score:
+              </p>
               <AnimatedPercentageScore
                 color="rgb(0, 240, 245)"
                 percentage={findBlock?.percentageScores}
@@ -129,6 +143,8 @@ const Wrapper = styled.div`
   align-items: center;
   transition: 0.3s;
 
+  margin: 0px;
+
   border-radius: 5px;
 `;
 
@@ -149,7 +165,7 @@ const Box = styled.a`
   width: 100%;
   min-width: 290px;
   // padding: 4px;
-  margin: 4px;
+
   border-radius: 5px;
   text-decoration: none;
   display: flex;
@@ -200,12 +216,10 @@ const OverView = styled.div`
 
   font-weight: 500;
 
-  //   background-color: rgb(255, 255, 255);
-  // background: linear-gradient(
-  //   225deg,
-  //   rgba(39, 106, 245, 0.5) 0%,
-  //   rgba(0, 200, 200, 1) 100%
-  // );
+  color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryFrontColor
+      : ThemeStyles.darkThemePrimaryFontColor};
   margin-bottom: 10px;
   margin-top: 10px;
 `;

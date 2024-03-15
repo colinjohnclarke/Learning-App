@@ -24,11 +24,11 @@ import {
   useGetAllEnrolledCoursesDataQuery,
   useAddEnrolledCourseMutation,
   useDeleteEnrolledCourse,
-} from "../../features/api/UserData/enrolledCourseDataSlice";
+} from "../../redux/api/UserData/enrolledCourseDataSlice";
 import {
   useGetUserByEmailQuery,
   useCreateUserMutation,
-} from "../../features/api/UserData/userDataSlice";
+} from "../../redux/api/UserData/userDataSlice";
 import NavigationBarMobile from "../../components/Navigation/NavigationBarMobile";
 import CourseUserData from "./CourseHeadlineUserData";
 
@@ -65,12 +65,8 @@ function CourseDetailedView() {
 
       try {
         const result = await addEnrolledCourse(course)
-          .then((result) => {
-            console.log("🚀 ~ ~ result:", result);
-          })
-          .catch((error) => {
-            console.log("🔥 An error occurred:", error);
-          });
+          .then((result) => {})
+          .catch((error) => {});
 
         refetch();
         // setUserData(result);
@@ -383,7 +379,7 @@ const NextSection = styled.div`
 `;
 
 const Main = styled.div`
-  height: 100vh;
+  height: 100%;
   width: 100%;
 
   display: flex;

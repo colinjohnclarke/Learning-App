@@ -6,7 +6,7 @@ import styled from "styled-components";
 import ContinueBtn from "../../components/Buttons/ContinueBtn";
 import TextSlideShowWrapper from "../../components/TextSlideShow/TextSlideShowWrapper";
 import { useSelector, useDispatch } from "react-redux";
-import { updateProgressPercentage } from "../../features/ProgressBar/ProgressBar";
+import { updateProgressPercentage } from "../../redux/ProgressBar/ProgressBar";
 import PostBlockPointsReveal from "../../components/Data/PostBlockPointsReveal/PostBlockPointsReveal";
 import Loader from "../../components/Loader";
 import { ThemeStyles } from "../../styles/ThemeStyles";
@@ -19,16 +19,16 @@ import {
   resetPointsAvailableArr,
   resetSlideNumber,
   updatePercentage,
-} from "../../features/CurrentBlockProgressData/currentblockprogressdata";
-import { useUpdateUserDataMutation } from "../../features/api/UserData/userDataSlice";
-import { useUpdateEnrolledCourseMutation } from "../../features/api/UserData/enrolledCourseDataSlice";
+} from "../../redux/CurrentBlockProgressData/currentblockprogressdata";
+import { useUpdateUserDataMutation } from "../../redux/api/UserData/userDataSlice";
+import { useUpdateEnrolledCourseMutation } from "../../redux/api/UserData/enrolledCourseDataSlice";
 import { UserContext } from "../../App";
 import CheckScoreBtn from "../../components/Buttons/CheckScoreBtn";
 import StartQuizBtn from "../../components/Buttons/StartQuizBtn";
 import { device } from "../../styles/breakpoints";
 import CourseDetails from "../../components/CourseDetails/CourseDetails";
 import FetchBlockDataFromSanity from "./FetchBlockDataFromSanity";
-import Header from "../../components/Header/Header";
+import Header from "../../components/CourseModeHeader/CourseModeHeader";
 
 import OrderItemsMain from "./OrderingItems/OrderItemsMain";
 

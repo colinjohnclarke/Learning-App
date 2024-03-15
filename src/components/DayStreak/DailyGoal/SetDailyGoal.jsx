@@ -9,7 +9,7 @@ import {
 import ConfettiDashboard from "../../AnimatedEffects/ConfettiDashboard";
 import { device } from "../../../styles/breakpoints";
 import { DiRubyRough } from "react-icons/di";
-import { useUpdateDailyXpGoalMutation } from "../../../features/api/UserData/dailyXPGoal";
+import { useUpdateDailyXpGoalMutation } from "../../../redux/api/UserData/dailyXPGoal";
 import { IoMdClose } from "react-icons/io";
 
 function SetDailyGoal({ modalIsOpen, setModalIsOpen }) {

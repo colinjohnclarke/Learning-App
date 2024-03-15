@@ -35,7 +35,7 @@ function ContinueSlideBtn({
         handleContinueBtnClicked(refVal);
       }}
     >
-      curr = {currentslide} i = {index} length = {length}
+      Continue
     </Wrapper>
   );
 }
@@ -44,7 +44,7 @@ export default ContinueSlideBtn;
 
 const Wrapper = styled.button`
   margin: 60px;
-  height: 100px;
+  height: 50px;
   min-width: 350px;
   border: none;
   border-radius: 4px;

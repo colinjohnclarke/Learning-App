@@ -3,8 +3,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const dailyXpGoalSlice = createApi({
   reducerPath: "dailyXpGoalSlice",
   baseQuery: fetchBaseQuery({
-    baseUrl: `http://localhost:3600`,
-    // baseUrl: `https://sps-dev-deploy-test1.onrender.com`,
+    // baseUrl: `http://localhost:3600`,
+    baseUrl: `https://sps-dev-deploy-test1.onrender.com`,
   }),
   tagTypes: ["DailyXpGoal"],
   endpoints: (builder) => ({

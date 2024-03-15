@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { useGetUserSchoolQuery } from "../../../features/api/UserData/userSchool";
+import { useGetUserSchoolQuery } from "../../../redux/api/UserData/userSchool";
 import styled from "styled-components";
 import { ThemeStyles } from "../../../styles/ThemeStyles";
 import { IoSchoolOutline } from "react-icons/io5";
@@ -84,7 +84,6 @@ function SelectSchool({ setSchool, school }) {
     );
   } else if (newOptionSelected) {
     searchResult = <></>;
-    console.log("newScgool selected");
   }
 
   return (

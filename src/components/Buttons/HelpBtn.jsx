@@ -26,9 +26,8 @@ const Btn = styled.button`
   width: 50px;
   height: 50px;
   border: 2px solid rgb(0, 245, 245);
-  border-radius: 4px;
+  border-radius: 5px;
   background-color: white;
-
   background-color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor

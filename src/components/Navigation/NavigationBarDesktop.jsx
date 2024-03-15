@@ -1,28 +1,27 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { device } from "../../styles/breakpoints";
+import { UserContext } from "../../App";
+import { ThemeStyles } from "../../styles/ThemeStyles";
 
 function NavigationBarDesktop() {
-  console.log("WINDOWLOCATION", window.location);
+  const { darkThemeActive } = useContext(UserContext);
 
   const style = {
-    padding: "10px",
     textDecoration: "none",
-    fontWeight: "400",
-    fontSize: "14px",
   };
   return (
     <Wrapper>
       {" "}
       <Link data-testid={"dashboard"} to={"/dashboard"} style={style}>
-        Dashboard
+        <P>Dashboard</P>
       </Link>
       <Link data-testid={"courses"} to={"/courses"} style={style}>
-        Courses
+        <P>Courses</P>
       </Link>
       <Link data-testid={"profile"} to={"/profile"} style={style}>
-        Profile
+        <P>Profile</P>
       </Link>
     </Wrapper>
   );
@@ -49,12 +48,12 @@ const P = styled.p`
 
   &:hover {
     color: rgb(0, 240, 240);
-    transition: 0.1s;
+    transition: 0.2s;
     text-decoration: underline;
   }
 
   @media ${device.tablet} {
-    font-size: 13.5px;
-    font-weight: 600;
+    font-size: 13px;
+    font-weight: 400;
   }
 `;

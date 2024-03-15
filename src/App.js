@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext, createContext } from "react";
 import "./App.css";
 import Routing from "./routes/Routing";
-import { BrowserRouter } from "react-router-dom";
+
 import Login from "./pages/Login";
 import { useAuth0 } from "@auth0/auth0-react";
 import checkLocalStorageForThemePrefs from "./components/Data/LocalStorage/checkLocalStorageForThemePrefs";
@@ -9,14 +9,14 @@ import UserThemePrefsLocalStorage from "./components/Data/LocalStorage/UserTheme
 import {
   useGetUserByEmailQuery,
   useCreateUserMutation,
-} from "./features/api/UserData/userDataSlice";
+} from "./redux/api/UserData/userDataSlice";
 import UserPreferencesOnSignupModal from "./pages/GatherUserDataOnsignup/UserPreferencesOnSignupModal";
 
 export const UserContext = createContext();
 
 function App() {
   const { isAuthenticated, user } = useAuth0();
-  console.log("🚀 ~ App ~ isAuthenticated:", isAuthenticated);
+
   const [loginCompleted, setLoginCompleted] = useState(false);
   const [
     isSchoolandUserPreferencesCompleted,
@@ -73,7 +73,7 @@ function App() {
             emailVerified: user.email_verified,
             // password: user.password,
           });
-          console.log("response", response);
+
           return response;
         } catch (error) {
           return null; // Return null if there's an error
@@ -99,7 +99,6 @@ function App() {
     silentModeActive,
     setSilentModeActive,
   };
-  console.log("🚀 ~ App ~ userContextValues:", userContextValues);
 
   let localStorageData = checkLocalStorageForThemePrefs();
 
@@ -110,7 +109,6 @@ function App() {
         setDarkThemeActive={setDarkThemeActive}
       />
 
-      {/* <BrowserRouter> */}
       {!isAuthenticated && <Login />}
       {loginCompleted &&
         !localStorageData &&
@@ -128,7 +126,6 @@ function App() {
           <Routing />{" "}
         </div>
       )}
-      {/* </BrowserRouter> */}
     </UserContext.Provider>
   );
 }

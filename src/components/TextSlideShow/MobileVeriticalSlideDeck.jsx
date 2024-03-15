@@ -7,7 +7,7 @@ function MobileVerticalSlideDeck({
   currentslide,
   setCurrentSlide,
 }) {
-  console.log("🚀 ~ length:", length);
+ 
   const refArr = [
     useRef(null),
     useRef(null),

@@ -13,7 +13,6 @@ function ExitCurrentCourseModal({ modalIsOpen, setModalIsOpen }) {
   const { darkThemeActive } = useContext(UserContext);
   const navigate = useNavigate();
   const params = useParams();
-  console.log("🚀 ~ ExitCurrentCourseModal ~ params:", params);
 
   const handleModalChange = () => {
     setModalIsOpen((val) => !val);
@@ -38,8 +37,15 @@ function ExitCurrentCourseModal({ modalIsOpen, setModalIsOpen }) {
               size={54}
             />
             <P darkThemeActive={darkThemeActive}>
-              Are you sure you want to exit? You will lose all progress.
+              Are you sure you want to exit?
             </P>
+            <P
+              style={{ fontSize: "11px", marginBottom: "20px" }}
+              darkThemeActive={darkThemeActive}
+            >
+              You will lose all progress.
+            </P>
+
             <ButtonContainer>
               <MainActionBtn
                 onClick={() => {
@@ -47,7 +53,7 @@ function ExitCurrentCourseModal({ modalIsOpen, setModalIsOpen }) {
                   setModalIsOpen((val) => !val);
                 }}
                 darkThemeActive={darkThemeActive}
-                style={{ width: "170px", maxHeight: "120px" }}
+                style={{ width: "150px", maxHeight: "120px" }}
               >
                 <P> Exit to Dashboard</P>
               </MainActionBtn>
@@ -57,7 +63,7 @@ function ExitCurrentCourseModal({ modalIsOpen, setModalIsOpen }) {
                   handleModalChange();
                 }}
                 darkThemeActive={darkThemeActive}
-                style={{ width: "170px", maxHeight: "120px" }}
+                style={{ width: "150px", maxHeight: "120px" }}
               >
                 <P darkThemeActive={darkThemeActive}>
                   {" "}

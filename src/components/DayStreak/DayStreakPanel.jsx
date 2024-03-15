@@ -27,7 +27,16 @@ function DayStreakPanel() {
       <FlameDayStreak />
       <Mobile style={{ margin: "10px" }}> days</Mobile>
       {!arrOfDatesQuizCompletedLastWeek.find((item) => item === today) && (
-        <p> Complete a lesson to start day streak!</p>
+        <p
+          style={{
+            color: darkThemeActive
+              ? ThemeStyles.lightThemePrimaryFrontColor
+              : ThemeStyles.darkThemePrimaryFontColor,
+          }}
+        >
+          {" "}
+          Complete a lesson to start day streak!
+        </p>
       )}
       {arrOfDatesQuizCompletedLastWeek.find((item) => item === today) && (
         <Streak

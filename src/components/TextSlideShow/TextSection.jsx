@@ -14,10 +14,6 @@ function TextSection({
   setCurrentSlide,
 }) {
   let animateSection = "";
-  console.log("data", data);
-  console.log("currentslide", currentslide);
-  console.log("index", index);
-  console.log("length", length);
 
   let textStyle = {
     display: "none",

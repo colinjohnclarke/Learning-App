@@ -7,7 +7,7 @@ import AnimatedPercentageScore from "../Dashboard/AnimatedPercentageScore";
 import FetchBlocksfromSanity from "./FetchBlocksFromSanity";
 import sanityClient from "../../createclient";
 import imageUrlBuilder from "@sanity/image-url";
-import { useGetAllEnrolledCoursesDataQuery } from "../../features/api/UserData/enrolledCourseDataSlice";
+import { useGetAllEnrolledCoursesDataQuery } from "../../redux/api/UserData/enrolledCourseDataSlice";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import HeaderColoredHightlight from "./HeaderColoredHightlight";
 import ContinueBtn from "../../components/Buttons/ContinueBtn";
@@ -114,15 +114,26 @@ function RecentCourses() {
                   {result?.courseName}
                 </p>
               </div>
-              <p
+              <div
                 style={{
-                  fontSize: "13px",
-                  listStyle: "none",
-                  padding: "12px",
+                  display: "flex",
+                  flexDirection: "column",
+
+                  alignItems: "center",
+
+                  width: "60px",
                 }}
               >
-                {item.XPForCurrentCourse} Xp
-              </p>
+                <p
+                  style={{
+                    fontSize: "13px",
+                    listStyle: "none",
+                    padding: "12px",
+                  }}
+                >
+                  {item.XPForCurrentCourse} Xp
+                </p>
+              </div>
             </Text>
             <AnimatedPercentageScore
               color="rgb(0, 245, 245)"
@@ -262,7 +273,7 @@ const Text = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
 `;
 

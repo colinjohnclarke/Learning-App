@@ -1,20 +1,20 @@
 import { configureStore } from "@reduxjs/toolkit";
-import sliderquestiondataSliceIndex0reducer from "../features/DualSelection/dualselectionquestiondataSliceIndex0";
-import sliderquestiondataSliceIndex1reducer from "../features/DualSelection/dualselectionquestiondataSliceIndex1";
-import draganddropreducer from "../features/draganddropdataSlice";
-import sliderSliceIndex0reducer from "../features/Slider/sliderindex0slice";
-import progressbarreducer from "../features/ProgressBar/ProgressBar";
-import drawerSlice from "../features/Drawer/DrawerSlice";
-import currentblockprogressdata from "../features/CurrentBlockProgressData/currentblockprogressdata";
-import mathsMCQSlice from "../features/MCQ/mathsMCQSlice";
-import { userDataSlice } from "../features/api/UserData/userDataSlice";
-import { enrolledCourseDataSlice } from "../features/api/UserData/enrolledCourseDataSlice";
-import { dailyXpGoalSlice } from "../features/api/UserData/dailyXPGoal";
-import { userSchoolSlice } from "../features/api/UserData/userSchool";
-import { updateUserSchoolSlice } from "../features/api/UserData/updateUserSchool";
-import { schoolXPpointsSlice } from "../features/api/UserData/SchoolData/schoolXPoints";
-import { updatePersonalInformationSlice } from "../features/api/UserData/updatePersonalInformation";
-import { updateUserNamesSlice } from "../features/api/UserData/updateUserNames";
+import sliderquestiondataSliceIndex0reducer from "../redux/DualSelection/dualselectionquestiondataSliceIndex0";
+import sliderquestiondataSliceIndex1reducer from "../redux/DualSelection/dualselectionquestiondataSliceIndex1";
+import draganddropreducer from "../redux/draganddropdataSlice";
+import sliderSliceIndex0reducer from "../redux/Slider/sliderindex0slice";
+import progressbarreducer from "../redux/ProgressBar/ProgressBar";
+import drawerSlice from "../redux/Drawer/DrawerSlice";
+import currentblockprogressdata from "../redux/CurrentBlockProgressData/currentblockprogressdata";
+import mathsMCQSlice from "../redux/MCQ/mathsMCQSlice";
+import { userDataSlice } from "../redux/api/UserData/userDataSlice";
+import { enrolledCourseDataSlice } from "../redux/api/UserData/enrolledCourseDataSlice";
+import { dailyXpGoalSlice } from "../redux/api/UserData/dailyXPGoal";
+import { userSchoolSlice } from "../redux/api/UserData/userSchool";
+import { updateUserSchoolSlice } from "../redux/api/UserData/updateUserSchool";
+import { schoolXPpointsSlice } from "../redux/api/UserData/SchoolData/schoolXPoints";
+import { updatePersonalInformationSlice } from "../redux/api/UserData/updatePersonalInformation";
+import { updateUserNamesSlice } from "../redux/api/UserData/updateUserNames";
 
 export const store = configureStore({
   reducer: {
