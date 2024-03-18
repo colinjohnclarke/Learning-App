@@ -5,7 +5,6 @@ import { device } from "../../styles/breakpoints";
 import "animate.css";
 import { UserContext } from "../../App";
 import AnimatedPercentageScore from "../Dashboard/AnimatedPercentageScore";
-
 import sanityClient from "../../createclient";
 import imageUrlBuilder from "@sanity/image-url";
 import { ThemeStyles } from "../../styles/ThemeStyles";

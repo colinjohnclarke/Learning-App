@@ -66,6 +66,7 @@ export default AnimatedPercentageScore;
 
 const Wrapper = styled.div`
   padding: 10px;
+
   position: relative;
   z-index: 10;
   //   height: 100%;
@@ -127,10 +128,7 @@ const breatheAnimation = keyframes`
 const Svg = styled.svg`
   position: relative;
 
-  //   z-index: 100;
   top: 3px;
-  //   left: 20px;
-  //   top: 0px;
 `;
 
 const Circle = styled.circle``;

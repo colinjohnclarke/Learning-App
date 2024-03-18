@@ -13,8 +13,11 @@ import imageUrlBuilder from "@sanity/image-url";
 import RecentCourses from "../Courses/RecentCourses";
 import ContinueBtn from "../../components/Buttons/ContinueBtn";
 import { Link } from "react-router-dom";
+import { UserContext } from "../../App";
+import { ThemeStyles } from "../../styles/ThemeStyles";
 
 function CoursesDashBoard() {
+  const { darkThemeActive } = useContext(UserContext);
   const [seeRecommenedCourses, setSeeRecommendedCourses] = useState(false);
   const [recentCoursesDisplayed, setRecentCoursesDisplayed] = useState(true);
   const [displayFilter, setDisplayFilter] = useState(false);
@@ -40,20 +43,23 @@ function CoursesDashBoard() {
 
   console.log(subject, courseName, blockName);
 
-  const courses = FetchBlocksfromSanity();
-
   const selected = {
     fontWeight: "500",
     transition: "0.3s",
-
-    color: "#D3D3D3",
+    color: darkThemeActive
+      ? ThemeStyles.lightThemePrimaryFrontColor
+      : ThemeStyles.darkThemePrimaryFontColor,
+    textAlign: "center",
     // color: "red",
   };
   const unselected = {
     fontWeight: "500",
     transition: "0.3s",
-    color: "rgb(78, 78, 78)",
+    color: "rgb(128,128,128)",
+    color: darkThemeActive ? "rgb(220,220,220)" : "rgb(105,105,105)",
+    textAlign: "center",
   };
+
   const selectionbarLeft = {
     transition: "ease-in-out 0.3s",
   };

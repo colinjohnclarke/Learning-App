@@ -66,7 +66,7 @@ function SetDailyGoalBtn({ ...attributes }) {
 export default SetDailyGoalBtn;
 
 const Wrapper = styled.div`
-  padding: 10px;
+  padding: 15px;
   height: 30px;
   width: 110px;
   border-radius: 5px;
@@ -87,7 +87,6 @@ const Inner = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-
   color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.darkThemePrimaryFontColor

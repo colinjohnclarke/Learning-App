@@ -3,8 +3,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const schoolXPpointsSlice = createApi({
   reducerPath: "schoolXPpointsSlice",
   baseQuery: fetchBaseQuery({
-    // baseUrl: `http://localhost:3600`,
-    baseUrl: `https://sps-dev-deploy-test1.onrender.com`,
+    baseUrl: `http://localhost:3600`,
+    // baseUrl: `https://sps-dev-deploy-test1.onrender.com`,
   }),
   tagTypes: ["SchoolXPPoints"],
   endpoints: (builder) => ({

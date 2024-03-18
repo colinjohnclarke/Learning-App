@@ -193,10 +193,7 @@ const Main = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  justify-content: center;
-
-  @media ${device.tablet} {
-  }
+  justify-content: flex-start;
 `;
 
 const Grid = styled.div`

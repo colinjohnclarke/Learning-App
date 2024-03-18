@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import StudentLeaderBoard from "./StudentLeaderBoard";
 import SchoolLeaderBoard from "./SchoolLeaderBoard";
 import { device } from "../../../styles/breakpoints";
+import { ThemeStyles } from "../../../styles/ThemeStyles";
+import { UserContext } from "../../../App";
 
 function LeaderBoardSelect() {
+  const { darkThemeActive } = useContext(UserContext);
   const [schoolLeaderBoardSelected, setSchoolLeaderBoardSelected] =
     useState(false);
 
@@ -24,15 +27,17 @@ function LeaderBoardSelect() {
   const selected = {
     fontWeight: "500",
     transition: "0.3s",
-    color: "#D3D3D3",
+    color: darkThemeActive
+      ? ThemeStyles.lightThemePrimaryFrontColor
+      : ThemeStyles.darkThemePrimaryFontColor,
     textAlign: "center",
     // color: "red",
   };
   const unselected = {
     fontWeight: "500",
     transition: "0.3s",
-
-    color: "rgb(78, 78, 78)",
+    color: "rgb(128,128,128)",
+    color: darkThemeActive ? "rgb(220,220,220)" : "rgb(105,105,105)",
     textAlign: "center",
   };
 

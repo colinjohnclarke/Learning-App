@@ -11,17 +11,19 @@ import {
   useCreateUserMutation,
 } from "./redux/api/UserData/userDataSlice";
 import UserPreferencesOnSignupModal from "./pages/GatherUserDataOnsignup/UserPreferencesOnSignupModal";
+import Loader from "./components/Loader";
 
 export const UserContext = createContext();
 
 function App() {
-  const { isAuthenticated, user } = useAuth0();
+  const { isAuthenticated, isLoading, user } = useAuth0();
 
   const [loginCompleted, setLoginCompleted] = useState(false);
   const [
     isSchoolandUserPreferencesCompleted,
     setIsShoolandUserPreferencesCompleted,
   ] = useState(false);
+
   const [darkThemeActive, setDarkThemeActive] = useState();
   const [silentModeActive, setSilentModeActive] = useState();
   const [userData, setUserData] = useState({});
@@ -109,7 +111,9 @@ function App() {
         setDarkThemeActive={setDarkThemeActive}
       />
 
+      {isLoading && !isAuthenticated && <Loader />}
       {!isAuthenticated && <Login />}
+
       {loginCompleted &&
         !localStorageData &&
         !isSchoolandUserPreferencesCompleted && (

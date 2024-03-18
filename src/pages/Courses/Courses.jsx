@@ -42,15 +42,19 @@ function Courses() {
   const selected = {
     fontWeight: "500",
     transition: "0.3s",
-    color: "rgb(78, 78, 78)",
-    color: "#D3D3D3",
+    color: darkThemeActive
+      ? ThemeStyles.lightThemePrimaryFrontColor
+      : ThemeStyles.darkThemePrimaryFontColor,
+    textAlign: "center",
+    // color: "red",
   };
   const unselected = {
     fontWeight: "500",
     transition: "0.3s",
-    color: "rgb(78, 78, 78)",
+    color: "rgb(128,128,128)",
+    color: darkThemeActive ? "rgb(220,220,220)" : "rgb(105,105,105)",
+    textAlign: "center",
   };
-
   return (
     <Wrapper darkThemeActive={darkThemeActive}>
       <Padding />
@@ -96,7 +100,7 @@ export default Courses;
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -121,10 +125,7 @@ const Main = styled.div`
   align-items: center;
   width: 98%;
   max-width: 900px;
-
-  // @media ${device.desktop} {
-  //   height: 100%;
-  // }
+  height: 100vh;
 `;
 
 const Padding = styled.div`

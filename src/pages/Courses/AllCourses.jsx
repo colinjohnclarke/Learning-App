@@ -113,8 +113,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  transition: 1s;
-  height: 100%;
+  transition: 0.3s;
 `;
 const Box = styled.a`
   position: relative;

@@ -3,33 +3,31 @@ import StudentTextInputWrapper from "../../../components/SingleStudentInput/Stud
 import FillMissingValuesTable from "../../../components/Tables/MissingData/FillMissingValues";
 import IncorrectWordWrapper from "../../../components/IncorrectWordIdentifier/IncorrectWordWrapper";
 import GapFillWrapper from "../../../components/GapFill/GapFillWrapper";
-import MovingSliderWrapper from "../../../components/MovingSlider/MovingSliderWrapper";
+import MovingSliderWrapper from "../../../components/Slider/MovingSliderWrapper";
 import DualBoxSelectionWrapper from "../../../components/DualSelection/DualBoxSelectionWrapper";
 import DragandDropWrapper from "../../../components/Drag&Drop/DragandDropWrapper";
 import LabellingWrapper from "../../../components/Labelling/LabellingWrapper";
 
 const CreateArrayOfAflComponents = (arrayOfItemsWithPosition, blockData) => {
-
-    const {
-        subject_skills,
-        skills,
-        problem_keywords,
-        tags,
-        labelling,
-        MCQ_INPUTS,
-        order_items_drag_drop,
-        slider,
-        gap_fill,
-        incorrect_words_from_text,
-        standard_table_variable_names,
-        standard_tables,
-        student_text_input,
-        table,
-        line_graph_data,
-        textblock1,
-        textblock2,
-      } = blockData;
-
+  const {
+    subject_skills,
+    skills,
+    problem_keywords,
+    tags,
+    labelling,
+    MCQ_INPUTS,
+    order_items_drag_drop,
+    slider,
+    gap_fill,
+    incorrect_words_from_text,
+    standard_table_variable_names,
+    standard_tables,
+    student_text_input,
+    table,
+    line_graph_data,
+    textblock1,
+    textblock2,
+  } = blockData;
 
   return arrayOfItemsWithPosition.map((item) => {
     let component = null;
@@ -56,11 +54,11 @@ const CreateArrayOfAflComponents = (arrayOfItemsWithPosition, blockData) => {
       case "gap_fill":
         component = <GapFillWrapper data={[gap_fill[item.index]]} />;
         break;
-      // case "slider":
-      //   component = <MovingSliderWrapper data={[slider[item.index]]} />;
-      //   break;
-
       case "slider":
+        component = <MovingSliderWrapper data={[slider[item.index]]} />;
+        break;
+
+      case "dual_box":
         component = <DualBoxSelectionWrapper data={[slider[item.index]]} />;
         break;
       case "order_items_drag_drop":

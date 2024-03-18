@@ -13,26 +13,24 @@ const CourseDetailedView = lazy(() =>
 
 function Routing({ navState }) {
   return (
-    <div>
-      <Suspense fallback={<Loader></Loader>}>
-        <Routes>
-          <Route index path="/" element={<Dashboard />} />
-          <Route path="login" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/courses" element={<Courses />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route
-            path="/courses/:subject/:courseName/:blockName"
-            element={<Main />}
-          />
-          <Route
-            path="/courses/:subject/:courseName"
-            element={<CourseDetailedView />}
-          />
-        </Routes>
-      </Suspense>
-    </div>
+    <Suspense fallback={<Loader></Loader>}>
+      <Routes>
+        <Route index path="/" element={<Dashboard />} />
+        <Route path="login" element={<Login />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/courses" element={<Courses />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/settings" element={<Settings />} />
+        <Route
+          path="/courses/:subject/:courseName/:blockName"
+          element={<Main />}
+        />
+        <Route
+          path="/courses/:subject/:courseName"
+          element={<CourseDetailedView />}
+        />
+      </Routes>
+    </Suspense>
   );
 }
 

@@ -17,6 +17,7 @@ function MovingSlider({
   const sliderCorrect = useSelector((state) => state.sliderSliceIndex0reducer);
   const sliderCorrectList = [];
 
+  console.log("sliderBool", sliderBool);
   const { correctAnswerIsSelected, setCorrectAnswerIsSelected } =
     updateStateFunctions;
 
@@ -35,13 +36,6 @@ function MovingSlider({
       setCorrectAnswerIsSelected((val) => true);
     }
   }, [allcorrect]);
-
-  const {
-    rightSlideIsHighlightedSlider0,
-    rightSlideIsHighlightedSlider1,
-    rightSlideIsHighlightedSlider2,
-    rightSlideIsHighlightedSlider3,
-  } = sliderBool;
 
   const {
     slider0leftIsCorrect,
@@ -114,7 +108,7 @@ function MovingSlider({
 
       <Slider
         {...sliderProps}
-        initialBoolSlider={rightSlideIsHighlightedSlider0}
+        initialBoolSlider={sliderBool[0]}
         displaySlider={displaySlider0}
         position={0}
         sliderLeftIsCorrect={slider0leftIsCorrect}
@@ -133,7 +127,7 @@ function MovingSlider({
 
       <Slider
         {...sliderProps}
-        initialBoolSlider={rightSlideIsHighlightedSlider1}
+        initialBoolSlider={sliderBool[1]}
         displaySlider={displaySlider1}
         position={1}
         sliderLeftIsCorrect={slider1leftIsCorrect}
@@ -151,7 +145,7 @@ function MovingSlider({
       ></Slider>
       <Slider
         {...sliderProps}
-        initialBoolSlider={rightSlideIsHighlightedSlider2}
+        initialBoolSlider={sliderBool[2]}
         displaySlider={displaySlider2}
         position={2}
         sliderLeftIsCorrect={slider2leftIsCorrect}
@@ -169,7 +163,7 @@ function MovingSlider({
       ></Slider>
       <Slider
         {...sliderProps}
-        initialBoolSlider={rightSlideIsHighlightedSlider3}
+        initialBoolSlider={sliderBool[3]}
         displaySlider={displaySlider3}
         position={3}
         sliderLeftIsCorrect={slider3leftIsCorrect}

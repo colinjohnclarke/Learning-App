@@ -1,13 +1,10 @@
 import React, { useContext } from "react";
-
 import styled from "styled-components";
 import { UserContext } from "../../App";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import DayStreakPanel from "./DayStreakPanel";
-
 import XPointsGraph from "./DailyGoal/XPointsGraph";
 import XPRemainingToCompleteGoal from "./DailyGoal/XPRemainingToCompleteGoal";
-
 import SetDailyGoalBtn from "./DailyGoal/SetDailyGoalBtn";
 
 function DashboardStreakXPProgressView() {
@@ -39,7 +36,7 @@ function DashboardStreakXPProgressView() {
           <h2
             style={{
               padding: "5px",
-              marginLeft: "30px",
+              marginLeft: "10px",
               fontSize: "14px",
               color: darkThemeActive
                 ? ThemeStyles.lightThemePrimaryFrontColor
@@ -48,8 +45,8 @@ function DashboardStreakXPProgressView() {
           >
             Daily Progress
           </h2>
-          <SetDailyGoalBtn />
           <XPRemainingToCompleteGoal></XPRemainingToCompleteGoal>
+          <SetDailyGoalBtn />
         </div>
 
         <XPointsGraph />
@@ -62,7 +59,6 @@ export default DashboardStreakXPProgressView;
 
 const Wrapper = styled.div`
   width: 100%;
-  margin-bottom: 5px;
 `;
 
 const Graph = styled.div`

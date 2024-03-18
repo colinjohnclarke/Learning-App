@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { correctstyle } from "../../styles/colors";
@@ -27,6 +27,7 @@ function Slider({
   displaySlider,
 }) {
   const [rightisselected, setRightisSelected] = useState(initialBoolSlider);
+  let setleft;
   const [leftisselected, setLeftisSelected] = useState(!initialBoolSlider);
 
   const generalStyle = {};

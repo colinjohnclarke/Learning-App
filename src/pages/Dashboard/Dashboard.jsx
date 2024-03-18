@@ -30,10 +30,12 @@ function Dashboard() {
           <DashboardWelcome />
           <DashboardHeadlineData />
           <DashboardStreakXPProgressView />
+          <Spacer />
           <SearchCourse />
-          <Padding></Padding>
+          <Spacer />
           <CoursesDashBoard />
-          <Padding></Padding>
+
+          <Spacer />
           <LeaderBoard />
         </Main>
       </Padding>
@@ -45,10 +47,11 @@ function Dashboard() {
 export default Dashboard;
 
 const Wrapper = styled.div`
-  height: 100%;
   width: 100%;
   display: flex;
+
   flex-direction: column;
+  justify-content: space-between;
   align-items: center;
 
   background-color: ${(props) =>
@@ -56,27 +59,31 @@ const Wrapper = styled.div`
       ? ThemeStyles.lightThemePrimaryBackgroundColor
       : ThemeStyles.darkThemePrimaryBackgroundColor};
 `;
+const Spacer = styled.div`
+  height: 10px;
+  width: 10px;
+`;
 
 const Padding = styled.div`
   width: 98%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 50px;
 
   @media ${device.desktop} {
     width: 100%;
   }
 `;
 const Main = styled.div`
-  height: 100%;
   width: 100%;
+
   max-width: 900px;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
   margin-top: 30px;
-  // padding: 10px;
+
   @media ${device.tablet} {
     margin-top: 60px;
   }

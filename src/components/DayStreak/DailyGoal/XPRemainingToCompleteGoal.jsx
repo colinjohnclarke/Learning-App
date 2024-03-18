@@ -12,7 +12,7 @@ function XPRemainingToCompleteGoal() {
     (XP / userData?.user.preferences.personalizedSettings.dailyXPGoal) * 100;
 
   return (
-    <div style={{ padding: "10px" }}>
+    <div>
       <AnimatedPercentageScore
         percentage={percentageGoalCompleted}
         color="rgb(0, 245, 245)"
