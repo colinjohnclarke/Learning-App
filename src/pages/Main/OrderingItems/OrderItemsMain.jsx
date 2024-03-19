@@ -10,8 +10,6 @@ function OrderItemsMain(blockData) {
 
   // fetch data based on subject and blockname from
 
-  console.log("🚀 ~ Main ~ blockData:", blockData);
-
   // convert OBJ to Array so can be used ordered into position
 
   const convertedArrFromObj = ObjectToArray(blockData);

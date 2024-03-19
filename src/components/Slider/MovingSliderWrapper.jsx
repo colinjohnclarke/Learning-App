@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { BsEyeSlash } from "react-icons/bs";
 import MovingSlider from "./MovingSlider";
 
 function MovingSliderWrapper({ data }) {
@@ -23,95 +24,96 @@ function MovingSliderWrapper({ data }) {
 
   // generate random vales to random ordering of the slider items on each refresh, in pairs, one pair for each slider, use these values to set which side recives the correct value and which incorrect  ( changes each time)
 
-  let slider0leftIsCorrect = Math.random() > Math.random();
-  console.log("🚀 ~ MovingSliderWrapper ~ slider0leftIsCorrect:", slider0leftIsCorrect)
-  let slider0rightIsCorrect = !slider0leftIsCorrect;
-
-  let slider1leftIsCorrect = Math.random() > Math.random();
-  let slider1rightIsCorrect = !slider1leftIsCorrect;
-
-  let slider2leftIsCorrect = Math.random() > Math.random();
-  let slider2rightIsCorrect = !slider2leftIsCorrect;
-
-  let slider3leftIsCorrect = Math.random() > Math.random();
-  let slider3rightIsCorrect = !slider3leftIsCorrect;
-
-  // selected Right side, randomly select if highlighted or if ! then left highlighted
-  let rightSlideIsHighlightedSlider0 = Math.random() > 0.5;
-  console.log("🚀 ~ MovingSliderWrapper ~ rightSlideIsHighlightedSlider0:", rightSlideIsHighlightedSlider0)
-  let rightSlideIsHighlightedSlider1 = Math.random() > 0.5;
-  let rightSlideIsHighlightedSlider2 = Math.random() > 0.5;
-  let rightSlideIsHighlightedSlider3 = Math.random() > 0.5;
-
-  const sliderNumsArr = {
-    slider0leftIsCorrect,
-    slider0rightIsCorrect,
-    slider1leftIsCorrect,
-    slider1rightIsCorrect,
-    slider2leftIsCorrect,
-    slider2rightIsCorrect,
-    slider3leftIsCorrect,
-    slider3rightIsCorrect,
-  };
-
-  const slider0rightIsCorrectArr = [
-    slider0rightIsCorrect,
-    slider1rightIsCorrect,
-    slider2rightIsCorrect,
-    slider3rightIsCorrect,
-  ];
-
-  const sliderRightBoolsArr = [
-    rightSlideIsHighlightedSlider0,
-    rightSlideIsHighlightedSlider1,
-    rightSlideIsHighlightedSlider2,
-    rightSlideIsHighlightedSlider3,
-  ];
-
-  let boolsCorrect = 0;
-  let slidersRandom = false;
+  const [rightSlidersCorrect, setRightSliderCorrect] = useState(null);
+  const [rightSlideIsHighlighted, setRightSlideIsHighlighted] = useState(null);
 
   useEffect(() => {
-    setReRunFunction((val) => val + 1);
-  }, [slidersAreInitiallySettoCorrectPosition]);
+    randomise();
+  }, []);
 
-  return data?.map((item, index) => {
-    for (let i = 0; i < item.number_of_pairs_entered; i++) {
-      console.log(
-        "sliderrightSelected",
-        sliderRightBoolsArr[i],
-        "slider right is correct",
-        slider0rightIsCorrectArr[i]
-      );
+  function randomise() {
+    console.log("run randomise");
+    setRightSliderCorrect((prevState) => ({
+      ...prevState,
+      slider0rightIsCorrect: Math.random() > Math.random(),
+      slider1rightIsCorrect: Math.random() > Math.random(),
+      slider2rightIsCorrect: Math.random() > Math.random(),
+      slider3rightIsCorrect: Math.random() > Math.random(),
+    }));
 
-      if (sliderRightBoolsArr[i] === slider0rightIsCorrectArr[i]) {
-        boolsCorrect++;
-      }
-    }
+    setRightSlideIsHighlighted((prev) => ({
+      ...prev,
+      rightSlideIsHighlightedSlider0: Math.random() > 0.5,
+      rightSlideIsHighlightedSlider1: Math.random() > 0.5,
+      rightSlideIsHighlightedSlider2: Math.random() > 0.5,
+      rightSlideIsHighlightedSlider3: Math.random() > 0.5,
+    }));
 
-    if (boolsCorrect === item.number_of_pairs_entered) {
-      setslidersAreInitiallySettoCorrectPosition((val) => !val);
-      boolsCorrect = 0;
-      slidersRandom = false;
-    } else {
-      slidersRandom = true;
-    }
+    console.log(rightSlidersCorrect, rightSlideIsHighlighted);
+  }
 
-    return (
+  const [buttonClicked, setButtonClicked] = useState(false);
+
+  const handleClick = () => {
+    setButtonClicked((val) => !val);
+    randomise();
+  };
+
+
+  const [count, setCount] = useState(0);
+
+  let sliderIsInitallyRandomised = true;
+
+  // useEffect(() => {
+  //   // console.log("highlighted Wrapper", sliderRightIsHighlightedArr);
+  //   // console.log("sliderNums Wrapper", slider0rightIsCorrectArr);
+
+  //   for (let i = 0; i < data[0].number_of_pairs_entered; i++) {
+  //     console.log(
+  //       "helo",
+  //       sliderRightIsHighlightedArr[i],
+  //       slider0rightIsCorrectArr[i]
+  //     );
+  //     if (sliderRightIsHighlightedArr[i] === slider0rightIsCorrectArr[i]) {
+  //       setCount((val) => val + 1);
+  //     }
+  //   }
+  //   console.log("count", count);
+  // }, []);
+
+  // if (count === 2) {
+  //   sliderIsInitallyRandomised = false;
+  //   console.log("requres re randomising");
+  // }
+
+  // useEffect(() => {
+  //   if (!sliderIsInitallyRandomised) {
+  //     setReRunFunction((val) => val + 1);
+  //     randomise();
+  //     console.log("randomise from useEFFtec rerun");
+  //   }
+  // }, [sliderIsInitallyRandomised]);
+
+  return (
+    <div>
+      {/* <h1> rerun count {rerunFunction}</h1> */}
+
+      <button onClick={handleClick}> RANDOMISE</button>
       <MovingSlider
+        rightSlidersCorrect={rightSlidersCorrect}
         updateStateFunctions={updateStateFunctions}
-        isAlgebra={item.isAlgebra}
-        sliderBool={sliderRightBoolsArr}
-        slidersRandom={slidersRandom}
+        isAlgebra={data[0].isAlgebra}
+        rightSlideIsHighlighted={rightSlideIsHighlighted}
+        // slidersRandom={slidersRandom}
         // setReRunFunction={setReRunFunction}
         // rerunFunction={rerunFunction}
-        sliderNumsArr={sliderNumsArr}
-        key={item._key}
-        data={item}
-        index={index}
+        // sliderNumsArr={slidersCorrect}
+        key={data[0]._key}
+        data={data[0]}
+        // index={index}
       ></MovingSlider>
-    );
-  });
+    </div>
+  );
 }
 
 export default React.memo(MovingSliderWrapper);

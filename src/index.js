@@ -19,19 +19,19 @@ const clientId = process.env.REACT_APP_AUTH0_CLIENTID;
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <Auth0Provider
-      domain={domain}
-      clientId={clientId}
-      redirectUri={"http://localhost:3000/dashboard"}
-      // redirectUri={"https://spsdevtest.netlify.app/dashboard"}
-      scope="openid email"
-    >
-      <Provider store={store}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </Provider>
-    </Auth0Provider>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <Auth0Provider
+    domain={domain}
+    clientId={clientId}
+    redirectUri={"http://localhost:3000/dashboard"}
+    // redirectUri={"https://spsdevtest.netlify.app/dashboard"}
+    scope="openid email"
+  >
+    <Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>
+  </Auth0Provider>
+  // </React.StrictMode>
 );

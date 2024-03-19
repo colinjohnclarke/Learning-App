@@ -12,6 +12,7 @@ import {
   setslider1Incorrect,
   setslider2Incorrect,
   setslider3Incorrect,
+  sliderindex0Slice,
 } from "../../redux/Slider/sliderindex0slice";
 
 function Slider({
@@ -27,8 +28,24 @@ function Slider({
   displaySlider,
 }) {
   const [rightisselected, setRightisSelected] = useState(initialBoolSlider);
-  let setleft;
+  console.log("🚀 ~ rightisselected:", position, rightisselected);
+
   const [leftisselected, setLeftisSelected] = useState(!initialBoolSlider);
+  console.log("🚀 ~ leftisselected:", position, leftisselected);
+
+  useEffect(() => {
+    setRightisSelected(initialBoolSlider);
+    setLeftisSelected(!initialBoolSlider);
+  }, []);
+
+  // console.log("initialBoolSlider", position, initialBoolSlider);
+
+  // console.log(
+  //   "sliderLeftIsCorrect",
+  //   sliderLeftIsCorrect,
+  //   "sliderRightIsCorrect",
+  //   sliderRightIsCorrect
+  // );
 
   const generalStyle = {};
   const dispatch = useDispatch();
@@ -106,6 +123,7 @@ function Slider({
 
   const content = (
     <Outer disabled={correctAnswerIsSelected} onClick={clickHandler}>
+      <h1>{JSON.stringify(rightisselected)}</h1>
       <Box>
         {!isAlgebra ? (
           <TextLeft>
