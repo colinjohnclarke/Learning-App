@@ -11,11 +11,10 @@ function MovingSlider({
   isAlgebra,
   rightSlideIsHighlighted,
   rightSlidersCorrect,
-  // slidersRandom,
   updateStateFunctions,
 }) {
-  console.log("🚀 ~ rightSlideIsHighlighted:", rightSlideIsHighlighted);
   const sliderCorrect = useSelector((state) => state.sliderSliceIndex0reducer);
+
   const sliderCorrectList = [];
 
   const { correctAnswerIsSelected, setCorrectAnswerIsSelected } =
@@ -58,8 +57,6 @@ function MovingSlider({
   //   displaySliders[i] = true;
   // }
 
-  console.log("data.number_of_pairs_entered", data.number_of_pairs_entered);
-
   switch (data.number_of_pairs_entered) {
     case 4:
       displaySlider3 = true;
@@ -85,17 +82,9 @@ function MovingSlider({
 
   const sliderProps = {
     isAlgebra,
-    // slidersRandom,
     correctAnswerIsSelected,
     pairNumber: data.number_of_pairs_entered,
   };
-
-  // let slidersRandom = false;
-
-  // console.log(
-  //   " QQQrightSlideIsHighlighted.rightSlideIsHighlightedSlider0",
-  //   rightSlideIsHighlighted.rightSlideIsHighlightedSlider0
-  // );
 
   return (
     <Wrapper>
@@ -103,14 +92,13 @@ function MovingSlider({
         scoreData={{ correctAnswerIsSelected }}
         totalMarksAvailable={data.total_marks_available}
       ></Score>
-      {/* {JSON.stringify(rightSlideIsHighlighted)} */}
+
       {displaySlider0 && rightSlidersCorrect && (
         <Slider
           {...sliderProps}
           initialBoolSlider={
             rightSlideIsHighlighted.rightSlideIsHighlightedSlider0
           }
-          displaySlider={displaySlider0}
           position={0}
           sliderLeftIsCorrect={!rightSlidersCorrect.slider0rightIsCorrect}
           sliderRightIsCorrect={rightSlidersCorrect.slider0rightIsCorrect}
@@ -132,7 +120,6 @@ function MovingSlider({
           initialBoolSlider={
             rightSlideIsHighlighted.rightSlideIsHighlightedSlider1
           }
-          displaySlider={displaySlider1}
           position={1}
           sliderLeftIsCorrect={!rightSlidersCorrect.slider1rightIsCorrect}
           sliderRightIsCorrect={rightSlidersCorrect.slider1rightIsCorrect}
@@ -155,7 +142,6 @@ function MovingSlider({
           initialBoolSlider={
             rightSlideIsHighlighted.rightSlideIsHighlightedSlider2
           }
-          displaySlider={displaySlider2}
           position={2}
           sliderLeftIsCorrect={!rightSlidersCorrect.slider2rightIsCorrect}
           sliderRightIsCorrect={rightSlidersCorrect.slider2rightIsCorrect}
@@ -178,7 +164,6 @@ function MovingSlider({
           initialBoolSlider={
             rightSlideIsHighlighted.rightSlideIsHighlightedSlider3
           }
-          displaySlider={displaySlider3}
           position={3}
           sliderLeftIsCorrect={!rightSlidersCorrect.slider3rightIsCorrect}
           sliderRightIsCorrect={rightSlidersCorrect.slider3rightIsCorrect}

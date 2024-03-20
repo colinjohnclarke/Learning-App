@@ -6,10 +6,6 @@ const initialState = {
   slider1correct: false,
   slider2correct: false,
   slider3correct: false,
-  refreshRenderRequired: false,
-  correct: false,
-  firstRenderCompleted: false,
-  secondRenderCompleted: false,
 };
 
 export const sliderindex0Slice = createSlice({
@@ -43,23 +39,6 @@ export const sliderindex0Slice = createSlice({
     setslider3Incorrect: (state) => {
       state.slider3correct = false;
     },
-
-    refreshRenderRequired: (state) => {
-      state.refreshRenderRequired = true;
-    },
-    rerunRandomiseNOTRequired: (state) => {
-      state.rerunRandomiseRequired = false;
-    },
-
-    setfirstRenderCompleted: (state) => {
-      state.firstRenderCompleted = true;
-    },
-    setSecondRenderCompleted: (state) => {
-      state.secondRenderCompleted = true;
-    },
-    resetRenderCompleted: (state) => {
-      state.renderCompleted = false;
-    },
   },
 });
 
@@ -73,11 +52,6 @@ export const {
   setslider1Incorrect,
   setslider2Incorrect,
   setslider3Incorrect,
-  setfirstRenderCompleted,
-  refreshRenderRequired,
-  rerunRandomiseNOTRequired,
-  resetRenderCompleted,
-  setSecondRenderCompleted,
 } = sliderindex0Slice.actions;
 
 export default sliderindex0Slice.reducer;

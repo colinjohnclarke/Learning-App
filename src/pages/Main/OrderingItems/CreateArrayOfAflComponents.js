@@ -17,6 +17,7 @@ const CreateArrayOfAflComponents = (arrayOfItemsWithPosition, blockData) => {
     labelling,
     MCQ_INPUTS,
     order_items_drag_drop,
+    dual_box,
     slider,
     gap_fill,
     incorrect_words_from_text,
@@ -59,7 +60,7 @@ const CreateArrayOfAflComponents = (arrayOfItemsWithPosition, blockData) => {
         break;
 
       case "dual_box":
-        component = <DualBoxSelectionWrapper data={[slider[item.index]]} />;
+        component = <DualBoxSelectionWrapper data={[dual_box[item.index]]} />;
         break;
       case "order_items_drag_drop":
         component = (

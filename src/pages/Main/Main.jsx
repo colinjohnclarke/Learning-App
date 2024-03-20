@@ -35,6 +35,7 @@ import OrderItemsMain from "./OrderingItems/OrderItemsMain";
 function Main() {
   const { userData, darkThemeActive } = useContext(UserContext);
   const [blockData, setBlockData] = useState([]);
+  console.log("🚀 ~ Main ~ blockData:", blockData);
   const [showPointsSummary, setShowPointsSummary] = useState(false);
   const [itemDisplayed, setItemDisplayed] = useState([]);
   const [blockDataSubmittedtoDB, setBlockDataSubmittedtoDB] = useState(false);
