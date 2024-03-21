@@ -57,6 +57,8 @@ const Wrapper = styled.button`
       rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
     transition: 0.3s;
   }
+  // position: absolute;
+  // bottom: 10px;
 
   &:active {
     transform: translateY(2px);
@@ -64,13 +66,13 @@ const Wrapper = styled.button`
   }
 
   @media ${device.mobileL} {
-    position: absolute;
-    bottom: 10px;
-  }
+  //   position: absolute;
+  //   bottom: 10px;
+  // }
 
   @media ${device.tablet} {
-    height: 50px;
-    position: absolute;
-    bottom: 10px;
+    // height: 50px;
+    // position: absolute;
+    // bottom: 10px;
   }
 `;

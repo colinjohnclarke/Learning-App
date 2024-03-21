@@ -1,4 +1,4 @@
-import "../../App.css";
+// import "../../App.css";
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { useParams } from "react-router-dom";
 import "animate.css";
@@ -39,6 +39,8 @@ function Main() {
   const [showPointsSummary, setShowPointsSummary] = useState(false);
   const [itemDisplayed, setItemDisplayed] = useState([]);
   const [blockDataSubmittedtoDB, setBlockDataSubmittedtoDB] = useState(false);
+  const [buttonContent, setButtonContent] = useState("");
+  const [currentButtonFunction, setCurrentButtonFunction] = useState(null);
   const dispatch = useDispatch();
   /// use params from search function
   const { subject, courseName, blockName } = useParams();
@@ -49,33 +51,36 @@ function Main() {
   );
   const startTimeRef = useRef(Date.now());
 
-  let itemDisplayedInitialState = null;
+  // let itemDisplayedInitialState = null;
   const arrayOfAflComponents = OrderItemsMain(blockData);
+  console.log("🚀 ~ arrayOfAflComponents:", arrayOfAflComponents);
 
-  if (arrayOfAflComponents) {
-    itemDisplayedInitialState = arrayOfAflComponents.map((item) => false);
-  }
+  const [displayedComponentCount, setDisplayedComponentCount] = useState(1);
 
-  useEffect(() => {
-    dispatch(resetUserScore());
-    dispatch(resetAllSlidesSeen());
-    // dispatch(resetBlockedCompleted());
-    dispatch(resetPointsAvailableArr());
-    dispatch(resetSlideNumber());
-  }, []);
+  // if (arrayOfAflComponents) {
+  //   itemDisplayedInitialState = arrayOfAflComponents.map((item) => false);
+  // }
 
-  useEffect(() => {
-    setItemDisplayed(itemDisplayedInitialState);
-  }, [
-    itemDisplayedInitialState === null
-      ? null
-      : itemDisplayedInitialState.length,
-  ]);
+  // useEffect(() => {
+  //   dispatch(resetUserScore());
+  //   dispatch(resetAllSlidesSeen());
+  //   // dispatch(resetBlockedCompleted());
+  //   dispatch(resetPointsAvailableArr());
+  //   dispatch(resetSlideNumber());
+  // }, []);
 
-  let displayedItems = arrayOfAflComponents.map((item, index) => ({
-    component: item,
-    displayed: itemDisplayed[index],
-  }));
+  // useEffect(() => {
+  //   setItemDisplayed(itemDisplayedInitialState);
+  // }, [
+  //   itemDisplayedInitialState === null
+  //     ? null
+  //     : itemDisplayedInitialState.length,
+  // ]);
+
+  // let displayedItems = arrayOfAflComponents.map((item, index) => ({
+  //   component: item,
+  //   displayed: itemDisplayed[index],
+  // }));
 
   const itemRefs = [
     useRef(null),
@@ -97,22 +102,23 @@ function Main() {
     useRef(null),
     useRef(null),
   ];
-
+  console.log("itemRefs", itemRefs);
   // handle continue btn clicked and uodate item displayedstate array, use a slight delay for the scroll into view function.
-  const handleContinueBtnClicked = (index) => {
-    setItemDisplayed((prevState) => {
-      const newState = [...prevState];
-      newState[index] = true;
-      return newState;
-    });
+  // const handleContinueBtnClicked = (index) => {
+  //   setItemDisplayed((prevState) => {
+  //     const newState = [...prevState];
+  //     newState[index] = true;
+  //     return newState;
+  //   }
 
-    setTimeout(() => {
-      itemRefs[index].current?.scrollIntoView({
-        alignToTop: true,
-        behavior: "smooth",
-      });
-    }, 0);
-  };
+  //   );
+
+  // setTimeout(() => {
+  //   // itemRefs[index].current?.scrollIntoView({
+  //   //   alignToTop: true,
+  //   //   behavior: "smooth",
+  //   // });
+  // }, 0);
 
   const slideShowDataArr = [
     blockData.textblock1,
@@ -122,17 +128,62 @@ function Main() {
     blockData.textblock5,
   ];
 
-  // when start quiz is clicked, state the displayed object Arr at position 1 to true so quiz startrs
+  const handleActionBtnClick = () => {
+    setDisplayedComponentCount((val) => val + 1);
+
+    console.log("itemRefs", itemRefs);
+  };
 
   useEffect(() => {
-    if (currentblockprogressdata.startQuiz) {
-      setItemDisplayed((prevState) => {
-        const newState = [...prevState];
-        newState[1] = true;
-        return newState;
+    if (displayedComponentCount > 1) {
+      itemRefs[displayedComponentCount - 2].current?.scrollIntoView({
+        alignToTop: true,
+        behavior: "smooth",
+      });
+    } else {
+      itemRefs[0].current?.scrollIntoView({
+        alignToTop: true,
+        behavior: "smooth",
       });
     }
-  }, [currentblockprogressdata.startQuiz]);
+  }, [displayedComponentCount, itemRefs]);
+  // useEffect(() => {
+  //   if (displayedComponentCount === 1) {
+  //     itemRefs[displayedComponentCount].current?.scrollIntoView({
+  //       alignToTop: true,
+  //       behavior: "smooth",
+  //     });
+  //   } else if (displayedComponentCount > 1) {
+  //     itemRefs[displayedComponentCount - 1].current?.scrollIntoView({
+  //       alignToTop: true,
+  //       behavior: "smooth",
+  //     });
+  //   }
+  // }, [displayedComponentCount]);
+
+  // function nextComponent() {
+  //   handleContinueBtnClicked();
+  // }
+  // const handleActionButtonClicked = () => {
+  //   nextComponent();
+  // };
+
+  useEffect(() => {
+    // setButtonContent((val) => "Continue");
+    // setCurrentButtonFunction((val) => nextComponent);
+  }, []);
+
+  // when start quiz is clicked, state the displayed object Arr at position 1 to true so quiz startrs
+
+  // useEffect(() => {
+  //   if (currentblockprogressdata.startQuiz) {
+  //     setItemDisplayed((prevState) => {
+  //       const newState = [...prevState];
+  //       newState[1] = true;
+  //       return newState;
+  //     });
+  //   }
+  // }, [currentblockprogressdata.startQuiz]);
 
   const renderedItems = [
     <CourseDetails
@@ -145,6 +196,7 @@ function Main() {
     />,
 
     <Container
+      style={{ width: "100%", maxWidth: "900px" }}
       darkThemeActive={darkThemeActive}
       className="animate__animated animate__fadeIn"
     >
@@ -152,44 +204,28 @@ function Main() {
       {currentblockprogressdata.allSlidesSeen && (
         <StartQuizBtn
           onClick={() => {
-            handleContinueBtnClicked(0);
+            handleActionBtnClick();
           }}
         ></StartQuizBtn>
       )}
     </Container>,
 
-    <Box> </Box>,
-
-    ...displayedItems.map(
+    arrayOfAflComponents.map(
       (item, index) =>
-        item.displayed && (
-          <Item key={index} className="animate__animated animate__fadeIn ">
+        index < displayedComponentCount && (
+          <Item
+            ref={itemRefs[index]}
+            style={{
+              display: index + 1 < displayedComponentCount ? "block" : "none",
+            }}
+            key={index}
+            className="animate__animated animate__fadeIn "
+          >
             <Container
               darkThemeActive={darkThemeActive}
-              ref={itemRefs[index]}
               className="animate__animated animate__fadeIn "
             >
-              {item.component}
-
-              {index < arrayOfAflComponents.length &&
-                index !== arrayOfAflComponents.length - 1 && (
-                  <ContinueBtn
-                    onClick={() => {
-                      handleContinueBtnClicked(index + 1);
-                    }}
-                  >
-                    {" "}
-                    Continue
-                  </ContinueBtn>
-                )}
-
-              {index === arrayOfAflComponents.length - 1 && (
-                <CheckScoreBtn
-                  onClick={() => {
-                    setShowPointsSummary(true);
-                  }}
-                />
-              )}
+              {item}
             </Container>
           </Item>
         )
@@ -203,125 +239,164 @@ function Main() {
 
   // calculate current poistion in text Slideshow
 
-  if (currentblockprogressdata.allSlidesSeen) {
-    slideVal = currentblockprogressdata.slideNumber;
-  } else slideVal = currentblockprogressdata.currentSlide;
+  // if (currentblockprogressdata.allSlidesSeen) {
+  //   slideVal = currentblockprogressdata.slideNumber;
+  // } else slideVal = currentblockprogressdata.currentSlide;
 
-  if (itemDisplayed.length) {
-    totalLengthofCourse =
-      itemDisplayed.length + currentblockprogressdata.slideNumber;
-  }
+  // if (itemDisplayed.length) {
+  //   totalLengthofCourse =
+  //     itemDisplayed.length + currentblockprogressdata.slideNumber;
+  // }
 
-  displayedItems.forEach((item) => {
-    if (item.displayed) {
-      numOfDisplayedItems++;
-    }
-  });
+  // displayedItems.forEach((item) => {
+  //   if (item.displayed) {
+  //     numOfDisplayedItems++;
+  //   }
+  // });
 
-  let currentPositioninCourse = 0;
+  // let currentPositioninCourse = 0;
 
-  currentPositioninCourse = numOfDisplayedItems + slideVal;
+  // currentPositioninCourse = numOfDisplayedItems + slideVal;
 
-  if (!showPointsSummary) {
-    calculateProgress =
-      ((currentPositioninCourse - 1) / totalLengthofCourse) * 100;
-  } else calculateProgress = 100;
+  // if (!showPointsSummary) {
+  //   calculateProgress =
+  //     ((currentPositioninCourse - 1) / totalLengthofCourse) * 100;
+  // } else calculateProgress = 100;
 
-  const [updateUserData] = useUpdateUserDataMutation();
+  // const [updateUserData] = useUpdateUserDataMutation();
 
-  const [updateEnrolledCourse] = useUpdateEnrolledCourseMutation();
+  // const [updateEnrolledCourse] = useUpdateEnrolledCourseMutation();
 
-  useEffect(() => {
-    dispatch(
-      updatePercentage(
-        (currentblockprogressdata.userScore /
-          currentblockprogressdata.pointsAvailable) *
-          100
-      )
-    );
+  // useEffect(() => {
+  //   dispatch(
+  //     updatePercentage(
+  //       (currentblockprogressdata.userScore /
+  //         currentblockprogressdata.pointsAvailable) *
+  //         100
+  //     )
+  //   );
 
-    // dispatch(updatePercentage(calculateProgress));
+  // dispatch(updatePercentage(calculateProgress));
 
-    dispatch(updateProgressPercentage({ calculateProgress }));
+  // dispatch(updateProgressPercentage({ calculateProgress }));
 
-    const updateUserDataFN = async () => {
-      // console.log("updateUserDataFN");
+  // const updateUserDataFN = async () => {
+  //   // console.log("updateUserDataFN");
 
-      const updatedDetails = {
-        id: userData?.user._id,
-        Subject: subject,
-        updateXP: currentblockprogressdata.userScore,
-        updateTimeElapsed: elapsedTime,
-        updatePercentageScore:
-          (currentblockprogressdata.userScore /
-            currentblockprogressdata.pointsAvailable) *
-          100,
-      };
+  //   const updatedDetails = {
+  //     id: userData?.user._id,
+  //     Subject: subject,
+  //     updateXP: currentblockprogressdata.userScore,
+  //     updateTimeElapsed: elapsedTime,
+  //     updatePercentageScore:
+  //       (currentblockprogressdata.userScore /
+  //         currentblockprogressdata.pointsAvailable) *
+  //       100,
+  //   };
 
-      await updateEnrolledCourse(updatedDetails);
+  // await updateEnrolledCourse(updatedDetails);
 
-      // await updateUserData returns user to update local storage after respone
+  // await updateUserData returns user to update local storage after respone
 
-      await updateUserData({
-        id: userData?.user._id,
-        updateTimeElapsed: elapsedTime,
-        quizScores: [
-          {
-            updateQuizId: blockName,
-            updateSubject: subject,
-            updateCourseName: courseName,
-            updateScore: currentblockprogressdata.userScore,
-            updateCompletionStatus: showPointsSummary,
-            updateQuestionsAttempted:
-              currentblockprogressdata.questionsAttempted,
+  //   await updateUserData({
+  //     id: userData?.user._id,
+  //     updateTimeElapsed: elapsedTime,
+  //     quizScores: [
+  //       {
+  //         updateQuizId: blockName,
+  //         updateSubject: subject,
+  //         updateCourseName: courseName,
+  //         updateScore: currentblockprogressdata.userScore,
+  //         updateCompletionStatus: showPointsSummary,
+  //         updateQuestionsAttempted:
+  //           currentblockprogressdata.questionsAttempted,
 
-            updatePercentageScore:
-              (currentblockprogressdata.userScore /
-                currentblockprogressdata.pointsAvailable) *
-              100,
-          },
-        ],
-      });
-    };
+  //         updatePercentageScore:
+  //           (currentblockprogressdata.userScore /
+  //             currentblockprogressdata.pointsAvailable) *
+  //           100,
+  //       },
+  //     ],
+  //   });
+  // };
 
-    let elapsedTime = 0;
+  //   let elapsedTime = 0;
 
-    if (calculateProgress === 100) {
-      setShowPointsSummary((val) => true);
-      dispatch(updateBlockCompleted());
-      elapsedTime = Date.now() - startTimeRef.current;
-      updateUserDataFN();
-      setBlockDataSubmittedtoDB((val) => true);
-    }
-  }, [calculateProgress]);
+  //   if (calculateProgress === 100) {
+  //     setShowPointsSummary((val) => true);
+  //     dispatch(updateBlockCompleted());
+  //     elapsedTime = Date.now() - startTimeRef.current;
+  //     updateUserDataFN();
+  //     setBlockDataSubmittedtoDB((val) => true);
+  //   }
+  // }, [calculateProgress]);
 
-  useEffect(() => {
-    // setSelectedNav((prevState) => ({ courseView: "false" }));
-    if (blockDataSubmittedtoDB) {
-      dispatch(resetUserScore());
-      dispatch(resetAllSlidesSeen());
-      // dispatch(resetBlockedCompleted());
-      dispatch(resetPointsAvailableArr());
-      dispatch(resetSlideNumber());
-    }
-  }, [blockDataSubmittedtoDB]);
+  // useEffect(() => {
+  //   // setSelectedNav((prevState) => ({ courseView: "false" }));
+  //   if (blockDataSubmittedtoDB) {
+  //     dispatch(resetUserScore());
+  //     dispatch(resetAllSlidesSeen());
+  //     // dispatch(resetBlockedCompleted());
+  //     dispatch(resetPointsAvailableArr());
+  //     dispatch(resetSlideNumber());
+  //   }
+  // }, [blockDataSubmittedtoDB]);
 
   return (
     <Wrapper darkThemeActive={darkThemeActive}>
       <Header />
       {blockData.length === 0 && <Loader></Loader>}
+
       {renderedItems}
+
+      <Whitespace />
+
+      {displayedComponentCount > 1 &&
+        arrayOfAflComponents.length !== displayedComponentCount - 1 && (
+          <ActionButton onClick={handleActionBtnClick}>
+            {buttonContent}
+            count {displayedComponentCount}
+          </ActionButton>
+        )}
+
+      {arrayOfAflComponents.length === displayedComponentCount - 1 && (
+        <CheckScoreBtn></CheckScoreBtn>
+      )}
+
       {showPointsSummary && <PostBlockPointsReveal />}
     </Wrapper>
   );
 }
 
-export default Main;
+export default React.memo(Main);
 
+const ActionButton = styled.button`
+  height: 50px;
+  width: 350px;
+  position: fixed;
+  bottom: 20px;
+  z-index: 100;
+  border-radius: 5px;
+  border: none;
+  background-color: blue;
+  color: white;
+
+  &:hover {
+    background-color: ${ThemeStyles.highlightSecondaryColor};
+  }
+`;
+
+const Whitespace = styled.div`
+  height: 200px;
+  // width: 100%;
+  // border: red;
+  // background-color: red;
+`;
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
   background-color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor
@@ -345,8 +420,6 @@ const Container = styled.div`
       ? ThemeStyles.lightThemeMainBoxShadow
       : ThemeStyles.darkThemeMainBoxShadow};
   width: 98%;
-  scroll-padding: 120px;
-  scroll-margin: 47px;
 
   p,
   h1,
@@ -364,42 +437,39 @@ const Container = styled.div`
   }
 
   @media ${device.mobileL} {
-    position: relative;
-    width: 98%;
-    max-width: 1000px;
-    scroll-margin: 75px;
-    border: none;
   }
 `;
 
 const Item = styled.div`
-  // scroll-padding: 100px;
-  // scroll-margin: 45px;
+  // scroll-padding: -0px;
+  scroll-margin: 55px;
+  // scroll-snap-type: y proximity;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  // margin-bottom: 5px;
-  // border-radius: 5px;
+  // align-items: center;
+  margin-bottom: 20px;
+  border-radius: 5px;
   width: 100%;
-
+  max-width: 900px;
   // min-height: 700px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 
-  @media ${device.laptop} {
-    height: 1000px;
-    scroll-margin: 8vh;
-    transition: 0.4s;
-    min-height: auto;
-    position: relative;
-  }
+  // @media ${device.laptop} {
+  //   // height: 1000px;
+  //   // transition: 0.4s;
+  //   // min-height: auto;
+  //   // position: relative;
+  // }
 `;
 
 const Box = styled.div`
   margin-bottom: 5px;
 
-  @media ${device.mobileL} {
-    height: 10vh;
-    width: 5vw;
-  }
+  // @media ${device.mobileL} {
+  //   height: 10vh;
+  //   width: 5vw;
+  // }
 `;
 
 /* <ClickIncorrectWord

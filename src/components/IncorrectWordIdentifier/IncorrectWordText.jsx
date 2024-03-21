@@ -284,4 +284,5 @@ const Reminder = styled.div``;
 
 const Question = styled.p`
   font-weight: 400;
+  margin: 10px;
 `;

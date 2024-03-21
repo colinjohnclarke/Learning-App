@@ -183,6 +183,7 @@ function RecentCourses() {
           </Link>
         </ContinueBtn>
       )}
+      <Demo> For demo Enroll for Biology Photosynthesis Course</Demo>
     </Main>
   );
 }
@@ -209,6 +210,16 @@ const Grid = styled.div`
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
   }
+`;
+
+const Demo = styled.div`
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 1px 0px;
+  background-color: rgb(255, 255, 255);
+  transition: 0s;
+  box-shadow: 0px 0px 30px 4px rgba(174, 196, 216, 0.25);
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
 `;
 
 const LinkWrapper = styled.div`

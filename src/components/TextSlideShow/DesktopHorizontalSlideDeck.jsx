@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import styled from "styled-components";
 import "@splidejs/react-splide/css/skyblue";
 import TextSectionDesktop from "./TextSectionDesktop";
-// import StartQuizBtn from "../Buttons/StartQuizBtn";
 
 import SlideLocator from "./SlideLocator";
 import "animate.css";
@@ -112,7 +111,7 @@ function DesktopHorizontalSlideDeck({
   );
 }
 
-export default DesktopHorizontalSlideDeck;
+export default React.memo(DesktopHorizontalSlideDeck);
 
 const Main = styled.div`
   height: auto;

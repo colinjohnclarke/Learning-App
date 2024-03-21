@@ -13,8 +13,9 @@ function MovingSlider({
   rightSlidersCorrect,
   updateStateFunctions,
 }) {
+  console.log("🚀 ~ data:", data);
   const sliderCorrect = useSelector((state) => state.sliderSliceIndex0reducer);
-
+  console.log("🚀 ~ sliderCorrectSELECT:", sliderCorrect);
   const sliderCorrectList = [];
 
   const { correctAnswerIsSelected, setCorrectAnswerIsSelected } =
@@ -92,6 +93,8 @@ function MovingSlider({
         scoreData={{ correctAnswerIsSelected }}
         totalMarksAvailable={data.total_marks_available}
       ></Score>
+
+      <p style={{ padding: "10px" }}>{data.Question}</p>
 
       {displaySlider0 && rightSlidersCorrect && (
         <Slider
@@ -193,6 +196,8 @@ const Wrapper = styled.div`
   text-align: center;
   position: relative;
   padding-top: 40px;
+  padding-bottom: 40px;
+
   width: 100%;
 
   @media ${device.mobileL} {

@@ -210,9 +210,10 @@ const Wrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   position: relative;
+  min-height: 500px;
 `;
 
 const Input = styled.input`
