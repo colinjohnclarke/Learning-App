@@ -62,7 +62,7 @@ export default PercentagePoints;
 const Wrapper = styled.div`
   height: 60px;
   width: 350px;
-  border-radius: 5px;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;

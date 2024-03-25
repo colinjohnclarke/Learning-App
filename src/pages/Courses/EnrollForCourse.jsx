@@ -84,7 +84,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  border-radius: 5px;
+  border-radius: 16px;
 
   box-shadow: ${(props) =>
     props.darkThemeActive

@@ -336,7 +336,7 @@ const HeaderContent = styled.h1`
     rgba(0, 200, 200, 1) 60%,
     rgba(39, 106, 245, 0.7) 100%
   );
-  border-radius: 5px;
+  border-radius: 16px;
 
   width: 100%;
 
@@ -366,7 +366,7 @@ const Wrapper = styled.div`
 
 const NextSection = styled.div`
   width: 100%;
-  border-radius: 5px;
+  border-radius: 16px;
   background-color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor
@@ -400,7 +400,7 @@ const Header = styled.div`
   justify-content: space-around;
   align-items: center;
   transition: 0.3s;
-  border-radius: 5px;
+  border-radius: 16px;
   width: 100%; 
   @media ${device.laptop} {
     marginTop: 60px

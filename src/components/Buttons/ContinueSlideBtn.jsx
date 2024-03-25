@@ -47,7 +47,7 @@ const Wrapper = styled.button`
   height: 50px;
   min-width: 350px;
   border: none;
-  border-radius: 4px;
+  border-radius: 16px;
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
   transition: 0.3s;

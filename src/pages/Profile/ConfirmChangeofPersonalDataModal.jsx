@@ -73,7 +73,7 @@ const ModalContent = styled.div`
   position: relative;
   background-color: #fff;
   padding: 60px;
-  border-radius: 5px;
+  border-radius: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -107,6 +107,6 @@ const ModalButton = styled.button`
   background-color: #007bff;
   color: #fff;
   border: none;
-  border-radius: 4px;
+  border-radius: 16px;
   cursor: pointer;
 `;

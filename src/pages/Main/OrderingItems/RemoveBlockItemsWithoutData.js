@@ -1,5 +1,5 @@
 const RemoveBlockItemsWithoutData = (convertedArrFromObj) => {
-  const newData = convertedArrFromObj.flatMap((item) => {
+  const newData = convertedArrFromObj?.flatMap((item) => {
     const type = item.key;
     const position = item.children?.flatMap((subItem) => {
       const positionVal = subItem.children

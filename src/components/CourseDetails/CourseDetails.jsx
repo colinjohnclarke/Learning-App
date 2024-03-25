@@ -72,7 +72,7 @@ const Details = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  border-radius: 5px;
+  border-radius: 16px;
 
   p,
   h1,
@@ -120,7 +120,7 @@ const Image = styled.div`
   clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 25% 100%, 0% 50%);
   position: relative;
   top: 4px;
-  border-radius: 5px;
+  border-radius: 16px;
 
   @media ${device.mobileL} {
   }

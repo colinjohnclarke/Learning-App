@@ -36,7 +36,7 @@ function CourseBlockBreakdown({ data, completedBlocks, blocksRemaining }) {
           height: "60px",
           width: "100px",
           position: "relative",
-          borderRadius: "5px",
+          borderRadius: "16px",
           //   top: "10px",
         }}
         src={imgurlFor(block.coverImage.asset._ref)}
@@ -53,7 +53,7 @@ function CourseBlockBreakdown({ data, completedBlocks, blocksRemaining }) {
           flexDirection: "row",
           justifyContent: "space-between",
           alignItems: "center",
-          borderRadius: "5px",
+          borderRadius: "16px",
           border: "none",
         }}
         to={`/courses/${block.subject}/${block.courseName}/${block.blockName}`}
@@ -144,7 +144,7 @@ const Wrapper = styled.div`
 
   margin: 0px;
 
-  border-radius: 5px;
+  border-radius: 16px;
 `;
 
 const Text = styled.p`
@@ -165,7 +165,7 @@ const Box = styled.a`
   min-width: 290px;
   // padding: 4px;
 
-  border-radius: 5px;
+  border-radius: 16px;
   text-decoration: none;
   display: flex;
   flex-direction: row;
@@ -198,7 +198,7 @@ const Box = styled.a`
 const Image = styled.div`
   height: 100%;
   clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 25% 100%, 0% 50%);
-  border-radius: 5px;
+  border-radius: 16px;
   @media ${device.mobileL} {
   }
 `;
@@ -211,7 +211,7 @@ const OverView = styled.div`
   justify-content: center;
   width: 100%;
 
-  border-radius: 5px;
+  border-radius: 16px;
 
   font-weight: 500;
 
@@ -226,7 +226,7 @@ const OverView = styled.div`
 const ShadedCard = styled.p`
   height: 100%;
   width: 33.3%;
-  border-radius: 5px;
+  border-radius: 16px;
   max-width: 100px;
   display: flex;
   align-items: end;

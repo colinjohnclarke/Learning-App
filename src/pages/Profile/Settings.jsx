@@ -254,7 +254,7 @@ const Wrapper = styled.div`
 
 const Input = styled.input`
   height: 40px;
-  border-radius: 5px;
+  border-radius: 16px;
   padding-left: 5px;
   width: 100%;
   box-shadow: ${(props) =>

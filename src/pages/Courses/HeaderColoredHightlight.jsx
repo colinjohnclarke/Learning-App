@@ -41,7 +41,7 @@ const HeaderContent = styled.div`
     rgba(0, 200, 200, 0.7) 100%
   );
 
-  border-radius: 5px;
+  border-radius: 16px;
   // margin: 5px;
 
   width: 100%;

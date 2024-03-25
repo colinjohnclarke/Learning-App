@@ -228,7 +228,7 @@ export default DropDown;
 
 const Li = styled.li`
   margin-top: 8px;
-  border-radius: 5px;
+  border-radius: 16px;
 
   background-color: ${(props) =>
     props.darkThemeActive

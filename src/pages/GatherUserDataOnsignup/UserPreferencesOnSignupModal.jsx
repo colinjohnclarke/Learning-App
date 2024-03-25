@@ -87,7 +87,7 @@ const CustomiseUserExperienceWrapper = styled.div`
   position: relative;
   background-color: #fff;
   padding: 60px;
-  border-radius: 5px;
+  border-radius: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -253,7 +253,7 @@ const ModalContent = styled.div`
   position: relative;
   background-color: #fff;
   padding: 60px;
-  border-radius: 5px;
+  border-radius: 16px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
@@ -320,7 +320,7 @@ const ModalButton = styled.button`
   height: 50px;
   width: 300px;
   border: none;
-  border-radius: 5px;
+  border-radius: 16px;
   cursor: pointer;
   box-shadow: ${(props) =>
     props.darkThemeActive
@@ -371,7 +371,7 @@ const ModalOption = styled.button`
   margin: 7px;
   padding: 4px;
   min-height: 50px;
-  border-radius: 5px;
+  border-radius: 16px;
   border: none;
   color: ${(props) =>
     props.darkThemeActive
@@ -416,6 +416,6 @@ const RetryButton = styled.button`
   background-color: #ff0000;
   color: #ffffff;
   border: none;
-  border-radius: 4px;
+  border-radius: 16px;
   cursor: pointer;
 `;

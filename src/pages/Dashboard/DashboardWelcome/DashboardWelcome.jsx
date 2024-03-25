@@ -49,7 +49,7 @@ const Greeting = styled.div`
     margin-bottom: 10px;
   }
 
-  border-radius: 4px;
+  border-radius: 16px;
 `;
 
 const Welcome = styled.div`

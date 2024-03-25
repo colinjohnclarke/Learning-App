@@ -12,50 +12,52 @@ function OrderItemsMain(blockData) {
 
   // convert OBJ to Array so can be used ordered into position
 
-  const convertedArrFromObj = ObjectToArray(blockData);
-  // console.log("🚀 ~ Main ~ convertedArrFromObj:", convertedArrFromObj);
+  if (blockData) {
+    const convertedArrFromObj = ObjectToArray(blockData);
+    // console.log("🚀 ~ Main ~ convertedArrFromObj:", convertedArrFromObj);
 
-  const removeItemsNamesArr = [
-    "textblock1",
-    "textblock2",
-    "textblock3",
-    "textblock4",
-    "textblock5",
-    "coverImage",
-    "name",
-    "problem_keywords",
-    "tags",
-  ];
+    const removeItemsNamesArr = [
+      "textblock1",
+      "textblock2",
+      "textblock3",
+      "textblock4",
+      "textblock5",
+      "coverImage",
+      "name",
+      "problem_keywords",
+      "tags",
+    ];
 
-  const removedNonQuizElementsList = convertedArrFromObj?.filter((item) => {
-    return !removeItemsNamesArr.includes(item.key);
-  });
+    const removedNonQuizElementsList = convertedArrFromObj?.filter((item) => {
+      return !removeItemsNamesArr.includes(item.key);
+    });
 
-  // Remove empty items from array
+    // Remove empty items from array
 
-  const blockItemsWithoutBlanks = RemoveBlockItemsWithoutData(
-    removedNonQuizElementsList
-  );
+    const blockItemsWithoutBlanks = RemoveBlockItemsWithoutData(
+      removedNonQuizElementsList
+    );
 
-  // console.log("🚀 ~ Main ~ blockItemsWithoutBlanks:", blockItemsWithoutBlanks);
+    // console.log("🚀 ~ Main ~ blockItemsWithoutBlanks:", blockItemsWithoutBlanks);
 
-  const filterBlockDataNullValues = FilterBlockDataNullValues(
-    blockItemsWithoutBlanks
-  );
+    const filterBlockDataNullValues = FilterBlockDataNullValues(
+      blockItemsWithoutBlanks
+    );
 
-  // console.log("filterBlockDataNullValues", filterBlockDataNullValues);
+    // console.log("filterBlockDataNullValues", filterBlockDataNullValues);
 
-  const arrayOfItemsWithPosition = CreateArrayOfItemsInPosition(
-    filterBlockDataNullValues
-  );
+    const arrayOfItemsWithPosition = CreateArrayOfItemsInPosition(
+      filterBlockDataNullValues
+    );
 
-  // render AFL components based on type
-  const arrayOfAflComponents = CreateArrayOfAflComponents(
-    arrayOfItemsWithPosition,
-    blockData
-  );
+    // render AFL components based on type
+    const arrayOfAflComponents = CreateArrayOfAflComponents(
+      arrayOfItemsWithPosition,
+      blockData
+    );
 
-  return arrayOfAflComponents;
+    return arrayOfAflComponents;
+  }
 }
 
 export default OrderItemsMain;

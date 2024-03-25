@@ -1,5 +1,11 @@
 // import "../../App.css";
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useContext,
+  createContext,
+} from "react";
 import { useParams } from "react-router-dom";
 import "animate.css";
 import styled from "styled-components";
@@ -10,6 +16,8 @@ import { updateProgressPercentage } from "../../redux/ProgressBar/ProgressBar";
 import PostBlockPointsReveal from "../../components/Data/PostBlockPointsReveal/PostBlockPointsReveal";
 import Loader from "../../components/Loader";
 import { ThemeStyles } from "../../styles/ThemeStyles";
+import ActionButton from "./OrderingItems/ActionButton";
+import ReturnToTopBtn from "./ReturnToTopBtn";
 
 import {
   updateBlockCompleted,
@@ -26,11 +34,14 @@ import { UserContext } from "../../App";
 import CheckScoreBtn from "../../components/Buttons/CheckScoreBtn";
 import StartQuizBtn from "../../components/Buttons/StartQuizBtn";
 import { device } from "../../styles/breakpoints";
+
 import CourseDetails from "../../components/CourseDetails/CourseDetails";
 import FetchBlockDataFromSanity from "./FetchBlockDataFromSanity";
 import Header from "../../components/CourseModeHeader/CourseModeHeader";
 
 import OrderItemsMain from "./OrderingItems/OrderItemsMain";
+import { ActionButtonContext } from "./OrderingItems/ActionButtonContext";
+import ProgressBarUpdates from "./ProgressBar/ProgressBarUpdates";
 
 function Main() {
   const { userData, darkThemeActive } = useContext(UserContext);
@@ -52,10 +63,15 @@ function Main() {
   const startTimeRef = useRef(Date.now());
 
   // let itemDisplayedInitialState = null;
-  const arrayOfAflComponents = OrderItemsMain(blockData);
-  console.log("🚀 ~ arrayOfAflComponents:", arrayOfAflComponents);
+  let arrayOfAflComponents;
+  if (blockData) {
+    arrayOfAflComponents = OrderItemsMain(blockData);
+    console.log("🚀 ~ arrayOfAflComponents:", arrayOfAflComponents);
+  }
 
   const [displayedComponentCount, setDisplayedComponentCount] = useState(1);
+
+  const [buttonState, setButtonState] = useState({ value: "undefined" });
 
   // if (arrayOfAflComponents) {
   //   itemDisplayedInitialState = arrayOfAflComponents.map((item) => false);
@@ -120,13 +136,17 @@ function Main() {
   //   // });
   // }, 0);
 
-  const slideShowDataArr = [
-    blockData.textblock1,
-    blockData.textblock2,
-    blockData.textblock3,
-    blockData.textblock4,
-    blockData.textblock5,
-  ];
+  let slideShowDataArr;
+
+  if (blockData) {
+    slideShowDataArr = [
+      blockData.textblock1,
+      blockData.textblock2,
+      blockData.textblock3,
+      blockData.textblock4,
+      blockData.textblock5,
+    ];
+  }
 
   const handleActionBtnClick = () => {
     setDisplayedComponentCount((val) => val + 1);
@@ -146,32 +166,7 @@ function Main() {
         behavior: "smooth",
       });
     }
-  }, [displayedComponentCount, itemRefs]);
-  // useEffect(() => {
-  //   if (displayedComponentCount === 1) {
-  //     itemRefs[displayedComponentCount].current?.scrollIntoView({
-  //       alignToTop: true,
-  //       behavior: "smooth",
-  //     });
-  //   } else if (displayedComponentCount > 1) {
-  //     itemRefs[displayedComponentCount - 1].current?.scrollIntoView({
-  //       alignToTop: true,
-  //       behavior: "smooth",
-  //     });
-  //   }
-  // }, [displayedComponentCount]);
-
-  // function nextComponent() {
-  //   handleContinueBtnClicked();
-  // }
-  // const handleActionButtonClicked = () => {
-  //   nextComponent();
-  // };
-
-  useEffect(() => {
-    // setButtonContent((val) => "Continue");
-    // setCurrentButtonFunction((val) => nextComponent);
-  }, []);
+  }, [displayedComponentCount]);
 
   // when start quiz is clicked, state the displayed object Arr at position 1 to true so quiz startrs
 
@@ -186,14 +181,16 @@ function Main() {
   // }, [currentblockprogressdata.startQuiz]);
 
   const renderedItems = [
-    <CourseDetails
-      darkThemeActive={darkThemeActive}
-      className="animate__animated animate__fadeIn"
-      data={blockData.coverImage || ""}
-      subject={subject}
-      courseName={courseName}
-      blockName={blockName}
-    />,
+    // blockData && (
+    //   <CourseDetails
+    //     darkThemeActive={darkThemeActive}
+    //     className="animate__animated animate__fadeIn"
+    //     data={blockData.coverImage || ""}
+    //     subject={subject}
+    //     courseName={courseName}
+    //     blockName={blockName}
+    //   />
+    // ),
 
     <Container
       style={{ width: "100%", maxWidth: "900px" }}
@@ -210,7 +207,7 @@ function Main() {
       )}
     </Container>,
 
-    arrayOfAflComponents.map(
+    arrayOfAflComponents?.map(
       (item, index) =>
         index < displayedComponentCount && (
           <Item
@@ -232,12 +229,12 @@ function Main() {
     ),
   ];
 
-  let slideVal = 0;
-  let calculateProgress = 0;
-  let numOfDisplayedItems = 0;
-  let totalLengthofCourse = null;
+  // let slideVal = 0;
+  // let calculateProgress = 0;
+  // let numOfDisplayedItems = 0;
+  // let totalLengthofCourse = null;
 
-  // calculate current poistion in text Slideshow
+  // // calculate current poistion in text Slideshow
 
   // if (currentblockprogressdata.allSlidesSeen) {
   //   slideVal = currentblockprogressdata.slideNumber;
@@ -263,10 +260,6 @@ function Main() {
   //     ((currentPositioninCourse - 1) / totalLengthofCourse) * 100;
   // } else calculateProgress = 100;
 
-  // const [updateUserData] = useUpdateUserDataMutation();
-
-  // const [updateEnrolledCourse] = useUpdateEnrolledCourseMutation();
-
   // useEffect(() => {
   //   dispatch(
   //     updatePercentage(
@@ -276,115 +269,110 @@ function Main() {
   //     )
   //   );
 
-  // dispatch(updatePercentage(calculateProgress));
+  //   dispatch(updatePercentage(calculateProgress));
 
-  // dispatch(updateProgressPercentage({ calculateProgress }));
+  //   dispatch(updateProgressPercentage({ calculateProgress }));
 
-  // const updateUserDataFN = async () => {
-  //   // console.log("updateUserDataFN");
+  const [updateUserData] = useUpdateUserDataMutation();
 
-  //   const updatedDetails = {
-  //     id: userData?.user._id,
-  //     Subject: subject,
-  //     updateXP: currentblockprogressdata.userScore,
-  //     updateTimeElapsed: elapsedTime,
-  //     updatePercentageScore:
-  //       (currentblockprogressdata.userScore /
-  //         currentblockprogressdata.pointsAvailable) *
-  //       100,
-  //   };
+  const [updateEnrolledCourse] = useUpdateEnrolledCourseMutation();
+  const updateUserDataFN = async () => {
+    // console.log("updateUserDataFN");
 
-  // await updateEnrolledCourse(updatedDetails);
+    const updatedDetails = {
+      id: userData?.user._id,
+      Subject: subject,
+      updateXP: currentblockprogressdata.userScore,
+      updateTimeElapsed: elapsedTime,
+      updatePercentageScore:
+        (currentblockprogressdata.userScore /
+          currentblockprogressdata.pointsAvailable) *
+        100,
+    };
 
-  // await updateUserData returns user to update local storage after respone
+    await updateEnrolledCourse(updatedDetails);
 
-  //   await updateUserData({
-  //     id: userData?.user._id,
-  //     updateTimeElapsed: elapsedTime,
-  //     quizScores: [
-  //       {
-  //         updateQuizId: blockName,
-  //         updateSubject: subject,
-  //         updateCourseName: courseName,
-  //         updateScore: currentblockprogressdata.userScore,
-  //         updateCompletionStatus: showPointsSummary,
-  //         updateQuestionsAttempted:
-  //           currentblockprogressdata.questionsAttempted,
+    // await updateUserData returns user to update local storage after respone
 
-  //         updatePercentageScore:
-  //           (currentblockprogressdata.userScore /
-  //             currentblockprogressdata.pointsAvailable) *
-  //           100,
-  //       },
-  //     ],
-  //   });
-  // };
+    //   await updateUserData({
+    //     id: userData?.user._id,
+    //     updateTimeElapsed: elapsedTime,
+    //     quizScores: [
+    //       {
+    //         updateQuizId: blockName,
+    //         updateSubject: subject,
+    //         updateCourseName: courseName,
+    //         updateScore: currentblockprogressdata.userScore,
+    //         updateCompletionStatus: showPointsSummary,
+    //         updateQuestionsAttempted: currentblockprogressdata.questionsAttempted,
 
-  //   let elapsedTime = 0;
+    //         updatePercentageScore:
+    //           (currentblockprogressdata.userScore /
+    //             currentblockprogressdata.pointsAvailable) *
+    //           100,
+    //       },
+    //     ],
+    //   });
+    // };
 
-  //   if (calculateProgress === 100) {
-  //     setShowPointsSummary((val) => true);
-  //     dispatch(updateBlockCompleted());
-  //     elapsedTime = Date.now() - startTimeRef.current;
-  //     updateUserDataFN();
-  //     setBlockDataSubmittedtoDB((val) => true);
-  //   }
-  // }, [calculateProgress]);
+    let elapsedTime = 0;
 
-  // useEffect(() => {
-  //   // setSelectedNav((prevState) => ({ courseView: "false" }));
-  //   if (blockDataSubmittedtoDB) {
-  //     dispatch(resetUserScore());
-  //     dispatch(resetAllSlidesSeen());
-  //     // dispatch(resetBlockedCompleted());
-  //     dispatch(resetPointsAvailableArr());
-  //     dispatch(resetSlideNumber());
-  //   }
-  // }, [blockDataSubmittedtoDB]);
+    //   if (calculateProgress === 100) {
+    //     setShowPointsSummary((val) => true);
+    //     dispatch(updateBlockCompleted());
+    //     elapsedTime = Date.now() - startTimeRef.current;
+    //     updateUserDataFN();
+    //     setBlockDataSubmittedtoDB((val) => true);
+    //   }
+    // }, [displayedComponentCount]);
 
+    // useEffect(() => {
+    //   // setSelectedNav((prevState) => ({ courseView: "false" }));
+    //   if (blockDataSubmittedtoDB) {
+    //     dispatch(resetUserScore());
+    //     dispatch(resetAllSlidesSeen());
+    //     // dispatch(resetBlockedCompleted());
+    //     dispatch(resetPointsAvailableArr());
+    //     dispatch(resetSlideNumber());
+    //   }
+    // }, [blockDataSubmittedtoDB]);
+  };
   return (
-    <Wrapper darkThemeActive={darkThemeActive}>
-      <Header />
-      {blockData.length === 0 && <Loader></Loader>}
+    <ActionButtonContext.Provider value={{ buttonState, setButtonState }}>
+      <Wrapper darkThemeActive={darkThemeActive}>
+        <Header />
+        {blockData.length === 0 && <Loader></Loader>}
 
-      {renderedItems}
+        {renderedItems}
 
-      <Whitespace />
+        <Whitespace />
 
-      {displayedComponentCount > 1 &&
-        arrayOfAflComponents.length !== displayedComponentCount - 1 && (
-          <ActionButton onClick={handleActionBtnClick}>
-            {buttonContent}
-            count {displayedComponentCount}
-          </ActionButton>
+        {displayedComponentCount > 1 &&
+          arrayOfAflComponents.length !== displayedComponentCount - 1 && (
+            <Footer>
+              <ActionButton
+                displayedComponentCount={displayedComponentCount}
+                handleActionBtnClick={handleActionBtnClick}
+                arrayOfAflComponents={arrayOfAflComponents}
+              ></ActionButton>
+
+              <ReturnToTopBtn />
+            </Footer>
+          )}
+
+        {arrayOfAflComponents.length === displayedComponentCount - 1 && (
+          <CheckScoreBtn></CheckScoreBtn>
         )}
 
-      {arrayOfAflComponents.length === displayedComponentCount - 1 && (
-        <CheckScoreBtn></CheckScoreBtn>
-      )}
+        <ProgressBarUpdates></ProgressBarUpdates>
 
-      {showPointsSummary && <PostBlockPointsReveal />}
-    </Wrapper>
+        {/* {showPointsSummary && <PostBlockPointsReveal />} */}
+      </Wrapper>
+    </ActionButtonContext.Provider>
   );
 }
 
 export default React.memo(Main);
-
-const ActionButton = styled.button`
-  height: 50px;
-  width: 350px;
-  position: fixed;
-  bottom: 20px;
-  z-index: 100;
-  border-radius: 5px;
-  border: none;
-  background-color: blue;
-  color: white;
-
-  &:hover {
-    background-color: ${ThemeStyles.highlightSecondaryColor};
-  }
-`;
 
 const Whitespace = styled.div`
   height: 200px;
@@ -409,7 +397,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-radius: 5px;
+  border-radius: 16px;
   background-color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor
@@ -435,9 +423,16 @@ const Container = styled.div`
         ? ThemeStyles.lightThemePrimaryFrontColor
         : ThemeStyles.darkThemePrimaryFontColor};
   }
+`;
 
-  @media ${device.mobileL} {
-  }
+const Footer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  position: fixed;
+  bottom: 10px;
 `;
 
 const Item = styled.div`
@@ -448,9 +443,9 @@ const Item = styled.div`
   flex-direction: column;
   // align-items: center;
   margin-bottom: 20px;
-  border-radius: 5px;
+  border-radius: 16px;
   width: 100%;
-  max-width: 900px;
+  max-width: 950px;
   // min-height: 700px;
   margin-top: 20px;
   margin-bottom: 20px;

@@ -26,7 +26,7 @@ const Btn = styled.button`
   margin: 60px;
   height: 50px;
   width: 350px;
-  border-radius: 5px;
+  border-radius: 16px;
   background-color: rgba(0, 240, 245, 1);
   color: white;
   cursor: pointer;

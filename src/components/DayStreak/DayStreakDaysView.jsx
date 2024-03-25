@@ -125,7 +125,7 @@ const Outer = styled.div`
   padding: 5px;
   margin-bottom: 20px;
   height: 80px;
-  border-radius: 4px;
+  border-radius: 16px;
   display: flex;
   flex-direction: row;
   align-items: center;

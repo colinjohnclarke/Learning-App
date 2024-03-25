@@ -53,7 +53,7 @@ const Wrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  border-radius: 5px;
+  border-radius: 16px;
   position: fixed;
   top: 0px;
   z-index: 100;

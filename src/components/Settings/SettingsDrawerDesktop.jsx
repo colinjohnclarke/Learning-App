@@ -189,7 +189,7 @@ const Drawer = styled.div`
     props.darkThemeActive
       ? ThemeStyles.lightThemeMainBoxShadow
       : ThemeStyles.darkThemeMainBoxShadow};
-  border-radius: 5px;
+      border-radius: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -235,7 +235,7 @@ const Box = styled.div`
   &:hover {
     transition: 0s;
     background-color: rgb(0, 240, 255, 0.2);
-    border-radius: 5px;
+    border-radius: 16px;
   }
 
   p {

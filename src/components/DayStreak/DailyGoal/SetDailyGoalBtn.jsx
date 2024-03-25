@@ -69,7 +69,7 @@ const Wrapper = styled.div`
   padding: 15px;
   height: 30px;
   width: 110px;
-  border-radius: 5px;
+  border-radius: 16px;
   display: flex;
   flex-direction: row;
   align-items: center;

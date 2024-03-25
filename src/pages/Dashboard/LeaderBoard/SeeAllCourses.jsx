@@ -50,7 +50,7 @@ const Box = styled.a`
   width: 100%;
   min-width: 290px;
   margin: 2px;
-  border-radius: 5px;
+  border-radius: 16px;
   text-decoration: none;
   display: flex;
   flex-direction: row;
@@ -79,6 +79,6 @@ const Text = styled.div`
 const Image = styled.img`
   height: 100%;
   width: 33.3%;
-  border-radius: 5px;
+  border-radius: 16px;
   max-width: 100px;
 `;

@@ -39,7 +39,8 @@ const Wrapper = styled.button`
       ? ThemeStyles.lightThemeMainBoxShadow
       : ThemeStyles.darkThemeMainBoxShadow};
 
-  border-radius: 4px;
+  border-radius: 16px;
+  background-color: 0.2s ease-in-out 0s;
 
   @media (min-width: 600px) {
     display: none;

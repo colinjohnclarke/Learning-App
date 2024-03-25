@@ -16,7 +16,7 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  border-radius: 5px;
+  border-radius: 16px;
   position: relative;
   z-index: 0;
   box-shadow: 0px 0px 30px 4px rgba(174, 196, 216, 0.25);

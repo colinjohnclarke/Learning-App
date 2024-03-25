@@ -117,7 +117,7 @@ const Back = styled.button`
 const ClearFilter = styled.button`
   height: 35px;
   width: 100px;
-  border-radius: 5px;
+  border-radius: 16px;
   border: none;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 1px 0px;
   background-color: rgb(0, 0, 250, 0.5);

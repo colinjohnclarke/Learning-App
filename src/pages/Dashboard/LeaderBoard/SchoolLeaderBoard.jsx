@@ -154,7 +154,7 @@ export default SchoolLeaderBoard;
 
 const Wrapper = styled.div`
   width: 100%;
-  border-radius: 5px;
+  border-radius: 16px;
   border: none;
   background-color: ${(props) =>
     props.darkThemeActive
@@ -179,7 +179,7 @@ const Main = styled.table`
 `;
 
 const TableHead = styled.thead`
-  border-radius: 5px;
+border-radius: 16px;
   background-color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor

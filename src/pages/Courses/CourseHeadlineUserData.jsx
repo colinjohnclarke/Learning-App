@@ -57,7 +57,7 @@ const Box = styled.div`
   justify-content: space-between;
   align-items: center;
   background-color: white;
-  border-radius: 5px;
+  border-radius: 16px;
   background-color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor

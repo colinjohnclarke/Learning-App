@@ -73,7 +73,7 @@ const Wrapper = styled.form`
       ? ThemeStyles.lightThemePrimaryBackgroundColor
       : ThemeStyles.darkThemePrimaryBackgroundColor};
 
-  border-radius: 5px;
+      border-radius: 16px;
   margin: 6px;
   padding: 8px;
   display: flex;
@@ -116,7 +116,7 @@ const Main = styled.div`
   justify-content: space-between;
   align-items: center;
   background-color: white;
-  border-radius: 5px;
+  border-radius: 16px;
 
   background-color: ${(props) =>
     props.darkThemeActive
@@ -130,7 +130,7 @@ const Box = styled.a`
   min-width: 290px;
   padding: 4px;
   margin: 3px;
-  border-radius: 5px;
+  border-radius: 16px;
   text-decoration: none;
   display: flex;
   flex-direction: row;
@@ -169,7 +169,7 @@ const Outer = styled.div`
   align-items: center;
   box-shadow: 0px 0px 30px 4px rgba(174, 196, 216, 0.25);
   background-color: rgb(255, 255, 255);
-  border-radius: 5px;
+  border-radius: 16px;
 
   background-color: ${(props) =>
     props.darkThemeActive

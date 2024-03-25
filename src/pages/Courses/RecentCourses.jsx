@@ -64,8 +64,9 @@ function RecentCourses() {
       <img
         alt=""
         style={{
-          height: "100px",
-          width: "100px",
+          height: "80px",
+          width: "80px",
+          borderRadius: "16px",
         }}
         src={imgurlFor(result.coverImage.asset._ref)}
       />
@@ -162,7 +163,7 @@ function RecentCourses() {
         fontWeight: "500",
         width: "100%",
 
-        borderRadius: "5px",
+        borderRadius: "16px",
       }}
     >
       {/* <PaddingBox /> */}
@@ -218,13 +219,14 @@ const Demo = styled.div`
   transition: 0s;
   box-shadow: 0px 0px 30px 4px rgba(174, 196, 216, 0.25);
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 16px;
   margin-bottom: 10px;
 `;
 
 const LinkWrapper = styled.div`
   width: 100%;
   padding-top: 10px;
+  border-radius: 16px;
 `;
 
 const Box = styled.a`
@@ -233,7 +235,7 @@ const Box = styled.a`
   min-width: 290px;
   margin-top: 3px;
   margin-bottom: 3px;
-  border-radius: 5px;
+  border-radius: 16px;
   text-decoration: none;
   display: flex;
   flex-direction: row;
@@ -288,7 +290,7 @@ const Text = styled.div`
 const Img = styled.img`
   height: 100%;
   width: 33.3%;
-  border-radius: 5px;
+  border-radius: 16px;
   max-width: 100px;
   min-width: 100px;
   clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 25% 100%, 0% 50%);
@@ -296,10 +298,8 @@ const Img = styled.img`
 
 const Image = styled.div`
   height: 100%;
-  border-radius: 5px;
-
   clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 25% 100%, 0% 50%);
-
+  border-radius: 16px;
   @media ${device.mobileL} {
   }
 `;

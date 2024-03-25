@@ -10,6 +10,7 @@ import {
   reverseUpdatePointsAvailable,
 } from "../../../redux/CurrentBlockProgressData/currentblockprogressdata";
 import { UserContext } from "../../../App";
+import { ActionButtonContext } from "../../../pages/Main/OrderingItems/ActionButtonContext";
 
 function Score({ scoreData, totalMarksAvailable }) {
   const [score, setScore] = useState(0);
@@ -19,6 +20,7 @@ function Score({ scoreData, totalMarksAvailable }) {
   const { correctAnswerIsSelected, pointsScored } = scoreData;
 
   const { silentModeActive } = useContext(UserContext);
+  const { setButtonState } = useContext(ActionButtonContext);
 
   const correctStyle = {
     backgroundColor: colors.correctColor,
@@ -34,6 +36,10 @@ function Score({ scoreData, totalMarksAvailable }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    setButtonState((val) => ({
+      ...val,
+      value: "undefined",
+    }));
     dispatch(updatePointsAvailable(totalMarksAvailable));
     return () => {
       dispatch(reverseUpdatePointsAvailable(totalMarksAvailable));
@@ -52,6 +58,10 @@ function Score({ scoreData, totalMarksAvailable }) {
         // console.log(index);
 
         setScore((prevScore) => prevScore + 1);
+        setButtonState((val) => ({
+          ...val,
+          value: "true",
+        }));
 
         setAnimateClass("animate__animated animate__tada");
         setScoreStyle(correctStyle);
@@ -138,4 +148,4 @@ const Text = styled.p`
   align-items: center;
 `;
 
-export default Score;
+export default React.memo(Score);

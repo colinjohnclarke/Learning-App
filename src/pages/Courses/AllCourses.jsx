@@ -122,7 +122,7 @@ const Box = styled.a`
   min-width: 290px;
   // padding: 4px;
   margin: 4px;
-  border-radius: 5px;
+  border-radius: 16px;
   text-decoration: none;
   display: flex;
   flex-direction: row;
@@ -173,7 +173,7 @@ const Text = styled.div`
 const ShadedCard = styled.p`
   height: 100%;
   width: 33.3%;
-  border-radius: 5px;
+  border-radius: 16px;
   max-width: 100px;
   display: flex;
   align-items: end;

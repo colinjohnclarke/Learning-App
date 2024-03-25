@@ -70,7 +70,7 @@ const Box = styled.div`
   &:hover {
     transition: 0s;
     background-color: rgb(0, 240, 255, 0.2);
-    border-radius: 5px;
+    border-radius: 16px;
   }
 
   p {

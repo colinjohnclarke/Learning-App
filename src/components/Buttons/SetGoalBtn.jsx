@@ -16,7 +16,7 @@ const Btn = styled.button`
   margin: 10px;
   height: 40px;
   width: 300px;
-  border-radius: 5px;
+  border-radius: 16px;
   background-color: white;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
   transition: 0.3s;

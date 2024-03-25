@@ -29,7 +29,7 @@ const Btn = styled.button`
   min-height: 50px;
   min-width: 350px;
   max-width: 350px;
-  border-radius: 5px;
+  border-radius: 16px;
   background-color: white;
 
   background-color: ${(props) =>

@@ -142,7 +142,7 @@ const Box = styled.a`
   // padding: 4px;
   margin-top: 3px;
   margin-bottom: 3px;
-  border-radius: 5px;
+  border-radius: 16px;
   text-decoration: none;
   display: flex;
   flex-direction: row;
@@ -198,7 +198,7 @@ const Text = styled.div`
 const Img = styled.img`
   height: 100%;
   width: 33.3%;
-  border-radius: 5px;
+  border-radius: 16px;
   max-width: 100px;
   min-width: 100px;
   clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 25% 100%, 0% 50%);
@@ -210,7 +210,7 @@ const Header = styled.div`
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  border-radius: 5px;
+  border-radius: 16px;
 `;
 
 const List = styled.div`

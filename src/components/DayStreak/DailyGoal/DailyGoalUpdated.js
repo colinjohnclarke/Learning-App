@@ -12,7 +12,7 @@ const ModalContent = styled.div`
   position: relative;
   background-color: #fff;
   padding: 60px;
-  border-radius: 5px;
+  border-radius: 16px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;

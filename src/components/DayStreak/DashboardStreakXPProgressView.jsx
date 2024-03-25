@@ -67,7 +67,7 @@ const Graph = styled.div`
   margin-bottom: 10px;
   flex-direction: column;
   align-items: center;
-  border-radius: 4px;
+  border-radius: 16px;
 
   background-color: ${(props) =>
     props.darkThemeActive
@@ -93,7 +93,7 @@ const DayStreak = styled.div`
   // display: flex;
   // flex-direction: column;
   // align-items: center;
-  border-radius: 4px;
+  border-radius: 16px;
   background-color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor

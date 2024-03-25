@@ -124,7 +124,7 @@ const Wrapper = styled.div`
   justify-content: start;
   font-weight: 400;
   align-items: center;
-  border-radius: 5px;
+  border-radius: 16px;
   padding: 15px;
   width: 100%;
 `;
@@ -136,7 +136,7 @@ const Box = styled.a`
   // padding: 4px;
   margin-top: 3px;
   margin-bottom: 3px;
-  border-radius: 5px;
+  border-radius: 16px;
   text-decoration: none;
   display: flex;
   flex-direction: row;
@@ -200,7 +200,7 @@ const Loader = styled.div`
 const Img = styled.img`
   height: 100%;
   width: 33.3%;
-  border-radius: 5px;
+  border-radius: 16px;
   max-width: 100px;
   min-width: 100px;
   clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 25% 100%, 0% 50%);
@@ -212,7 +212,7 @@ const Header = styled.div`
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  border-radius: 5px;
+  border-radius: 16px;
 `;
 
 const List = styled.div`
@@ -308,7 +308,7 @@ const Outer = styled.div`
   align-items: center;
   box-shadow: 0px 0px 30px 4px rgba(174, 196, 216, 0.25);
   background-color: rgb(255, 255, 255);
-  border-radius: 5px;
+  border-radius: 16px;
 
   background-color: ${(props) =>
     props.darkThemeActive
