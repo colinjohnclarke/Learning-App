@@ -65,7 +65,7 @@ function AnimatedBlockScore() {
   );
 }
 
-export default AnimatedBlockScore;
+export default React.memo(AnimatedBlockScore);
 
 const Wrapper = styled.div`
   position: fixed;

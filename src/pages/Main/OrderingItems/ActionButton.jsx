@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { ThemeStyles } from "../../../styles/ThemeStyles";
 import { ActionButtonContext } from "../../Main/OrderingItems/ActionButtonContext";
@@ -15,6 +16,10 @@ function ActionButton({
   const { buttonState, setButtonState } = useContext(ActionButtonContext);
   const { userData } = useContext(UserContext);
   console.log("🚀 ~ userData:", userData);
+
+  const currentblockprogressdata = useSelector(
+    (state) => state.currentblockprogressdata
+  );
 
   const buttonContentArr = arrayOfAflComponents.map(
     (component) => component.type.type.name
@@ -43,6 +48,20 @@ function ActionButton({
     `Fantastic job, ${userData.user.firstName}!`,
   ];
 
+  // {currentblockprogressdata.allSlidesSeen && (
+  //   <StartQuizBtn
+  //     onClick={() => {
+  //       handleActionBtnClick();
+  //     }}
+  //   ></StartQuizBtn>
+  // )}
+
+  useEffect(() => {
+    if (currentblockprogressdata.allSlidesSeen) {
+      setButtonContent((prev) => "Start Quiz!");
+    }
+  }, [currentblockprogressdata.allSlidesSeen]);
+
   useEffect(() => {
     if (buttonState.value === "true") {
       setButtonContent(
@@ -62,11 +81,7 @@ function ActionButton({
     }
   }, [buttonState]);
 
-  console.log("🚀 ~ buttonContentArr:", buttonContentArr);
-
   useEffect(() => {
-    console.log("buttonState", buttonState);
-    console.log("userData.user.firstName", userData.user.firstName);
     buttonContentArr.forEach((comp, index) => {
       if (index === displayedComponentCount - 2) {
         switch (comp) {
@@ -122,10 +137,6 @@ export default ActionButton;
 const Wrapper = styled.button`
   height: 50px;
   width: 310px;
-  // left: 10px;
-  // position: fixed;
-  // bottom: 20px;
-  // z-index: 100;
   border-radius: 16px;
   border: none;
   background-color: rgb(0, 245, 245);

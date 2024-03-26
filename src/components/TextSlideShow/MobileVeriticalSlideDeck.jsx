@@ -6,17 +6,8 @@ function MobileVerticalSlideDeck({
   data,
   currentslide,
   setCurrentSlide,
+  slidesrefArr,
 }) {
- 
-  const refArr = [
-    useRef(null),
-    useRef(null),
-    useRef(null),
-    useRef(null),
-    useRef(null),
-    useRef(null),
-  ];
-
   const textArr = data.map((item, index) => {
     return (
       <div key={index} style={{ padding: "5px" }}>
@@ -24,8 +15,8 @@ function MobileVerticalSlideDeck({
           currentslide={currentslide}
           setCurrentSlide={setCurrentSlide}
           length={length}
-          refVal={refArr[index + 1]}
-          refdata={refArr[index]}
+          refVal={slidesrefArr[index + 1]}
+          itemRef={slidesrefArr[index]}
           data={item}
           index={index}
         />

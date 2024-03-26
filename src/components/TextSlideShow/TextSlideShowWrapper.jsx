@@ -9,18 +9,22 @@ import {
   updateSlideNumber,
 } from "../../redux/CurrentBlockProgressData/currentblockprogressdata";
 
-function TextSlideShowWrapper({ data }) {
-  const filterEmptySlideContent = data.filter((item) => item !== null);
+function TextSlideShowWrapper({
+  data,
+  currentslide,
+  setCurrentSlide,
+  slidesrefArr,
+}) {
+  const filterEmptySlideContent = data?.filter((item) => item !== null);
 
-  const [currentslide, setCurrentSlide] = useState(0);
   const [width, setWidth] = useState(window.innerWidth);
   const dispatch = useDispatch();
 
-  if (filterEmptySlideContent.length - 1 === currentslide) {
+  if (filterEmptySlideContent?.length - 1 === currentslide) {
     dispatch(updateAllSlidesSeen());
   }
 
-  dispatch(updateSlideNumber(filterEmptySlideContent.length));
+  dispatch(updateSlideNumber(filterEmptySlideContent?.length));
   dispatch(updateCurrentSlide(currentslide));
 
   function handleResize() {
@@ -39,16 +43,17 @@ function TextSlideShowWrapper({ data }) {
     <Wrapper>
       {width < 550 ? (
         <MobileVerticalSlideDeck
+          slidesrefArr={slidesrefArr}
           currentslide={currentslide}
           setCurrentSlide={setCurrentSlide}
-          length={filterEmptySlideContent.length}
+          length={filterEmptySlideContent?.length}
           data={filterEmptySlideContent}
         />
       ) : (
         <DesktopHorizontalSlideDeck
           currentslide={currentslide}
           setCurrentSlide={setCurrentSlide}
-          length={filterEmptySlideContent.length}
+          length={filterEmptySlideContent?.length}
           data={filterEmptySlideContent}
         />
       )}

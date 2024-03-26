@@ -3,52 +3,45 @@ import styled from "styled-components";
 import ContinueSlideBtn from "../Buttons/ContinueSlideBtn";
 import "animate.css";
 import BlockText from "../../config/sanity/BlockText";
+import { useSelector } from "react-redux";
 
 function TextSection({
   data,
   index,
   length,
   refVal,
-  refdata,
+  itemRef,
   currentslide,
   setCurrentSlide,
 }) {
   let animateSection = "";
-
+  const allslideseen = useSelector(
+    (state) => state.currentblockprogressdata.allslideseen
+  );
   let textStyle = {
     display: "none",
     flexDirection: "column",
     transition: "0.3s",
   };
 
+  const scrolltoFn = (elementRef) => {
+    elementRef.current?.scrollIntoView({
+      alignToTop: true,
+      behavior: "smooth",
+    });
+  };
   if (index <= currentslide) {
     textStyle = { padding: "flex", transition: "0.3s" };
-    animateSection = "animate__animated animate__fadeIn";
+    animateSection = "animate__animated animate__fadeIn animate__slow";
   }
 
-  const continueArrowButton = (
-    <ContinueSlideBtn
-      currentslide={currentslide}
-      setCurrentSlide={setCurrentSlide}
-      refVal={refVal}
-      index={index}
-      length={length}
-    ></ContinueSlideBtn>
-  );
+  if (!allslideseen) {
+    scrolltoFn(refVal);
+  }
 
   return (
-    <Wrapper ref={refdata} className={animateSection} style={textStyle}>
+    <Wrapper ref={itemRef} className={animateSection} style={textStyle}>
       <BlockText data={data}></BlockText>
-
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          overflow: "hidden",
-        }}
-      >
-        {index !== length - 1 && continueArrowButton}
-      </div>
     </Wrapper>
   );
 }

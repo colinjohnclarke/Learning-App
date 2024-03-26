@@ -7,6 +7,7 @@ import React, {
   createContext,
 } from "react";
 import { useParams } from "react-router-dom";
+
 import "animate.css";
 import styled from "styled-components";
 import ContinueBtn from "../../components/Buttons/ContinueBtn";
@@ -18,6 +19,8 @@ import Loader from "../../components/Loader";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import ActionButton from "./OrderingItems/ActionButton";
 import ReturnToTopBtn from "./ReturnToTopBtn";
+import { useUpdateUserDataMutation } from "../../redux/api/UserData/userDataSlice";
+import { useUpdateEnrolledCourseMutation } from "../../redux/api/UserData/enrolledCourseDataSlice";
 
 import {
   updateBlockCompleted,
@@ -28,8 +31,7 @@ import {
   resetSlideNumber,
   updatePercentage,
 } from "../../redux/CurrentBlockProgressData/currentblockprogressdata";
-import { useUpdateUserDataMutation } from "../../redux/api/UserData/userDataSlice";
-import { useUpdateEnrolledCourseMutation } from "../../redux/api/UserData/enrolledCourseDataSlice";
+
 import { UserContext } from "../../App";
 import CheckScoreBtn from "../../components/Buttons/CheckScoreBtn";
 import StartQuizBtn from "../../components/Buttons/StartQuizBtn";
@@ -41,62 +43,37 @@ import Header from "../../components/CourseModeHeader/CourseModeHeader";
 
 import OrderItemsMain from "./OrderingItems/OrderItemsMain";
 import { ActionButtonContext } from "./OrderingItems/ActionButtonContext";
-import ProgressBarUpdates from "./ProgressBar/ProgressBarUpdates";
+import MainUpdate from "./CourseCompletionUpdates/MainUpdate";
 
 function Main() {
-  const { userData, darkThemeActive } = useContext(UserContext);
   const [blockData, setBlockData] = useState([]);
-  console.log("🚀 ~ Main ~ blockData:", blockData);
   const [showPointsSummary, setShowPointsSummary] = useState(false);
-  const [itemDisplayed, setItemDisplayed] = useState([]);
-  const [blockDataSubmittedtoDB, setBlockDataSubmittedtoDB] = useState(false);
-  const [buttonContent, setButtonContent] = useState("");
-  const [currentButtonFunction, setCurrentButtonFunction] = useState(null);
+  const [displayedComponentCount, setDisplayedComponentCount] = useState(1);
+  const [buttonState, setButtonState] = useState({ value: "undefined" });
   const dispatch = useDispatch();
-  /// use params from search function
   const { subject, courseName, blockName } = useParams();
+  const { userData, darkThemeActive } = useContext(UserContext);
+  const [currentslide, setCurrentSlide] = useState(0);
   FetchBlockDataFromSanity(subject, blockName, setBlockData);
-
   const currentblockprogressdata = useSelector(
     (state) => state.currentblockprogressdata
   );
-  const startTimeRef = useRef(Date.now());
 
-  // let itemDisplayedInitialState = null;
+  const [updateUserData] = useUpdateUserDataMutation();
+  const [updateEnrolledCourse] = useUpdateEnrolledCourseMutation();
+
   let arrayOfAflComponents;
   if (blockData) {
     arrayOfAflComponents = OrderItemsMain(blockData);
-    console.log("🚀 ~ arrayOfAflComponents:", arrayOfAflComponents);
   }
 
-  const [displayedComponentCount, setDisplayedComponentCount] = useState(1);
-
-  const [buttonState, setButtonState] = useState({ value: "undefined" });
-
-  // if (arrayOfAflComponents) {
-  //   itemDisplayedInitialState = arrayOfAflComponents.map((item) => false);
-  // }
-
-  // useEffect(() => {
-  //   dispatch(resetUserScore());
-  //   dispatch(resetAllSlidesSeen());
-  //   // dispatch(resetBlockedCompleted());
-  //   dispatch(resetPointsAvailableArr());
-  //   dispatch(resetSlideNumber());
-  // }, []);
-
-  // useEffect(() => {
-  //   setItemDisplayed(itemDisplayedInitialState);
-  // }, [
-  //   itemDisplayedInitialState === null
-  //     ? null
-  //     : itemDisplayedInitialState.length,
-  // ]);
-
-  // let displayedItems = arrayOfAflComponents.map((item, index) => ({
-  //   component: item,
-  //   displayed: itemDisplayed[index],
-  // }));
+  useEffect(() => {
+    dispatch(resetUserScore());
+    dispatch(resetAllSlidesSeen());
+    dispatch(resetBlockedCompleted());
+    dispatch(resetPointsAvailableArr());
+    dispatch(resetSlideNumber());
+  }, []);
 
   const itemRefs = [
     useRef(null),
@@ -118,26 +95,8 @@ function Main() {
     useRef(null),
     useRef(null),
   ];
-  console.log("itemRefs", itemRefs);
-  // handle continue btn clicked and uodate item displayedstate array, use a slight delay for the scroll into view function.
-  // const handleContinueBtnClicked = (index) => {
-  //   setItemDisplayed((prevState) => {
-  //     const newState = [...prevState];
-  //     newState[index] = true;
-  //     return newState;
-  //   }
-
-  //   );
-
-  // setTimeout(() => {
-  //   // itemRefs[index].current?.scrollIntoView({
-  //   //   alignToTop: true,
-  //   //   behavior: "smooth",
-  //   // });
-  // }, 0);
 
   let slideShowDataArr;
-
   if (blockData) {
     slideShowDataArr = [
       blockData.textblock1,
@@ -148,10 +107,25 @@ function Main() {
     ];
   }
 
-  const handleActionBtnClick = () => {
-    setDisplayedComponentCount((val) => val + 1);
+  const slidesrefArr = [
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+    useRef(null),
+  ];
 
-    console.log("itemRefs", itemRefs);
+  const handleActionBtnClick = () => {
+    if (!currentblockprogressdata.allSlidesSeen) {
+      setCurrentSlide((prev) => prev + 1);
+    } else setDisplayedComponentCount((val) => val + 1);
+  };
+
+  const handleCheckScoreBtnClick = () => {
+    setDisplayedComponentCount((val) => val + 1);
+    setShowPointsSummary(true);
+    dispatch(updateBlockCompleted());
   };
 
   useEffect(() => {
@@ -168,43 +142,29 @@ function Main() {
     }
   }, [displayedComponentCount]);
 
-  // when start quiz is clicked, state the displayed object Arr at position 1 to true so quiz startrs
-
-  // useEffect(() => {
-  //   if (currentblockprogressdata.startQuiz) {
-  //     setItemDisplayed((prevState) => {
-  //       const newState = [...prevState];
-  //       newState[1] = true;
-  //       return newState;
-  //     });
-  //   }
-  // }, [currentblockprogressdata.startQuiz]);
-
   const renderedItems = [
-    // blockData && (
-    //   <CourseDetails
-    //     darkThemeActive={darkThemeActive}
-    //     className="animate__animated animate__fadeIn"
-    //     data={blockData.coverImage || ""}
-    //     subject={subject}
-    //     courseName={courseName}
-    //     blockName={blockName}
-    //   />
-    // ),
+    blockData && (
+      <CourseDetails
+        darkThemeActive={darkThemeActive}
+        className="animate__animated animate__fadeIn"
+        data={blockData.coverImage || ""}
+        subject={subject}
+        courseName={courseName}
+        blockName={blockName}
+      />
+    ),
 
     <Container
       style={{ width: "100%", maxWidth: "900px" }}
       darkThemeActive={darkThemeActive}
       className="animate__animated animate__fadeIn"
     >
-      <TextSlideShowWrapper data={slideShowDataArr} />
-      {currentblockprogressdata.allSlidesSeen && (
-        <StartQuizBtn
-          onClick={() => {
-            handleActionBtnClick();
-          }}
-        ></StartQuizBtn>
-      )}
+      <TextSlideShowWrapper
+        slidesrefArr={slidesrefArr}
+        currentslide={currentslide}
+        setCurrentSlide={setCurrentSlide}
+        data={slideShowDataArr}
+      />
     </Container>,
 
     arrayOfAflComponents?.map(
@@ -229,144 +189,42 @@ function Main() {
     ),
   ];
 
-  // let slideVal = 0;
-  // let calculateProgress = 0;
-  // let numOfDisplayedItems = 0;
-  // let totalLengthofCourse = null;
-
-  // // calculate current poistion in text Slideshow
-
-  // if (currentblockprogressdata.allSlidesSeen) {
-  //   slideVal = currentblockprogressdata.slideNumber;
-  // } else slideVal = currentblockprogressdata.currentSlide;
-
-  // if (itemDisplayed.length) {
-  //   totalLengthofCourse =
-  //     itemDisplayed.length + currentblockprogressdata.slideNumber;
-  // }
-
-  // displayedItems.forEach((item) => {
-  //   if (item.displayed) {
-  //     numOfDisplayedItems++;
-  //   }
-  // });
-
-  // let currentPositioninCourse = 0;
-
-  // currentPositioninCourse = numOfDisplayedItems + slideVal;
-
-  // if (!showPointsSummary) {
-  //   calculateProgress =
-  //     ((currentPositioninCourse - 1) / totalLengthofCourse) * 100;
-  // } else calculateProgress = 100;
-
-  // useEffect(() => {
-  //   dispatch(
-  //     updatePercentage(
-  //       (currentblockprogressdata.userScore /
-  //         currentblockprogressdata.pointsAvailable) *
-  //         100
-  //     )
-  //   );
-
-  //   dispatch(updatePercentage(calculateProgress));
-
-  //   dispatch(updateProgressPercentage({ calculateProgress }));
-
-  const [updateUserData] = useUpdateUserDataMutation();
-
-  const [updateEnrolledCourse] = useUpdateEnrolledCourseMutation();
-  const updateUserDataFN = async () => {
-    // console.log("updateUserDataFN");
-
-    const updatedDetails = {
-      id: userData?.user._id,
-      Subject: subject,
-      updateXP: currentblockprogressdata.userScore,
-      updateTimeElapsed: elapsedTime,
-      updatePercentageScore:
-        (currentblockprogressdata.userScore /
-          currentblockprogressdata.pointsAvailable) *
-        100,
-    };
-
-    await updateEnrolledCourse(updatedDetails);
-
-    // await updateUserData returns user to update local storage after respone
-
-    //   await updateUserData({
-    //     id: userData?.user._id,
-    //     updateTimeElapsed: elapsedTime,
-    //     quizScores: [
-    //       {
-    //         updateQuizId: blockName,
-    //         updateSubject: subject,
-    //         updateCourseName: courseName,
-    //         updateScore: currentblockprogressdata.userScore,
-    //         updateCompletionStatus: showPointsSummary,
-    //         updateQuestionsAttempted: currentblockprogressdata.questionsAttempted,
-
-    //         updatePercentageScore:
-    //           (currentblockprogressdata.userScore /
-    //             currentblockprogressdata.pointsAvailable) *
-    //           100,
-    //       },
-    //     ],
-    //   });
-    // };
-
-    let elapsedTime = 0;
-
-    //   if (calculateProgress === 100) {
-    //     setShowPointsSummary((val) => true);
-    //     dispatch(updateBlockCompleted());
-    //     elapsedTime = Date.now() - startTimeRef.current;
-    //     updateUserDataFN();
-    //     setBlockDataSubmittedtoDB((val) => true);
-    //   }
-    // }, [displayedComponentCount]);
-
-    // useEffect(() => {
-    //   // setSelectedNav((prevState) => ({ courseView: "false" }));
-    //   if (blockDataSubmittedtoDB) {
-    //     dispatch(resetUserScore());
-    //     dispatch(resetAllSlidesSeen());
-    //     // dispatch(resetBlockedCompleted());
-    //     dispatch(resetPointsAvailableArr());
-    //     dispatch(resetSlideNumber());
-    //   }
-    // }, [blockDataSubmittedtoDB]);
-  };
   return (
     <ActionButtonContext.Provider value={{ buttonState, setButtonState }}>
       <Wrapper darkThemeActive={darkThemeActive}>
         <Header />
-        {blockData.length === 0 && <Loader></Loader>}
+        {blockData?.length === 0 && <Loader></Loader>}
 
+        <h1 style={{ padding: "40px", position: "fixed", zIndex: "400" }}>
+          {displayedComponentCount}
+        </h1>
         {renderedItems}
-
         <Whitespace />
+        <Footer>
+          <ActionButton
+            displayedComponentCount={displayedComponentCount}
+            handleActionBtnClick={handleActionBtnClick}
+            arrayOfAflComponents={arrayOfAflComponents}
+          ></ActionButton>
 
-        {displayedComponentCount > 1 &&
-          arrayOfAflComponents.length !== displayedComponentCount - 1 && (
-            <Footer>
-              <ActionButton
-                displayedComponentCount={displayedComponentCount}
-                handleActionBtnClick={handleActionBtnClick}
-                arrayOfAflComponents={arrayOfAflComponents}
-              ></ActionButton>
-
-              <ReturnToTopBtn />
-            </Footer>
-          )}
-
-        {arrayOfAflComponents.length === displayedComponentCount - 1 && (
-          <CheckScoreBtn></CheckScoreBtn>
+          <ReturnToTopBtn style={{ display: "none" }} />
+        </Footer>
+        {/* )} */}
+        {arrayOfAflComponents?.length === displayedComponentCount - 1 && (
+          <CheckScoreBtn onClick={handleCheckScoreBtnClick}></CheckScoreBtn>
         )}
-
-        <ProgressBarUpdates></ProgressBarUpdates>
-
-        {/* {showPointsSummary && <PostBlockPointsReveal />} */}
+        <MainUpdate
+          showPointsSummary={showPointsSummary}
+          updateUserDataFN={updateUserData}
+          updateEnrolledCourseFN={updateEnrolledCourse}
+          subject={subject}
+          userId={userData?.user._id}
+          courseLength={arrayOfAflComponents?.length}
+          displayedComponentCount={displayedComponentCount}
+          blockName={blockName}
+          courseName={courseName}
+        ></MainUpdate>
+        {showPointsSummary && <PostBlockPointsReveal />}
       </Wrapper>
     </ActionButtonContext.Provider>
   );
@@ -375,10 +233,11 @@ function Main() {
 export default React.memo(Main);
 
 const Whitespace = styled.div`
-  height: 200px;
-  // width: 100%;
-  // border: red;
-  // background-color: red;
+  height: 100px;
+
+  @media ${device.laptop} {
+    height: 200px;
+  }
 `;
 const Wrapper = styled.div`
   display: flex;
@@ -407,7 +266,6 @@ const Container = styled.div`
     props.darkThemeActive
       ? ThemeStyles.lightThemeMainBoxShadow
       : ThemeStyles.darkThemeMainBoxShadow};
-  width: 98%;
 
   p,
   h1,
@@ -436,19 +294,20 @@ const Footer = styled.div`
 `;
 
 const Item = styled.div`
-  // scroll-padding: -0px;
   scroll-margin: 55px;
-  // scroll-snap-type: y proximity;
   display: flex;
   flex-direction: column;
-  // align-items: center;
   margin-bottom: 20px;
   border-radius: 16px;
   width: 100%;
-  max-width: 950px;
-  // min-height: 700px;
   margin-top: 20px;
   margin-bottom: 20px;
+
+  width: 98%;
+
+  @media ${device.laptop} {
+    max-width: 900px;
+  }
 
   // @media ${device.laptop} {
   //   // height: 1000px;

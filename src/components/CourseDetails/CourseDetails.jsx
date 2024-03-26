@@ -25,6 +25,7 @@ function CourseDetails({
       style={{
         height: "100px",
         width: "100px",
+        borderRadius: "16px",
       }}
       src={imgurlFor(data?.asset._ref)}
     />
@@ -65,7 +66,7 @@ export default CourseDetails;
 
 const Details = styled.div`
   margin-bottom: 4px;
-  padding-top: 50px;
+  padding-top: 55px;
   min-height: 100px;
   width: 98%;
   display: flex;
@@ -89,7 +90,7 @@ const Details = styled.div`
         : ThemeStyles.darkThemePrimaryFontColor};
   }
 
-  max-width: 1000px;
+  max-width: 900px;
 
   background-color: ${(props) =>
     props.darkThemeActive
@@ -121,9 +122,6 @@ const Image = styled.div`
   position: relative;
   top: 4px;
   border-radius: 16px;
-
-  @media ${device.mobileL} {
-  }
 `;
 
 const Box = styled.div`

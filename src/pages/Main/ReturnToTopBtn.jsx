@@ -1,16 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FaArrowCircleUp } from "react-icons/fa";
 
 function ReturnToTopBtn() {
+  const [userHasScrolledDown, setUserHasScrolledDown] = useState(false);
   function scrollToTop() {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
   }
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 500) {
+        setUserHasScrolledDown(true);
+      } else {
+        setUserHasScrolledDown(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <Wrapper onClick={scrollToTop}>
+    <Wrapper
+      style={{ display: userHasScrolledDown ? "flex" : "none" }}
+      onClick={scrollToTop}
+    >
       <FaArrowCircleUp fill="white" size="45"></FaArrowCircleUp>
     </Wrapper>
   );

@@ -5,11 +5,12 @@ function AnimateCountFunction(maxNumber) {
   const [points, setPoints] = useState(maxNumber);
   const [counter, setCounter] = useState(0);
   const [counterinterval, setCounterInterval] = useState(2);
+  const [animateclass, setAnimateClass] = useState("");
 
   let timer;
 
   useEffect(() => {
-    if (points) {
+    if (points > 0) {
       timer = setInterval(() => {
         if (points > 500) {
           setCounter((val) => val + 10);
@@ -21,6 +22,10 @@ function AnimateCountFunction(maxNumber) {
           setCounter((val) => val + 1);
         }
       }, counterinterval);
+
+      if (counter > points) {
+        clearInterval(timer);
+      }
 
       if (counter === points - 1000) {
         setCounterInterval((val) => 1);
@@ -46,6 +51,7 @@ function AnimateCountFunction(maxNumber) {
 
       if (counter === points) {
         clearInterval(timer);
+        setAnimateClass("animate__animated animate__tada");
       }
     }
 
@@ -54,7 +60,7 @@ function AnimateCountFunction(maxNumber) {
     };
   }, [counter]);
 
-  return { counter };
+  return { counter, animateclass };
 }
 
 export default AnimateCountFunction;

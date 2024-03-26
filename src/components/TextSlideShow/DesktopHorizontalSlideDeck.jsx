@@ -40,7 +40,7 @@ function DesktopHorizontalSlideDeck({
     setCurrentSlide((s) => 0);
   }
 
-  if (currentslide === data.length - 1) {
+  if (currentslide === data?.length - 1) {
     startquizbtnstyle = { display: "flex" };
   }
 
@@ -79,12 +79,12 @@ function DesktopHorizontalSlideDeck({
         data={data}
       ></SlidePosition>
       <Wrapper>
-        {data.map((item, index) => {
+        {data?.map((item, index) => {
           return (
             <TextSectionDesktop
               currentslide={currentslide}
               setCurrentSlide={setCurrentSlide}
-              length={data.length}
+              length={data?.length}
               index={index}
               data={item}
             ></TextSectionDesktop>
@@ -103,7 +103,7 @@ function DesktopHorizontalSlideDeck({
         }}
       /> */}
       <LocationSlider>
-        {data.map((item, index) => {
+        {data?.map((item, index) => {
           return <SlideLocator currentslide={currentslide} index={index} />;
         })}
       </LocationSlider>
@@ -123,6 +123,7 @@ const Main = styled.div`
   position: relative;
   padding-top: 40px;
   overflow: hidden;
+
 
   @media ${device.mobileL} {
     padding-top: 40px;

@@ -11,9 +11,15 @@ function ExperiencePoints() {
   const percentageScore = useSelector(
     (state) => state.currentblockprogressdata.percentageScore
   );
+
+  let score = null;
+
+  if (percentageScore) {
+    score = percentageScore;
+  }
   const { darkThemeActive } = useContext(UserContext);
 
-  const { counter, animateclass } = AnimateCountFunction(percentageScore);
+  const { counter, animateclass } = AnimateCountFunction(score);
 
   return (
     <Wrapper
@@ -23,7 +29,7 @@ function ExperiencePoints() {
     >
       <p style={{ fontWeight: "700" }}> Result {"   "} </p>
       <p style={{ fontWeight: "700" }}>
-        {"   "} + {counter * 10}
+        {"   "} + {counter}
       </p>
       <p style={{ fontWeight: "700" }}> XP</p>
     </Wrapper>
