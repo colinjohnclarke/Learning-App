@@ -30,6 +30,7 @@ import {
   resetPointsAvailableArr,
   resetSlideNumber,
   updatePercentage,
+  updateAllSlidesSeen,
 } from "../../redux/CurrentBlockProgressData/currentblockprogressdata";
 
 import { UserContext } from "../../App";
@@ -63,6 +64,7 @@ function Main() {
   const [updateEnrolledCourse] = useUpdateEnrolledCourseMutation();
 
   let arrayOfAflComponents;
+  
   if (blockData) {
     arrayOfAflComponents = OrderItemsMain(blockData);
   }
@@ -116,10 +118,25 @@ function Main() {
     useRef(null),
   ];
 
-  const handleActionBtnClick = () => {
-    if (!currentblockprogressdata.allSlidesSeen) {
+  useEffect(() => {
+    if (
+      currentblockprogressdata.currentSlide + 1 ===
+      currentblockprogressdata.slideNumber
+    ) {
+      dispatch(updateAllSlidesSeen());
       setCurrentSlide((prev) => prev + 1);
-    } else setDisplayedComponentCount((val) => val + 1);
+    }
+  }, [currentblockprogressdata.currentSlide]);
+
+  const handleActionBtnClick = () => {
+    if (
+      currentblockprogressdata.currentSlide !==
+      currentblockprogressdata.slideNumber
+    ) {
+      setCurrentSlide((prev) => prev + 1);
+    } else if (currentblockprogressdata.allSlidesSeen) {
+      setDisplayedComponentCount((val) => val + 1);
+    }
   };
 
   const handleCheckScoreBtnClick = () => {
@@ -194,14 +211,11 @@ function Main() {
       <Wrapper darkThemeActive={darkThemeActive}>
         <Header />
         {blockData?.length === 0 && <Loader></Loader>}
-
-        <h1 style={{ padding: "40px", position: "fixed", zIndex: "400" }}>
-          {displayedComponentCount}
-        </h1>
         {renderedItems}
         <Whitespace />
         <Footer>
           <ActionButton
+          handleCheckScoreBtnClick={handleCheckScoreBtnClick}
             displayedComponentCount={displayedComponentCount}
             handleActionBtnClick={handleActionBtnClick}
             arrayOfAflComponents={arrayOfAflComponents}
@@ -210,9 +224,9 @@ function Main() {
           <ReturnToTopBtn style={{ display: "none" }} />
         </Footer>
         {/* )} */}
-        {arrayOfAflComponents?.length === displayedComponentCount - 1 && (
+        {/* {arrayOfAflComponents?.length === displayedComponentCount - 1 && (
           <CheckScoreBtn onClick={handleCheckScoreBtnClick}></CheckScoreBtn>
-        )}
+        )} */}
         <MainUpdate
           showPointsSummary={showPointsSummary}
           updateUserDataFN={updateUserData}

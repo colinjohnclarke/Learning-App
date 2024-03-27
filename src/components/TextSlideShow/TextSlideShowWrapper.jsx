@@ -7,6 +7,7 @@ import {
   updateCurrentSlide,
   updateAllSlidesSeen,
   updateSlideNumber,
+  updateIsDesktopSlideShow,
 } from "../../redux/CurrentBlockProgressData/currentblockprogressdata";
 
 function TextSlideShowWrapper({
@@ -18,14 +19,14 @@ function TextSlideShowWrapper({
   const filterEmptySlideContent = data?.filter((item) => item !== null);
 
   const [width, setWidth] = useState(window.innerWidth);
+  const [currentSlidesDesktop, setCurrentSlideDesktop] = useState(0);
   const dispatch = useDispatch();
 
   if (filterEmptySlideContent?.length - 1 === currentslide) {
-    dispatch(updateAllSlidesSeen());
+    // dispatch(updateAllSlidesSeen());
   }
 
   dispatch(updateSlideNumber(filterEmptySlideContent?.length));
-  dispatch(updateCurrentSlide(currentslide));
 
   function handleResize() {
     setWidth((width) => window.innerWidth);
@@ -37,6 +38,14 @@ function TextSlideShowWrapper({
     return () => {
       window.removeEventListener("resize", handleResize);
     };
+  }, [width]);
+
+  useEffect(() => {
+    if (width < 550) {
+      dispatch(updateIsDesktopSlideShow(false));
+    } else {
+      dispatch(updateIsDesktopSlideShow(true));
+    }
   }, [width]);
 
   return (
@@ -51,8 +60,8 @@ function TextSlideShowWrapper({
         />
       ) : (
         <DesktopHorizontalSlideDeck
-          currentslide={currentslide}
-          setCurrentSlide={setCurrentSlide}
+          currentslide={currentSlidesDesktop}
+          setCurrentSlide={setCurrentSlideDesktop}
           length={filterEmptySlideContent?.length}
           data={filterEmptySlideContent}
         />

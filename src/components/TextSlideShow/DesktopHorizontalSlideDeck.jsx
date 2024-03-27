@@ -11,6 +11,7 @@ import { device } from "../../styles/breakpoints";
 import { useDispatch } from "react-redux";
 import { FcNext } from "react-icons/fc";
 import SlidePosition from "./SlidePosition";
+import { updateCurrentSlide } from "../../redux/CurrentBlockProgressData/currentblockprogressdata";
 
 function DesktopHorizontalSlideDeck({
   length,
@@ -31,6 +32,8 @@ function DesktopHorizontalSlideDeck({
   const changeSlideLeft = () => {
     setCurrentSlide((s) => s - 1);
   };
+
+  dispatch(updateCurrentSlide(currentslide));
 
   if (currentslide === 0) {
     leftbtnstyle = hidebtn;
@@ -96,12 +99,6 @@ function DesktopHorizontalSlideDeck({
         <FcNext size={50} />
       </SlideShowNavBtn>
 
-      {/* <StartQuizBtn
-        style={startquizbtnstyle}
-        onClick={() => {
-          dispatch(updateStartQuiz());
-        }}
-      /> */}
       <LocationSlider>
         {data?.map((item, index) => {
           return <SlideLocator currentslide={currentslide} index={index} />;
@@ -123,7 +120,6 @@ const Main = styled.div`
   position: relative;
   padding-top: 40px;
   overflow: hidden;
-
 
   @media ${device.mobileL} {
     padding-top: 40px;

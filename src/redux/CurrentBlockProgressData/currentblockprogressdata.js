@@ -12,6 +12,7 @@ const initialState = {
   blockCompleted: false,
   percentageScore: 0,
   questionsAttempted: 0,
+  isDesktopSlideShow: false,
 };
 
 export const currentblockprogressdata = createSlice({
@@ -58,6 +59,9 @@ export const currentblockprogressdata = createSlice({
     updateSlideNumber: (state, action) => {
       state.slideNumber = action.payload;
     },
+    updateIsDesktopSlideShow: (state, action) => {
+      state.isDesktopSlideShow = action.payload;
+    },
 
     resetUserScore: (state) => {
       state.userScore = 0;
@@ -83,6 +87,7 @@ export const {
   updateAllSlidesSeen,
   updateSlideNumber,
   updateStartQuiz,
+  updateIsDesktopSlideShow,
 
   //
   userScore,

@@ -7,6 +7,7 @@ import MovingSliderWrapper from "../../../components/Slider/MovingSliderWrapper"
 import DualBoxSelectionWrapper from "../../../components/DualSelection/DualBoxSelectionWrapper";
 import DragandDropWrapper from "../../../components/Drag&Drop/DragandDropWrapper";
 import LabellingWrapper from "../../../components/Labelling/LabellingWrapper";
+import GapFillMultiple from "../../../components/ GapFillMultiple/GapFillMultiple";
 
 const CreateArrayOfAflComponents = (arrayOfItemsWithPosition, blockData) => {
   const {
@@ -20,6 +21,7 @@ const CreateArrayOfAflComponents = (arrayOfItemsWithPosition, blockData) => {
     dual_box,
     slider,
     gap_fill,
+    gap_fill_multiple,
     incorrect_words_from_text,
     standard_table_variable_names,
     standard_tables,
@@ -55,6 +57,11 @@ const CreateArrayOfAflComponents = (arrayOfItemsWithPosition, blockData) => {
       case "gap_fill":
         component = <GapFillWrapper data={[gap_fill[item.index]]} />;
         break;
+
+      case "gap_fill_multiple":
+        component = <GapFillMultiple data={[gap_fill_multiple[item.index]]} />;
+        break;
+
       case "slider":
         component = <MovingSliderWrapper data={[slider[item.index]]} />;
         break;

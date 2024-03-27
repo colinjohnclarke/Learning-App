@@ -3,6 +3,7 @@ import LoginBtn from "../components/Login/LoginBtn";
 import LogoutBtn from "../components/Login/LogoutBtn";
 import spslogo from "../assets/images/spslogo.svg";
 import { UserContext } from "../App";
+import Dog from "../assets/images/Dog.svg";
 
 function Login() {
   const { darkThemeActive } = useContext(UserContext);
@@ -28,6 +29,7 @@ function Login() {
         width: "100vw",
       }}
     >
+      <img src={Dog} alt="" />
       <div
         style={{
           display: "flex",

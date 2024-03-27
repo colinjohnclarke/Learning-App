@@ -10,10 +10,15 @@ import "animate.css";
 function ActionButton({
   displayedComponentCount,
   handleActionBtnClick,
+  handleCheckScoreBtnClick,
   arrayOfAflComponents,
 }) {
+  console.log("🚀 ~ arrayOfAflComponents:", arrayOfAflComponents);
   const [buttonContent, setButtonContent] = useState("Continue");
   const { buttonState, setButtonState } = useContext(ActionButtonContext);
+
+  const [displayCheckScoreBtn, setDisplayCheckScoreBtn] = useState(false);
+
   const { userData } = useContext(UserContext);
   console.log("🚀 ~ userData:", userData);
 
@@ -21,7 +26,15 @@ function ActionButton({
     (state) => state.currentblockprogressdata
   );
 
-  const buttonContentArr = arrayOfAflComponents.map(
+  let isDesktopSlideShow = currentblockprogressdata.isDesktopSlideShow;
+
+  useEffect(() => {
+    if (isDesktopSlideShow && !currentblockprogressdata.allSlidesSeen) {
+      setButtonContent((prev) => "Read all the info");
+    }
+  }, [isDesktopSlideShow, currentblockprogressdata.allSlidesSeen]);
+
+  const buttonContentArr = arrayOfAflComponents?.map(
     (component) => component.type.type.name
   );
 
@@ -115,9 +128,34 @@ function ActionButton({
         }
       }
     });
+
+    if (
+      arrayOfAflComponents &&
+      displayedComponentCount > 1 &&
+      arrayOfAflComponents.length + 1 === displayedComponentCount
+    ) {
+      setDisplayCheckScoreBtn((val) => true);
+    } else {
+      setDisplayCheckScoreBtn((val) => false);
+    }
   }, [displayedComponentCount]);
 
-  return (
+  return !displayCheckScoreBtn ? (
+    <div>
+      <h1> {JSON.stringify(isDesktopSlideShow)}</h1>
+      <Wrapper
+        className={
+          buttonState.value === "true"
+            ? " animate__animated animate__flipInX"
+            : " animate__animated animate__flipInY"
+        }
+        style={buttonState.value === "true" ? correctstyle : {}}
+        onClick={handleActionBtnClick}
+      >
+        <p style={{ color: "white", fontWeight: "500" }}>{buttonContent} </p>
+      </Wrapper>
+    </div>
+  ) : (
     <Wrapper
       className={
         buttonState.value === "true"
@@ -125,7 +163,7 @@ function ActionButton({
           : " animate__animated animate__flipInY"
       }
       style={buttonState.value === "true" ? correctstyle : {}}
-      onClick={handleActionBtnClick}
+      onClick={handleCheckScoreBtnClick}
     >
       <p style={{ color: "white", fontWeight: "500" }}>{buttonContent}</p>
     </Wrapper>

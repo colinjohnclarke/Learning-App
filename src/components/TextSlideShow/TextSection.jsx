@@ -3,7 +3,8 @@ import styled from "styled-components";
 import ContinueSlideBtn from "../Buttons/ContinueSlideBtn";
 import "animate.css";
 import BlockText from "../../config/sanity/BlockText";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { updateAllSlidesSeen } from "../../redux/CurrentBlockProgressData/currentblockprogressdata";
 
 function TextSection({
   data,
@@ -15,9 +16,17 @@ function TextSection({
   setCurrentSlide,
 }) {
   let animateSection = "";
+
+  const dispatch = useDispatch();
   const allslideseen = useSelector(
-    (state) => state.currentblockprogressdata.allslideseen
+    (state) => state.currentblockprogressdata.allSlidesSeen
   );
+  console.log("🚀 ~ allslideseen:", allslideseen);
+
+  const currentblockprogressdata = useSelector(
+    (state) => state.currentblockprogressdata
+  );
+
   let textStyle = {
     display: "none",
     flexDirection: "column",
@@ -35,7 +44,9 @@ function TextSection({
     animateSection = "animate__animated animate__fadeIn animate__slow";
   }
 
-  if (!allslideseen) {
+  if (
+    currentblockprogressdata.currentSlide < currentblockprogressdata.slideNumber
+  ) {
     scrolltoFn(refVal);
   }
 
