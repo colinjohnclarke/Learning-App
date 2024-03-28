@@ -17,7 +17,9 @@ function Score({ scoreData, totalMarksAvailable }) {
   const [scoreStyle, setScoreStyle] = useState({});
   const [animateclass, setAnimateClass] = useState("");
 
+  // points scored required for components where there is more than one point to be scored
   const { correctAnswerIsSelected, pointsScored } = scoreData;
+  console.log("🚀 ~ pointsScored:", pointsScored);
 
   const { silentModeActive } = useContext(UserContext);
   const { setButtonState } = useContext(ActionButtonContext);
@@ -46,51 +48,21 @@ function Score({ scoreData, totalMarksAvailable }) {
     };
   }, [totalMarksAvailable]);
 
-  const [indexMarkUpdated, setIndexMarkUpdated] = useState(
-    Array(totalMarksAvailable).fill(false)
-  );
-
-  let allCorrect = totalMarksAvailable === pointsScored;
-
   useEffect(() => {
-    const handleCorrectAnswer = (isCorrect, updateMarkArrPosition) => {
-      if (isCorrect) {
-        // console.log(index);
+    if (correctAnswerIsSelected || pointsScored > 0) {
+      setScore((prevScore) => prevScore + 1);
+      setButtonState((val) => ({
+        ...val,
+        value: "true",
+      }));
 
-        setScore((prevScore) => prevScore + 1);
-        setButtonState((val) => ({
-          ...val,
-          value: "true",
-        }));
+      setAnimateClass("animate__animated animate__tada");
+      setScoreStyle(correctStyle);
+      dispatch(updateUserScore());
 
-        setAnimateClass("animate__animated animate__tada");
-        setScoreStyle(correctStyle);
-        dispatch(updateUserScore());
-
-        // checks to see if correct sound has played for particular mark
-
-        if (!indexMarkUpdated[updateMarkArrPosition]) {
-          // if falsy
-
-          if (silentModeActive) {
-            new Audio(correct).play();
-          }
-
-          // set state value at that position to true so will not be played twice when function rerun
-          setIndexMarkUpdated((prevState) => {
-            const newState = [...prevState];
-            newState[updateMarkArrPosition] = true;
-            return newState;
-          });
-        }
+      if (silentModeActive) {
+        new Audio(correct).play();
       }
-    };
-
-    // if (index === 0) {
-    if (totalMarksAvailable === 1) {
-      handleCorrectAnswer(correctAnswerIsSelected, 0);
-    } else if (totalMarksAvailable === 4) {
-      handleCorrectAnswer(allCorrect, 0);
     }
   }, [correctAnswerIsSelected, pointsScored]);
 

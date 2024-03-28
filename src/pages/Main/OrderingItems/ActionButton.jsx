@@ -142,7 +142,7 @@ function ActionButton({
 
   return !displayCheckScoreBtn ? (
     <div>
-      <h1> {JSON.stringify(isDesktopSlideShow)}</h1>
+      {/* <h1> {JSON.stringify(isDesktopSlideShow)}</h1> */}
       <Wrapper
         className={
           buttonState.value === "true"
