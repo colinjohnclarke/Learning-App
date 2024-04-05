@@ -6,9 +6,14 @@ import DayStreakPanel from "./DayStreakPanel";
 import XPointsGraph from "./DailyGoal/XPointsGraph";
 import XPRemainingToCompleteGoal from "./DailyGoal/XPRemainingToCompleteGoal";
 import SetDailyGoalBtn from "./DailyGoal/SetDailyGoalBtn";
+import XPPointsScoredToday from "./DailyGoal/XPPointsScoredToday";
 
 function DashboardStreakXPProgressView() {
-  const { darkThemeActive } = useContext(UserContext);
+  const { darkThemeActive, userData } = useContext(UserContext);
+  const XP = XPPointsScoredToday();
+
+  const percentageGoalCompleted =
+    (XP / userData?.user.preferences.personalizedSettings.dailyXPGoal) * 100;
   return (
     <Wrapper
       darkThemeActive={darkThemeActive}
@@ -29,23 +34,41 @@ function DashboardStreakXPProgressView() {
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
-            alignItems: "center",
+            alignItems: "flex-start",
             width: "100%",
           }}
         >
-          <h2
+          <div
             style={{
-              padding: "5px",
-              marginLeft: "10px",
-              fontSize: "14px",
-              color: darkThemeActive
-                ? ThemeStyles.lightThemePrimaryFrontColor
-                : ThemeStyles.darkThemePrimaryFontColor,
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-around",
+              alignItems: "flex-start",
+              width: "100%",
+              padding: "10px",
             }}
           >
-            Daily Progress
-          </h2>
-          <XPRemainingToCompleteGoal></XPRemainingToCompleteGoal>
+            {" "}
+            <h2
+              style={{
+                // padding: "5px",
+                marginLeft: "10px",
+                fontSize: "14px",
+                display: "flex",
+                width: "100px",
+                flexDirection: "column",
+                justifyContent: "space-between",
+
+                color: darkThemeActive
+                  ? ThemeStyles.lightThemePrimaryFrontColor
+                  : ThemeStyles.darkThemePrimaryFontColor,
+              }}
+            >
+              Daily Progress {percentageGoalCompleted > 100 && "completed!"}
+            </h2>
+            <XPRemainingToCompleteGoal></XPRemainingToCompleteGoal>
+          </div>
+
           <SetDailyGoalBtn />
         </div>
 

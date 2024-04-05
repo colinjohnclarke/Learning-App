@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import { myPortableTextComponents } from "../../config/sanity/portableText";
 import { PortableText } from "@portabletext/react";
@@ -7,10 +7,13 @@ import { device } from "../../styles/breakpoints";
 import { correctstyle } from "../../styles/colors";
 import "animate.css";
 import Score from "../Data/CurrentQuestionScores/Score";
+import { UserContext } from "../../App";
+import { ThemeStyles } from "../../styles/ThemeStyles";
 
 function GapFillMultiple({ data }) {
   const gapData = data[0];
   console.log("🚀 ~ GapFillMultiple ~ gapData:", gapData);
+  const { darkThemeActive } = useContext(UserContext);
 
   const [correctAnswerIsSelected, setCorrectAnswerIsSelected] = useState();
   const [pointsScored, setPointsScored] = useState(0);
@@ -125,7 +128,11 @@ function GapFillMultiple({ data }) {
                 style={{
                   backgroundColor: item.isCorrect
                     ? correctstyle.backgroundColor
-                    : "",
+                    : "#DCDCDC",
+                  boxShadow: darkThemeActive
+                    ? ThemeStyles.lightThemeMainBoxShadow
+                    : ThemeStyles.darkThemeMainBoxShadow,
+
                   color: item.isCorrect ? "white" : "",
                   fonWeight: item.isCorrect ? "500" : "",
                 }}
@@ -191,21 +198,21 @@ const Input = styled.input`
   transition: 0.5s;
   border-radius: none;
   text-align: center;
-  border-radius: 0px;
+  border-radius: 16px;
   border-top: none;
   border-left: none;
   border-right: none;
-  border-bottom: 1px solid;
+  border-bottom: 1px solid rgb(0, 245, 245);
   margin-left: 3px;
   margin-right: 3px;
   height: 20px;
   min-width: 40px;
-  max-width: 90px;
+  max-width: 80px;
   background-color: none;
 
   &:focus {
     outline: none;
-    border-bottom: 1px solid;
+    border-bottom: 3px solid rgb(0, 245, 245);
   }
 `;
 const Text = styled.p`

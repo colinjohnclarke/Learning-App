@@ -121,7 +121,7 @@ height: 80px;
   width: 100%; 
 
   max-width: 700px;
-  border-radius: 20px;
+  border-radius: 16px;
 
   position: relative;
   cursor: grab;

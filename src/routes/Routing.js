@@ -8,7 +8,7 @@ const Courses = lazy(() => import("../pages/Courses/Courses"));
 const Settings = lazy(() => import("../pages/Settings"));
 const Profile = lazy(() => import("../pages/Profile/Profile"));
 const CourseDetailedView = lazy(() =>
-  import("../pages/Courses/CourseDetailedView")
+  import("../pages/Courses/CourseDetails/CourseDetailedView")
 );
 
 function Routing({ navState }) {
@@ -22,11 +22,11 @@ function Routing({ navState }) {
         <Route path="/profile" element={<Profile />} />
         <Route path="/settings" element={<Settings />} />
         <Route
-          path="/courses/:subject/:courseName/:blockName"
+          path="/courses/:subject/:courseName/:courseCode/:blockName"
           element={<Main />}
         />
         <Route
-          path="/courses/:subject/:courseName"
+          path="/courses/:subject/:courseName/:courseCode"
           element={<CourseDetailedView />}
         />
       </Routes>

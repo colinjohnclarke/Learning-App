@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { UserContext } from "../../App";
-import FetchBlocksfromSanity from "../../pages/Courses/FetchBlocksFromSanity";
+import FetchBlocksfromSanity from "../../pages/Courses/FetchfromSanityFns/FetchBlocksFromSanity";
 
 function CoursePercentageCompletion({ subject, courseName }) {
   const course = FetchBlocksfromSanity();
@@ -22,7 +22,6 @@ function CoursePercentageCompletion({ subject, courseName }) {
   });
 
   const percentageCompletion = (completedBlocks.length / blocks.length) * 100;
-
 
   return percentageCompletion;
 }

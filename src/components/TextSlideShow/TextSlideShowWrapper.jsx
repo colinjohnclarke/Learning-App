@@ -15,11 +15,13 @@ function TextSlideShowWrapper({
   currentslide,
   setCurrentSlide,
   slidesrefArr,
+  currentSlidesDesktop,
+  setCurrentSlideDesktop,
 }) {
   const filterEmptySlideContent = data?.filter((item) => item !== null);
 
   const [width, setWidth] = useState(window.innerWidth);
-  const [currentSlidesDesktop, setCurrentSlideDesktop] = useState(0);
+
   const dispatch = useDispatch();
 
   if (filterEmptySlideContent?.length - 1 === currentslide) {

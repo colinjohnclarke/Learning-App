@@ -296,14 +296,14 @@ table {
 /* success amnimated icon */
 
 .mark {
-  width: 60px;
-  height: 60px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   display: block;
   stroke-width: 3;
   stroke: rgb(0, 240, 250);
   stroke-miterlimit: 10;
-  box-shadow: inset 0px 0px 0px #4bb71b;
+
   animation: fill 0.4s ease-in-out 0.4s forwards,
     scale 0.3s ease-in-out 0.9s both infinite;
   position: relative;

@@ -21,7 +21,7 @@ function TextSection({
   const allslideseen = useSelector(
     (state) => state.currentblockprogressdata.allSlidesSeen
   );
-  console.log("🚀 ~ allslideseen:", allslideseen);
+
 
   const currentblockprogressdata = useSelector(
     (state) => state.currentblockprogressdata

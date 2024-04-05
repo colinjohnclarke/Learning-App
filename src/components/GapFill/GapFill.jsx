@@ -56,7 +56,12 @@ function GapFill({ index, data }) {
         {data.initial_scentence}
         <Input
           style={{
-            backgroundColor: isCorrect ? correctstyle.backgroundColor : "",
+            backgroundColor: isCorrect
+              ? correctstyle.backgroundColor
+              : "#DCDCDC",
+            boxShadow: darkThemeActive
+              ? ThemeStyles.lightThemeMainBoxShadow
+              : ThemeStyles.darkThemeMainBoxShadow,
           }}
           className={
             isCorrect ? "animate__animated animate__bounce animate__faster" : ""
@@ -108,11 +113,11 @@ const Input = styled.input`
   transition: 0.5s;
   border-radius: none;
   text-align: center;
-  border-radius: 0px;
+  border-radius: 16px;
   border-top: none;
   border-left: none;
   border-right: none;
-  border-bottom: 1px solid;
+  border-bottom: 1px solid rgb(0, 245, 245);
   margin-left: 3px;
   margin-right: 3px;
   height: 20px;
@@ -122,7 +127,7 @@ const Input = styled.input`
 
   &:focus {
     outline: none;
-    border-bottom: 1px solid;
+    border-bottom: 3px solid rgb(0, 245, 245);
   }
 `;
 const Text = styled.p`

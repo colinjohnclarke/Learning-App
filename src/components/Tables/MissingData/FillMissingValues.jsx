@@ -217,6 +217,7 @@ const Wrapper = styled.div`
 `;
 
 const Input = styled.input`
+border-radius: 16px;
   transition: 0.5s;
   fontweight: bold;
   textalign: center;

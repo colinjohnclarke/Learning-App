@@ -1,8 +1,8 @@
-import React from 'react'
-import FetchBlocksfromSanity from './FetchBlocksFromSanity';
+import React from "react";
+import FetchBlocksfromSanity from "./FetchfromSanityFns/FetchBlocksFromSanity";
 
 function AllBlocks() {
-const blocks = FetchBlocksfromSanity()
+  const blocks = FetchBlocksfromSanity();
 
   const allBlocks = blocks.map((item, index) => {
     const content = item.coverImage ? (
@@ -83,11 +83,7 @@ const blocks = FetchBlocksfromSanity()
     );
   });
 
-
-
-  return (
-    <div>AllBlocks</div>
-  )
+  return <div>AllBlocks</div>;
 }
 
-export default AllBlocks
+export default AllBlocks;

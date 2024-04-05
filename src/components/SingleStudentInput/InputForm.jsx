@@ -19,6 +19,7 @@ function InputForm({
       data-testid="form"
       style={{
         fontFamily: "Montserrat",
+        borderRadius: "16px",
       }}
       onSubmit={handleSubmit}
     >
@@ -31,7 +32,7 @@ function InputForm({
         style={{
           position: "relative",
           backgroundColor: selectedInputColor,
-          borderRadius: "5px",
+          borderRadius: "16px",
         }}
       >
         <input
@@ -48,7 +49,7 @@ function InputForm({
               ? ThemeStyles.lightThemePrimaryFrontColor
               : ThemeStyles.darkThemePrimaryFontColor,
             border: "3.5px solid rgb(0, 240, 240, 0.5)",
-            borderRadius: "5px",
+            borderRadius: "16px",
             display: "flex",
             position: "relative",
             outline: "none",

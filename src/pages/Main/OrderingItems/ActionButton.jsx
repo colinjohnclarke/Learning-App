@@ -1,26 +1,25 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { ThemeStyles } from "../../../styles/ThemeStyles";
 import { ActionButtonContext } from "../../Main/OrderingItems/ActionButtonContext";
 import { UserContext } from "../../../App";
 import { correctstyle } from "../../../styles/colors";
 import "animate.css";
 
+
 function ActionButton({
   displayedComponentCount,
+
   handleActionBtnClick,
   handleCheckScoreBtnClick,
   arrayOfAflComponents,
 }) {
-  console.log("🚀 ~ arrayOfAflComponents:", arrayOfAflComponents);
   const [buttonContent, setButtonContent] = useState("Continue");
   const { buttonState, setButtonState } = useContext(ActionButtonContext);
-
+  const [userScrolledFromBottom, setUserScrolledFromBottom] = useState(false);
   const [displayCheckScoreBtn, setDisplayCheckScoreBtn] = useState(false);
 
   const { userData } = useContext(UserContext);
-  console.log("🚀 ~ userData:", userData);
 
   const currentblockprogressdata = useSelector(
     (state) => state.currentblockprogressdata
@@ -31,6 +30,8 @@ function ActionButton({
   useEffect(() => {
     if (isDesktopSlideShow && !currentblockprogressdata.allSlidesSeen) {
       setButtonContent((prev) => "Read all the info");
+    } else if (currentblockprogressdata.allSlidesSeen) {
+      setButtonContent((prev) => "Start Quiz!");
     }
   }, [isDesktopSlideShow, currentblockprogressdata.allSlidesSeen]);
 
@@ -61,38 +62,31 @@ function ActionButton({
     `Fantastic job, ${userData.user.firstName}!`,
   ];
 
-  // {currentblockprogressdata.allSlidesSeen && (
-  //   <StartQuizBtn
-  //     onClick={() => {
-  //       handleActionBtnClick();
-  //     }}
-  //   ></StartQuizBtn>
-  // )}
+  useEffect(() => {
+    const handleScrolltoBottom = () => {
+      const scrollPosition =
+        window.pageYOffset || document.documentElement.scrollTop;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      const scrollDistanceToBottom =
+        documentHeight - (scrollPosition + windowHeight);
+      const threshold = 150;
+
+      setUserScrolledFromBottom(scrollDistanceToBottom > threshold);
+    };
+
+    window.addEventListener("scroll", handleScrolltoBottom);
+  }, []);
 
   useEffect(() => {
-    if (currentblockprogressdata.allSlidesSeen) {
-      setButtonContent((prev) => "Start Quiz!");
-    }
-  }, [currentblockprogressdata.allSlidesSeen]);
+    const timeout = setTimeout(() => {
+      if (userScrolledFromBottom) {
+        setButtonContent("Scroll to continue");
+      }
+    }, 400);
 
-  useEffect(() => {
-    if (buttonState.value === "true") {
-      setButtonContent(
-        (prev) =>
-          positiveFeedbackButton[
-            Math.floor(Math.random() * positiveFeedbackButton.length)
-          ]
-      );
-
-      setTimeout(() => {
-        setButtonContent((prev) => "Continue");
-        setButtonState((prev) => ({
-          ...prev,
-          value: "undefined",
-        }));
-      }, 2000);
-    }
-  }, [buttonState]);
+    return () => clearTimeout(timeout);
+  }, [userScrolledFromBottom]);
 
   useEffect(() => {
     buttonContentArr.forEach((comp, index) => {
@@ -111,6 +105,9 @@ function ActionButton({
             setButtonContent("Click Incorrect word");
             break;
           case "GapFillWrapper":
+            setButtonContent("Fill the gaps");
+            break;
+          case "GapFillMultiple":
             setButtonContent("Fill the gaps");
             break;
           case "StudentTextInputWrapper":
@@ -138,11 +135,30 @@ function ActionButton({
     } else {
       setDisplayCheckScoreBtn((val) => false);
     }
-  }, [displayedComponentCount]);
+  }, [displayedComponentCount, userScrolledFromBottom]);
+
+  useEffect(() => {
+    if (buttonState.value === "true") {
+      setButtonContent(
+        (prev) =>
+          positiveFeedbackButton[
+            Math.floor(Math.random() * positiveFeedbackButton.length)
+          ]
+      );
+
+      setTimeout(() => {
+        setButtonContent((prev) => "Continue");
+        setButtonState((prev) => ({
+          ...prev,
+          value: "undefined",
+        }));
+      }, 2000);
+    }
+  }, [buttonState]);
 
   return !displayCheckScoreBtn ? (
     <div>
-      {/* <h1> {JSON.stringify(isDesktopSlideShow)}</h1> */}
+
       <Wrapper
         className={
           buttonState.value === "true"
@@ -152,7 +168,7 @@ function ActionButton({
         style={buttonState.value === "true" ? correctstyle : {}}
         onClick={handleActionBtnClick}
       >
-        <p style={{ color: "white", fontWeight: "500" }}>{buttonContent} </p>
+        <p style={{ color: "white", fontWeight: "500" }}>{buttonContent}</p>
       </Wrapper>
     </div>
   ) : (

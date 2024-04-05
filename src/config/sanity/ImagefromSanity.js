@@ -18,6 +18,7 @@ function ImagefromSanity({ data }) {
         minHeight: "100px",
         minWeight: "100px",
         padding: "20px",
+        borderRadius: "16px",
       }}
       src={imgurlFor(data.asset._ref)}
     />

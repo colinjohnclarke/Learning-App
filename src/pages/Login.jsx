@@ -29,7 +29,7 @@ function Login() {
         width: "100vw",
       }}
     >
-      <img src={Dog} alt="" />
+      {/* <img src={spslogo} alt="" /> */}
       <div
         style={{
           display: "flex",

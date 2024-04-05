@@ -8,7 +8,7 @@ import sanityClient from "../../createclient";
 import { UserContext } from "../../App";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 // import FetchBlocksfromSanity from "../Courses/FetchBlocksFromSanity";
-import FetchCoursesFromSanity from "../Courses/FetchCoursesFromSanity";
+import FetchCoursesFromSanity from "../Courses/FetchfromSanityFns/FetchCoursesFromSanity";
 import AnimatedSearchIcon from "../../assets/animations/AnimatedSearchIcon";
 
 function CourseSearchResult({ termsArr, searchBarTerms }) {

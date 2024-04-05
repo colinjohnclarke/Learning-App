@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { UserContext } from "../../../App";
 import XPPointsScoredToday from "./XPPointsScoredToday";
 import AnimatedPercentageScore from "../../../pages/Dashboard/AnimatedPercentageScore";
+import AnimatedSuccessIcon from "../../../assets/animations/AnimatedSuccessIcon";
 
 function XPRemainingToCompleteGoal() {
   const { darkThemeActive, userData } = useContext(UserContext);
@@ -13,10 +14,16 @@ function XPRemainingToCompleteGoal() {
 
   return (
     <div>
-      <AnimatedPercentageScore
-        percentage={percentageGoalCompleted}
-        color="rgb(0, 245, 245)"
-      ></AnimatedPercentageScore>
+      {" "}
+      {percentageGoalCompleted < 100 ? (
+        <AnimatedPercentageScore
+          percentage={percentageGoalCompleted}
+          color="rgb(0, 245, 245)"
+        ></AnimatedPercentageScore>
+      ) : (
+        <AnimatedSuccessIcon></AnimatedSuccessIcon>
+        
+      )}
     </div>
   );
 }

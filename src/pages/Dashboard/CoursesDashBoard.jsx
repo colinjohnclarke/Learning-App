@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { device } from "../../styles/breakpoints";
 import CourseFilter from "./CourseFilter/CourseFilter";
 import { CourseFilterContext } from "./CourseFilter/CourseFilterContext";
-import FetchBlocksfromSanity from "../Courses/FetchBlocksFromSanity";
+import FetchBlocksfromSanity from "../Courses/FetchfromSanityFns/FetchBlocksFromSanity";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import sanityClient from "../../createclient";
@@ -72,25 +72,25 @@ function CoursesDashBoard() {
   return (
     <Wrapper>
       <Tags>
-        <Select
+        {/* <Select
           style={recentCoursesDisplayed ? selected : unselected}
           onClick={handleSchoolLeaderBoardClick}
         >
           Recent...
-        </Select>
+        </Select> */}
 
-        <Select
+        {/* <Select
           style={seeRecommenedCourses ? selected : unselected}
           onClick={handleStudentLeaderBoardClick}
         >
           {" "}
           Recommended
-        </Select>
+        </Select> */}
       </Tags>
 
-      <SelectionBar
+      {/* <SelectionBar
         style={seeRecommenedCourses ? selectionbarRight : selectionbarLeft}
-      ></SelectionBar>
+      ></SelectionBar> */}
 
       {recentCoursesDisplayed &&
         (<RecentCourses /> || <Skeleton height={60} count={3} />)}

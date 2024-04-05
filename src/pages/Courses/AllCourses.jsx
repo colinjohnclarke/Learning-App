@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import FetchCoursesFromSanity from "./FetchCoursesFromSanity";
+import FetchCoursesFromSanity from "./FetchfromSanityFns/FetchCoursesFromSanity";
 import sanityClient from "../../createclient";
 import imageUrlBuilder from "@sanity/image-url";
 import { defaultCoursesImages } from "../Dashboard/CourseFilter/DefaultCourseImages";
@@ -14,6 +14,7 @@ function AllCourses() {
   const { darkThemeActive } = useContext(UserContext);
 
   const coursesFromSanity = FetchCoursesFromSanity();
+  console.log("🚀 ~ AllCourses ~ coursesFromSanity:", coursesFromSanity);
 
   const builder = imageUrlBuilder(sanityClient);
 
@@ -22,11 +23,15 @@ function AllCourses() {
   };
 
   const courses = coursesFromSanity.map((course, index) => {
-    const subject = course.subject.map((courseDetails) => {
-      return courseDetails.name;
-    });
+    // const subject = course.subject.map((courseDetails) => {
+    //   return courseDetails.name;
+    // });
 
-    const educationLevel = course.education_level.map((courseDetails) => {
+    const subject = course.subject[0].name;
+
+    console.log("🚀 ~ subject ~ subject:", subject);
+
+    const educationLevel = course.educationLevel.map((courseDetails) => {
       return (
         <p
           style={{
@@ -50,7 +55,7 @@ function AllCourses() {
           textDecoration: "none",
           animationDelay: `${index / 20}s`,
         }}
-        to={`/courses/${subject}/${course.courseName}`}
+        to={`/courses/${subject}/${course.courseName}/${course.courseCode}`}
         key={index}
       >
         <Box darkThemeActive={darkThemeActive}>
@@ -78,7 +83,7 @@ function AllCourses() {
           </Text>
           <ShadedCard>
             {" "}
-            <p style={{ color: "white", margin: "4px" }}>{educationLevel}</p>
+            <p style={{ color: "white", margin: "4px" }}> {educationLevel}</p>
           </ShadedCard>
 
           <Img

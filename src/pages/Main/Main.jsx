@@ -1,16 +1,9 @@
 // import "../../App.css";
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  useContext,
-  createContext,
-} from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { useParams } from "react-router-dom";
 
 import "animate.css";
 import styled from "styled-components";
-import ContinueBtn from "../../components/Buttons/ContinueBtn";
 import TextSlideShowWrapper from "../../components/TextSlideShow/TextSlideShowWrapper";
 import { useSelector, useDispatch } from "react-redux";
 import { updateProgressPercentage } from "../../redux/ProgressBar/ProgressBar";
@@ -29,19 +22,14 @@ import {
   resetBlockedCompleted,
   resetPointsAvailableArr,
   resetSlideNumber,
-  updatePercentage,
   updateAllSlidesSeen,
 } from "../../redux/CurrentBlockProgressData/currentblockprogressdata";
 
 import { UserContext } from "../../App";
-import CheckScoreBtn from "../../components/Buttons/CheckScoreBtn";
-import StartQuizBtn from "../../components/Buttons/StartQuizBtn";
 import { device } from "../../styles/breakpoints";
-
 import CourseDetails from "../../components/CourseDetails/CourseDetails";
 import FetchBlockDataFromSanity from "./FetchBlockDataFromSanity";
 import Header from "../../components/CourseModeHeader/CourseModeHeader";
-
 import OrderItemsMain from "./OrderingItems/OrderItemsMain";
 import { ActionButtonContext } from "./OrderingItems/ActionButtonContext";
 import MainUpdate from "./CourseCompletionUpdates/MainUpdate";
@@ -55,6 +43,7 @@ function Main() {
   const { subject, courseName, blockName } = useParams();
   const { userData, darkThemeActive } = useContext(UserContext);
   const [currentslide, setCurrentSlide] = useState(0);
+  const [currentSlidesDesktop, setCurrentSlideDesktop] = useState(0);
   FetchBlockDataFromSanity(subject, blockName, setBlockData);
   const currentblockprogressdata = useSelector(
     (state) => state.currentblockprogressdata
@@ -64,7 +53,7 @@ function Main() {
   const [updateEnrolledCourse] = useUpdateEnrolledCourseMutation();
 
   let arrayOfAflComponents;
-  
+
   if (blockData) {
     arrayOfAflComponents = OrderItemsMain(blockData);
   }
@@ -131,10 +120,19 @@ function Main() {
   const handleActionBtnClick = () => {
     if (
       currentblockprogressdata.currentSlide !==
-      currentblockprogressdata.slideNumber
+        currentblockprogressdata.slideNumber &&
+      !currentblockprogressdata.isDesktopSlideShow
     ) {
       setCurrentSlide((prev) => prev + 1);
-    } else if (currentblockprogressdata.allSlidesSeen) {
+    } else if (
+      !currentblockprogressdata.isDesktopSlideShow &&
+      currentblockprogressdata.allSlidesSeen
+    ) {
+      setDisplayedComponentCount((val) => val + 1);
+    } else if (
+      currentblockprogressdata.isDesktopSlideShow &&
+      currentblockprogressdata.allSlidesSeen
+    ) {
       setDisplayedComponentCount((val) => val + 1);
     }
   };
@@ -180,6 +178,8 @@ function Main() {
         slidesrefArr={slidesrefArr}
         currentslide={currentslide}
         setCurrentSlide={setCurrentSlide}
+        currentSlidesDesktop={currentSlidesDesktop}
+        setCurrentSlideDesktop={setCurrentSlideDesktop}
         data={slideShowDataArr}
       />
     </Container>,
@@ -211,22 +211,22 @@ function Main() {
       <Wrapper darkThemeActive={darkThemeActive}>
         <Header />
         {blockData?.length === 0 && <Loader></Loader>}
+
         {renderedItems}
+
         <Whitespace />
         <Footer>
           <ActionButton
-          handleCheckScoreBtnClick={handleCheckScoreBtnClick}
+            handleCheckScoreBtnClick={handleCheckScoreBtnClick}
             displayedComponentCount={displayedComponentCount}
+            setDisplayedComponentCount={setDisplayedComponentCount}
             handleActionBtnClick={handleActionBtnClick}
             arrayOfAflComponents={arrayOfAflComponents}
           ></ActionButton>
 
           <ReturnToTopBtn style={{ display: "none" }} />
         </Footer>
-        {/* )} */}
-        {/* {arrayOfAflComponents?.length === displayedComponentCount - 1 && (
-          <CheckScoreBtn onClick={handleCheckScoreBtnClick}></CheckScoreBtn>
-        )} */}
+
         <MainUpdate
           showPointsSummary={showPointsSummary}
           updateUserDataFN={updateUserData}

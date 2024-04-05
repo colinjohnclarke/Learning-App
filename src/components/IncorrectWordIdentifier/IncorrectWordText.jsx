@@ -182,7 +182,7 @@ function IncorrectWordText({ data, index, updateStateFunctions }) {
         <ImagefromSanity data={data.picture} />
       </Main>
       <Text ref={mcqCheckWord1Ref}>
-        {data.initial_leading_scentence_word1}
+        {data.initial_leading_scentence_word1}{" "}
         <IncorrectWord
           data-testid="incorrectWord1"
           style={word1selected ? correctstyle : normalTextStyle}
@@ -198,6 +198,9 @@ function IncorrectWordText({ data, index, updateStateFunctions }) {
         {data.remainder_sentence_word_1}
         {data.initial_leading_scentence_word2}
         <IncorrectWord
+          className={
+            word2selected ? " animate__animated animate__rubberBand" : ""
+          }
           data-testid="incorrectWord2"
           style={word2selected ? correctstyle : normalTextStyle}
           onClick={() => {

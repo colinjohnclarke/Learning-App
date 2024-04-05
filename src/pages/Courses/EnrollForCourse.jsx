@@ -15,7 +15,7 @@ function EnrollForCourse() {
   const query = searchParams.get("query");
   const { darkThemeActive } = useContext(UserContext);
   const [filterTermsArr, setFilterTermsArr] = useState({});
-
+  window.scrollTo(0, 0);
   const [courseFilterMobileisOpen, setCourseFilterMobileisOpen] =
     useState(false);
   const [dropdownsSelected, setDropDownsSelected] = useState({

@@ -26,6 +26,8 @@ function DesktopHorizontalSlideDeck({
   let leftbtnstyle = { hidebtn };
   let startquizbtnstyle = { hidebtn };
 
+  // dispatch(updateCurrentSlide(currentslide));
+
   const changeSlideRight = () => {
     setCurrentSlide((s) => s + 1);
   };

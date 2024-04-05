@@ -111,9 +111,7 @@ const Details = styled.div`
   }
 `;
 
-const CourseName = styled.div`
-
-display`;
+const CourseName = styled.div``;
 
 const Image = styled.div`
   height: 100%;

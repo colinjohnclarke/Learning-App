@@ -41,7 +41,7 @@ function StudentInputForm({ updateStateFunctions, data, index }) {
     fontSize: "10px",
     transition: "0.3s",
     padding: "5px",
-    borderRadius: "5px",
+    borderRadius: "16px",
     backgroundColor: colors.correctColor,
     color: "white",
   };
@@ -54,7 +54,7 @@ function StudentInputForm({ updateStateFunctions, data, index }) {
     fontSize: "10px",
     transition: "0.3s",
     padding: "5px",
-    borderRadius: "5px",
+    borderRadius: "16px",
     backgroundColor: colors.incorrectColor,
     color: "white",
   };
@@ -67,7 +67,7 @@ function StudentInputForm({ updateStateFunctions, data, index }) {
     fontSize: "10px",
     transition: "0.3s",
     padding: "5px",
-    borderRadius: "5px",
+    borderRadius: "16px",
     // opacity: "0",
     backgroundColor: darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor
@@ -84,7 +84,7 @@ function StudentInputForm({ updateStateFunctions, data, index }) {
     // width: "100%",
     padding: "20px",
     fontSize: "12px",
-    borderRadius: "5px",
+    borderRadius: "16px",
     transition: "0.3s",
     color: darkThemeActive
       ? ThemeStyles.lightThemePrimaryFrontColor

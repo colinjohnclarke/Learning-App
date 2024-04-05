@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import sanityClient from "../../createclient";
+import sanityClient from "../../../createclient";
 
 function FetchBlocksfromSanity() {
   const [queryResult, setQueryResult] = useState([]);

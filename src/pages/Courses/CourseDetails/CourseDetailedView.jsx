@@ -2,49 +2,49 @@ import React, { useState, useEffect, useContext } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import FetchBlocksfromSanity from "./FetchBlocksFromSanity";
+import FetchBlocksfromSanity from "../FetchfromSanityFns/FetchBlocksFromSanity";
 import CourseBlockBreakown from "./CourseBlockBreakown";
-import DashboardHeader from "../Dashboard/DashboardHeader/DashboardHeader";
-import sanityClient from "../../createclient";
+import FetchCourseBreakdownFromSanity from "../FetchfromSanityFns/FetchCourseBreakdownFromSanity";
+import DashboardHeader from "../../Dashboard/DashboardHeader/DashboardHeader";
+import sanityClient from "../../../createclient";
 import imageUrlBuilder from "@sanity/image-url";
-import { device } from "../../styles/breakpoints";
-import AnimatedPercentageScore from "../Dashboard/AnimatedPercentageScore";
+import { device } from "../../../styles/breakpoints";
+import AnimatedPercentageScore from "../../Dashboard/AnimatedPercentageScore";
 import { IoChevronBack } from "react-icons/io5";
-import SearchCourse from "../../components/Search/SearchCourse";
-import LeaderBoard from "../Dashboard/LeaderBoard/LeaderBoard";
-import MainActionBtn from "../../components/Buttons/MainActionBtn";
-import Loader from "../../components/Loader";
+import SearchCourse from "../../../components/Search/SearchCourse";
+import LeaderBoard from "../../Dashboard/LeaderBoard/LeaderBoard";
+import MainActionBtn from "../../../components/Buttons/MainActionBtn";
+import Loader from "../../../components/Loader";
 import { VscDebugStart } from "react-icons/vsc";
-import ContinueBtn from "../../components/Buttons/ContinueBtn";
-import ConfettiDashboard from "../../components/AnimatedEffects/ConfettiDashboard";
-import AnimatedSuccessIcon from "../../assets/animations/AnimatedSuccessIcon";
+import ContinueBtn from "../../../components/Buttons/ContinueBtn";
+import ConfettiDashboard from "../../../components/AnimatedEffects/ConfettiDashboard";
+import AnimatedSuccessIcon from "../../../assets/animations/AnimatedSuccessIcon";
 
 import {
   useGetEnrolledCourseDataQuery,
   useGetAllEnrolledCoursesDataQuery,
   useAddEnrolledCourseMutation,
   useDeleteEnrolledCourse,
-} from "../../redux/api/UserData/enrolledCourseDataSlice";
+} from "../../../redux/api/UserData/enrolledCourseDataSlice";
 import {
   useGetUserByEmailQuery,
   useCreateUserMutation,
-} from "../../redux/api/UserData/userDataSlice";
-import NavigationBarMobile from "../../components/Navigation/NavigationBarMobile";
-import CourseUserData from "./CourseHeadlineUserData";
-
-import { ThemeStyles } from "../../styles/ThemeStyles";
-
-import { UserContext } from "../../App";
+} from "../../../redux/api/UserData/userDataSlice";
+import NavigationBarMobile from "../../../components/Navigation/NavigationBarMobile";
+import CourseUserData from "../CourseHeadlineUserData";
+import { ThemeStyles } from "../../../styles/ThemeStyles";
+import { UserContext } from "../../../App";
 
 function CourseDetailedView() {
   const { isAuthenticated, user } = useAuth0();
   const [breakdownDisplayed, setBreakdownIsDisplayed] = useState(true);
-  const { subject, courseName } = useParams();
+  const { subject, courseName, courseCode } = useParams();
+  console.log("🚀 ~ CourseDetailedView ~ courseName:", courseName, courseCode);
   const [buttonContent, setButtonContent] = useState("Start Learning");
   const navigate = useNavigate();
   const [addCourseBtnClicked, setAddCourseBtnClicked] = useState(false);
   const [addEnrolledCourse] = useAddEnrolledCourseMutation();
-  const course = FetchBlocksfromSanity();
+
   const [width, setWidth] = useState(window.innerWidth);
   const builder = imageUrlBuilder(sanityClient);
   const { userData, darkThemeActive } = useContext(UserContext);
@@ -53,11 +53,16 @@ function CourseDetailedView() {
 
   const id = userData?.user._id;
 
+  const course = FetchCourseBreakdownFromSanity(courseName, courseCode);
+  console.log("🚀 ~ CourseDetailedView ~ course:", course);
+
   const courseObj = userData?.user.enrolledCourses.find(
     (course) => course.courseName === courseName
   );
 
   const courseId = courseObj?._id;
+
+  window.scrollTo(0, 0);
 
   useEffect(() => {
     const addCourse = async () => {
@@ -85,27 +90,28 @@ function CourseDetailedView() {
     return builder.image(source);
   };
 
-  const blocks = course
+  const lessons = course
     .filter((course) => {
       return course.courseName === courseName;
     })
     .sort((a, b) => {
       return a.blockPositioninCourse - b.blockPositioninCourse;
     });
+  console.log("🚀 ~ CourseDetailedView ~ lessons:", lessons);
 
-  // find which blocks user has completed and update continue button to start next block
-  const blocksCompleted = userData?.user.blocksCompleted;
+  // find which lessons user has completed and update continue button to start next block
+  const completed = userData?.user.blocksCompleted;
 
-  const completedBlocks = blocksCompleted?.filter((block) => {
+  const completedLessons = completed?.filter((block) => {
     return block.courseName === courseName;
   });
 
-  const blocksRemaining = blocks?.filter((block) => {
-    return !completedBlocks.some((obj2) => obj2.blockName === block.blockName);
+  const lessonsRemaining = lessons?.filter((block) => {
+    return !completedLessons.some((obj2) => obj2.blockName === block.blockName);
   });
 
   const CoursePercentageCompletion =
-    (completedBlocks.length / blocks.length) * 100;
+    (completedLessons.length / lessons.length) * 100;
 
   function handleResize() {
     setWidth((width) => window.innerWidth);
@@ -128,7 +134,7 @@ function CourseDetailedView() {
 
   let headerBannerContent;
 
-  if (!completedBlocks.length && blocksRemaining.length) {
+  if (!completedLessons.length && lessonsRemaining.length) {
     headerBannerContent = (
       <div
         style={{
@@ -163,7 +169,7 @@ function CourseDetailedView() {
           <ContinueBtn
             onClick={() => {
               navigate(
-                `/courses/${subject}/${courseName}/${blocks[0].blockName}`
+                `/courses/${subject}/${courseName}/${lessons[0].blockName}`
               );
             }}
             style={{
@@ -176,7 +182,7 @@ function CourseDetailedView() {
         )}
       </div>
     );
-  } else if (blocksRemaining.length && blocksCompleted.length) {
+  } else if (lessonsRemaining.length && completedLessons.length) {
     headerBannerContent = (
       <div
         style={{
@@ -205,14 +211,14 @@ function CourseDetailedView() {
             }}
           >
             {" "}
-            {blocksRemaining[0]?.blockName}
+            {lessonsRemaining[0]?.blockName}
           </p>
         </div>
 
         <ContinueBtn
           onClick={() => {
             navigate(
-              `/courses/${subject}/${courseName}/${blocksRemaining[0].blockName}`
+              `/courses/${subject}/${courseName}/${lessonsRemaining[0].blockName}`
             );
           }}
           style={{
@@ -224,7 +230,7 @@ function CourseDetailedView() {
         </ContinueBtn>
       </div>
     );
-  } else if (!blocksRemaining.length && blocksCompleted.length) {
+  } else if (!lessonsRemaining.length && lessonsRemaining.length) {
     headerBannerContent = (
       <div
         style={{
@@ -306,9 +312,9 @@ function CourseDetailedView() {
 
           <CourseBlockBreakown
             controllers={{ breakdownDisplayed, setBreakdownIsDisplayed }}
-            completedBlocks={completedBlocks}
-            blocksRemaining={blocksRemaining}
-            data={blocks}
+            completedLessons={completedLessons}
+            lessonsRemaining={lessonsRemaining}
+            topics={course[0]?.topics}
           ></CourseBlockBreakown>
         </Wrapper>
         <div style={{ height: "10px" }}></div>

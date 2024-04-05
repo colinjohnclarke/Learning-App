@@ -15,6 +15,7 @@ export const myPortableTextComponents = {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          borderRadius: "16px",
         }}
       >
         <img src={imgurlFor(props.value.asset).maxWidth(300)} alt="" />

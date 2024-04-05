@@ -29,7 +29,7 @@ function TextandImage() {
   const myPortableTextComponents = {
     types: {
       image: (props) => (
-        <div>
+        <div style={{ borderRadius: "16px" }}>
           {" "}
           <img src={urlFor(props.value.asset)} alt="hjshdjs" />
         </div>

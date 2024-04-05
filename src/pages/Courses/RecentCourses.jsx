@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { device } from "../../styles/breakpoints";
 import AnimatedPercentageScore from "../Dashboard/AnimatedPercentageScore";
-import FetchBlocksfromSanity from "./FetchBlocksFromSanity";
+import FetchBlocksfromSanity from "./FetchfromSanityFns/FetchBlocksFromSanity";
 import sanityClient from "../../createclient";
 import imageUrlBuilder from "@sanity/image-url";
 import { useGetAllEnrolledCoursesDataQuery } from "../../redux/api/UserData/enrolledCourseDataSlice";
@@ -33,7 +33,7 @@ function RecentCourses() {
     });
     // console.log("🚀 ~ result ~ result:", result);
 
-    // filter the courses from sanity as they contain a complete list of all courses so we only need ones which match this courseName
+    // filter the courses from sanity as they contain a complete list of all courses so we only need ones which match this topicName
     const blocks = courses
       .filter((course) => {
         return course.courseName === item.courseName;

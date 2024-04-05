@@ -22,6 +22,8 @@ function Dashboard() {
 
   window.scrollTo(0, 0);
 
+
+
   return (
     <Wrapper darkThemeActive={darkThemeActive}>
       <DashboardHeader />
