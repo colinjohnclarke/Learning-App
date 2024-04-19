@@ -3,6 +3,10 @@ import sanityClient from "../../../createclient";
 
 function FetchCourseBreakdownFromSanity(courseName, courseCode) {
   const [queryResult, setQueryResult] = useState([]);
+  console.log(
+    "🚀 ~ FetchCourseBreakdownFromSanity ~ queryResult:",
+    queryResult
+  );
 
   useEffect(() => {
     sanityClient

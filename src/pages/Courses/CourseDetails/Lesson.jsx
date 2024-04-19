@@ -31,12 +31,12 @@ function Lesson({ lesson }) {
   //   />
   // ) : null;
 
-  //   <ShadedCard>
+  // <ShadedCard>
   //   {" "}
   //   <p
   //     style={{
   //       color: "white",
-  //       margin: "4px",
+  //       // margin: "4px",
   //       display: "flex",
   //       alignItems: "center",
   //     }}
@@ -45,11 +45,15 @@ function Lesson({ lesson }) {
   //     <DiRubyRough size={20} fill="rgb(138,43,226)" />
   //     {/* {findBlock?.XPScored} */}
   //   </p>
-  // </ShadedCard>
+  // </ShadedCard>;
 
   return (
-    <Wrapper>
-      {lesson?.name}
+    <Wrapper className="animate__animated animate__fadeIn">
+      <p style={{ padding: "1px", fontSize: "14px", width: "90%" }}>
+        {" "}
+        {lesson?.name}
+      </p>
+
       {/* {findBlock && ( */}
       <div style={{ display: "flex", alignItems: "center" }}>
         {/* <p
@@ -69,7 +73,7 @@ function Lesson({ lesson }) {
           percentage={findBlock?.percentageScores}
         /> */}
       </div>
-      ){/* } */}
+      {/* } */}
       {/* <Image>{content}</Image> */}
     </Wrapper>
   );
@@ -86,9 +90,16 @@ const Image = styled.div`
 `;
 
 const Wrapper = styled.div`
-  width: 100%;
-  border: 1px solid;
-  margin: 10px;
+  height: 30px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+
+  &:hover {
+    background-color: rgb(220, 220, 220, 0.3);
+  }
 `;
 
 const OverView = styled.div`

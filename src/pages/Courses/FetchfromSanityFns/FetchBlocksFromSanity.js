@@ -3,6 +3,7 @@ import sanityClient from "../../../createclient";
 
 function FetchBlocksfromSanity() {
   const [queryResult, setQueryResult] = useState([]);
+  console.log("🚀 ~ FetchBlocksfromSanity ~ queryResult:", queryResult)
 
   useEffect(() => {
     sanityClient

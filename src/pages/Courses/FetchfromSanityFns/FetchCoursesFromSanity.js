@@ -3,6 +3,7 @@ import sanityClient from "../../../createclient";
 
 function FetchCoursesFromSanity() {
   const [queryResult, setQueryResult] = useState([]);
+  console.log("🚀 ~ FetchCoursesFromSanity ~ queryResult:", queryResult);
 
   useEffect(() => {
     sanityClient
