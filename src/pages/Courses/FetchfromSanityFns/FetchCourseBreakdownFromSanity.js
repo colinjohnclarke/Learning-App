@@ -13,14 +13,17 @@ function FetchCourseBreakdownFromSanity(courseName, courseCode) {
       .fetch(
         `*[_type == 'courses' && courseName == '${courseName}' && courseCode == '${courseCode}' ] {
             courseName, 
+            coverImage, 
               subject[]->{name}, 
             topics[]-> {
             topicName,
+            coverImage, 
             topicPositionInCourse,
             subtopic[]->{
                 subTopicName,
                 subTopicPosition,
-                lessons[]->{name}
+                coverImage, 
+                lessons[]->{name,coverImage}
               }
             }, 
              

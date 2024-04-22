@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Lesson from "./Lesson";
 import { FcNext } from "react-icons/fc";
+import sanityClient from "../../../createclient";
+import imageUrlBuilder from "@sanity/image-url";
 
 function Subtopic({
   subtopic,
@@ -11,6 +13,25 @@ function Subtopic({
 }) {
   console.log("🚀 ~ Subtopic ~ selectedSubtopics:", selectedSubtopics);
   console.log("🚀 ~ Subtopic ~ subtopic22:", subtopic);
+
+  const builder = imageUrlBuilder(sanityClient);
+  const imgurlFor = (source) => {
+    return builder.image(source);
+  };
+
+  const content = subtopic.coverImage ? (
+    <img
+      alt=""
+      style={{
+        height: "60px",
+        width: "100px",
+        position: "relative",
+        borderRadius: "16px",
+        //   top: "10px",
+      }}
+      src={imgurlFor(subtopic?.coverImage.asset._ref)}
+    />
+  ) : null;
 
   const handleTopicSelected = (index) => {
     setSelectedSubtopics((prev) => {
@@ -34,24 +55,37 @@ function Subtopic({
       }}
     >
       <Row>
-        {" "}
-        {subtopic.subTopicName}
-        <FcNext
+        <div
           style={{
-            marginLeft: "10px",
-            transition: "0.3s",
-            transform: selectedSubtopics[index].selected
-              ? "rotate(90deg)"
-              : "rotate(0deg)",
+            display: "flex",
+            flexDirection: "row",
+
+            marginTop: selectedSubtopics[index].selected ? "15px" : "0px",
+            alignItems: "center",
           }}
-        />
+        >
+          <FcNext
+            style={{
+              marginRight: "10px",
+              transition: "0.3s",
+              transform: selectedSubtopics[index].selected
+                ? "rotate(90deg)"
+                : "rotate(0deg)",
+            }}
+          />
+          {subtopic.subTopicName}
+        </div>
+
+        {!selectedSubtopics[index].selected && <Image>{content}</Image>}
       </Row>
 
       {selectedSubtopics[index].selected && (
         <Lessons
-          style={{
-            minHeight: "30px",
-          }}
+          style={
+            {
+              // minHeight: "30px",
+            }
+          }
         >
           {subtopic.lessons?.map((lesson, index) => {
             return (
@@ -72,16 +106,32 @@ export default Subtopic;
 const Lessons = styled.div``;
 
 const Wrapper = styled.div`
-  width: 100%;
-  // border: 1px solid;
-  padding: 10px;
-  
+  // width: 100%;
+  margin: 10px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  &:hover {
+    background-color: rgb(220, 220, 220, 0.3);
+  }
+  border-radius: 16px;
+  // padding: 10px;
+  margin-top: 5px;
+  padding-left: 40px;
 `;
 
 const Row = styled.div`
+  font-weight: 600;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   width: 100%;
   align-items: center;
   // height: 100%;
+`;
+
+const Image = styled.div`
+  height: 100%;
+  position: relative;
+  top: 2px;
+  clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 25% 100%, 0% 50%);
+  border-radius: 16px;
 `;

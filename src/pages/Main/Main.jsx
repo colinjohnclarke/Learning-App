@@ -1,7 +1,6 @@
 // import "../../App.css";
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { useParams } from "react-router-dom";
-
 import "animate.css";
 import styled from "styled-components";
 import TextSlideShowWrapper from "../../components/TextSlideShow/TextSlideShowWrapper";
@@ -36,15 +35,21 @@ import MainUpdate from "./CourseCompletionUpdates/MainUpdate";
 
 function Main() {
   const [blockData, setBlockData] = useState([]);
+  console.log("🚀 ~ Main ~ blockData:", blockData);
   const [showPointsSummary, setShowPointsSummary] = useState(false);
   const [displayedComponentCount, setDisplayedComponentCount] = useState(1);
   const [buttonState, setButtonState] = useState({ value: "undefined" });
   const dispatch = useDispatch();
-  const { subject, courseName, blockName } = useParams();
+  const { courseCode, lessonName } = useParams();
+
+  console.log("main params", courseCode, lessonName);
+
   const { userData, darkThemeActive } = useContext(UserContext);
   const [currentslide, setCurrentSlide] = useState(0);
   const [currentSlidesDesktop, setCurrentSlideDesktop] = useState(0);
-  FetchBlockDataFromSanity(subject, blockName, setBlockData);
+
+  FetchBlockDataFromSanity(courseCode, lessonName, setBlockData);
+
   const currentblockprogressdata = useSelector(
     (state) => state.currentblockprogressdata
   );
@@ -56,6 +61,7 @@ function Main() {
 
   if (blockData) {
     arrayOfAflComponents = OrderItemsMain(blockData);
+    console.log("blockData", blockData);
   }
 
   useEffect(() => {
@@ -163,9 +169,9 @@ function Main() {
         darkThemeActive={darkThemeActive}
         className="animate__animated animate__fadeIn"
         data={blockData.coverImage || ""}
-        subject={subject}
-        courseName={courseName}
-        blockName={blockName}
+        // subject={subject}
+        // courseName={courseName}
+        // blockName={lessonName}
       />
     ),
 
@@ -231,12 +237,12 @@ function Main() {
           showPointsSummary={showPointsSummary}
           updateUserDataFN={updateUserData}
           updateEnrolledCourseFN={updateEnrolledCourse}
-          subject={subject}
+          // subject={subject}
           userId={userData?.user._id}
           courseLength={arrayOfAflComponents?.length}
           displayedComponentCount={displayedComponentCount}
-          blockName={blockName}
-          courseName={courseName}
+          // blockName={lessonName}
+          // courseName={courseName}
         ></MainUpdate>
         {showPointsSummary && <PostBlockPointsReveal />}
       </Wrapper>

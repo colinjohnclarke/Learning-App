@@ -3,7 +3,7 @@ import { UserContext } from "../../App";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { device } from "../../styles/breakpoints";
-import AnimatedPercentageScore from "../Dashboard/AnimatedPercentageScore";
+import AnimatedPercentageScore from "../Dashboard/AnimatedPercentageScore/AnimatedPercentageScore";
 import FetchBlocksfromSanity from "./FetchfromSanityFns/FetchBlocksFromSanity";
 import sanityClient from "../../createclient";
 import imageUrlBuilder from "@sanity/image-url";
@@ -139,6 +139,7 @@ function RecentCourses() {
             <AnimatedPercentageScore
               color="rgb(0, 245, 245)"
               percentage={CoursePercentageCompletion}
+              size = 'medium'
             />
 
             {content ? (

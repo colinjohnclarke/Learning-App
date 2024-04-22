@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { device } from "../../../styles/breakpoints";
 import "animate.css";
 import { UserContext } from "../../../App";
-import AnimatedPercentageScore from "../../Dashboard/AnimatedPercentageScore";
+
 
 import { ThemeStyles } from "../../../styles/ThemeStyles";
 

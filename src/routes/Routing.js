@@ -21,10 +21,9 @@ function Routing({ navState }) {
         <Route path="/courses" element={<Courses />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/settings" element={<Settings />} />
-        <Route
-          path="/courses/:subject/:courseName/:courseCode/:blockName"
-          element={<Main />}
-        />
+        <Route path="/courses/:courseCode/:lessonName" element={<Main />} />
+
+        {/* to={`course/${params.subject}/${params.coursName}/${params.courseCode}/${lesson.name}`} */}
         <Route
           path="/courses/:subject/:courseName/:courseCode"
           element={<CourseDetailedView />}

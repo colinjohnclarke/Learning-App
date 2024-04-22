@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Link, useParams } from "react-router-dom";
-import AnimatedPercentageScore from "../../Dashboard/AnimatedPercentageScore";
+import AnimatedPercentageScore from "../../Dashboard/AnimatedPercentageScore/AnimatedPercentageScore";
 import { ThemeStyles } from "../../../styles/ThemeStyles";
 import { UserContext } from "../../../App";
 import styled from "styled-components";
@@ -11,6 +11,8 @@ import imageUrlBuilder from "@sanity/image-url";
 
 function Lesson({ lesson }) {
   console.log("🚀 ~ Lesson ~ lesson:", lesson);
+  const params = useParams();
+  console.log("🚀 ~ params:", params);
   const { darkThemeActive } = useContext(UserContext);
 
   const builder = imageUrlBuilder(sanityClient);
@@ -31,32 +33,49 @@ function Lesson({ lesson }) {
   //   />
   // ) : null;
 
-  // <ShadedCard>
-  //   {" "}
-  //   <p
-  //     style={{
-  //       color: "white",
-  //       // margin: "4px",
-  //       display: "flex",
-  //       alignItems: "center",
-  //     }}
-  //   >
-  //     {" "}
-  //     <DiRubyRough size={20} fill="rgb(138,43,226)" />
-  //     {/* {findBlock?.XPScored} */}
-  //   </p>
-  // </ShadedCard>;
+  <ShadedCard>
+    {" "}
+    <p
+      style={{
+        color: "white",
+        // margin: "4px",
+        display: "flex",
+        alignItems: "center",
+      }}
+    >
+      {" "}
+      <DiRubyRough size={20} fill="rgb(138,43,226)" />
+      {/* {findBlock?.XPScored} */}
+    </p>
+  </ShadedCard>;
 
+  // to={`course/${params.subject}/${params.courseName}/${params.courseCode}/${lesson.name}`}
   return (
-    <Wrapper className="animate__animated animate__fadeIn">
-      <p style={{ padding: "1px", fontSize: "14px", width: "90%" }}>
-        {" "}
-        {lesson?.name}
-      </p>
-
+    <Link
+      to={`/courses/${params.courseCode}/${lesson.name}`}
+      className="animate__animated animate__fadeIn"
+      style={{
+        height: "50px",
+        width: "100%",
+        textDecoration: "none",
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginLeft: "5px",
+      }}
+    >
+      <Name style={{ width: "100%" }}>{lesson?.name}</Name>
       {/* {findBlock && ( */}
-      <div style={{ display: "flex", alignItems: "center" }}>
-        {/* <p
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "flex-end",
+          width: "100%",
+        }}
+      >
+        <p
           style={{
             fontSize: "11px",
             fontWeight: "600",
@@ -67,15 +86,16 @@ function Lesson({ lesson }) {
         >
           {" "}
           Top Score:
-        </p> */}
-        {/* <AnimatedPercentageScore
+        </p>
+        <AnimatedPercentageScore
           color="rgb(0, 240, 245)"
-          percentage={findBlock?.percentageScores}
-        /> */}
+          // percentage={findBlock?.percentageScores}
+          percentage={100}
+          size={"small"}
+        />
       </div>
-      {/* } */}
-      {/* <Image>{content}</Image> */}
-    </Wrapper>
+      {/* <Image>{content}</Image> */};
+    </Link>
   );
 }
 
@@ -89,16 +109,17 @@ const Image = styled.div`
   }
 `;
 
-const Wrapper = styled.div`
-  height: 30px;
+const Box = styled.p`
+  width: 100%;
+  padding: 10px;
   border-radius: 16px;
-  display: flex;
-  flex-direction: row;
-  justify-content: start;
-  align-items: center;
+`;
 
+const Name = styled.p`
+  font-size: 13px;
   &:hover {
-    background-color: rgb(220, 220, 220, 0.3);
+    // background-color: red;
+    color: blue;
   }
 `;
 

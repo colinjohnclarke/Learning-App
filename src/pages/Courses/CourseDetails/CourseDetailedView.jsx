@@ -9,7 +9,7 @@ import DashboardHeader from "../../Dashboard/DashboardHeader/DashboardHeader";
 import sanityClient from "../../../createclient";
 import imageUrlBuilder from "@sanity/image-url";
 import { device } from "../../../styles/breakpoints";
-import AnimatedPercentageScore from "../../Dashboard/AnimatedPercentageScore";
+import AnimatedPercentageScore from "../../Dashboard/AnimatedPercentageScore/AnimatedPercentageScore";
 import { IoChevronBack } from "react-icons/io5";
 import SearchCourse from "../../../components/Search/SearchCourse";
 import LeaderBoard from "../../Dashboard/LeaderBoard/LeaderBoard";
@@ -39,7 +39,7 @@ function CourseDetailedView() {
   const { isAuthenticated, user } = useAuth0();
   const [breakdownDisplayed, setBreakdownIsDisplayed] = useState(true);
   const { subject, courseName, courseCode } = useParams();
-  console.log("🚀 ~ CourseDetailedView ~ courseName:", courseName, courseCode);
+
   const [buttonContent, setButtonContent] = useState("Start Learning");
   const navigate = useNavigate();
   const [addCourseBtnClicked, setAddCourseBtnClicked] = useState(false);
