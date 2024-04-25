@@ -26,6 +26,7 @@ function OrderItemsMain(blockData) {
       "name",
       "problem_keywords",
       "tags",
+      "subject",
     ];
 
     const removedNonQuizElementsList = convertedArrFromObj?.filter((item) => {

@@ -5,7 +5,6 @@ import { device } from "../../../styles/breakpoints";
 import "animate.css";
 import { UserContext } from "../../../App";
 
-
 import { ThemeStyles } from "../../../styles/ThemeStyles";
 
 import Topic from "./Topic";
@@ -21,12 +20,15 @@ function CourseBlockBreakdown({ topics, completedLessons, blocksRemaining }) {
 
   useEffect(() => {
     if (topics) {
+      topicstoRender.sort((a, b) => {
+        return a.topicPositionInCourse - b.topicPositionInCourse;
+      });
+      console.log("topicstoRender ORDERED", topicstoRender);
       setSelectedTopics(topicstoRender);
     }
   }, [topics]);
 
   const { darkThemeActive } = useContext(UserContext);
-  // window.scrollTo(0, 0);
 
   // the topics below is from the list of blocks stored in sanity making up a "course"
   const courseTopicsBreakdown = selectedTopics?.map((topic, index) => {

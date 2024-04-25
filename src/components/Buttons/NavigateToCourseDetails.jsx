@@ -13,7 +13,7 @@ function NavigateToCourseDetails({ ...atributes }) {
   return (
     <Link
       style={{ textDecoration: "none" }}
-      to={`/courses/${params.subject}/${params.courseName}`}
+      to={`/courses/${params.subject}/${params.courseName}/${params.courseCode}`}
     >
       <MainActionBtn
         style={{

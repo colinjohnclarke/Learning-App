@@ -33,7 +33,7 @@ function Topic({ findBlock, topic, index, setSelectedTopics, selectedTopics }) {
     />
   ) : null;
 
-  const subtopicstoRender = topic?.subtopic.map((subtopic) => {
+  const subtopicstoRender = topic?.subtopic?.map((subtopic) => {
     return { ...subtopic, selected: false };
   });
 

@@ -12,6 +12,8 @@ function CourseDetails({
   courseName,
   blockName,
   darkThemeActive,
+  topic,
+  subtopic,
 }) {
   const builder = imageUrlBuilder(sanityClient);
 
@@ -35,18 +37,22 @@ function CourseDetails({
     <Details darkThemeActive={darkThemeActive}>
       {/* <Box></Box> */}
       <Box>
-        <p style={{ padding: "3px", margin: "3px", fontSize: "14px" }}>
+        <p style={{ padding: "3px", margin: "3px", fontSize: "11px" }}>
           {subject}
         </p>{" "}
         <GrNext style={{ padding: "3px", margin: "3px" }} />
-        <CourseName style={{ padding: "3px", margin: "3px", fontSize: "14px" }}>
+        <CourseName style={{ padding: "3px", margin: "3px", fontSize: "11px" }}>
+          {topic}
+        </CourseName>
+        <GrNext style={{ padding: "3px", margin: "3px" }} />
+        <CourseName style={{ padding: "3px", margin: "3px", fontSize: "11px" }}>
           {courseName}
         </CourseName>
         <GrNext style={{ padding: "3px", margin: "3px" }} />
         <p
           style={{
             padding: "3px",
-            fontWeight: "500",
+            fontWeight: "600",
             margin: "3px",
             fontSize: "14px",
           }}

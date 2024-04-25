@@ -52,7 +52,7 @@ function Lesson({ lesson }) {
   // to={`course/${params.subject}/${params.courseName}/${params.courseCode}/${lesson.name}`}
   return (
     <Link
-      to={`/courses/${params.courseCode}/${lesson.name}`}
+      to={`/courses/${params.subject}/${params.courseName}/${params.courseCode}/${lesson.name}`}
       className="animate__animated animate__fadeIn"
       style={{
         height: "50px",
@@ -117,9 +117,13 @@ const Box = styled.p`
 
 const Name = styled.p`
   font-size: 13px;
+  height: 100%;
+  width: 100%;
   &:hover {
-    // background-color: red;
     color: blue;
+    font-weight: 400;
+    transition: 0.3s;
+    transform: translateX(4px);
   }
 `;
 

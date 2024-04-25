@@ -40,9 +40,18 @@ function Main() {
   const [displayedComponentCount, setDisplayedComponentCount] = useState(1);
   const [buttonState, setButtonState] = useState({ value: "undefined" });
   const dispatch = useDispatch();
-  const { courseCode, lessonName } = useParams();
+  const { courseCode, lessonName, subject, courseName } = useParams();
 
-  console.log("main params", courseCode, lessonName);
+  console.log(
+    "code",
+    courseCode,
+    "name",
+    lessonName,
+    "sub",
+    subject,
+    "counseName",
+    courseName
+  );
 
   const { userData, darkThemeActive } = useContext(UserContext);
   const [currentslide, setCurrentSlide] = useState(0);
@@ -169,9 +178,10 @@ function Main() {
         darkThemeActive={darkThemeActive}
         className="animate__animated animate__fadeIn"
         data={blockData.coverImage || ""}
-        // subject={subject}
-        // courseName={courseName}
-        // blockName={lessonName}
+        subject={subject}
+        topic={blockData?.topics?.[0]?.topicName || ""}
+        courseName={courseName}
+        blockName={lessonName}
       />
     ),
 
