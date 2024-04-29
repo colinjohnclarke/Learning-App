@@ -9,7 +9,12 @@ import { ThemeStyles } from "../../styles/ThemeStyles";
 function ContinueBtn({ children, ...atributes }) {
   const { darkThemeActive } = useContext(UserContext);
   return (
-    <Btn darkThemeActive={darkThemeActive} type="button" {...atributes}>
+    <Btn
+      style={{ height: "20px" }}
+      darkThemeActive={darkThemeActive}
+      type="button"
+      {...atributes}
+    >
       {children}
     </Btn>
   );
@@ -23,14 +28,14 @@ const Btn = styled.button`
   justify-content: center;
   align-items: center;
   border: none;
-  margin: 60px;
-  height: 50px;
+  margin: 40px;
+  height: 40px;
+
   width: 350px;
   border-radius: 16px;
   background-color: rgba(0, 240, 245, 1);
   color: white;
   cursor: pointer;
-  
 
   box-shadow: ${(props) =>
     props.darkThemeActive

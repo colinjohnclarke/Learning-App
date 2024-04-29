@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import FetchBlocksfromSanity from "../FetchfromSanityFns/FetchBlocksFromSanity";
 import CourseBlockBreakown from "./CourseBlockBreakown";
 import FetchCourseBreakdownFromSanity from "../FetchfromSanityFns/FetchCourseBreakdownFromSanity";
 import DashboardHeader from "../../Dashboard/DashboardHeader/DashboardHeader";
@@ -13,7 +12,8 @@ import AnimatedPercentageScore from "../../Dashboard/AnimatedPercentageScore/Ani
 import { IoChevronBack } from "react-icons/io5";
 import SearchCourse from "../../../components/Search/SearchCourse";
 import LeaderBoard from "../../Dashboard/LeaderBoard/LeaderBoard";
-import MainActionBtn from "../../../components/Buttons/MainActionBtn";
+import AllLessonsinCourse from "./Caulations/AllLessonsinCourse";
+
 import Loader from "../../../components/Loader";
 import { VscDebugStart } from "react-icons/vsc";
 import ContinueBtn from "../../../components/Buttons/ContinueBtn";
@@ -34,33 +34,32 @@ import NavigationBarMobile from "../../../components/Navigation/NavigationBarMob
 import CourseUserData from "../CourseHeadlineUserData";
 import { ThemeStyles } from "../../../styles/ThemeStyles";
 import { UserContext } from "../../../App";
+import FindNextLessonInCourse from "./Caulations/FindNextLessonInCourse";
 
 function CourseDetailedView() {
-  const { isAuthenticated, user } = useAuth0();
+  const { user } = useAuth0();
   const [breakdownDisplayed, setBreakdownIsDisplayed] = useState(true);
   const { subject, courseName, courseCode } = useParams();
-
   const [buttonContent, setButtonContent] = useState("Start Learning");
   const navigate = useNavigate();
   const [addCourseBtnClicked, setAddCourseBtnClicked] = useState(false);
   const [addEnrolledCourse] = useAddEnrolledCourseMutation();
-
-  const [width, setWidth] = useState(window.innerWidth);
   const builder = imageUrlBuilder(sanityClient);
   const { userData, darkThemeActive } = useContext(UserContext);
 
   const { data, refetch } = useGetUserByEmailQuery(user?.email);
 
+  useEffect(() => {
+    refetch();
+  }, []);
+
   const id = userData?.user._id;
-
   const course = FetchCourseBreakdownFromSanity(courseName, courseCode);
-  console.log("🚀 ~ CourseDetailedView ~ course:", course);
-
   const courseObj = userData?.user.enrolledCourses.find(
     (course) => course.courseName === courseName
   );
-
   const courseId = courseObj?._id;
+  const LessonsinCourse = AllLessonsinCourse(course);
 
   window.scrollTo(0, 0);
 
@@ -74,67 +73,30 @@ function CourseDetailedView() {
           .catch((error) => {});
 
         refetch();
-        // setUserData(result);
         setButtonContent((val) => "Start...");
       } catch (error) {
         console.log(error);
       }
     };
-
     if (addCourseBtnClicked) {
       addCourse();
     }
   }, [addCourseBtnClicked]);
 
-  const imgurlFor = (source) => {
-    return builder.image(source);
-  };
-
-  const lessons = course
-    .filter((course) => {
-      return course.courseName === courseName;
-    })
-    .sort((a, b) => {
-      return a.blockPositioninCourse - b.blockPositioninCourse;
-    });
-  console.log("🚀 ~ CourseDetailedView ~ lessons:", lessons);
-
-  // find which lessons user has completed and update continue button to start next block
-  const completed = userData?.user.blocksCompleted;
-
-  const completedLessons = completed?.filter((block) => {
-    return block.courseName === courseName;
+  const completedLessons = userData?.user.blocksCompleted?.filter((course) => {
+    return course.courseName === courseName;
   });
 
-  const lessonsRemaining = lessons?.filter((block) => {
-    return !completedLessons.some((obj2) => obj2.blockName === block.blockName);
+  const { nextLesson, courseCompleted } = FindNextLessonInCourse({
+    LessonsinCourse,
+    completedLessons,
   });
 
-  const CoursePercentageCompletion =
-    (completedLessons.length / lessons.length) * 100;
-
-  function handleResize() {
-    setWidth((width) => window.innerWidth);
-  }
-
-  useEffect(() => {
-    window.addEventListener("resize", handleResize);
-    handleResize(); // Call handleResize initially
-
-    if (width < 900) {
-      setBreakdownIsDisplayed((val) => false);
-    } else if (width > 900) {
-      setBreakdownIsDisplayed((val) => true);
-    }
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [width]);
+  const coursePercentageCompletion =
+    ((completedLessons.length - 1) / LessonsinCourse.length) * 100;
 
   let headerBannerContent;
-
-  if (!completedLessons.length && lessonsRemaining.length) {
+  if (!completedLessons.length) {
     headerBannerContent = (
       <div
         style={{
@@ -169,7 +131,7 @@ function CourseDetailedView() {
           <ContinueBtn
             onClick={() => {
               navigate(
-                `/courses/${subject}/${courseName}/${lessons[0].blockName}`
+                `/courses/${subject}/${courseName}/${courseCode}/${nextLesson}`
               );
             }}
             style={{
@@ -182,7 +144,7 @@ function CourseDetailedView() {
         )}
       </div>
     );
-  } else if (lessonsRemaining.length && completedLessons.length) {
+  } else if (!courseCompleted && completedLessons.length) {
     headerBannerContent = (
       <div
         style={{
@@ -201,7 +163,7 @@ function CourseDetailedView() {
                 : ThemeStyles.darkThemePrimaryFontColor,
             }}
           >
-            Next Section:
+            Next Lesson up:
           </p>
           <p
             style={{
@@ -211,14 +173,14 @@ function CourseDetailedView() {
             }}
           >
             {" "}
-            {lessonsRemaining[0]?.blockName}
+            {nextLesson}
           </p>
         </div>
 
         <ContinueBtn
           onClick={() => {
             navigate(
-              `/courses/${subject}/${courseName}/${lessonsRemaining[0].blockName}`
+              `/courses/${subject}/${courseName}/${courseCode}/${nextLesson}`
             );
           }}
           style={{
@@ -230,7 +192,7 @@ function CourseDetailedView() {
         </ContinueBtn>
       </div>
     );
-  } else if (!lessonsRemaining.length && lessonsRemaining.length) {
+  } else if (courseCompleted) {
     headerBannerContent = (
       <div
         style={{
@@ -286,13 +248,23 @@ function CourseDetailedView() {
         <Wrapper>
           <Header darkThemeActive={darkThemeActive}>
             <HeaderContent>
-              <div style={{ padding: "20px", color: "white" }}>
+              <div
+                style={{
+                  padding: "20px",
+                  color: "white",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
                 {subject} : {courseName}
                 <div style={{ height: "20px" }}></div>
                 <AnimatedPercentageScore
                   color="rgb(0, 245, 245)"
-                  percentage={CoursePercentageCompletion || 0}
+                  percentage={coursePercentageCompletion || 0}
                   fontColor=""
+                  size="large"
                 />
               </div>
             </HeaderContent>
@@ -305,15 +277,12 @@ function CourseDetailedView() {
 
             <div style={{ height: "10px" }}></div>
             <NextSection darkThemeActive={darkThemeActive}>
-              {" "}
               {headerBannerContent}
             </NextSection>
           </Header>
-
           <CourseBlockBreakown
             controllers={{ breakdownDisplayed, setBreakdownIsDisplayed }}
             completedLessons={completedLessons}
-            lessonsRemaining={lessonsRemaining}
             topics={course[0]?.topics}
           ></CourseBlockBreakown>
         </Wrapper>

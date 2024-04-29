@@ -10,10 +10,8 @@ function Subtopic({
   index,
   setSelectedSubtopics,
   selectedSubtopics,
+  completedLessons,
 }) {
-  console.log("🚀 ~ Subtopic ~ selectedSubtopics:", selectedSubtopics);
-  console.log("🚀 ~ Subtopic ~ subtopic22:", subtopic);
-
   const builder = imageUrlBuilder(sanityClient);
   const imgurlFor = (source) => {
     return builder.image(source);
@@ -90,7 +88,7 @@ function Subtopic({
           {subtopic.lessons?.map((lesson, index) => {
             return (
               // <div key={index}></div>
-              <Lesson lesson={lesson}>
+              <Lesson completedLessons={completedLessons} lesson={lesson}>
                 {index + 1}. {subtopic.name}
               </Lesson>
             );
@@ -116,6 +114,7 @@ const Wrapper = styled.div`
   // padding: 10px;
   margin-top: 5px;
   padding-left: 40px;
+
 `;
 
 const Row = styled.div`

@@ -181,6 +181,7 @@ function Main() {
         subject={subject}
         topic={blockData?.topics?.[0]?.topicName || ""}
         courseName={courseName}
+        courseCode={courseCode}
         blockName={lessonName}
       />
     ),
@@ -247,12 +248,13 @@ function Main() {
           showPointsSummary={showPointsSummary}
           updateUserDataFN={updateUserData}
           updateEnrolledCourseFN={updateEnrolledCourse}
-          // subject={subject}
+          subject={subject}
           userId={userData?.user._id}
           courseLength={arrayOfAflComponents?.length}
           displayedComponentCount={displayedComponentCount}
-          // blockName={lessonName}
-          // courseName={courseName}
+          blockName={lessonName}
+          courseName={courseName}
+          courseCode={courseCode}
         ></MainUpdate>
         {showPointsSummary && <PostBlockPointsReveal />}
       </Wrapper>

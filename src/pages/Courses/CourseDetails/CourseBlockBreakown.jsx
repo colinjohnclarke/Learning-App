@@ -23,29 +23,20 @@ function CourseBlockBreakdown({ topics, completedLessons, blocksRemaining }) {
       topicstoRender.sort((a, b) => {
         return a.topicPositionInCourse - b.topicPositionInCourse;
       });
-      console.log("topicstoRender ORDERED", topicstoRender);
+
       setSelectedTopics(topicstoRender);
     }
   }, [topics]);
 
   const { darkThemeActive } = useContext(UserContext);
 
-  // the topics below is from the list of blocks stored in sanity making up a "course"
   const courseTopicsBreakdown = selectedTopics?.map((topic, index) => {
-    // map through each block in 'completed blocks array from db and return details
-    const findBlock = completedLessons?.find((subBlock) => {
-      return (
-        subBlock.blockName === topic.blockName &&
-        subBlock.subject === topic.subject
-      );
-    });
-
     return (
       <Topic
         selectedTopics={selectedTopics}
         setSelectedTopics={setSelectedTopics}
         key={index}
-        findBlock={findBlock}
+        completedLessons={completedLessons}
         topic={topic}
         index={index}
       />

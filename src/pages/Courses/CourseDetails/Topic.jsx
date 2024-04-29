@@ -10,8 +10,14 @@ import sanityClient from "../../../createclient";
 import imageUrlBuilder from "@sanity/image-url";
 import { device } from "../../../styles/breakpoints";
 
-function Topic({ findBlock, topic, index, setSelectedTopics, selectedTopics }) {
-  console.log("🚀 ~ topic hello:", topic);
+function Topic({
+  findBlock,
+  topic,
+  index,
+  setSelectedTopics,
+  selectedTopics,
+  completedLessons,
+}) {
   const [selectedSubtopics, setSelectedSubtopics] = useState([]);
 
   const builder = imageUrlBuilder(sanityClient);
@@ -95,21 +101,25 @@ function Topic({ findBlock, topic, index, setSelectedTopics, selectedTopics }) {
       {selectedTopics[index].selected && (
         <Subtopics>
           {subtopicstoRender?.map((subtopic, index) => {
-            console.log(
-              "🚀 ~ {subtopicstoRender?.map ~ subtopic hello:",
-              subtopic
-            );
-
             return (
               <Subtopic
                 className="animate__animated animate__fadeIn"
                 setSelectedSubtopics={setSelectedSubtopics}
                 selectedSubtopics={selectedSubtopics}
+                completedLessons={completedLessons}
                 key={index}
                 subtopic={subtopic}
                 index={index}
               >
-                {index + 1}. {subtopic.subTopicName}
+                <p
+                  style={{
+                    color: darkThemeActive
+                      ? ThemeStyles.lightThemePrimaryFrontColor
+                      : ThemeStyles.darkThemePrimaryFontColor,
+                  }}
+                >
+                  {index + 1}. {subtopic.subTopicName}
+                </p>
               </Subtopic>
             );
           })}
@@ -122,7 +132,7 @@ function Topic({ findBlock, topic, index, setSelectedTopics, selectedTopics }) {
 export default Topic;
 
 const Wrapper = styled.div`
-  transition: 0.1s;
+  transition: 0.3s;
   border-radius: 16px;
   min-height: 40px;
   margin-top: 5px;
@@ -131,10 +141,14 @@ const Wrapper = styled.div`
   align-items: start;
   justify-content: center;
   width: 100%;
+  height: auto;
   font-size: 14px;
   list-style: none;
+  transition: 0.3s;
   &:hover {
-    background-color: rgb(220, 220, 220, 0.1);
+    // background-color: rgb(220, 220, 220, 0.1);
+
+    background-color: rgb(0, 220, 220, 0.1);
   }
 `;
 

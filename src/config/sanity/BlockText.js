@@ -9,6 +9,8 @@ import { ThemeStyles } from "../../styles/ThemeStyles";
 import { UserContext } from "../../App";
 
 function BlockText({ data }) {
+
+
   const builder = imageUrlBuilder(sanityClient);
 
   const { darkThemeActive } = useContext(UserContext);

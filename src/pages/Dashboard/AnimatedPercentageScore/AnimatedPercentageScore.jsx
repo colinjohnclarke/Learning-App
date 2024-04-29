@@ -3,6 +3,7 @@ import styled, { keyframes } from "styled-components";
 import "animate.css";
 import { UserContext } from "../../../App";
 import { ThemeStyles } from "../../../styles/ThemeStyles";
+import animate from "animate.css";
 
 function AnimatedPercentageScore({ percentage, color, fontColor, size }) {
   console.log("props", percentage, color, fontColor, size);
@@ -10,7 +11,8 @@ function AnimatedPercentageScore({ percentage, color, fontColor, size }) {
   let radius = size === "small" ? 10.5 : size === "medium" ? 15 : 22;
 
   const offset = 2 * Math.PI * radius;
-  const current = (percentage / 100) * offset;
+
+  const current = ((percentage || 0) / 100) * offset;
 
   const { darkThemeActive } = useContext(UserContext);
 
@@ -23,7 +25,7 @@ function AnimatedPercentageScore({ percentage, color, fontColor, size }) {
     fill: none;
     stroke: url(#GradientColor);
     stroke-width: ${(props) =>
-      size === "small" ? "3px" : size === "medium" ? "4px" : "5px"};
+      size === "small" ? "3px" : size === "medium" ? "2px" : "5px"};
     stroke-dasharray: ${offset};
     stroke-dashoffset: ${offset};
     animation: ${anim} 0.4s linear forwards;
@@ -48,8 +50,7 @@ function AnimatedPercentageScore({ percentage, color, fontColor, size }) {
               padding: "5px",
             }}
           >
-            {" "}
-            {Math.floor(percentage)} %{" "}
+            {percentage > 0 && Math.floor(percentage)}
           </div>
         </Percentage>
       )}
@@ -154,7 +155,16 @@ const Outer = styled.div`
   border-radius: 50%;
   box-shadow: -6px -6px -10px -1px rgba(255, 255, 255, 0.7);
   box-shadow: 6px 6px 10px 1px rgba(0, 0, 0, 0.15);
-  border-top: 1.4px white solid;
+  // border-top: 1.4px white solid;
+
+  border: ${(props) =>
+    props.size === "small"
+      ? "2px white solid"
+      : props.size === "medium"
+      ? "4px white solid"
+      : props.size === "large"
+      ? "5px white solid"
+      : "30px"};
   background-color: white;
 `;
 
@@ -179,7 +189,7 @@ const Inner = styled.div`
       : props.size === "large"
       ? "40px"
       : "30px"};
-  // border: 1px solid;
+
   border-radius: 50%;
   box-shadow: inset 4px 4px 2px 1px rgba(0, 0, 0, 0.15),
     inset -4px -4px 6px -1px rgba(255, 255, 255, 0.7),

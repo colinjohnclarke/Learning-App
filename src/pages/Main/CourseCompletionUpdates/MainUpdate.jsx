@@ -19,6 +19,7 @@ function MainUpdate({
   subject,
   blockName,
   courseName,
+  courseCode,
   updateUserDataFN,
   updateEnrolledCourseFN,
   showPointsSummary,

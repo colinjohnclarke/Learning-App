@@ -138,16 +138,16 @@ function AllCourses() {
           }}
           to={`/courses/${subject}/${course.courseName}/${course.courseCode}`}
         >
-          <ContinueBtn
+          <Button
             style={{
               width: "100px",
-              height: "30px",
+              height: "20px",
               fontSize: "11px",
             }}
           >
             {" "}
             Learn More
-          </ContinueBtn>
+          </Button>
         </Link>
       </Box>
     );
@@ -187,7 +187,7 @@ const Grid = styled.div`
 
 const Box = styled.div`
   position: relative;
-  height: 320px;
+  height: 340px;
   width: 200px;
   margin: 10px;
   border-radius: 10px;
@@ -238,7 +238,6 @@ const GridWrapper = styled.div`
 
 const Text = styled.div`
   width: 90%;
-
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -246,17 +245,31 @@ const Text = styled.div`
 `;
 
 const Button = styled.button`
-  font-size: 11px;
-  padding: 12px;
-  background-color: rgb(0, 245, 245, 0.2);
-  border-radius: 10px;
-  margin: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
   border: none;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 10px 20px -12px,
-    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+  margin: 10px;
+  height: 40px;
+  border-radius: 8px;
+  background-color: rgba(0, 240, 245, 1);
+  color: white;
+  cursor: pointer;
+
+  box-shadow: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemeMainBoxShadow
+      : ThemeStyles.darkThemeMainBoxShadow};
+
+  transition: 0.3s;
+  border: 2px solid rgba(0, 240, 240, 0.8);
+  font-weight: 400;
+
   &:hover {
-    background-color: rgb(0, 200, 200, 0.2);
-    transition: 0.2s;
+    transform: translateY(-2px);
+    background-color: rgba(0, 250, 250, 1);
+    color: white;
   }
 `;
 const ShadedCard = styled.p`

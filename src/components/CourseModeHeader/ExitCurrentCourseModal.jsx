@@ -59,7 +59,9 @@ function ExitCurrentCourseModal({ modalIsOpen, setModalIsOpen }) {
               </MainActionBtn>
               <MainActionBtn
                 onClick={() => {
-                  navigate(`/courses/${params.subject}/${params.courseName}/`);
+                  navigate(
+                    `/courses/${params.subject}/${params.courseName}/${params.courseCode}`
+                  );
                   handleModalChange();
                 }}
                 darkThemeActive={darkThemeActive}

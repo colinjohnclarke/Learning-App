@@ -8,55 +8,32 @@ import { DiRubyRough } from "react-icons/di";
 import { device } from "../../../styles/breakpoints";
 import sanityClient from "../../../createclient";
 import imageUrlBuilder from "@sanity/image-url";
+import CalculateXP from "./Caulations/CalculateXP";
 
-function Lesson({ lesson }) {
-  console.log("🚀 ~ Lesson ~ lesson:", lesson);
+function Lesson({ lesson, completedLessons }) {
+  console.log("🚀 ~ completedLessons hello:", completedLessons);
+  console.log("🚀 ~ lesson123:", lesson);
   const params = useParams();
-  console.log("🚀 ~ params:", params);
+
   const { darkThemeActive } = useContext(UserContext);
 
   const builder = imageUrlBuilder(sanityClient);
   const imgurlFor = (source) => {
     return builder.image(source);
   };
-  // const content = block.coverImage ? (
-  //   <img
-  //     alt=""
-  //     style={{
-  //       height: "60px",
-  //       width: "100px",
-  //       position: "relative",
-  //       borderRadius: "16px",
-  //       //   top: "10px",
-  //     }}
-  //     src={imgurlFor(block?.coverImage.asset._ref)}
-  //   />
-  // ) : null;
 
-  <ShadedCard>
-    {" "}
-    <p
-      style={{
-        color: "white",
-        // margin: "4px",
-        display: "flex",
-        alignItems: "center",
-      }}
-    >
-      {" "}
-      <DiRubyRough size={20} fill="rgb(138,43,226)" />
-      {/* {findBlock?.XPScored} */}
-    </p>
-  </ShadedCard>;
+  const lessonCompleted = completedLessons?.filter((completedLesson) => {
+    return completedLesson.blockName === lesson?.name;
+  });
 
-  // to={`course/${params.subject}/${params.courseName}/${params.courseCode}/${lesson.name}`}
+  const lessonXp = CalculateXP(lesson);
+
   return (
     <Link
       to={`/courses/${params.subject}/${params.courseName}/${params.courseCode}/${lesson.name}`}
       className="animate__animated animate__fadeIn"
       style={{
-        height: "50px",
-        width: "100%",
+        width: "95%",
         textDecoration: "none",
         display: "flex",
         flexDirection: "row",
@@ -67,34 +44,69 @@ function Lesson({ lesson }) {
     >
       <Name style={{ width: "100%" }}>{lesson?.name}</Name>
       {/* {findBlock && ( */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "flex-end",
-          width: "100%",
-        }}
-      >
-        <p
+      {lessonCompleted?.[0]?.percentageScores ? (
+        <div
           style={{
-            fontSize: "11px",
-            fontWeight: "600",
-            color: darkThemeActive
-              ? ThemeStyles.lightThemePrimaryFontgroundColor
-              : ThemeStyles.darkThemePrimaryFontColor,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            width: "100%",
+            position: "relative",
           }}
         >
-          {" "}
-          Top Score:
-        </p>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-end",
+              position: "relative",
+              fontSize: "11px",
+              margin: "10px",
+            }}
+          >
+            <DiRubyRough size={20} fill="rgb(138,43,226)" />
+            {lessonXp}
+          </div>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              position: "relative",
+            }}
+          >
+            {" "}
+            <p
+              style={{
+                fontSize: "11px",
+                fontWeight: "600",
+                color: darkThemeActive
+                  ? ThemeStyles.lightThemePrimaryFontgroundColor
+                  : ThemeStyles.darkThemePrimaryFontColor,
+              }}
+            >
+              {" "}
+              Top Score:
+            </p>
+            <AnimatedPercentageScore
+              color="rgb(0, 240, 245)"
+              // percentage={findBlock?.percentageScores}
+              percentage={lessonCompleted?.[0]?.percentageScores || 0}
+              size={"small"}
+            />
+          </div>
+        </div>
+      ) : (
+
+        
         <AnimatedPercentageScore
           color="rgb(0, 240, 245)"
           // percentage={findBlock?.percentageScores}
-          percentage={100}
+          percentage={0}
           size={"small"}
         />
-      </div>
-      {/* <Image>{content}</Image> */};
+      )}
+
+      {/* <Image>{content}</Image>; */}
     </Link>
   );
 }
@@ -119,11 +131,13 @@ const Name = styled.p`
   font-size: 13px;
   height: 100%;
   width: 100%;
+
   &:hover {
     color: blue;
     font-weight: 400;
     transition: 0.3s;
     transform: translateX(4px);
+    text-decoration: underline;
   }
 `;
 

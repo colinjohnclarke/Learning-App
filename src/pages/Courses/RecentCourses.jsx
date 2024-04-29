@@ -13,6 +13,7 @@ import HeaderColoredHightlight from "./HeaderColoredHightlight";
 import ContinueBtn from "../../components/Buttons/ContinueBtn";
 
 function RecentCourses() {
+  
   const courses = FetchBlocksfromSanity();
   // console.log("🚀 ~ RecentCourses ~ courses:", courses);
   const builder = imageUrlBuilder(sanityClient);
