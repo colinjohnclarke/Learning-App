@@ -31,8 +31,6 @@ function AllCourses() {
 
     const subject = course.subject[0].name;
 
-    console.log("🚀 ~ subject ~ subject:", subject);
-
     const educationLevel = course.educationLevel?.map((courseDetails) => {
       return (
         <p
@@ -41,6 +39,7 @@ function AllCourses() {
             margin: "4px",
             fontWeight: "600",
             fontSize: "12px",
+            color: darkThemeActive ? "" : "white",
           }}
         >
           {courseDetails.education_level.toString()}
@@ -217,6 +216,7 @@ const Box = styled.div`
     transition: 0.2s;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 10px 20px -12px,
       rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+    background-color: rgb(39, 106, 245, 0.05);
   }
 `;
 

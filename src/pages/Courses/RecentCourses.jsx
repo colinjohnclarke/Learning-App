@@ -11,257 +11,204 @@ import { useGetAllEnrolledCoursesDataQuery } from "../../redux/api/UserData/enro
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import HeaderColoredHightlight from "./HeaderColoredHightlight";
 import ContinueBtn from "../../components/Buttons/ContinueBtn";
+import FetchCoursesFromSanity from "./FetchfromSanityFns/FetchCoursesFromSanity";
 
 function RecentCourses() {
-  
-  const courses = FetchBlocksfromSanity();
-  // console.log("🚀 ~ RecentCourses ~ courses:", courses);
+  const { darkThemeActive, userData } = useContext(UserContext);
+  console.log("🚀 ~ RecentCourses ~ userData:", userData);
+
+  const coursesFromSanity = FetchCoursesFromSanity();
   const builder = imageUrlBuilder(sanityClient);
-  const { userData, darkThemeActive, selectedNav } = useContext(UserContext);
-
-  const { data } = useGetAllEnrolledCoursesDataQuery(userData?.user._id);
-
   const imgurlFor = (source) => {
     return builder.image(source);
   };
 
-  // map through each course saved in enrolled courses DB obj
-  const list = data?.enrolledCourses?.map((item, index) => {
-    // search courses from sanity
-    const result = courses.find((subItem) => {
-      // return so we we get saved course details from sanity eg cover image and subject
-      return subItem.courseName === item.courseName;
-    });
-    // console.log("🚀 ~ result ~ result:", result);
+  const recentCourses = coursesFromSanity.filter((course) => {
+    return userData.user.enrolledCourses.some(
+      (enrolledCourse) => enrolledCourse.courseName === course.courseName
+    );
+  });
+  console.log("🚀 ~ recentCourses ~ recentCourses:", recentCourses);
 
-    // filter the courses from sanity as they contain a complete list of all courses so we only need ones which match this topicName
-    const blocks = courses
-      .filter((course) => {
-        return course.courseName === item.courseName;
-      })
-
-      //sort so items are in correct block order
-      .sort((a, b) => {
-        return a.blockPositioninCourse - b.blockPositioninCourse;
-      });
-
-    // console.log("🚀 ~ list ~ blocks:", blocks);
-
-    // store list of completed blocks from user
-    const blocksCompletedfromDB = userData?.user.blocksCompleted;
-    // console.log("🚀 ~ list ~ blocksCompletedfromDB:", blocksCompletedfromDB);
-
-    // blocks completed from DB dont have subject saved
-    const completedBlocks = blocksCompletedfromDB?.filter((block) => {
-      return block.courseName === item.courseName;
-    });
-
-    // console.log("🚀 ~ completedBlocks ~ completedBlocks:", completedBlocks);
-
-    const CoursePercentageCompletion =
-      (completedBlocks.length / blocks.length) * 100;
-
-    const content = result?.coverImage ? (
-      <img
-        alt=""
-        style={{
-          height: "80px",
-          width: "80px",
-          borderRadius: "16px",
-        }}
-        src={imgurlFor(result.coverImage.asset._ref)}
-      />
-    ) : null;
+  const courses = recentCourses.map((course, index) => {
+    const subject = course.subject[0].name;
 
     return (
-      <LinkWrapper
-        className="animate__animated animate__fadeIn"
+      <Box
+        key={index}
         style={{
-          textDecoration: "none",
           animationDelay: `${index / 20}s`,
         }}
+        className="animate__animated animate__fadeIn"
+        darkThemeActive={darkThemeActive}
       >
+        <ImgWrapper>
+          <Img
+            alt=""
+            style={{
+              objectFit: "cover",
+            }}
+            src={
+              imgurlFor(course.coverImage.asset._ref)
+                ? imgurlFor(course.coverImage.asset._ref)
+                : "https://stpauls.fra1.digitaloceanspaces.com/wp-content/uploads/2022/04/28130914/SPS-logo-centred-POS.png"
+            }
+          />
+          <ShadedCard>
+            {" "}
+            <p
+              style={{
+                color: "white",
+                margin: "4px",
+                padding: "10px",
+                fontSize: "12px",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              {subject}
+            </p>
+          </ShadedCard>
+        </ImgWrapper>
+
+        <Text>
+          <p
+            style={{
+              fontSize: "13px",
+              listStyle: "none",
+              fontWeight: "600",
+              color: darkThemeActive ? "" : "white",
+            }}
+          >
+            {course.courseName}
+          </p>
+
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              color: darkThemeActive ? "" : "white",
+            }}
+          >
+            <p
+              style={{
+                fontSize: "12px",
+                listStyle: "none",
+                fontWeight: "600",
+                color: darkThemeActive ? "" : "white",
+              }}
+            >
+              Lessons :
+            </p>
+            <p
+              style={{
+                fontSize: "12px",
+                listStyle: "none",
+                fontWeight: "300",
+                marginLeft: "5px",
+                color: darkThemeActive ? "" : "white",
+              }}
+            >
+              5
+            </p>
+          </div>
+
+          <CourseOutline style={{ color: darkThemeActive ? "" : "white" }}>
+            AQA GCSE Science course provides students with a comprehensive
+            understanding of biology, chemistry, and physics, fostering
+            practical skills and critical thinking for further scientific
+            studies and real-world engagement.
+          </CourseOutline>
+        </Text>
         <Link
           style={{
+            display: "flex",
+            // width: "100%",
+            borderRadius: "16px",
             textDecoration: "none",
+            animationDelay: `${index / 20}s`,
           }}
-          to={`/courses/${result?.subject}/${result?.courseName}`}
+          to={`/courses/${subject}/${course.courseName}/${course.courseCode}`}
         >
-          <Box darkThemeActive={darkThemeActive}>
-            <Text>
-              {" "}
-              <div
-                style={{
-                  padding: "12px",
-                }}
-              >
-                {" "}
-                <p
-                  style={{
-                    fontSize: "13px",
-                    listStyle: "none",
-                    // paddingLeft: "10px",
-                    fontWeight: "600",
-                  }}
-                >
-                  {result?.subject}
-                </p>
-                <p
-                  style={{
-                    fontSize: "13px",
-                    listStyle: "none",
-                    // padding: "12px",
-                  }}
-                >
-                  {result?.courseName}
-                </p>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-
-                  alignItems: "center",
-
-                  width: "60px",
-                }}
-              >
-                <p
-                  style={{
-                    fontSize: "13px",
-                    listStyle: "none",
-                    padding: "12px",
-                  }}
-                >
-                  {item.XPForCurrentCourse} Xp
-                </p>
-              </div>
-            </Text>
-            <AnimatedPercentageScore
-              color="rgb(0, 245, 245)"
-              percentage={CoursePercentageCompletion}
-              size = 'medium'
-            />
-
-            {content ? (
-              <Image>{content}</Image>
-            ) : (
-              <Img
-                src={
-                  "https://stpauls.fra1.digitaloceanspaces.com/wp-content/uploads/2022/04/28130914/SPS-logo-centred-POS.png"
-                }
-              ></Img>
-            )}
-          </Box>
+          <Button
+            style={{
+              width: "100px",
+              height: "20px",
+              fontSize: "11px",
+            }}
+          >
+            {" "}
+            Continue
+          </Button>
         </Link>
-      </LinkWrapper>
+      </Box>
     );
   });
 
+  console.log("🚀 ~ RecentCourses ~ recentCourses:", recentCourses);
   return (
-    <Main
-      style={{
-        alignItems: "center",
-        fontWeight: "500",
-        width: "100%",
-
-        borderRadius: "16px",
-      }}
-    >
-      {/* <PaddingBox /> */}
-      <HeaderColoredHightlight content={"Your recent Courses"} />
-      <Grid>{list}</Grid>
-      {selectedNav.Dashboard && (
-        <ContinueBtn style={{ color: "white" }}>
-          <Link
-            style={{
-              textDecoration: "none",
-              color: "white",
-              fontWeight: "500",
-            }}
-            to={"/courses"}
-          >
-            {" "}
-            Enroll For Course{" "}
-          </Link>
-        </ContinueBtn>
-      )}
-      <Demo> For demo Enroll for Biology Photosynthesis Course</Demo>
-    </Main>
+    <Wrapper darkThemeActive={darkThemeActive}>
+      <h2
+        style={{
+          fontWeight: "500",
+          fontSize: "16px",
+          color: darkThemeActive ? "" : "white",
+        }}
+      >
+        Your recent Courses
+      </h2>
+      <GridWrapper>
+        {" "}
+        <Grid>{courses}</Grid>{" "}
+      </GridWrapper>
+    </Wrapper>
   );
 }
 
 export default RecentCourses;
 
-const Main = styled.div`
+const Wrapper = styled.div`
   display: flex;
-  align-items: center;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: flex=start;
+  border-radius: 16px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  align-items: center;
+  width: 100%;
+  transition: 0.3s;
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? "white"
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
+
+  box-shadow: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemeMainBoxShadow
+      : ThemeStyles.darkThemeMainBoxShadow};
 `;
 
 const Grid = styled.div`
-  padding-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  //   display: flex;
-  //   align-items: center;
-  //   flex-direction: column;
-  //   justify-content: center;
-
-  @media ${device.tablet} {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-  }
 `;
 
-const Demo = styled.div`
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 1px 0px;
-  background-color: rgb(255, 255, 255);
-  transition: 0s;
-  box-shadow: 0px 0px 30px 4px rgba(174, 196, 216, 0.25);
-  padding: 10px;
-  border-radius: 16px;
-  margin-bottom: 10px;
-`;
-
-const LinkWrapper = styled.div`
-  width: 100%;
-  padding-top: 10px;
-  border-radius: 16px;
-`;
-
-const Box = styled.a`
-  height: 80px;
-  width: 100%;
-  min-width: 290px;
-  margin-top: 3px;
-  margin-bottom: 3px;
+const Box = styled.div`
+pointer
+  position: relative;
+  height: 340px;
+  width: 44%;
+  margin: 10px;
   border-radius: 16px;
   text-decoration: none;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 1px 0px;
-  background-color: rgb(255, 255, 255);
-  transition: 0s;
-  box-shadow: 0px 0px 30px 4px rgba(174, 196, 216, 0.25);
-
-  &:hover {
-    transition: 0s;
-    box-shadow: rgb(0, 255, 255) 0px 0px 2px 1px,
-      rgb(39, 106, 245, 0.7) 2px 2px 2px 1px;
-  }
-
-  p,
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  div,
   strong {
     color: ${(props) =>
       props.darkThemeActive
@@ -271,37 +218,142 @@ const Box = styled.a`
 
   background-color: ${(props) =>
     props.darkThemeActive
-      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      ? "white"
       : ThemeStyles.darkThemePrimaryBackgroundColor};
 
   box-shadow: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemeMainBoxShadow
       : ThemeStyles.darkThemeMainBoxShadow};
+
+  &:hover {
+    transition: 0.2s;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 10px 20px -12px,
+      rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+    background-color: rgb(39, 106, 245, 0.05);
+  }
+
+  @media ${device.mobileL} {
+    height: 340px;
+    width: 200px;
+  }
 `;
 
-const Text = styled.div`
-  height: 100%;
-  width: 100%;
+const Subject = styled.div`
+  display: none;
+
+  @media ${device.mobileL} {
+    display: block;
+    font-weight: 500;
+  }
+`;
+
+const GridWrapper = styled.div`
   display: flex;
+  width: 100%;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
 `;
 
-const Img = styled.img`
-  height: 100%;
-  width: 33.3%;
-  border-radius: 16px;
-  max-width: 100px;
-  min-width: 100px;
-  clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 25% 100%, 0% 50%);
+const Text = styled.div`
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
 `;
 
-const Image = styled.div`
-  height: 100%;
-  clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 25% 100%, 0% 50%);
-  border-radius: 16px;
-  @media ${device.mobileL} {
+const Button = styled.button`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  margin: 10px;
+  height: 40px;
+  border-radius: 8px;
+  background-color: rgba(0, 240, 245, 1);
+  color: white;
+  cursor: pointer;
+
+  box-shadow: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemeMainBoxShadow
+      : ThemeStyles.darkThemeMainBoxShadow};
+
+  transition: 0.3s;
+  border: 2px solid rgba(0, 240, 240, 0.8);
+  font-weight: 400;
+
+  &:hover {
+    transform: translateY(-2px);
+    background-color: rgba(0, 250, 250, 1);
+    color: white;
   }
+`;
+const ShadedCard = styled.p`
+  height: 100%;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  border-radius: 10px;
+  display: flex;
+  align-items: end;
+  justify-content: end;
+  font-size: 10px;
+  // clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 25% 100%, 0% 50%);
+  background: linear-gradient(
+    to bottom right,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0.5),
+    rgba(0, 0, 0, 0)
+  );
+  /* Fallback for older browsers */
+  background: -webkit-linear-gradient(
+    top left,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 1)
+  );
+  background: -moz-linear-gradient(
+    top left,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 1)
+  );
+  background: -o-linear-gradient(top left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+  background: linear-gradient(
+    to bottom right,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 1)
+  );
+  opacity: 0.6;
+  color: white;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  z-index: 22;
+`;
+
+const ImgWrapper = styled.div`
+  height: 40%;
+  width: 100%;
+  position: relative;
+`;
+
+const CourseOutline = styled.div`
+  width: 100%;
+
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+`;
+const Img = styled.img`
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+  // max-width: 100px;
+  // clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 25% 100%, 0% 50%);
 `;

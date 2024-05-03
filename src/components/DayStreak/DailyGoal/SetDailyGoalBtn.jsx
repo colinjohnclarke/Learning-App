@@ -37,13 +37,13 @@ function SetDailyGoalBtn({ ...attributes }) {
                 : ThemeStyles.darkThemePrimaryFontColor,
             }}
           >
-            Target
+            Target XP
           </div>
           <div
             style={{
               display: "flex",
-              justifyContent: "start",
-              alignItems: "start",
+              justifyContent: "center",
+              alignItems: "center",
               fontSize: "12px",
               color: darkThemeActive
                 ? ThemeStyles.lightThemePrimaryFrontColor
@@ -52,7 +52,6 @@ function SetDailyGoalBtn({ ...attributes }) {
           >
             {" "}
             {xP}/ {userData?.user.preferences.personalizedSettings.dailyXPGoal}{" "}
-            XP
           </div>
         </Inner>
         <Btn darkThemeActive={darkThemeActive} onClick={handleClick}>
@@ -68,7 +67,7 @@ export default SetDailyGoalBtn;
 const Wrapper = styled.div`
   padding: 15px;
   height: 30px;
-  width: 110px;
+  width: 80px;
   border-radius: 16px;
   display: flex;
   flex-direction: row;
@@ -86,7 +85,7 @@ const Inner = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.darkThemePrimaryFontColor

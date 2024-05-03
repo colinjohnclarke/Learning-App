@@ -18,6 +18,7 @@ describe("Weekday", () => {
     });
   });
 
+  
   test("the current day has a style of border: solid", () => {
     const currentDate = new Date();
     const dayOfWeekIndex = currentDate.getDay();

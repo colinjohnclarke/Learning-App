@@ -7,10 +7,10 @@ import imageUrlBuilder from "@sanity/image-url";
 import Test from "../../components/Geogebra/Test";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import { UserContext } from "../../App";
+import AudioPlayerFromSanity from "../../components/Audio/AudioPlayerFromSanity";
 
 function BlockText({ data }) {
-
-
+  // console.log("🚀 ~ BlockText ~ data:", data);
   const builder = imageUrlBuilder(sanityClient);
 
   const { darkThemeActive } = useContext(UserContext);
@@ -28,30 +28,43 @@ function BlockText({ data }) {
     }
   }, []);
 
-  let dataBlock = [];
+  let dataBlock = data?.map((item) => {
+    const { _type, body, children, style, listItem, markDefs, asset, _key } =
+      item;
 
-  if (data) {
-    dataBlock = data.map((item) => {
-      const { _type, body, children, style, listItem, markDefs, asset } = item;
-      return {
-        type: _type,
-        algebra: body,
-        text: children,
-        style,
-        listItem,
-        markDefs,
-        asset,
-      };
+    console.log("vals", _type, children);
+
+    const audio = children?.filter((textVal) => {
+      return textVal._type.includes("inlineAudio");
     });
-  }
+
+    console.log("🚀 ~ audio ~ audio:", audio);
+
+    const filteredText = children?.filter((textVal) => {
+      return textVal._type !== "inlineAudio";
+    });
+
+    return {
+      type: _type,
+      algebra: body,
+      text: filteredText,
+      audio,
+      style,
+      listItem,
+      markDefs,
+      asset,
+    };
+  });
 
   let content = [];
 
   if (dataBlock) {
     content = dataBlock.map((item) => {
-      const { algebra, text, style, listItem, type, asset } = item;
-      /// CHECK IF CODE MARKS ARE ASSIGNED AND RENDER GEOGEBRA APP
-      if (
+      const { algebra, text, style, listItem, type, asset, audio } = item;
+
+      if (audio && audio.length) {
+        return <AudioPlayerFromSanity data={audio} />;
+      } else if (
         text &&
         !listItem &&
         text.some((subItem) => subItem.marks.includes("code"))
@@ -79,7 +92,7 @@ function BlockText({ data }) {
         !listItem &&
         !text.some((subItem) => subItem.marks.includes("strong"))
       ) {
-        // check to see what style has been asigned and make new approprate element
+        //       // check to see what style has been asigned and make new approprate element
 
         const textContent = text.map((item) => item.text);
 

@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import BlockText from "../../config/sanity/BlockText";
 import { useSelector } from "react-redux";
+import AudioPlayerFromSanity from "../Audio/AudioPlayerFromSanity";
 
 function TextSectionDesktop({
   data,
@@ -53,5 +54,4 @@ const Wrapper = styled.section`
   // flex-direction: column;
   overflow: hidden;
   // max-height: 700px;
-
 `;

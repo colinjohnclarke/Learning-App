@@ -22,8 +22,6 @@ function Dashboard() {
 
   window.scrollTo(0, 0);
 
-
-
   return (
     <Wrapper darkThemeActive={darkThemeActive}>
       <DashboardHeader />
@@ -34,7 +32,7 @@ function Dashboard() {
           <DashboardStreakXPProgressView />
           <Spacer />
           <SearchCourse />
-          <Spacer />
+          {/* <Spacer /> */}
           <CoursesDashBoard />
 
           <Spacer />
