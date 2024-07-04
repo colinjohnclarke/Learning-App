@@ -12,6 +12,7 @@ import DashboardStreakXPProgressView from "../../components/DayStreak/DashboardS
 import NavigationBarMobile from "../../components/Navigation/NavigationBarMobile";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import DashboardHeadlineData from "./DashboardHeadlineData";
+import HeaderCurve from "../../assets/svgs/HeaderCurve";
 
 function Dashboard() {
   const { userData, darkThemeActive, setSelectedNav } = useContext(UserContext);
@@ -24,6 +25,7 @@ function Dashboard() {
 
   return (
     <Wrapper darkThemeActive={darkThemeActive}>
+      {/* <HeaderCurve /> */}
       <DashboardHeader />
       <Padding>
         <Main>
@@ -57,7 +59,7 @@ const Wrapper = styled.div`
   background-color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor
-      : ThemeStyles.darkThemePrimaryBackgroundColor};
+      : ThemeStyles.darkThemeBaseColor};
 `;
 const Spacer = styled.div`
   height: 10px;
@@ -76,6 +78,7 @@ const Padding = styled.div`
 `;
 const Main = styled.div`
   width: 100%;
+  position: relative;
 
   max-width: 900px;
   display: flex;

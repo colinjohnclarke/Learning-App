@@ -1,9 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import Lesson from "./Lesson";
 import { FcNext } from "react-icons/fc";
 import sanityClient from "../../../createclient";
 import imageUrlBuilder from "@sanity/image-url";
+import {
+  ThemeStyles,
+  darkThemeMainBoxShadow,
+  lightThemeMainBoxShadow,
+} from "../../../styles/ThemeStyles";
+import { UserContext } from "../../../App";
 
 function Subtopic({
   subtopic,
@@ -12,6 +18,7 @@ function Subtopic({
   selectedSubtopics,
   completedLessons,
 }) {
+  const { darkThemeActive } = useContext(UserContext);
   const builder = imageUrlBuilder(sanityClient);
   const imgurlFor = (source) => {
     return builder.image(source);
@@ -44,6 +51,7 @@ function Subtopic({
 
   return (
     <Wrapper
+      darkThemeActive={darkThemeActive}
       className="animate__animated animate__fadeIn"
       onClick={(event) => {
         console.log("index", index);
@@ -60,6 +68,9 @@ function Subtopic({
 
             marginTop: selectedSubtopics[index].selected ? "15px" : "0px",
             alignItems: "center",
+            color: darkThemeActive
+              ? ThemeStyles.lightThemePrimaryFrontColor
+              : ThemeStyles.darkThemePrimaryFontColor,
           }}
         >
           <FcNext
@@ -79,17 +90,25 @@ function Subtopic({
 
       {selectedSubtopics[index].selected && (
         <Lessons
-          style={
-            {
-              // minHeight: "30px",
-            }
-          }
+          style={{
+            color: darkThemeActive
+              ? ThemeStyles.lightThemePrimaryFrontColor
+              : ThemeStyles.darkThemePrimaryFontColor,
+          }}
         >
           {subtopic.lessons?.map((lesson, index) => {
             return (
               // <div key={index}></div>
               <Lesson completedLessons={completedLessons} lesson={lesson}>
-                {index + 1}. {subtopic.name}
+                <p
+                  style={{
+                    color: darkThemeActive
+                      ? ThemeStyles.lightThemePrimaryFrontColor
+                      : ThemeStyles.darkThemePrimaryFontColor,
+                  }}
+                >
+                  {index + 1}. {subtopic.name}
+                </p>
               </Lesson>
             );
           })}
@@ -108,13 +127,15 @@ const Wrapper = styled.div`
   margin: 10px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   &:hover {
-    background-color: rgb(220, 220, 220, 0.3);
+    opacity: 0.3;
+    border: ${(props) =>
+      props.darkThemeActive ? darkThemeMainBoxShadow : lightThemeMainBoxShadow};
   }
+  border: 1 px;
   border-radius: 16px;
   // padding: 10px;
   margin-top: 5px;
   padding-left: 40px;
-
 `;
 
 const Row = styled.div`

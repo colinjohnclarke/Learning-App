@@ -6,6 +6,7 @@ import { device } from "../../styles/breakpoints";
 import CourseSearchResult from "../../pages/Dashboard/CourseSearchResult";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import { UserContext } from "../../App";
+import Border from "../Border";
 
 function SearchCourse() {
   const [searchedResult, setSearchedResult] = useState("");
@@ -14,35 +15,37 @@ function SearchCourse() {
   const navigate = useNavigate();
 
   return (
-    <Outer darkThemeActive={darkThemeActive}>
-      <Main darkThemeActive={darkThemeActive}>
-        <Wrapper
-          onSubmit={(e) => {
-            e.preventDefault();
-            navigate(`/courses?query=${searchedResult}`);
-          }}
-          darkThemeActive={darkThemeActive}
-        >
-          <div>
-            <BsSearch
-              fill={
-                darkThemeActive
-                  ? ThemeStyles.lightThemePrimaryFrontColor
-                  : ThemeStyles.darkThemePrimaryFontColor
-              }
-            />
-          </div>
-          <Input
-            onChange={(e) => {
-              setSearchedResult(e.target.value);
+    <Border>
+      <Outer darkThemeActive={darkThemeActive}>
+        <Main darkThemeActive={darkThemeActive}>
+          <Wrapper
+            onSubmit={(e) => {
+              e.preventDefault();
+              navigate(`/courses?query=${searchedResult}`);
             }}
             darkThemeActive={darkThemeActive}
-            type="text"
-            placeholder="Search our courses..."
-          ></Input>
-        </Wrapper>
-      </Main>
-    </Outer>
+          >
+            <div>
+              <BsSearch
+                fill={
+                  darkThemeActive
+                    ? ThemeStyles.lightThemePrimaryFrontColor
+                    : ThemeStyles.darkThemePrimaryFontColor
+                }
+              />
+            </div>
+            <Input
+              onChange={(e) => {
+                setSearchedResult(e.target.value);
+              }}
+              darkThemeActive={darkThemeActive}
+              type="text"
+              placeholder="Search our courses..."
+            ></Input>
+          </Wrapper>
+        </Main>
+      </Outer>
+    </Border>
   );
 }
 
@@ -57,7 +60,7 @@ const Wrapper = styled.form`
       ? ThemeStyles.lightThemePrimaryBackgroundColor
       : ThemeStyles.darkThemePrimaryBackgroundColor};
 
-      border-radius: 16px;
+  border-radius: 16px;
   margin: 6px;
   padding: 8px;
   display: flex;
@@ -102,51 +105,11 @@ const Main = styled.div`
   align-items: center;
   background-color: white;
   border-radius: 16px;
-  box-shadow: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemeMainBoxShadow
-      : ThemeStyles.darkThemeMainBoxShadow};
 
   background-color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor
       : ThemeStyles.darkThemePrimaryBackgroundColor};
-`;
-
-const Box = styled.a`
-  height: 50px;
-  width: 100%;
-  min-width: 290px;
-  padding: 4px;
-  margin: 3px;
-  border-radius: 16px;
-  text-decoration: none;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 1px 0px;
-  background-color: rgb(255, 255, 255);
-
-  color: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemePrimaryFrontColor
-      : ThemeStyles.darkThemePrimaryFontColor};
-
-  &:hover {
-    box-shadow: rgb(0, 255, 255) 0px 0px 2px 1px,
-      rgb(39, 106, 245, 0.7) 2px 2px 2px 1px;
-    background-color: rgb(39, 106, 245, 0.01);
-  }
-`;
-
-const SuggestedCourse = styled.div`
-  display: none;
-  @media (min-width: 550px) {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
 `;
 
 const Outer = styled.div`
@@ -156,61 +119,19 @@ const Outer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  box-shadow: 0px 0px 30px 4px rgba(174, 196, 216, 0.25);
+
   background-color: rgb(255, 255, 255);
   border-radius: 16px;
+  padding: 4px;
 
   background-color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor
       : ThemeStyles.darkThemePrimaryBackgroundColor};
 
-  box-shadow: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemeMainBoxShadow
-      : ThemeStyles.darkThemeMainBoxShadow};
-
   @media ${device.desktop} {
     width: 100%;
   }
 
   //
-`;
-
-const SuggestCourseMobile = styled.div`
-  display: flex;
-
-  @media ${device.mobileL} {
-    display: none;
-  }
-`;
-
-const NoResultDesktop = styled.div`
-  display: none;
-
-  color: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemePrimaryFrontColor
-      : ThemeStyles.darkThemePrimaryFontColor};
-
-  @media (min-width: 550px) {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-`;
-
-const NoResultMobile = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  color: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemePrimaryFrontColor
-      : ThemeStyles.darkThemePrimaryFontColor};
-
-  @media (min-width: 550px) {
-    display: none;
-  }
 `;

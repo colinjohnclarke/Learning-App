@@ -9,6 +9,8 @@ import { ThemeStyles } from "../../styles/ThemeStyles";
 import EnrollForCourse from "./EnrollForCourse";
 import HeaderColoredHightlight from "./HeaderColoredHightlight";
 import NavigationBarMobile from "../../components/Navigation/NavigationBarMobile";
+import HeaderCurve from "../../assets/svgs/HeaderCurve";
+import Border from "../../components/Border";
 
 function Courses() {
   const { darkThemeActive, setSelectedNav } = useContext(UserContext);
@@ -59,8 +61,8 @@ function Courses() {
     <Wrapper darkThemeActive={darkThemeActive}>
       <Padding />
 
-      <SelectionDiv>
-        <Tags>
+      <SelectionDiv darkThemeActive={darkThemeActive}>
+        <Tags darkThemeActive={darkThemeActive}>
           <Select onClick={() => selectClickHandler("recentCourses")}>
             <p style={selection === "recentCourses" ? selected : unselected}>
               Recent Courses
@@ -104,10 +106,6 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemePrimaryBackgroundColor
-      : ThemeStyles.darkThemePrimaryBackgroundColor};
 
   p,
   div,
@@ -126,6 +124,7 @@ const Main = styled.div`
   width: 98%;
   max-width: 900px;
   height: 100vh;
+  position: relative;
 `;
 
 const Padding = styled.div`
@@ -234,6 +233,8 @@ const SeeAllBtn = styled.button`
 const SelectionDiv = styled.div`
   width: 98%;
   max-width: 900px;
+  position: relative;
+  border-radius: 16px;
 `;
 
 const Tags = styled.div`
@@ -267,11 +268,7 @@ const SelectionBar = styled.div`
   margin: 4px;
   height: 4px;
   width: 33%;
-  background: linear-gradient(
-    225deg,
-    rgba(39, 106, 245, 1) 0%,
-    rgba(0, 200, 200, 1) 100%
-  );
+  background-color: white;
 
   // @media ${device.tablet} {
   //   width: 100%;

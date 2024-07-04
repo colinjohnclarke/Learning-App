@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { UserContext } from "../../App";
 import DayStreakDaysView from "./DayStreakDaysView";
 import { arrOfDatesQuizCompletedLastWeek } from "./FlameDayStreak";
+import Border from "../Border";
 
 function DayStreakPanel() {
   const { darkThemeActive } = useContext(UserContext);
@@ -22,8 +23,7 @@ function DayStreakPanel() {
   const today = `${year}-${month}-${day}`;
 
   return (
-    <Wrapper>
-      {/* <Box style={{ marginLeft: "5px" }} darkThemeActive={darkThemeActive}> */}{" "}
+    <Wrapper darkThemeActive={darkThemeActive}>
       <FlameDayStreak />
       <Mobile style={{ margin: "10px" }}> days</Mobile>
       {!arrOfDatesQuizCompletedLastWeek.find((item) => item === today) && (
@@ -52,7 +52,6 @@ function DayStreakPanel() {
         </Streak>
       )}
       <DayStreakDaysView />
-      {/* </Box> */}
     </Wrapper>
   );
 }
@@ -61,38 +60,17 @@ export default DayStreakPanel;
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 100%;
+  height: 300px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-top: 10px;
-`;
 
-const Box = styled.div`
-  height: 100%;
-  width: 50%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  border-radius: 16px;
   background-color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor
       : ThemeStyles.darkThemePrimaryBackgroundColor};
-
-      border-radius: 16px;
-  box-shadow: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemeMainBoxShadow
-      : ThemeStyles.darkThemeMainBoxShadow};
-
-  p {
-    color: ${(props) =>
-      props.darkThemeActive
-        ? ThemeStyles.lightThemePrimaryFrontColor
-        : ThemeStyles.darkThemePrimaryFontColor};
-  }
 `;
 
 const Streak = styled.p`

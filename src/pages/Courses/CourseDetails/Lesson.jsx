@@ -11,8 +11,6 @@ import imageUrlBuilder from "@sanity/image-url";
 import CalculateXP from "./Caulations/CalculateXP";
 
 function Lesson({ lesson, completedLessons }) {
-  console.log("🚀 ~ completedLessons hello:", completedLessons);
-  console.log("🚀 ~ lesson123:", lesson);
   const params = useParams();
 
   const { darkThemeActive } = useContext(UserContext);
@@ -42,7 +40,16 @@ function Lesson({ lesson, completedLessons }) {
         marginLeft: "5px",
       }}
     >
-      <Name style={{ width: "100%" }}>{lesson?.name}</Name>
+      <Name
+        style={{
+          width: "100%",
+          color: darkThemeActive
+            ? ThemeStyles.lightThemePrimaryFrontColor
+            : ThemeStyles.darkThemePrimaryFontColor,
+        }}
+      >
+        {lesson?.name}
+      </Name>
       {/* {findBlock && ( */}
       {lessonCompleted?.[0]?.percentageScores ? (
         <div
@@ -62,6 +69,10 @@ function Lesson({ lesson, completedLessons }) {
               position: "relative",
               fontSize: "11px",
               margin: "10px",
+
+              color: darkThemeActive
+                ? ThemeStyles.lightThemePrimaryFrontColor
+                : ThemeStyles.darkThemePrimaryFontColor,
             }}
           >
             <DiRubyRough size={20} fill="rgb(138,43,226)" />
@@ -96,8 +107,6 @@ function Lesson({ lesson, completedLessons }) {
           </div>
         </div>
       ) : (
-
-        
         <AnimatedPercentageScore
           color="rgb(0, 240, 245)"
           // percentage={findBlock?.percentageScores}

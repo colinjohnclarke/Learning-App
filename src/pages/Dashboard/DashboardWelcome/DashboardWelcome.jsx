@@ -2,52 +2,63 @@ import React, { useContext } from "react";
 
 import { UserContext } from "../../../App";
 import styled from "styled-components";
-import { ThemeStyles } from "../../../styles/ThemeStyles";
+import {
+  lightThemePrimaryFrontColor,
+  ThemeStyles,
+} from "../../../styles/ThemeStyles";
 import { device } from "../../../styles/breakpoints";
 
 import Weekday from "./Weekday";
+import Border from "../../../components/Border";
 
 function DashboardWelcome() {
   const { userData, darkThemeActive } = useContext(UserContext);
 
   return (
-    <Greeting darkThemeActive={darkThemeActive}>
-      <Welcome>
-        <h3 style={{ color: "white" }}>Welcome {userData?.user.firstName}</h3>
-      </Welcome>
-      <Weekday  />
-    </Greeting>
+    <Border
+      style={{ height: "180px", margin: "20px" }}
+      darkThemeActive={darkThemeActive}
+    >
+      <Greeting darkThemeActive={darkThemeActive}>
+        <Welcome>
+          <h3
+            style={{
+              color: darkThemeActive
+                ? ThemeStyles.lightThemePrimaryFrontColor
+                : ThemeStyles.darkThemePrimaryFontColor,
+            }}
+          >
+            Welcome {userData?.user.firstName}
+          </h3>
+        </Welcome>
+        <Weekday />
+      </Greeting>
+    </Border>
   );
 }
 
 export default DashboardWelcome;
 
 const Greeting = styled.div`
-  height: 180px;
+  height: 100%;
   width: 100%;
-  margin-bottom: 10px;
-  margin-top: 27px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(
-    225deg,
-    rgba(0, 200, 200, 0.4) 0%,
-    rgba(0, 200, 200, 0.7) 20%,
-    rgba(0, 200, 200, 1) 60%,
-    rgba(39, 106, 245, 0.7) 100%
-  );
-  box-shadow: ${(props) =>
+  background-color: ${(props) =>
     props.darkThemeActive
-      ? ThemeStyles.lightThemeMainBoxShadow
-      : ThemeStyles.darkThemeMainBoxShadow};
+      ? "white"
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
 
-  @media ${device.tablet} {
-    height: 20vh;
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
+  background-image: ${(props) =>
+    props.darkThemeActive ? "white" : ThemeStyles.darkthemeShadowBorder};
+
+  // @media ${device.tablet} {
+  //   height: 20vh;
+  //   margin-top: 10px;
+  //   margin-bottom: 10px;
+  // }
 
   border-radius: 16px;
 `;
@@ -63,4 +74,5 @@ const Welcome = styled.div`
   align-items: center;
   justify-content: center;
   font-weight: 500;
+  // background-image: tranparent;
 `;

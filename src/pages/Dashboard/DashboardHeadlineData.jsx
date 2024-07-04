@@ -6,24 +6,34 @@ import { UserContext } from "../../App";
 import styled from "styled-components";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import { device } from "../../styles/breakpoints";
+import HeaderCurve from "../../assets/svgs/HeaderCurve";
+import Border from "../../components/Border";
 
 function DashboardHeadlineData() {
   const { userData, darkThemeActive } = useContext(UserContext);
   return (
     <UserdataWrapper>
-      <Box darkThemeActive={darkThemeActive} style={{ marginRight: "5px" }}>
-        <AllTimeLearningTimeBox
-          data={userData.user ? userData.user.totalTimeElapsed : 0}
-        />
-      </Box>
-      <Box darkThemeActive={darkThemeActive} style={{ margin: "5px 5px" }}>
-        <AllTimeQuestionsAnsweredBox
-          data={userData.user ? userData.user.totalQuestionsAttempted : 0}
-        />
-      </Box>
-      <Box darkThemeActive={darkThemeActive} style={{ marginLeft: "5px" }}>
-        <AllTimeXPBox data={userData.user ? userData?.user.totalXP : 0} />
-      </Box>
+      <Border style={{ marginRight: "5px", height: "70px" }}>
+        <Box darkThemeActive={darkThemeActive}>
+          <AllTimeLearningTimeBox
+            data={userData.user ? userData.user.totalTimeElapsed : 0}
+          />
+        </Box>
+      </Border>
+
+      <Border style={{ margin: "5px 5px", height: "70px" }}>
+        <Box darkThemeActive={darkThemeActive}>
+          <AllTimeQuestionsAnsweredBox
+            data={userData.user ? userData.user.totalQuestionsAttempted : 0}
+          />
+        </Box>
+      </Border>
+
+      <Border style={{ marginLeft: "5px", height: "70px" }}>
+        <Box darkThemeActive={darkThemeActive}>
+          <AllTimeXPBox data={userData.user ? userData?.user.totalXP : 0} />
+        </Box>
+      </Border>
     </UserdataWrapper>
   );
 }
@@ -33,8 +43,9 @@ export default DashboardHeadlineData;
 const UserdataWrapper = styled.div`
   // padding-top: 10px;
   width: 100%;
-  height: 70px;
+  // height: 70px;
   display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   margin-bottom: 10px;
@@ -54,16 +65,13 @@ const Box = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
   background-color: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor
       : ThemeStyles.darkThemePrimaryBackgroundColor};
 
-      border-radius: 16px;
-  box-shadow: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemeMainBoxShadow
-      : ThemeStyles.darkThemeMainBoxShadow};
+  border-radius: 16px;
 
   p {
     color: ${(props) =>

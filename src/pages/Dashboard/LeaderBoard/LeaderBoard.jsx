@@ -2,11 +2,14 @@ import React from "react";
 
 import styled from "styled-components";
 import LeaderBoardSelect from "./LeaderBoardSelect";
+import Border from "../../../components/Border";
 
 function LeaderBoard() {
   return (
     <Wrapper>
-      <LeaderBoardSelect />
+      <Border>
+        <LeaderBoardSelect />
+      </Border>
     </Wrapper>
   );
 }

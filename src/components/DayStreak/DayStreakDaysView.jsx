@@ -119,6 +119,7 @@ const DayIcon = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  
 `;
 
 const Outer = styled.div`

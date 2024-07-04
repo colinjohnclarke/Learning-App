@@ -12,6 +12,7 @@ import { ThemeStyles } from "../../styles/ThemeStyles";
 import HeaderColoredHightlight from "./HeaderColoredHightlight";
 import ContinueBtn from "../../components/Buttons/ContinueBtn";
 import FetchCoursesFromSanity from "./FetchfromSanityFns/FetchCoursesFromSanity";
+import Border from "../../components/Border";
 
 function RecentCourses() {
   const { darkThemeActive, userData } = useContext(UserContext);
@@ -28,141 +29,146 @@ function RecentCourses() {
       (enrolledCourse) => enrolledCourse.courseName === course.courseName
     );
   });
-  console.log("🚀 ~ recentCourses ~ recentCourses:", recentCourses);
 
   const courses = recentCourses.map((course, index) => {
     const subject = course.subject[0].name;
 
     return (
-      <Box
-        key={index}
-        style={{
-          animationDelay: `${index / 20}s`,
-        }}
-        className="animate__animated animate__fadeIn"
-        darkThemeActive={darkThemeActive}
-      >
-        <ImgWrapper>
-          <Img
-            alt=""
-            style={{
-              objectFit: "cover",
-            }}
-            src={
-              imgurlFor(course.coverImage.asset._ref)
-                ? imgurlFor(course.coverImage.asset._ref)
-                : "https://stpauls.fra1.digitaloceanspaces.com/wp-content/uploads/2022/04/28130914/SPS-logo-centred-POS.png"
-            }
-          />
-          <ShadedCard>
-            {" "}
-            <p
+      <Border style={{ height: "340px", width: "200px", margin: "10px" }}>
+        <Box
+          key={index}
+          style={{
+            animationDelay: `${index / 20}s`,
+          }}
+          className="animate__animated animate__fadeIn"
+          darkThemeActive={darkThemeActive}
+        >
+          <ImgWrapper>
+            <Img
+              alt=""
               style={{
-                color: "white",
-                margin: "4px",
-                padding: "10px",
-                fontSize: "12px",
-                display: "flex",
-                alignItems: "center",
+                objectFit: "cover",
               }}
-            >
-              {subject}
-            </p>
-          </ShadedCard>
-        </ImgWrapper>
+              src={
+                imgurlFor(course.coverImage.asset._ref)
+                  ? imgurlFor(course.coverImage.asset._ref)
+                  : "https://stpauls.fra1.digitaloceanspaces.com/wp-content/uploads/2022/04/28130914/SPS-logo-centred-POS.png"
+              }
+            />
+            <ShadedCard>
+              {" "}
+              <p
+                style={{
+                  color: "white",
+                  margin: "4px",
+                  padding: "10px",
+                  fontSize: "12px",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                {subject}
+              </p>
+            </ShadedCard>
+          </ImgWrapper>
 
-        <Text>
-          <p
-            style={{
-              fontSize: "13px",
-              listStyle: "none",
-              fontWeight: "600",
-              color: darkThemeActive ? "" : "white",
-            }}
-          >
-            {course.courseName}
-          </p>
-
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              color: darkThemeActive ? "" : "white",
-            }}
-          >
+          <Text>
             <p
               style={{
-                fontSize: "12px",
+                fontSize: "13px",
                 listStyle: "none",
                 fontWeight: "600",
                 color: darkThemeActive ? "" : "white",
               }}
             >
-              Lessons :
+              {course.courseName}
             </p>
-            <p
+
+            <div
               style={{
-                fontSize: "12px",
-                listStyle: "none",
-                fontWeight: "300",
-                marginLeft: "5px",
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
                 color: darkThemeActive ? "" : "white",
               }}
             >
-              5
-            </p>
-          </div>
+              <p
+                style={{
+                  fontSize: "12px",
+                  listStyle: "none",
+                  fontWeight: "600",
+                  color: darkThemeActive ? "" : "white",
+                }}
+              >
+                Lessons :
+              </p>
+              <p
+                style={{
+                  fontSize: "12px",
+                  listStyle: "none",
+                  fontWeight: "300",
+                  marginLeft: "5px",
+                  color: darkThemeActive ? "" : "white",
+                }}
+              >
+                5
+              </p>
+            </div>
 
-          <CourseOutline style={{ color: darkThemeActive ? "" : "white" }}>
-            AQA GCSE Science course provides students with a comprehensive
-            understanding of biology, chemistry, and physics, fostering
-            practical skills and critical thinking for further scientific
-            studies and real-world engagement.
-          </CourseOutline>
-        </Text>
-        <Link
-          style={{
-            display: "flex",
-            // width: "100%",
-            borderRadius: "16px",
-            textDecoration: "none",
-            animationDelay: `${index / 20}s`,
-          }}
-          to={`/courses/${subject}/${course.courseName}/${course.courseCode}`}
-        >
-          <Button
+            <CourseOutline style={{ color: darkThemeActive ? "" : "white" }}>
+              AQA GCSE Science course provides students with a comprehensive
+              understanding of biology, chemistry, and physics, fostering
+              practical skills and critical thinking for further scientific
+              studies and real-world engagement.
+            </CourseOutline>
+          </Text>
+          <Link
             style={{
-              width: "100px",
-              height: "20px",
-              fontSize: "11px",
+              display: "flex",
+              // width: "100%",
+              borderRadius: "16px",
+              textDecoration: "none",
+              animationDelay: `${index / 20}s`,
             }}
+            to={`/courses/${subject}/${course.courseName}/${course.courseCode}`}
           >
-            {" "}
-            Continue
-          </Button>
-        </Link>
-      </Box>
+            <Button
+              style={{
+                width: "100px",
+                height: "20px",
+                fontSize: "11px",
+              }}
+            >
+              {" "}
+              Continue
+            </Button>
+          </Link>
+        </Box>
+      </Border>
     );
   });
 
-  console.log("🚀 ~ RecentCourses ~ recentCourses:", recentCourses);
   return (
-    <Wrapper darkThemeActive={darkThemeActive}>
-      <h2
-        style={{
-          fontWeight: "500",
-          fontSize: "16px",
-          color: darkThemeActive ? "" : "white",
-        }}
-      >
-        Your recent Courses
-      </h2>
-      <GridWrapper>
-        {" "}
-        <Grid>{courses}</Grid>{" "}
-      </GridWrapper>
-    </Wrapper>
+    <Border
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "flex-start",
+      }}
+    >
+      <Wrapper darkThemeActive={darkThemeActive}>
+        <h2
+          style={{
+            fontWeight: "500",
+            fontSize: "16px",
+            color: darkThemeActive ? "" : "white",
+          }}
+        >
+          Your recent Courses
+        </h2>
+        <GridWrapper>{courses}</GridWrapper>
+      </Wrapper>
+    </Border>
   );
 }
 
@@ -178,31 +184,17 @@ const Wrapper = styled.div`
   align-items: center;
   width: 100%;
   transition: 0.3s;
+
   background-color: ${(props) =>
     props.darkThemeActive
       ? "white"
       : ThemeStyles.darkThemePrimaryBackgroundColor};
-
-  box-shadow: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemeMainBoxShadow
-      : ThemeStyles.darkThemeMainBoxShadow};
-`;
-
-const Grid = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
 `;
 
 const Box = styled.div`
-pointer
   position: relative;
-  height: 340px;
-  width: 44%;
-  margin: 10px;
+  height: 100%;
+  width: 100%;
   border-radius: 16px;
   text-decoration: none;
   display: flex;
@@ -220,11 +212,6 @@ pointer
     props.darkThemeActive
       ? "white"
       : ThemeStyles.darkThemePrimaryBackgroundColor};
-
-  box-shadow: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemeMainBoxShadow
-      : ThemeStyles.darkThemeMainBoxShadow};
 
   &:hover {
     transition: 0.2s;
@@ -252,6 +239,7 @@ const GridWrapper = styled.div`
   display: flex;
   width: 100%;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
 `;

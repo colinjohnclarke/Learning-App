@@ -74,9 +74,9 @@ function XPointsGraph() {
 
     layout: {
       padding: {
-        top: 20,
-        right: 30,
-        bottom: 20,
+        top: 10,
+        right: 20,
+        bottom: 0,
         left: 20,
       },
     },
@@ -177,7 +177,20 @@ function XPointsGraph() {
     ],
   };
 
-  return <Line options={options} data={data} />;
+  return (
+    <div
+      style={{
+        height: "200px",
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Line options={options} data={data} />
+    </div>
+  );
 }
 
 export default XPointsGraph;

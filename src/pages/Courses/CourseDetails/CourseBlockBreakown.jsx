@@ -16,7 +16,7 @@ function CourseBlockBreakdown({ topics, completedLessons, blocksRemaining }) {
     return { ...topic, selected: false };
   });
 
-  console.log("topicstoRender", topicstoRender);
+  // console.log("topicstoRender", topicstoRender);
 
   useEffect(() => {
     if (topics) {
@@ -44,7 +44,7 @@ function CourseBlockBreakdown({ topics, completedLessons, blocksRemaining }) {
   });
 
   return (
-    <Wrapper>
+    <Wrapper darkThemeActive={darkThemeActive}>
       <OverView darkThemeActive={darkThemeActive}>
         {" "}
         The learning journey...

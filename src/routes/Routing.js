@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import Loader from "../components/Loader";
+import IncorrectAnswersMain from "../pages/Main/IncorrectAnswers/IncorrectAnswersMain";
 const Main = lazy(() => import("../pages/Main/Main"));
 const Dashboard = lazy(() => import("../pages/Dashboard/Dashboard"));
 const Login = lazy(() => import("../pages/Login"));
@@ -24,6 +25,10 @@ function Routing({ navState }) {
         <Route
           path="/courses/:subject/:courseName/:courseCode/:lessonName"
           element={<Main />}
+        />
+        <Route
+          path="/courses/:subject/:courseName/:courseCode/:lessonName/incorrectAnswers"
+          element={<IncorrectAnswersMain />}
         />
 
         {/* to={`course/${params.subject}/${params.coursName}/${params.courseCode}/${lesson.name}`} */}

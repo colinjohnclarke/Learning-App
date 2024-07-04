@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { UserContext } from "../../App";
 import { ThemeStyles } from "../../styles/ThemeStyles";
 import { device } from "../../styles/breakpoints";
+import Border from "../../components/Border";
 
 function CourseHeadlineUserData({ data, courseName, subject }) {
   const { darkThemeActive } = useContext(UserContext);
@@ -29,20 +30,21 @@ function CourseHeadlineUserData({ data, courseName, subject }) {
 
   return (
     <UserdataWrapper>
-      <Box style={{ marginRight: "4px" }} darkThemeActive={darkThemeActive}>
-        <AllTimeLearningTimeBox data={data ? time : 0} />
-      </Box>
-      <Box
-        style={{ marginRight: "4px", marginLeft: "4px" }}
-        darkThemeActive={darkThemeActive}
-      >
-        {" "}
-        <AllTimeQuestionsAnsweredBox data={data ? xp / 10 : 0} />
-      </Box>
-      <Box style={{ marginLeft: "4px" }} darkThemeActive={darkThemeActive}>
-        {" "}
-        <AllTimeXPBox data={data ? xp : 0} />
-      </Box>
+      <Border style={{ marginRight: "4px" }}>
+        <Box darkThemeActive={darkThemeActive}>
+          <AllTimeLearningTimeBox data={data ? time : 0} />
+        </Box>
+      </Border>
+      <Border style={{ marginRight: "4px", marginLeft: "4px" }}>
+        <Box darkThemeActive={darkThemeActive}>
+          <AllTimeQuestionsAnsweredBox data={data ? xp / 10 : 0} />
+        </Box>
+      </Border>
+      <Border style={{ marginLeft: "4px" }}>
+        <Box darkThemeActive={darkThemeActive}>
+          <AllTimeXPBox data={data ? xp : 0} />
+        </Box>
+      </Border>
     </UserdataWrapper>
   );
 }
@@ -62,11 +64,6 @@ const Box = styled.div`
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor
       : ThemeStyles.darkThemePrimaryBackgroundColor};
-
-  box-shadow: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemeMainBoxShadow
-      : ThemeStyles.darkThemeMainBoxShadow};
 
   p {
     color: ${(props) =>

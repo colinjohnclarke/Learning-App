@@ -9,6 +9,7 @@ import "animate.css";
 import sanityClient from "../../../createclient";
 import imageUrlBuilder from "@sanity/image-url";
 import { device } from "../../../styles/breakpoints";
+import Border from "../../../components/Border";
 
 function Topic({
   findBlock,
@@ -29,7 +30,7 @@ function Topic({
     <img
       alt=""
       style={{
-        height: "60px",
+        height: "70px",
         width: "100px",
         position: "relative",
         borderRadius: "16px",
@@ -62,70 +63,79 @@ function Topic({
     });
   };
   return (
-    <Wrapper
+    <Border
       style={{
         transition: "0.3s",
         minHeight: "50px",
-        marginTop: "3px",
+        marginTop: "5px",
+
         boxShadow: darkThemeActive
           ? ThemeStyles.lightThemeMainBoxShadow
           : ThemeStyles.darkThemeMainBoxShadow,
       }}
-      onClick={() => {
-        handleTopicSelected(index);
-        console.log("Topic Clicked");
-      }}
     >
-      <Row>
-        {" "}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            padding: "10px",
-          }}
-        >
-          <FcNext
+      <Wrapper
+        onClick={() => {
+          handleTopicSelected(index);
+          console.log("Topic Clicked");
+        }}
+        darkThemeActive={darkThemeActive}
+      >
+        <Row>
+          {" "}
+          <div
             style={{
-              marginLeft: "10px",
-              marginRight: "10px",
-              transition: "0.3s",
-              transform: topic.selected ? "rotate(90deg)" : "rotate(0deg)",
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              padding: "10px",
+
+              color: darkThemeActive
+                ? ThemeStyles.lightThemePrimaryFrontColor
+                : ThemeStyles.darkThemePrimaryFontColor,
             }}
-          />
-          Part&nbsp; {index + 1}) &nbsp;{topic?.topicName}{" "}
-        </div>
-        {!selectedTopics[index].selected && <Image>{content}</Image>}
-      </Row>
-      {selectedTopics[index].selected && (
-        <Subtopics>
-          {subtopicstoRender?.map((subtopic, index) => {
-            return (
-              <Subtopic
-                className="animate__animated animate__fadeIn"
-                setSelectedSubtopics={setSelectedSubtopics}
-                selectedSubtopics={selectedSubtopics}
-                completedLessons={completedLessons}
-                key={index}
-                subtopic={subtopic}
-                index={index}
-              >
-                <p
-                  style={{
-                    color: darkThemeActive
-                      ? ThemeStyles.lightThemePrimaryFrontColor
-                      : ThemeStyles.darkThemePrimaryFontColor,
-                  }}
+          >
+            <FcNext
+              style={{
+                marginLeft: "10px",
+                marginRight: "10px",
+                transition: "0.3s",
+                transform: topic.selected ? "rotate(90deg)" : "rotate(0deg)",
+              }}
+            />
+            Part&nbsp; {index + 1}) &nbsp;{topic?.topicName}{" "}
+          </div>
+          {!selectedTopics[index].selected && <Image>{content}</Image>}
+        </Row>
+        {selectedTopics[index].selected && (
+          <Subtopics>
+            {subtopicstoRender?.map((subtopic, index) => {
+              return (
+                <Subtopic
+                  className="animate__animated animate__fadeIn"
+                  setSelectedSubtopics={setSelectedSubtopics}
+                  selectedSubtopics={selectedSubtopics}
+                  completedLessons={completedLessons}
+                  key={index}
+                  subtopic={subtopic}
+                  index={index}
                 >
-                  {index + 1}. {subtopic.subTopicName}
-                </p>
-              </Subtopic>
-            );
-          })}
-        </Subtopics>
-      )}
-    </Wrapper>
+                  <p
+                    style={{
+                      color: darkThemeActive
+                        ? ThemeStyles.lightThemePrimaryFrontColor
+                        : ThemeStyles.darkThemePrimaryFontColor,
+                    }}
+                  >
+                    {index + 1}. {subtopic.subTopicName}
+                  </p>
+                </Subtopic>
+              );
+            })}
+          </Subtopics>
+        )}
+      </Wrapper>
+    </Border>
   );
 }
 
@@ -134,21 +144,24 @@ export default Topic;
 const Wrapper = styled.div`
   transition: 0.3s;
   border-radius: 16px;
-  min-height: 40px;
-  margin-top: 5px;
   display: flex;
   flex-direction: column;
   align-items: start;
   justify-content: center;
   width: 100%;
+  height: 100%;
+
   height: auto;
   font-size: 14px;
   list-style: none;
-  transition: 0.3s;
-  &:hover {
-    // background-color: rgb(220, 220, 220, 0.1);
+  transition: 0.2s;
 
-    background-color: rgb(0, 220, 220, 0.1);
+  background-color: ${(props) =>
+    props.darkThemeActive
+      ? ThemeStyles.lightThemePrimaryBackgroundColor
+      : ThemeStyles.darkThemePrimaryBackgroundColor};
+  &:hover {
+    opacity: 0.8;
   }
 `;
 

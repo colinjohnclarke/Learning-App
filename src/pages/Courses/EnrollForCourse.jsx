@@ -86,6 +86,8 @@ const Wrapper = styled.div`
   align-items: center;
   border-radius: 16px;
 
+
+
   box-shadow: ${(props) =>
     props.darkThemeActive
       ? ThemeStyles.lightThemeMainBoxShadow

@@ -5,6 +5,7 @@ import SchoolLeaderBoard from "./SchoolLeaderBoard";
 import { device } from "../../../styles/breakpoints";
 import { ThemeStyles } from "../../../styles/ThemeStyles";
 import { UserContext } from "../../../App";
+import Border from "../../../components/Border";
 
 function LeaderBoardSelect() {
   const { darkThemeActive } = useContext(UserContext);
@@ -109,6 +110,7 @@ const Select = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 16px;
+
   @media ${device.tablet} {
     width: 50%;
   }

@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
+import { UserContext } from "../../../App";
+import { ThemeStyles } from "../../../styles/ThemeStyles";
 
 function Weekday() {
+  const { darkThemeActive } = useContext(UserContext);
   const currentDate = new Date();
   const dayOfWeekIndex = currentDate.getDay();
   // Create an array of weekday names
@@ -9,10 +12,10 @@ function Weekday() {
   const day = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
 
   const list = day.map((dayofweek, index) => {
-    let borderStyle = "2px white dotted";
+    let borderStyle = "2px rgb(99,90,255)  dotted";
 
     if (dayOfWeekIndex === index) {
-      borderStyle = "2px white solid";
+      borderStyle = "2px solid rgb(99,90,255)";
     }
 
     return (
@@ -24,7 +27,9 @@ function Weekday() {
         <p
           data-testid="weekday-day"
           style={{
-            color: "white",
+            color: darkThemeActive
+              ? ThemeStyles.lightThemePrimaryFrontColor
+              : ThemeStyles.darkThemePrimaryFontColor,
             fontSize: "12px",
           }}
         >

@@ -35,6 +35,7 @@ import CourseUserData from "../CourseHeadlineUserData";
 import { ThemeStyles } from "../../../styles/ThemeStyles";
 import { UserContext } from "../../../App";
 import FindNextLessonInCourse from "./Caulations/FindNextLessonInCourse";
+import Border from "../../../components/Border";
 
 function CourseDetailedView() {
   const { user } = useAuth0();
@@ -276,9 +277,11 @@ function CourseDetailedView() {
             />
 
             <div style={{ height: "10px" }}></div>
-            <NextSection darkThemeActive={darkThemeActive}>
-              {headerBannerContent}
-            </NextSection>
+            <Border>
+              <NextSection darkThemeActive={darkThemeActive}>
+                {headerBannerContent}
+              </NextSection>
+            </Border>
           </Header>
           <CourseBlockBreakown
             controllers={{ breakdownDisplayed, setBreakdownIsDisplayed }}
@@ -346,11 +349,6 @@ const NextSection = styled.div`
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor
       : ThemeStyles.darkThemePrimaryBackgroundColor};
-
-  box-shadow: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemeMainBoxShadow
-      : ThemeStyles.darkThemeMainBoxShadow};
 `;
 
 const Main = styled.div`

@@ -48,6 +48,7 @@ const Wrapper = styled.div`
     props.darkThemeActive
       ? ThemeStyles.lightThemePrimaryBackgroundColor
       : ThemeStyles.darkThemePrimaryBackgroundColor};
+
   width: 100vw;
   display: flex;
   flex-direction: row;
@@ -57,11 +58,7 @@ const Wrapper = styled.div`
   position: fixed;
   top: 0px;
   z-index: 100;
-
-  box-shadow: ${(props) =>
-    props.darkThemeActive
-      ? ThemeStyles.lightThemeMainBoxShadow
-      : ThemeStyles.darkThemeMainBoxShadow};
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 
   p {
     color: ${(props) =>
